@@ -1,0 +1,392 @@
+
+/*----------  Body CSS  ----------*/
+:root {
+    /* background color */
+    --dark-bg-color: #122327;
+    --dark-bg-color2: #172A2F;
+    --dark-bg-color3: #20353B;
+    --dark-color-white: #fff;
+
+}
+
+
+
+/* Travelik Travel  Light */
+
+.destination-section {
+    background: url(../images/main-home/destination-bg-light.png);
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.section-title.light-color h1 {
+    color: var(--title-color2) !important;
+}
+
+.destination__arrow__bx .slider-prev,
+.destination__arrow__bx .slider-next {
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+}
+
+.travel-boking {
+    background: url(../images/main-home/boking-bg-light.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.bokking-tabs .tab-buttons .tab {
+    background: var(--theme-bg-color3);
+    color: var(--title-color2);
+}
+
+.bokking-tabs .tab-buttons .tab:hover {
+    color: var(--color-white);
+}
+
+.bokking-title,
+.about-icon-box .about-icon-box-content h1 {
+    color: var(--title-color2);
+}
+
+.travel-boking .booking-input-box {
+    border: 1px solid #909da142;
+}
+
+.travel-boking .booking-input-box select,
+.travel-boking .booking-input-box label {
+    color: var(--text-color);
+}
+
+/* button */
+.travel-boking .booking-button button:before,
+.about-section-one .about-btn a:before {
+    background: var(--theme-bg-color);
+}
+
+.travel-boking .booking-button button:hover,
+.travel-boking .booking-button button:hover i,
+.about-section-one .about-btn a:hover {
+    color: var(--theme-bg-color2);
+    color: var(--color-white);
+}
+
+.about-section-one .about-btn a:hover svg {
+    filter: brightness(0) invert(1);
+}
+
+
+.destination-single-box {
+    background: var(--color-white)
+}
+
+.destination-single-box .destination-content h1,
+.team-single-box .team-content h1,
+.single-blog-box .blog-content .blog-title a,
+.blog-single-box .blog-content .blog-title a {
+    color: var(--title-color2);
+}
+
+.about-section-one {
+    background: url(../images/main-home/about-bg-light.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+}
+
+.about-icon-box .about-icon {
+    background: var(--color-white2);
+    ;
+}
+
+.photography-sectoin,
+.team-sectoin,
+.blog-single-box,
+.brand-box {
+    background: var(--color-white);
+}
+
+.team-single-box {
+    background: url(../images/main-home/team-box-bg-light.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.team-single-box .team-content .team-bio {
+    border: 1px solid #909da126;
+    background: transparent;
+}
+
+.latest-blog-section {
+    background: url(../images/main-home/blog-bg-light.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center bottom;
+}
+
+.single-blog-box .blog-content .blog-title a:hover {
+    color: var(--primary-color);
+}
+
+/* ==========================
+    Strat Home 1 Classic
+============================== */
+
+.travel-boking.style-two .bokking-title,
+.travel-boking.style-two .booking-input-box select,
+.travel-boking.style-two .booking-input-box label {
+    color: var(--color-white);
+}
+
+.about-section-one.classic .about-thumb .since-counter-title p,
+.about-section-one.classic .about-thumb .since-counter-title h2,
+.counter-content .title,
+.single-testi-box.style_two h2.testi-title,
+.testi-autor-box .autor-title {
+    color: var(--theme-bg-color2);
+}
+
+.about-section-one.classic .about-thumb .about-since {
+    background: #0CB2DB1A;
+}
+
+.categori-section,
+.destination-section.classic .destination-single-box,
+.gallery-area,
+.testimonial-sectoin.classic {
+    background: var(--color-white);
+    transition: 0.5s;
+}
+
+.destination-section.classic,
+.counter-section,
+.latest-blog-section.classic {
+    background: var(--theme-bg-color4);
+}
+
+.about-section-one.classic {
+    background: url(../images/main-home-classic/about-bg-light.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.counter-single-bx,
+.single-testi-box.style_two {
+    background: var(--theme-bg-color3);
+}
+.counter-warpper .counter-single-bx:last-child {
+    background: var(--color-white);
+}
+.marque-circle:before,
+.marque-circle::after {
+    border: 1px solid #0cb2db42;
+}
+
+.single-blog-box.style__classic .blog-content .blog-btn a {
+    color: var(--primary-color);
+}
+.single-blog-box.style__classic .blog-content .blog-btn a svg {
+    filter: brightness(0) invert(0);
+}
+
+
+/* ========================================
+    Start Home Two
+============================================ */
+
+.about-section-one.style_two {
+    background: url(../images/home2/about-light-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+.about-section-one.style_two .about-main-warpper {
+    border-top: 1px solid #1223271f;
+    border-bottom: 1px solid #1223271f;
+}
+.about-section-one.style_two .about-main-warpper::before {
+    background: #1223271f;
+}
+.about-section-one.style_two .about-main-warpper .about-icon-box .about-icon {
+    background: var(--primary-color);
+}
+
+.destination-section.style__two {
+    background: var(--theme-bg-color4);
+}
+.destination-single-box.style__two .destination-content h1 {
+    color: var(--color-white);
+}
+
+.feature-section {
+    background: var(--theme-bg-color4);
+}
+
+.feature-single-box {
+    border: 1px solid #1223271A;
+    background: var(--theme-bg-color4);
+}
+.feature-single-box .feature-title,
+.process-single-box .process-contnet h1,
+.testimonial-sectoin.style__two .client-text h3,
+.single-testi-box.style__two .testi-desc p {
+    color: var(--title-color2);
+}
+.work-process-section,
+.testimonial-sectoin.style__two,
+.latest-blog-section.style__two {
+    background: var(--color-white);
+}
+.single-testi-box.style__two .testi-autor-box {
+    border-bottom: 1px solid #12232736;
+}
+
+.latest-blog-section.style__two .blog-single-box {
+    border: 1px solid #12232730;
+}
+
+/* ===================================
+    Start Home 03
+====================================== */
+
+.about-section-one.style_three,
+.travel-slider-dots,
+.team-sectoin.style__two,
+.latest-blog-section.classic__two {
+    background: var(--dark-bg-color2);
+}
+.travel-slider-dots .swiper-pagination-bullet::before {
+    border: 1px solid #FFFFFF1A;
+}
+.travel-slider-dots .swiper-pagination-bullet::before {
+    border: 1px solid #FFFFFF1A;
+}
+.travel-slider-dots .swiper-pagination-bullet-active::before {
+    border: 1px solid var(--primary-color);
+}
+.travel-slider-dots::before,
+.travel-slider-dots::after {
+    background: url(../images/home3/slider-sp-dark.png);
+}
+
+.boxed,
+.gallery-area.style__two,
+.testimonial-sectoin.style__three,
+.latest-blog-section.style__three {
+    background: var(--dark-bg-color);
+}
+
+.populer-single-box.style__four .populer-contnet .populer-btn a svg {
+    filter: brightness(0) invert(1);
+}
+
+.destination-section.style__two.style__three .destination-single-box.style__three .destination-content h2 a, 
+.about-section-one.style_three .about-main-warpper .about-icon-box .about-icon-box-content h1,
+.about-section-one.style_three .about-author .about-author-bio h2,
+.facilities-content h2,
+.team-single-box.style__two .team-content h1,
+.single-testi-box.style__three .testi-autor-box .autor-title,
+.testimonial-sectoin.style__three .client-card .client-text h2,
+.form__title, .populer-single-box.style__four .populer-contnet .populer-btn a, 
+.latest-blog-section.style__three .single-blog-box .blog-content .blog-title a,
+.latest-blog-section.style__three .blog-single-box .blog-content .blog-title a,
+.about-section-one.style__four .about-icon-list h2 {
+    color: var(--dark-color-white);
+}
+.about-section-one.style_three .about-main-warpper {
+    border-top: 1px solid #ffffff17;
+    border-bottom: 1px solid #ffffff17;
+}
+.about-section-one.style_three .about-main-warpper::before {
+    background: #ffffff17;
+}
+
+.yacht-facilities-section {
+    background: url(../images/home3/about-bg-dark.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.facilities-content h2 {
+    color: var(--color-white);
+}
+
+.single-testi-box.style__three {
+    background: #ffffff12;
+    border: 1px solid transparent;
+    transition: 0.5s;
+}
+.single-testi-box.style__three:hover {
+    background: var(--dark-bg-color2);
+    border: 1px solid var(--primary-color);
+}
+.single-testi-box.style__three .testi-autor-box {
+    border-bottom: 1px solid transparent;
+}
+.single-testi-box.style__three .testi-desc p {
+    color: var(--text-color) ;
+}
+.contact-form-box {
+    background: var(--dark-bg-color3);
+}
+.form-box input,
+.form-box textarea,
+.latest-blog-section.style__three .blog-single-box {
+    border: 1px solid rgb(255 255 255 / 9%);
+    background: #ffffff0a;
+}
+
+.destination-section.style__three,
+.populer-section.classic.style__three.style__four {
+    background: url(../images/home4/destination-bg-light.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.destination-single-box.style__three .destination-content {
+    background: var(--dark-bg-color3);
+}
+
+.populer-single-box.style__four {
+    background: var(--dark-bg-color3);
+}
+
+.populer-single-box.style__four .populer-contnet .popular-title,
+.popular-info-box .label,
+.latest-blog-section.classic__two .single-blog-box.style__classic .blog-content .blog-title a,
+.latest-blog-section.classic__two .single-blog-box.style__classic .blog-content .blog-meta span {
+    color: var(--color-white);
+}
+.latest-blog-section.classic__two .single-blog-box.style__classic .blog-content .blog-btn a {
+    color: var(--primary-color);
+}
+.latest-blog-section.classic__two .single-blog-box.style__classic .blog-content .blog-btn a svg {
+    filter: brightness(1) invert(0);
+}
+.popular-info-box {
+    border: 1px solid #e6e6e617;
+}
+.popular-info-box::before {
+    background: #e6e6e629;
+}
+.info-item:not(:last-child) {
+    border-right: 1px solid #e6e6e645;
+}
+.team-sectoin.style__two.three {
+    background: var(--theme-bg-color2);
+}
+.testi-sps {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
+    text-align: center;
+    z-index: -1;
+}

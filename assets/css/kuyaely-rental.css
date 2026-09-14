@@ -1,0 +1,309 @@
+/* Kuya Ely — car rental page (tour-grid + service template) */
+
+.rental-page .tour__section.style__two {
+    padding-bottom: 70px;
+}
+
+.rental-page .populer-single-box.style-classic .populer-thumb img {
+    height: 270px;
+    object-fit: cover;
+    background: #1C2D31;
+}
+
+.rental-page .fleet-img-grandia { object-position: 58% 42%; }
+.rental-page .fleet-img-commuter { object-position: 52% 48%; }
+.rental-page .fleet-img-innova { object-position: 42% 38%; }
+.rental-page .fleet-img-fortuner { object-position: 32% 48%; }
+.rental-page .fleet-img-vios { object-position: 58% 42%; }
+.rental-page .fleet-img-coaster { object-position: 40% 52%; }
+
+.fleet-chip {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 30px;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    font-size: 14px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.fleet-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin: 8px 0 14px;
+}
+
+.fleet-specs span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 15px;
+}
+
+.fleet-specs i {
+    color: #F5C518;
+    font-size: 13px;
+}
+
+.rental-page .tour-dest-tabs.fleet-tabs {
+    margin: 4px 0 36px;
+    gap: 8px;
+    align-items: center;
+}
+
+.fleet-tabs button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 0;
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 14px;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-transform: uppercase;
+    transition: 0.25s ease;
+    cursor: pointer;
+}
+
+.fleet-tabs button:hover,
+.fleet-tabs button.is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #1C2D31;
+}
+
+.rental-page .fleet-item.is-hidden {
+    display: none !important;
+}
+
+.rental-why {
+    background: #122327;
+    padding: 80px 0 70px;
+}
+
+.rental-why-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 48px 56px;
+    align-items: center;
+}
+
+.rental-why-visual {
+    position: relative;
+    background: linear-gradient(180deg, #1C2D31 0%, #163034 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 28px 12px 72px;
+    overflow: hidden;
+}
+
+.rental-why-visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.rental-why-badge {
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: rgba(18, 35, 39, 0.92);
+    border: 1px solid rgba(245, 197, 24, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.rental-why-badge strong {
+    color: #F5C518;
+    font-family: var(--title-font);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.8px;
+}
+
+.rental-why-badge span {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 15px;
+}
+
+.rental-why-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.rental-why-item {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 18px;
+    align-items: flex-start;
+    padding: 22px 24px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.rental-why-item:hover {
+    background: rgba(245, 197, 24, 0.08);
+    border-color: rgba(245, 197, 24, 0.35);
+}
+
+.rental-why-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    font-size: 20px;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.rental-why-item h3 {
+    margin: 2px 0 8px;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+    line-height: 1.2;
+}
+
+.rental-why-item p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.rental-why-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    list-style: none;
+    margin: 36px 0 0;
+    padding: 0;
+}
+
+.rental-why-pills li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+.rental-why-pills i {
+    color: #F5C518;
+    font-size: 13px;
+}
+
+.rental-page .work-process-section {
+    background: #1C2D31;
+}
+
+.header-menu > ul.nav_scroll > li > a[aria-current="page"] {
+    color: #F5C518;
+}
+
+.rental-credit {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 13px;
+    margin: 8px 0 0;
+}
+
+@media (max-width: 991px) {
+    .rental-why-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}
+
+@media (max-width: 767px) {
+    .rental-page .populer-single-box.style-classic .populer-thumb img {
+        height: 220px;
+    }
+
+    .fleet-tabs button {
+        flex: 0 0 auto;
+        height: 34px;
+        padding: 0 14px;
+        font-size: 13px;
+    }
+
+    .rental-why {
+        padding: 56px 0 50px;
+    }
+
+    .rental-why-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+
+    .rental-why-visual {
+        padding: 20px 8px 68px;
+    }
+
+    .rental-why-visual img {
+        max-height: 280px;
+    }
+
+    .rental-why-item {
+        grid-template-columns: 48px minmax(0, 1fr);
+        padding: 18px 16px;
+        gap: 14px;
+    }
+
+    .rental-why-num {
+        width: 48px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+    .rental-why-item h3 {
+        font-size: 22px;
+    }
+
+    .rental-why-pills {
+        margin-top: 24px;
+        justify-content: flex-start;
+    }
+}

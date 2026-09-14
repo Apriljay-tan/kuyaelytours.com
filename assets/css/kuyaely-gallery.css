@@ -1,0 +1,226 @@
+/* Kuya Ely — gallery page */
+
+.gallery-page .breadcumb-section.style__two {
+    padding: 220px 0 90px;
+    height: auto;
+}
+
+.ke-gallery {
+    background: #122327;
+    padding: 80px 0 90px;
+}
+
+.ke-gallery-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 8px 0 40px;
+}
+
+.ke-gallery-tabs button {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.ke-gallery-tabs button:hover,
+.ke-gallery-tabs button.is-active {
+    background: #F5C518;
+    border-color: #F5C518;
+    color: #1C2D31;
+}
+
+.ke-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.ke-gallery-item {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #1C2D31;
+}
+
+.ke-gallery-item.is-hidden {
+    display: none;
+}
+
+.ke-gallery-item.is-wide {
+    grid-column: span 2;
+}
+
+.ke-gallery-item a {
+    display: block;
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+}
+
+.ke-gallery-item img {
+    display: block;
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.ke-gallery-item.is-wide img {
+    height: 340px;
+}
+
+.ke-gallery-item a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(18, 35, 39, 0.88) 100%);
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+.ke-gallery-meta {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 16px;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ke-gallery-meta span {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.ke-gallery-meta strong {
+    display: block;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    line-height: 1.2;
+}
+
+.ke-gallery-zoom {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(245, 197, 24, 0.95);
+    color: #1C2D31;
+}
+
+.ke-gallery-item:hover img {
+    transform: scale(1.06);
+}
+
+.ke-gallery-empty {
+    display: none;
+    grid-column: 1 / -1;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 40px 16px;
+}
+
+.mfp-bg.ke-gallery-popup {
+    background: rgba(18, 35, 39, 0.92);
+    opacity: 1;
+}
+
+.mfp-wrap.ke-gallery-popup .mfp-figure figcaption {
+    text-align: center;
+}
+
+.mfp-wrap.ke-gallery-popup .mfp-title {
+    color: #fff;
+    font-family: var(--title-font);
+    letter-spacing: 0.8px;
+    padding-right: 0;
+}
+
+.mfp-wrap.ke-gallery-popup .mfp-counter {
+    color: #F5C518;
+}
+
+.mfp-wrap.ke-gallery-popup .mfp-close,
+.mfp-wrap.ke-gallery-popup .mfp-arrow:before,
+.mfp-wrap.ke-gallery-popup .mfp-arrow:after {
+    border-color: #F5C518;
+}
+
+@media (max-width: 991px) {
+    .gallery-page .breadcumb-section.style__two {
+        padding: 180px 0 70px;
+    }
+
+    .ke-gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ke-gallery-item.is-wide {
+        grid-column: span 2;
+    }
+
+    .ke-gallery-item.is-wide img {
+        height: 280px;
+    }
+}
+
+@media (max-width: 767px) {
+    .gallery-page .breadcumb-section.style__two {
+        padding: 150px 0 50px;
+    }
+
+    .ke-gallery {
+        padding: 50px 0 60px;
+    }
+
+    .ke-gallery-grid,
+    .ke-gallery-item.is-wide {
+        grid-template-columns: 1fr;
+        grid-column: auto;
+    }
+
+    .ke-gallery-item img,
+    .ke-gallery-item.is-wide img {
+        height: 230px;
+    }
+
+    .ke-gallery-tabs button {
+        height: 34px;
+        padding: 0 14px;
+        font-size: 13px;
+    }
+}

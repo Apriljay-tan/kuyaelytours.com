@@ -1,0 +1,379 @@
+/* Kuya Ely Tours — destination tour-grid pages */
+
+.tour-page .breadcumb-content h1,
+.tour-page ul.breadcumb-item li,
+.tour-page ul.breadcumb-item li a {
+    color: #fff;
+}
+
+.tour-page ul.breadcumb-item li a:hover {
+    color: var(--primary-color);
+}
+
+.tour-page .travel-boking.style-two {
+    background: url(../downloaded/boking-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    margin-top: 40px;
+    padding: 36px 32px;
+    border-radius: 20px;
+}
+
+.tour-page .travel-boking.style-two .bokking-title {
+    color: #fff;
+}
+
+.tour-page .travel-boking.style-two .booking-box {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
+    align-items: end;
+    gap: 18px 16px;
+}
+
+.tour-page .travel-boking.style-two .booking-button {
+    margin-top: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.tour-page .travel-boking.style-two .booking-button button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: auto;
+    min-width: 188px;
+    height: 52px;
+    padding: 0 26px;
+    background: #F5C518;
+    color: #1C2D31;
+    border: 0;
+    border-radius: 50px;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 1.2px;
+    white-space: nowrap;
+    overflow: visible;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(245, 197, 24, 0.28);
+    transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.tour-page .travel-boking.style-two .booking-button button i {
+    margin: 0;
+    color: #1C2D31;
+    font-size: 13px;
+}
+
+.tour-page .travel-boking.style-two .booking-button button:before {
+    display: none;
+}
+
+.tour-page .travel-boking.style-two .booking-button button:hover {
+    background: #fff;
+    color: #1C2D31;
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.tour-page .travel-boking.style-two .booking-button button:hover i {
+    color: #1C2D31;
+}
+
+.tour-page .travel-boking.style-two .booking-button button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+.tour-page .tour__section.style__two {
+    background: #122327;
+    padding: 80px 0 90px;
+}
+
+.tour-page .tour__section .row > .col-lg-4,
+.tour-page .tour__section .row > .col-md-6 {
+    display: flex;
+}
+
+.tour-dest-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 0 0 48px;
+}
+
+.tour-dest-tabs a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 12px 22px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 18px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    transition: 0.35s ease;
+}
+
+.tour-dest-tabs a:hover,
+.tour-dest-tabs a.is-active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #1C2D31;
+}
+
+.tour-page .populer-single-box.style-classic {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+}
+
+.tour-page .populer-single-box.style-classic .about-sp {
+    display: none;
+}
+
+.tour-page .populer-single-box.style-classic .populer-thumb img,
+.tour-page .tour-placeholder {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    border-radius: 20px;
+}
+
+.tour-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background:
+        linear-gradient(160deg, rgba(245, 197, 24, 0.18), rgba(18, 35, 39, 0.2)),
+        repeating-linear-gradient(
+            135deg,
+            #1C2D31 0,
+            #1C2D31 18px,
+            #20353B 18px,
+            #20353B 36px
+        );
+    color: #fff;
+    text-align: center;
+    border: 1px dashed rgba(245, 197, 24, 0.45);
+}
+
+.tour-placeholder i {
+    font-size: 28px;
+    color: var(--primary-color);
+}
+
+.tour-placeholder span {
+    font-family: var(--title-font);
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.tour-page .populer-thumb {
+    position: relative;
+}
+
+.tour-page .populer-thumb figure {
+    margin: 0;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.tour-page .populer-single-box.style-classic .populer-contnet {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.tour-page .populer-single-box.style-classic .populer-contnet .popular-title {
+    font-size: 26px;
+    letter-spacing: 1px;
+}
+
+.tour-page .populer-single-box.style-classic .populer-btn-and-days {
+    margin-top: auto;
+}
+
+.tour-page .populer-single-box.style-classic .populer-btn {
+    margin-top: 0;
+}
+
+.tour-page .populer-single-box.style-classic .populer-contnet .populer-btn a {
+    opacity: 1 !important;
+    letter-spacing: 2px !important;
+    color: #fff;
+}
+
+.tour-page .populer-single-box.style-classic .populer-contnet .populer-btn a svg path {
+    fill: #F5C518;
+}
+
+.tour-page .populer-single-box.style-classic:hover .populer-contnet .populer-days span {
+    opacity: 1;
+}
+
+.tour-page .news-img {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 237px;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.tour-page .news-img img {
+    width: 225px;
+    height: 237px;
+    max-width: 225px;
+    max-height: 237px;
+    object-fit: cover;
+    object-position: center 8%;
+    display: block;
+}
+
+.tour-page .travelling-offer-section.style__two {
+    padding: 8px 0 0;
+    overflow: hidden;
+    background: url("../downloaded/travelling-bg copy.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.tour-page .travelling-offer-section.style__two::before {
+    display: none;
+}
+
+.tour-page .travelling-offer-section.style__two .travelling-title h2 {
+    color: #fff;
+    text-shadow: none;
+}
+
+.tour-page .travelling-offer-section.style__two .travelling-title p {
+    display: none;
+}
+
+.header-menu .sub_menu a[aria-current="page"] {
+    color: var(--primary-color);
+}
+
+@media (max-width: 1199px) {
+    .tour-page .travel-boking.style-two .booking-box {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: end;
+    }
+
+    .tour-page .travel-boking.style-two .booking-button {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        margin-top: 4px;
+    }
+}
+
+@media (max-width: 991px) {
+    .tour-page .breadcumb-section.style__two {
+        padding: 210px 0 70px;
+        height: auto;
+        margin-top: 0;
+    }
+
+    .tour-page .tour__section.style__two {
+        padding: 50px 0 60px;
+    }
+
+    .tour-page .travelling-offer-section.style__two {
+        padding: 28px 0 0;
+    }
+
+    .tour-page .travelling-offer-section .news-img {
+        margin: 0;
+    }
+
+    .tour-page .news-img {
+        height: 200px;
+    }
+
+    .tour-page .news-img img {
+        width: 190px;
+        height: 200px;
+        max-width: 190px;
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 767px) {
+    .tour-page .breadcumb-section.style__two {
+        padding: 160px 0 50px;
+        height: auto;
+    }
+
+    .tour-page .travel-boking.style-two {
+        padding: 24px 16px;
+        margin-top: 24px;
+    }
+
+    .tour-page .travel-boking.style-two .booking-box {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .tour-page .travel-boking.style-two .booking-button {
+        justify-content: stretch;
+    }
+
+    .tour-page .travel-boking.style-two .booking-button button {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .tour-page .breadcumb-content h1 {
+        font-size: 36px;
+    }
+
+    .tour-dest-tabs {
+        margin-bottom: 28px;
+        gap: 8px;
+    }
+
+    .tour-dest-tabs a {
+        min-width: 0;
+        flex: 1 1 calc(50% - 8px);
+        font-size: 15px;
+        padding: 10px 14px;
+    }
+
+    .tour-page .populer-single-box.style-classic .populer-thumb img,
+    .tour-page .tour-placeholder {
+        height: 210px;
+    }
+
+    .tour-page .populer-single-box.style-classic .populer-contnet .popular-title {
+        font-size: 22px;
+    }
+
+    .main-footer-one.classic .footer-bottom {
+        margin-top: 48px;
+        text-align: center;
+    }
+
+    .main-footer-one.classic .footer-bottom-menu {
+        text-align: center;
+        margin-top: 12px;
+    }
+
+    .main-footer-one.classic .footer-bottom-menu ul li a {
+        margin: 0 10px;
+    }
+}

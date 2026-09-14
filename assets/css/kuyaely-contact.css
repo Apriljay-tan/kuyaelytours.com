@@ -1,0 +1,377 @@
+/* Kuya Ely — contact page */
+
+.contact-page .breadcumb-section.style__two {
+    padding: 220px 0 90px;
+    height: auto;
+}
+
+.ke-contact {
+    background: #122327;
+    padding: 80px 0 90px;
+}
+
+.ke-contact-lead {
+    max-width: 640px;
+    margin: 8px auto 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.ke-contact-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 42px 0 36px;
+}
+
+.ke-contact-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 26px 24px 24px;
+    background: #1C2D31;
+    border: 1px solid rgba(245, 197, 24, 0.16);
+    border-radius: 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+a.ke-contact-card:hover {
+    border-color: #F5C518;
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+    color: inherit;
+}
+
+.ke-contact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 18px;
+    border-radius: 14px;
+    background: rgba(245, 197, 24, 0.12);
+    color: #F5C518;
+    font-size: 18px;
+}
+
+.ke-contact-card h3 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+}
+
+.ke-contact-card p,
+.ke-contact-card span {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 15px;
+    line-height: 1.55;
+}
+
+.ke-contact-card strong {
+    display: block;
+    color: #fff;
+    font-weight: 500;
+}
+
+.ke-contact-stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: 22px;
+    align-items: stretch;
+}
+
+.ke-map {
+    position: relative;
+    min-height: 640px;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #1C2D31;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ke-map iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.ke-map-chip {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    top: 18px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(18, 35, 39, 0.92);
+    border: 1px solid rgba(245, 197, 24, 0.28);
+    backdrop-filter: blur(10px);
+}
+
+.ke-map-chip p {
+    margin: 0;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.ke-map-chip span {
+    display: block;
+    color: #F5C518;
+    font-family: var(--title-font);
+    font-size: 12px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.ke-map-chip a {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.ke-map-chip a:hover {
+    background: #fff;
+    color: #1C2D31;
+}
+
+.ke-form {
+    display: flex;
+    flex-direction: column;
+    padding: 36px 32px 32px;
+    background: #1C2D31;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    scroll-margin-top: 120px;
+}
+
+.ke-form h2 {
+    margin: 0 0 6px;
+    color: #fff;
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.ke-form .ke-form-note {
+    margin: 0 0 24px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.ke-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.ke-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.ke-field.is-full {
+    grid-column: 1 / -1;
+}
+
+.ke-field label {
+    color: rgba(255, 255, 255, 0.72);
+    font-family: var(--title-font);
+    font-size: 12px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+.ke-field input,
+.ke-field select,
+.ke-field textarea {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 15px;
+    line-height: 1.4;
+    padding: 13px 14px;
+    outline: none;
+    color-scheme: dark;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ke-field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23F5C518' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+.ke-field select option {
+    color: #1C2D31;
+}
+
+.ke-field input::placeholder,
+.ke-field textarea::placeholder {
+    color: rgba(255, 255, 255, 0.42);
+}
+
+.ke-field input:focus,
+.ke-field select:focus,
+.ke-field textarea:focus {
+    border-color: #F5C518;
+    background: rgba(245, 197, 24, 0.08);
+}
+
+.ke-field textarea {
+    min-height: 118px;
+    resize: vertical;
+}
+
+.ke-form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.ke-submit {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-width: 188px;
+    height: 52px;
+    padding: 0 26px;
+    border: 0;
+    border-radius: 50px;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    font-size: 16px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(245, 197, 24, 0.28);
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.ke-submit:hover {
+    background: #fff;
+    color: #1C2D31;
+    transform: translateY(-1px);
+}
+
+.ke-submit svg {
+    flex-shrink: 0;
+}
+
+.ke-quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ke-quick a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    transition: 0.2s ease;
+}
+
+.ke-quick a:hover {
+    border-color: #F5C518;
+    color: #F5C518;
+}
+
+.ke-quick i {
+    margin-right: 8px;
+    color: #F5C518;
+}
+
+@media (max-width: 1199px) {
+    .ke-contact-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ke-contact-stage {
+        grid-template-columns: 1fr;
+    }
+
+    .ke-map {
+        min-height: 460px;
+    }
+}
+
+@media (max-width: 767px) {
+    .ke-contact {
+        padding: 56px 0 70px;
+    }
+
+    .ke-contact-cards,
+    .ke-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ke-form {
+        padding: 28px 20px;
+    }
+
+    .ke-form h2 {
+        font-size: 28px;
+    }
+
+    .ke-map {
+        min-height: 380px;
+    }
+
+    .ke-map-chip {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .ke-form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .ke-submit {
+        width: 100%;
+    }
+}
