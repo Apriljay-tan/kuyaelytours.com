@@ -1004,8 +1004,6 @@ if (typingEl) {
 
             if (i < text.length) {
                 setTimeout(typeChar, 200);
-            } else {
-                setTimeout(typingEffect, 1000);
             }
         }
         typeChar();
