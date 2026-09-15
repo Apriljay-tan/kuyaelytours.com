@@ -1607,3 +1607,17 @@ input#arrive3 {
 .destination-section .travel-boking {
 	z-index: 5;
 }
+.header-menu .ke-shop-link a { color: #F5C518; }
+.ke-cart-extra { margin-top: 10px; width: 100%; }
+.ke-book-now {
+	width: 100%;
+	min-height: 44px;
+	border: 1px solid #F5C518;
+	background: transparent;
+	color: #F5C518;
+	border-radius: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 14px;
+}

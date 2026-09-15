@@ -1,0 +1,129 @@
+[
+  {
+    "id": "tour-cebu",
+    "type": "tour",
+    "name": "Cebu Tour",
+    "page": "/cebu-tour.html",
+    "image": "/assets/downloaded/dest-cebu.jpg",
+    "price_from": 4500,
+    "unit": "per guest",
+    "description": "City highlights, countryside, island hopping, or airport transfer with a private van.",
+    "active": true
+  },
+  {
+    "id": "tour-bohol",
+    "type": "tour",
+    "name": "Bohol Tour",
+    "page": "/bohol-tour.html",
+    "image": "/assets/downloaded/dest-bohol.jpg",
+    "price_from": 5500,
+    "unit": "per guest",
+    "description": "Chocolate Hills, tarsiers, countryside, and beach day trips from Cebu or Tagbilaran.",
+    "active": true
+  },
+  {
+    "id": "tour-siquijor",
+    "type": "tour",
+    "name": "Siquijor Tour",
+    "page": "/siquijor-tour.html",
+    "image": "/assets/downloaded/dest-siquijor.jpg",
+    "price_from": 6000,
+    "unit": "per guest",
+    "description": "Waterfalls, beaches, and island day tours with private transport.",
+    "active": true
+  },
+  {
+    "id": "tour-dumaguete",
+    "type": "tour",
+    "name": "Dumaguete Tour",
+    "page": "/dumaguete-tour.html",
+    "image": "/assets/downloaded/dest-dumaguete.jpg",
+    "price_from": 5800,
+    "unit": "per guest",
+    "description": "Dumaguete city, nearby islands, and countryside with a driver.",
+    "active": true
+  },
+  {
+    "id": "transfer-airport",
+    "type": "transfer",
+    "name": "Airport Transfer",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/hiace-grandia.jpg",
+    "price_from": 1500,
+    "unit": "per vehicle",
+    "description": "Mactan-Cebu Airport pickup or drop-off with a private vehicle.",
+    "active": true
+  },
+  {
+    "id": "van-grandia",
+    "type": "vehicle",
+    "name": "Hiace Grandia",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/hiace-grandia.jpg",
+    "price_from": 7000,
+    "unit": "per day",
+    "vehicle": "grandia",
+    "description": "Spacious private van for family and group tours.",
+    "active": true
+  },
+  {
+    "id": "van-commuter",
+    "type": "vehicle",
+    "name": "Hiace Commuter",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/hiace-commuter.jpg",
+    "price_from": 5500,
+    "unit": "per day",
+    "vehicle": "commuter",
+    "description": "Reliable commuter van for island days and transfers.",
+    "active": true
+  },
+  {
+    "id": "van-innova",
+    "type": "vehicle",
+    "name": "Innova",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/innova.jpg",
+    "price_from": 4500,
+    "unit": "per day",
+    "vehicle": "innova",
+    "description": "Comfortable MPV for small groups.",
+    "active": true
+  },
+  {
+    "id": "van-fortuner",
+    "type": "vehicle",
+    "name": "Fortuner SUV",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/fortuner.jpg",
+    "price_from": 5000,
+    "unit": "per day",
+    "vehicle": "fortuner",
+    "description": "SUV for couples and small families.",
+    "active": true
+  },
+  {
+    "id": "van-vios",
+    "type": "vehicle",
+    "name": "Vios Sedan",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/vios.jpg",
+    "price_from": 3500,
+    "unit": "per day",
+    "vehicle": "vios",
+    "description": "Sedan with driver for airport runs and city trips.",
+    "active": true
+  },
+  {
+    "id": "van-coaster",
+    "type": "vehicle",
+    "name": "Coaster",
+    "page": "/service.html",
+    "image": "/assets/downloaded/fleet/coaster.jpg",
+    "price_from": 12000,
+    "unit": "per day",
+    "vehicle": "coaster",
+    "description": "Coaster for larger groups and church or company trips.",
+    "active": true
+  }
+]
