@@ -6,3 +6,9 @@ desktop.ini
 .env.*
 _preview*
 .vscode/
+
+# Private staff area and mailbox credentials stay on this server only
+admin/
+mail.local.php
+admin/config.local.php
+admin/mail.local.php

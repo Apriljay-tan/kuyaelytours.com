@@ -1497,3 +1497,113 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
         text-align: center;
     }
 }
+
+.ke-honeypot {
+	position: absolute !important;
+	left: -9999px !important;
+	width: 1px !important;
+	height: 1px !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+}
+
+.ke-form-banner {
+	margin: 0 0 16px;
+	padding: 12px 14px;
+	border-radius: 12px;
+	font-size: 15px;
+	line-height: 1.5;
+}
+
+.ke-form-banner.is-ok {
+	background: rgba(245, 197, 24, 0.16);
+	color: #F5C518;
+}
+
+.ke-form-banner.is-err {
+	background: rgba(180, 40, 40, 0.18);
+	color: #ffd0d0;
+}
+
+
+/* Homepage / tour booking: readable dropdowns and a usable date picker */
+.travel-boking .booking-input-box select,
+.travel-boking .booking-input-box option,
+.ke-form select,
+.ke-form option {
+	font-family: "Segoe UI", Tahoma, Arial, Helvetica, sans-serif !important;
+	font-weight: 400 !important;
+	font-size: 15px !important;
+	letter-spacing: 0 !important;
+	text-transform: none !important;
+	line-height: 1.4 !important;
+}
+
+.travel-boking .booking-input-box select {
+	color: rgba(255, 255, 255, 0.95) !important;
+	cursor: pointer;
+	background: transparent !important;
+}
+
+.travel-boking .booking-input-box option,
+.ke-form option {
+	color: #1b2628 !important;
+	background-color: #fff !important;
+	font-weight: 400 !important;
+}
+
+.destination-section .travel-boking .booking-input-box input,
+.travel-boking .booking-input-box input,
+input#arrive,
+input#arrive1,
+input#arrive2,
+input#arrive3 {
+	color: #fff !important;
+}
+
+.travel-boking .booking-input-box input[type="date"] {
+	color: #fff !important;
+	color-scheme: dark;
+	cursor: pointer;
+	font-family: "Segoe UI", Tahoma, Arial, Helvetica, sans-serif !important;
+	font-weight: 400 !important;
+	font-size: 15px !important;
+	letter-spacing: 0 !important;
+	min-height: 28px;
+	position: relative;
+	z-index: 2;
+	width: 100%;
+}
+
+.travel-boking .booking-input-box:has(input[type="date"]) {
+	cursor: pointer;
+}
+
+.travel-boking .booking-input-box:has(input[type="date"]) label {
+	display: none !important;
+}
+
+.travel-boking input[type="date"]::-webkit-calendar-picker-indicator {
+	opacity: 1 !important;
+	cursor: pointer;
+	filter: invert(1) !important;
+	width: 18px;
+	height: 18px;
+	position: relative;
+	z-index: 3;
+}
+
+.travel-boking input[type="date"]::-webkit-datetime-edit,
+.travel-boking input[type="date"]::-webkit-datetime-edit-fields-wrapper,
+.travel-boking input[type="date"]::-webkit-datetime-edit-text,
+.travel-boking input[type="date"]::-webkit-datetime-edit-month-field,
+.travel-boking input[type="date"]::-webkit-datetime-edit-day-field,
+.travel-boking input[type="date"]::-webkit-datetime-edit-year-field {
+	color: #fff;
+	font-weight: 400;
+	font-family: "Segoe UI", Tahoma, Arial, Helvetica, sans-serif;
+}
+
+.destination-section .travel-boking {
+	z-index: 5;
+}
