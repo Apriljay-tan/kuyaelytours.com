@@ -29,8 +29,5 @@ store_cart_add([
 	'notes' => trim((string) ($_POST['notes'] ?? '')),
 ]);
 
-$next = (string) ($_POST['next'] ?? '/shop/cart.php');
-if ($next === '' || $next[0] !== '/') {
-	$next = '/shop/cart.php';
-}
+$next = store_safe_next((string) ($_POST['next'] ?? '/shop/cart.php'), '/shop/cart.php');
 store_redirect($next);

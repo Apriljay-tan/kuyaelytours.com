@@ -7,17 +7,19 @@ if (store_user()) {
 }
 
 $error = '';
-$next = (string) ($_GET['next'] ?? $_POST['next'] ?? '/account/bookings.php');
-if ($next === '' || $next[0] !== '/') {
-	$next = '/account/bookings.php';
-}
-
+$next = store_safe_next((string) ($_GET['next'] ?? $_POST['next'] ?? '/account/bookings.php'), '/account/bookings.php');
 $email = trim((string) ($_POST['email'] ?? ''));
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok()) {
-	$error = store_login($email, (string) ($_POST['password'] ?? ''));
-	if ($error === '') {
-		store_redirect($next);
+	if (!store_login_allowed()) {
+		$error = 'Please wait a few minutes and try again.';
+	} else {
+		$error = store_login($email, (string) ($_POST['password'] ?? ''));
+		if ($error === '') {
+			store_login_clear();
+			store_redirect($next);
+		}
+		store_login_fail();
 	}
 } else {
 	$error = store_oauth_error_message((string) ($_GET['err'] ?? ''));

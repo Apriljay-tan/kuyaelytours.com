@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /store/
+Disallow: /account/
+Disallow: /shop/add-to-cart.php
+Disallow: /shop/pay.php
+Disallow: /shop/pay-return.php
+Disallow: /shop/paymongo-webhook.php
+Disallow: /index-2
+Disallow: /index-3
+Disallow: /index-classic
+Disallow: /index-light
+Disallow: /login.html
+Disallow: /blog
+Disallow: /donation
+Disallow: /destination
+Disallow: /tour-details
+Disallow: /tour-grid
+Disallow: /tour-list
+
+Sitemap: https://kuyaelytours.com/sitemap.xml

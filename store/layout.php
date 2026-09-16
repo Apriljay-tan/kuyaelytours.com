@@ -16,9 +16,10 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	$useSite = (bool) preg_match('/\b(ke-site|ke-dash|ke-bag)\b/', $mods);
 	echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
 	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=acct5">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=sec1">';
 	if ($useSite || $mods !== '') {
 		echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 		echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
@@ -157,22 +158,13 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 {
 	echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
 	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=acct9">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=sec1">';
 	echo '</head><body class="ke-auth">';
-	$slides = [
-		'/assets/downloaded/dest-cebu.jpg',
-		'/assets/downloaded/dest-bohol.jpg',
-		'/assets/downloaded/dest-siquijor.jpg',
-		'/assets/downloaded/dest-dumaguete.jpg',
-		'/assets/downloaded/cebu.jpg',
-		'/assets/downloaded/siquijor.jpg',
-	];
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
-	foreach ($slides as $src) {
-		echo '<span style="background-image:url(\'' . store_h($src) . '\')"></span>';
-	}
+	echo '<span style="background-image:url(\'/assets/downloaded/dest-siquijor.jpg\')"></span>';
 	echo '</div><div class="ke-auth-veil"></div>';
 	echo '<div class="ke-auth-shell">';
 	echo '<article class="ke-auth-card">';

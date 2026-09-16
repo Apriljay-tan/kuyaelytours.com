@@ -7,11 +7,7 @@ if (store_user()) {
 }
 
 $error = '';
-$next = (string) ($_GET['next'] ?? $_POST['next'] ?? '/shop/checkout.php');
-if ($next === '' || $next[0] !== '/') {
-	$next = '/shop/checkout.php';
-}
-
+$next = store_safe_next((string) ($_GET['next'] ?? $_POST['next'] ?? '/shop/checkout.php'), '/shop/checkout.php');
 $name = trim((string) ($_POST['name'] ?? ''));
 $email = trim((string) ($_POST['email'] ?? ''));
 $phone = trim((string) ($_POST['phone'] ?? ''));
