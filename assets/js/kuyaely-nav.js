@@ -212,16 +212,34 @@
 		transfer: "transfer-airport"
 	};
 
+	function iconSvgUser() {
+		return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M5 19.2c.8-3.2 3.4-5.2 7-5.2s6.2 2 7 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+	}
+	function iconSvgCart() {
+		return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 7h15l-1.4 8.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.7L5.2 4H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg>';
+	}
 	function injectNav(data) {
-		var label = data.name ? data.name : "Account";
-		var html = '<li class="ke-shop-link"><a href="/account/login.php">' + label + "</a></li>"
-			+ '<li class="ke-shop-link"><a href="/shop/cart.php">Cart (' + data.count + ")</a></li>";
-		document.querySelectorAll("ul.nav_scroll").forEach(function (ul) {
-			if (ul.querySelector(".ke-shop-link")) return;
-			ul.insertAdjacentHTML("beforeend", html);
+		document.querySelectorAll(".ke-shop-link, .ke-header-icons").forEach(function (el) { el.remove(); });
+		var accountHref = data.name ? "/account/bookings.php" : "/account/login.php";
+		var accountLabel = data.name ? "Account" : "Sign in";
+		var count = parseInt(data.count, 10) || 0;
+		var badge = count > 0 ? '<span class="ke-cart-count">' + count + "</span>" : "";
+		var icons = '<div class="ke-header-icons">'
+			+ '<a class="ke-icon-btn" href="' + accountHref + '" aria-label="' + accountLabel + '" title="' + accountLabel + '">' + iconSvgUser() + "</a>"
+			+ '<a class="ke-icon-btn" href="/shop/cart.php" aria-label="Cart" title="Cart">' + iconSvgCart() + badge + "</a>"
+			+ "</div>";
+		document.querySelectorAll(".header-right-wrapper").forEach(function (wrap) {
+			var sidebar = wrap.querySelector(".header-sidebar");
+			if (sidebar) sidebar.insertAdjacentHTML("beforebegin", icons);
+			else wrap.insertAdjacentHTML("afterbegin", icons);
+		});
+		document.querySelectorAll(".mobile-menu").forEach(function (bar) {
+			bar.insertAdjacentHTML("beforeend", '<div class="ke-header-icons is-mobile">'
+				+ '<a class="ke-icon-btn" href="' + accountHref + '" aria-label="' + accountLabel + '" title="' + accountLabel + '">' + iconSvgUser() + "</a>"
+				+ '<a class="ke-icon-btn" href="/shop/cart.php" aria-label="Cart" title="Cart">' + iconSvgCart() + badge + "</a>"
+				+ "</div>");
 		});
 	}
-
 	function postCart(fields, next) {
 		var body = new URLSearchParams(fields);
 		body.set("next", next || "/shop/cart.php");

@@ -45,20 +45,26 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok()) {
 $lines = '';
 foreach (store_cart() as $item) {
 	$product = store_product((string) ($item['product_id'] ?? ''));
-	$lines .= '<li>' . store_h((string) ($product['name'] ?? 'Item')) . ' · ' . store_h((string) ($item['date'] ?? '')) . ' · ' . store_money(store_line_total($item, $product)) . '</li>';
+	$lines .= '<p class="ke-sum-line"><span>' . store_h((string) ($product['name'] ?? 'Item'))
+		. (!empty($item['date']) ? ' · ' . store_h((string) $item['date']) : '')
+		. '</span><span>' . store_money(store_line_total($item, $product)) . '</span></p>';
 }
 
-$form = '<h1>Checkout</h1><p class="lede">Signed in as ' . store_h((string) $user['name']) . '. Book now sends a request. Pay now holds the booking as awaiting payment.</p>';
-if ($error !== '') {
-	$form .= '<p class="ke-err">' . store_h($error) . '</p>';
-}
-$form .= '<ul class="ke-summary">' . $lines . '</ul><p class="ke-total">From ' . store_money(store_cart_total()) . '</p>';
-$form .= '<form method="post"><input type="hidden" name="csrf" value="' . store_h(store_csrf_token()) . '">';
-$form .= '<label>Notes for pickup / hotel<textarea name="notes" rows="4" placeholder="Hotel, flight time, or special request"></textarea></label>';
-$form .= '<div class="ke-actions">';
-$form .= '<button class="ke-btn" name="action" value="book">Book now</button>';
-$form .= '<button class="ke-btn ghost" name="action" value="pay">Pay now</button>';
-$form .= '</div></form>';
-$form .= '<p class="trust">Your permits and fleet stay on the public site. Staff confirm every van date before it is locked.</p>';
+$notice = $error !== '' ? '<p class="ke-err ke-banner">' . store_h($error) . '</p>' : '';
 
-store_page('Checkout', $form, 'Checkout');
+$panel = $notice . '<div class="ke-cart-layout"><div class="ke-cart-list">'
+	. '<h1>Checkout</h1>'
+	. '<p class="lede">Signed in as ' . store_h((string) $user['name']) . '. Book now is a request. Pay now holds the booking as awaiting payment.</p>'
+	. '<form method="post" class="ke-check-form">'
+	. '<input type="hidden" name="csrf" value="' . store_h(store_csrf_token()) . '">'
+	. '<label>Notes for pickup / hotel<textarea name="notes" rows="4" placeholder="Hotel, flight time, or special request"></textarea></label>'
+	. '<div class="ke-actions">'
+	. '<button class="ke-btn" name="action" value="book">Book now</button>'
+	. '<button class="ke-btn ghost" name="action" value="pay">Pay now</button>'
+	. '</div></form>'
+	. '<p class="trust">Staff confirm every van date before it is locked. Permits stay on the public site.</p>'
+	. '</div><aside class="ke-cart-sum"><h2>Trip summary</h2>' . $lines
+	. '<p class="ke-total">From ' . store_money(store_cart_total()) . '<span>Final rate confirmed by Kuya Ely</span></p>'
+	. '</aside></div>';
+
+store_account_frame('Checkout', 'cart', $panel, '');

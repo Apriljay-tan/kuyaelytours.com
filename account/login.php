@@ -12,23 +12,35 @@ if ($next === '' || $next[0] !== '/') {
 	$next = '/account/bookings.php';
 }
 
+$email = trim((string) ($_POST['email'] ?? ''));
+
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok()) {
-	$error = store_login((string) ($_POST['email'] ?? ''), (string) ($_POST['password'] ?? ''));
+	$error = store_login($email, (string) ($_POST['password'] ?? ''));
 	if ($error === '') {
 		store_redirect($next);
 	}
+} else {
+	$error = store_oauth_error_message((string) ($_GET['err'] ?? ''));
 }
 
-$body = '<h1>Sign in</h1><p class="lede">Use your Kuya Ely Tours account to checkout, Book now, or Pay now.</p>';
-if ($error !== '') {
-	$body .= '<p class="ke-err">' . store_h($error) . '</p>';
-}
-$body .= '<form method="post">'
+$form = '<form method="post" class="ke-auth-form">'
 	. '<input type="hidden" name="csrf" value="' . store_h(store_csrf_token()) . '">'
 	. '<input type="hidden" name="next" value="' . store_h($next) . '">'
-	. '<label>Email<input type="email" name="email" required></label>'
-	. '<label>Password<input type="password" name="password" required></label>'
-	. '<button class="ke-btn" type="submit">Sign in</button></form>'
-	. '<p>New guest? <a href="/account/register.php?next=' . rawurlencode($next) . '">Create account</a></p>';
+	. store_field('Email', 'email', 'email', $email, 'mail', true, 'autocomplete="email"')
+	. store_field('Password', 'password', 'password', '', 'lock', true, 'autocomplete="current-password"')
+	. '<button class="ke-btn ke-auth-submit" type="submit">Login</button>'
+	. '</form>'
+	. store_oauth_buttons($next);
 
-store_page('Sign in', $body, 'Account');
+$alt = '<p class="ke-auth-alt">Don\'t have an account? <a href="/account/register.php?next=' . rawurlencode($next) . '">Register now</a></p>';
+
+store_auth_page(
+	'Sign in',
+	'Welcome',
+	'Login with email',
+	$form,
+	$alt,
+	$error,
+	'Island days, done right',
+	'Private tours and van rental from Mactan and Cebu — planned around your dates, hotel, and pace.'
+);

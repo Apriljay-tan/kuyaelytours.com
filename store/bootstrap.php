@@ -23,6 +23,7 @@ require STORE_ROOT . '/storage.php';
 require STORE_ROOT . '/catalog.php';
 require STORE_ROOT . '/cart.php';
 require STORE_ROOT . '/auth.php';
+require STORE_ROOT . '/oauth.php';
 require STORE_ROOT . '/bookings.php';
 require STORE_ROOT . '/pay.php';
 require STORE_ROOT . '/layout.php';

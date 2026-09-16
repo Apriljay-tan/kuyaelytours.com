@@ -40,6 +40,8 @@ function store_db_migrate(PDO $pdo): void
 		email VARCHAR(190) NOT NULL UNIQUE,
 		phone VARCHAR(40) NOT NULL DEFAULT "",
 		password_hash VARCHAR(255) NOT NULL,
+		oauth_provider VARCHAR(40) NOT NULL DEFAULT "",
+		oauth_id VARCHAR(190) NOT NULL DEFAULT "",
 		created VARCHAR(32) NOT NULL
 	)');
 	$pdo->exec('CREATE TABLE IF NOT EXISTS ke_bookings (
@@ -61,6 +63,17 @@ function store_db_migrate(PDO $pdo): void
 		travel_date VARCHAR(16) NOT NULL,
 		booking_id VARCHAR(32) NOT NULL
 	)');
+	store_db_add_column($pdo, 'ke_users', 'oauth_provider', 'VARCHAR(40) NOT NULL DEFAULT ""');
+	store_db_add_column($pdo, 'ke_users', 'oauth_id', 'VARCHAR(190) NOT NULL DEFAULT ""');
+}
+
+function store_db_add_column(PDO $pdo, string $table, string $column, string $ddl): void
+{
+	$cols = $pdo->query('SHOW COLUMNS FROM ' . $table)->fetchAll(PDO::FETCH_COLUMN);
+	if (in_array($column, $cols, true)) {
+		return;
+	}
+	$pdo->exec('ALTER TABLE ' . $table . ' ADD COLUMN ' . $column . ' ' . $ddl);
 }
 
 function store_read_json(string $name, array $default = []): array
@@ -83,6 +96,20 @@ function store_write_json(string $name, array $data): bool
 	return (bool) file_put_contents($file, $json, LOCK_EX);
 }
 
+function store_profile_meta(string $userId): array
+{
+	$all = store_read_json('profile_meta');
+	$row = $all[$userId] ?? [];
+	return is_array($row) ? $row : [];
+}
+
+function store_save_profile_meta(string $userId, array $meta): bool
+{
+	$all = store_read_json('profile_meta');
+	$all[$userId] = $meta;
+	return store_write_json('profile_meta', $all);
+}
+
 function store_users(): array
 {
 	$db = store_db();
@@ -96,9 +123,16 @@ function store_save_user(array $user): bool
 {
 	$db = store_db();
 	if ($db) {
-		$stmt = $db->prepare('INSERT INTO ke_users (id, name, email, phone, password_hash, created) VALUES (?,?,?,?,?,?)');
+		$stmt = $db->prepare('INSERT INTO ke_users (id, name, email, phone, password_hash, oauth_provider, oauth_id, created) VALUES (?,?,?,?,?,?,?,?)');
 		return $stmt->execute([
-			$user['id'], $user['name'], $user['email'], $user['phone'], $user['password_hash'], $user['created'],
+			$user['id'],
+			$user['name'],
+			$user['email'],
+			$user['phone'] ?? '',
+			$user['password_hash'] ?? '',
+			$user['oauth_provider'] ?? '',
+			$user['oauth_id'] ?? '',
+			$user['created'],
 		]);
 	}
 	$users = store_users();
@@ -110,8 +144,14 @@ function store_update_user(array $user): bool
 {
 	$db = store_db();
 	if ($db) {
-		$stmt = $db->prepare('UPDATE ke_users SET name=?, phone=? WHERE id=?');
-		return $stmt->execute([$user['name'], $user['phone'], $user['id']]);
+		$stmt = $db->prepare('UPDATE ke_users SET name=?, phone=?, oauth_provider=?, oauth_id=? WHERE id=?');
+		return $stmt->execute([
+			$user['name'],
+			$user['phone'] ?? '',
+			$user['oauth_provider'] ?? '',
+			$user['oauth_id'] ?? '',
+			$user['id'],
+		]);
 	}
 	$users = store_users();
 	foreach ($users as $i => $row) {
@@ -128,6 +168,16 @@ function store_find_user_email(string $email): ?array
 	$email = strtolower(trim($email));
 	foreach (store_users() as $user) {
 		if (strtolower((string) ($user['email'] ?? '')) === $email) {
+			return $user;
+		}
+	}
+	return null;
+}
+
+function store_find_user_oauth(string $provider, string $oauthId): ?array
+{
+	foreach (store_users() as $user) {
+		if (($user['oauth_provider'] ?? '') === $provider && (string) ($user['oauth_id'] ?? '') === $oauthId) {
 			return $user;
 		}
 	}
