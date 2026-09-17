@@ -6,6 +6,10 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' || !store_csrf_ok()) {
 	store_redirect('/shop/catalog.php');
 }
 
+if (!store_user()) {
+	store_require_login('/shop/cart.php');
+}
+
 $productId = trim((string) ($_POST['product_id'] ?? ''));
 $product = store_product($productId);
 if (!$product) {

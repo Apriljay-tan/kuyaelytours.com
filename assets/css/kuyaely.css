@@ -1668,9 +1668,127 @@ input#arrive3 {
 }
 .mobile-menu .ke-header-icons.is-mobile {
 	position: absolute;
-	right: 58px;
+	right: 64px;
 	top: 16px;
-	z-index: 10003;
+	z-index: 10002;
 	margin: 0;
+	gap: 8px;
 }
 .header-menu .ke-shop-link { display: none !important; }
+
+.header-right-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 10px;
+	flex-wrap: nowrap;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+img, video, iframe, svg {
+	max-width: 100%;
+}
+
+.header-wrap--centered .header-menu > ul.nav_scroll > li > a,
+.mean-container .mean-nav ul li a {
+	font-weight: 500;
+}
+
+@media (max-width: 1280px) {
+	.header-right-wrapper:has(.ke-header-icons) .header-btn {
+		display: none;
+	}
+	.header-wrap--centered .header-menu > ul.nav_scroll > li > a {
+		padding: 26px 9px;
+		font-size: 15px;
+		letter-spacing: 0.4px;
+	}
+}
+
+@media (max-width: 1199px) {
+	.header-wrap--centered {
+		column-gap: 10px;
+	}
+	.brand-name {
+		font-size: 22px;
+		letter-spacing: 0.12em;
+	}
+	.brand-lockup img {
+		width: 56px;
+		height: 56px;
+	}
+}
+
+@media (max-width: 991px) {
+	.mobile-menu .ke-icon-btn {
+		width: 40px;
+		height: 40px;
+	}
+	.mean-container .mean-nav ul li a {
+		font-size: 16px !important;
+		letter-spacing: 0.08em;
+		padding: 14px 18px !important;
+	}
+	.travel-boking .booking-input-box select,
+	.travel-boking .booking-input-box input,
+	.travel-boking .booking-input-box input[type="date"],
+	.ke-form input,
+	.ke-form select,
+	.ke-form textarea {
+		font-size: 16px !important;
+	}
+}
+
+@media (max-width: 420px) {
+	.mobile-logo .brand-name {
+		display: none;
+	}
+	.mobile-menu .ke-header-icons.is-mobile {
+		right: 60px;
+		top: 14px;
+		gap: 6px;
+	}
+	.mobile-menu .ke-icon-btn {
+		width: 38px;
+		height: 38px;
+	}
+}
+
+@media (max-width: 767px) {
+	.section-title h1,
+	.breadcumb-content h1 {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+	.main-footer-one .footer-widget-content,
+	.main-footer-one .footer-desc,
+	.main-footer-one p,
+	.main-footer-one li {
+		overflow-wrap: anywhere;
+	}
+	.xs-sidebar-widget,
+	.sidebar-widget-container {
+		max-width: 100%;
+	}
+	.header-btn a,
+	.hero-section-1 .hero-btn a,
+	.populer-btn a,
+	.about-btn a {
+		min-height: 44px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.photography-sectoin .gelary-track,
+	.preloader {
+		animation: none !important;
+	}
+}

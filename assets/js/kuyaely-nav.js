@@ -53,7 +53,7 @@
 		Object.keys(params).forEach(function (key) {
 			if (params[key]) q.set(key, params[key]);
 		});
-		window.location.href = "contact.html?" + q.toString() + "#booking";
+		window.location.href = "/contact.html?" + q.toString() + "#booking";
 	}
 
 	document.addEventListener("submit", function (e) {
@@ -180,7 +180,7 @@
 
 	document.addEventListener("DOMContentLoaded", function () {
 		var min = todayISO();
-		document.querySelectorAll('.travel-boking input[type="date"], .ke-form input[type="date"]').forEach(function (el) {
+		document.querySelectorAll('.travel-boking input[type="date"], .ke-form input[type="date"], .ke-td-book input[type="date"]').forEach(function (el) {
 			el.min = min;
 			el.setAttribute("autocomplete", "off");
 		});
@@ -256,6 +256,33 @@
 		.then(function (r) { return r.json(); })
 		.then(function (data) { window.keShopReady = true;
 			injectNav(data);
+
+			function loggedIn() {
+				return !!(data && (data.logged_in || data.name));
+			}
+			function goLogin(pending) {
+				pending = pending || {};
+				pending.ts = Date.now();
+				try {
+					sessionStorage.setItem("kePendingCart", JSON.stringify(pending));
+				} catch (err) {}
+				var next = window.location.pathname + window.location.search;
+				window.location.href = "/account/login.php?next=" + encodeURIComponent(next || "/cebu-tour");
+			}
+
+			try {
+				var raw = sessionStorage.getItem("kePendingCart");
+				if (raw && loggedIn()) {
+					sessionStorage.removeItem("kePendingCart");
+					var pending = JSON.parse(raw);
+					var fresh = pending && pending.ts && (Date.now() - pending.ts < 20 * 60 * 1000);
+					if (fresh && pending.fields) {
+						pending.fields.csrf = data.csrf;
+						postCart(pending.fields, pending.next || "/shop/cart.php");
+					}
+				}
+			} catch (err) {}
+
 			document.addEventListener("submit", function (e) {
 				var form = e.target;
 				if (!form || form.id !== "dreamit-form") return;
@@ -282,30 +309,76 @@
 				}
 				var vehicle = PRODUCT[actVal] && String(PRODUCT[actVal]).indexOf("van-") === 0 ? actVal : "";
 				var goCheckout = form.getAttribute("data-ke-checkout") === "1";
-				postCart({
+				var notes = "";
+				if (activityEl && activityEl.tagName === "SELECT") {
+					var opt = activityEl.options[activityEl.selectedIndex];
+					notes = opt && activityEl.value ? String(opt.text || "").trim() : "";
+				}
+				var fields = {
 					csrf: data.csrf,
 					product_id: productId,
 					date: dateEl ? dateEl.value : "",
 					guests: guests,
 					vehicle: vehicle,
-					notes: ""
-				}, goCheckout ? "/shop/checkout.php" : "/shop/cart.php");
+					notes: notes
+				};
+				var next = goCheckout ? "/shop/checkout.php" : "/shop/cart.php";
+				if (!loggedIn()) {
+					goLogin({ fields: fields, next: next });
+					return;
+				}
+				postCart(fields, next);
 			});
 
-			document.querySelectorAll("form#dreamit-form .booking-button").forEach(function (wrap) {
-				if (wrap.querySelector(".ke-cart-extra")) return;
-				var sub = wrap.querySelector("button[type='submit']");
-				if (sub) sub.textContent = "Add to cart";
-				var extra = document.createElement("div");
-				extra.className = "ke-cart-extra";
-				extra.innerHTML = '<button type="button" class="ke-book-now">Book now</button>';
-				wrap.appendChild(extra);
-				extra.querySelector(".ke-book-now").addEventListener("click", function () {
+			function bindBookNow(wrap) {
+				var book = wrap.querySelector(".ke-book-now");
+				if (!book || book.dataset.keBound === "1") return;
+				book.dataset.keBound = "1";
+				book.addEventListener("click", function () {
 					wrap.closest("form").setAttribute("data-ke-checkout", "1");
 					if (wrap.querySelector("button[type='submit']")) {
 						wrap.querySelector("button[type='submit']").click();
 					}
 				});
+			}
+
+			document.querySelectorAll("form#dreamit-form .booking-button").forEach(function (wrap) {
+				if (!wrap.querySelector(".ke-book-now")) {
+					var sub = wrap.querySelector("button[type='submit']");
+					if (sub) sub.textContent = "Add to cart";
+					var extra = document.createElement("div");
+					extra.className = "ke-cart-extra";
+					extra.innerHTML = '<button type="button" class="ke-book-now">Book now</button>';
+					wrap.appendChild(extra);
+				}
+				bindBookNow(wrap);
+			});
+
+			document.addEventListener("click", function (e) {
+				var btn = e.target.closest("[data-ke-cart]");
+				if (!btn) return;
+				e.preventDefault();
+				var form = btn.closest("form") || document.getElementById("dreamit-form");
+				var dateEl = form ? form.querySelector('[name="arrive"]') : null;
+				var groupEl = form ? form.querySelector('[name="group"]') : null;
+				var guests = "2";
+				if (groupEl && groupEl.value && groupEl.value !== "0") {
+					guests = /^\d+$/.test(groupEl.value) ? groupEl.value : String(groupEl.value).split("-")[0];
+				}
+				var fields = {
+					csrf: data.csrf,
+					product_id: btn.getAttribute("data-ke-product") || "tour-cebu",
+					date: dateEl ? dateEl.value : "",
+					guests: guests,
+					vehicle: "",
+					notes: btn.getAttribute("data-ke-notes") || ""
+				};
+				var next = btn.getAttribute("data-ke-next") || "/shop/cart.php";
+				if (!loggedIn()) {
+					goLogin({ fields: fields, next: next });
+					return;
+				}
+				postCart(fields, next);
 			});
 		})
 		.catch(function () {});

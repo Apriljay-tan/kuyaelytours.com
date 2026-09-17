@@ -315,8 +315,14 @@
 
 @media (max-width: 767px) {
     .tour-page .breadcumb-section.style__two {
-        padding: 160px 0 50px;
+        padding: 140px 16px 44px;
         height: auto;
+        overflow: hidden;
+    }
+
+    .tour-page .breadcumb-content h1 {
+        font-size: clamp(32px, 10vw, 44px);
+        line-height: 1.05;
     }
 
     .tour-page .travel-boking.style-two {
@@ -336,10 +342,8 @@
     .tour-page .travel-boking.style-two .booking-button button {
         width: 100%;
         min-width: 0;
-    }
-
-    .tour-page .breadcumb-content h1 {
-        font-size: 36px;
+        min-height: 48px;
+        font-size: 16px;
     }
 
     .tour-dest-tabs {
@@ -350,8 +354,9 @@
     .tour-dest-tabs a {
         min-width: 0;
         flex: 1 1 calc(50% - 8px);
-        font-size: 15px;
-        padding: 10px 14px;
+    font-size: 15px;
+    padding: 12px 10px;
+    min-height: 44px;
     }
 
     .tour-page .populer-single-box.style-classic .populer-thumb img,
@@ -376,4 +381,859 @@
     .main-footer-one.classic .footer-bottom-menu ul li a {
         margin: 0 10px;
     }
+}
+
+.tour-catalog {
+    background: #0c1f24;
+}
+
+.tour-catalog .ke-cat-hero {
+    position: relative;
+    min-height: 640px;
+    padding: 150px 0 0;
+    background-image: url("../downloaded/dest-cebu.jpg");
+    background-size: cover;
+    background-position: center 40%;
+    background-repeat: no-repeat;
+    overflow: visible;
+}
+
+.tour-catalog .ke-cat-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(8, 18, 22, 0.42) 0%, rgba(8, 18, 22, 0.18) 38%, rgba(8, 18, 22, 0.55) 78%, #0c1f24 100%),
+        linear-gradient(90deg, rgba(8, 18, 22, 0.45) 0%, rgba(8, 18, 22, 0.08) 55%, rgba(8, 18, 22, 0.28) 100%);
+    pointer-events: none;
+}
+
+.tour-catalog .ke-cat-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.tour-catalog .ke-cat-hero-copy {
+    max-width: 820px;
+    text-align: left;
+    padding: 12px 0 28px;
+}
+
+.tour-catalog .ke-cat-kicker {
+    margin: 0 0 6px;
+    font-family: var(--style-font);
+    font-size: clamp(28px, 3.4vw, 42px);
+    color: #F5C518;
+    line-height: 1.1;
+}
+
+.tour-catalog .ke-cat-hero-copy h1 {
+    margin: 0;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: clamp(64px, 9vw, 118px);
+    line-height: 0.86;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.tour-catalog .ke-cat-hero-copy h1 span {
+    color: #F5C518;
+}
+
+.tour-catalog .ke-cat-sub {
+    margin: 14px 0 18px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 13px;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+}
+
+.tour-catalog .ke-cat-hero .breadcumb-item {
+    justify-content: flex-start;
+    margin: 0;
+}
+
+.tour-catalog .ke-cat-aside {
+    position: absolute;
+    right: 6%;
+    top: 42%;
+    z-index: 2;
+    max-width: 180px;
+    margin: 0;
+    font-family: var(--style-font);
+    font-size: 28px;
+    line-height: 1.15;
+    color: #fff;
+    text-align: right;
+    text-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.tour-catalog .ke-cat-hero .travel-boking.style-two {
+    position: relative;
+    z-index: 3;
+    margin-top: 8px;
+    margin-bottom: -58px;
+    padding: 28px 28px 24px;
+    background: rgba(12, 31, 36, 0.92);
+    background-image: none;
+    border: 1px solid rgba(245, 197, 24, 0.16);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.35);
+}
+
+.tour-catalog .ke-cat-hero .booking-box {
+    align-items: end;
+}
+
+.tour-catalog .ke-cat-hero .booking-button {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 0;
+}
+
+.tour-catalog .ke-cat-hero .booking-button button,
+.tour-catalog .ke-cat-hero .ke-book-now {
+    min-width: 148px;
+    height: 52px;
+    border-radius: 50px;
+    font-family: var(--title-font);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+.tour-catalog .ke-cat-hero .ke-cart-extra {
+    margin: 0;
+    width: auto;
+}
+
+.tour-catalog .ke-cat-hero .ke-book-now {
+    width: auto;
+    padding: 0 22px;
+    background: #0c1f24;
+    color: #F5C518;
+    border: 2px solid #F5C518;
+    box-shadow: none;
+}
+
+.tour-catalog .ke-cat-hero .ke-book-now:hover {
+    background: #F5C518;
+    color: #1C2D31;
+}
+
+.tour-catalog .tour__section.style__two {
+    background: #0c1f24;
+    padding: 92px 0 80px;
+}
+
+.tour-catalog .tour-dest-tabs {
+    gap: 14px;
+    margin: 0 0 42px;
+}
+
+.tour-catalog .tour-dest-tabs a {
+    min-width: 168px;
+    background: #F5C518;
+    border-color: #F5C518;
+    color: #1C2D31;
+}
+
+.tour-catalog .tour-dest-tabs a:hover,
+.tour-catalog .tour-dest-tabs a.is-active {
+    background: #F5C518;
+    color: #1C2D31;
+    box-shadow: 0 10px 22px rgba(245, 197, 24, 0.28);
+}
+
+.tour-catalog .tour-dest-tabs a:not(.is-active) {
+    background: #F5C518;
+    opacity: 0.92;
+}
+
+.ke-cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 22px;
+}
+
+.ke-cat-card {
+    display: flex;
+    flex-direction: column;
+    background: #10262c;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+    min-height: 100%;
+}
+.ke-cat-card:not(.ke-cat-promo) { cursor: pointer; }
+.ke-cat-photo { color: inherit; text-decoration: none; }
+.ke-cat-body h3 a {
+    color: #fff;
+    text-decoration: none;
+}
+.ke-cat-body h3 a:hover { color: #F5C518; }
+
+.ke-cat-photo {
+    position: relative;
+    display: block;
+    height: 188px;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+}
+
+.ke-cat-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ke-cat-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    font-size: 13px;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.ke-cat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 18px 20px;
+    flex: 1;
+}
+
+.ke-cat-body h3 {
+    margin: 0;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 26px;
+    letter-spacing: 0.8px;
+    line-height: 1.15;
+}
+
+.ke-cat-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 13px;
+}
+
+.ke-cat-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ke-cat-meta i,
+.ke-cat-meta svg {
+    color: #F5C518;
+}
+
+.ke-cat-stars {
+    color: #F5C518;
+    letter-spacing: 1px;
+}
+
+.ke-cat-stars em {
+    margin-left: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: normal;
+    font-size: 12px;
+}
+
+.ke-cat-body p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.ke-cat-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+}
+
+.ke-cat-actions a,
+.ke-cat-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 0 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(245, 197, 24, 0.55);
+    background: transparent;
+    color: #F5C518;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ke-cat-actions .is-book {
+    background: #F5C518;
+    border-color: #F5C518;
+    color: #1C2D31;
+}
+
+.ke-cat-actions a:hover,
+.ke-cat-actions button:hover {
+    background: #F5C518;
+    color: #1C2D31;
+}
+
+.ke-cat-promo {
+    position: relative;
+    border-left: 0;
+    min-height: 420px;
+}
+
+.ke-cat-promo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ke-cat-promo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 22, 26, 0.2) 0%, rgba(8, 22, 26, 0.82) 70%);
+}
+
+.ke-cat-promo-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    padding: 28px 24px;
+    color: #fff;
+}
+
+.ke-cat-promo-copy .ke-pin {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background: #F5C518;
+    color: #1C2D31;
+    font-size: 18px;
+}
+
+.ke-cat-promo-copy .ke-script {
+    margin: 0;
+    font-family: var(--style-font);
+    font-size: 34px;
+    color: #F5C518;
+    line-height: 1;
+}
+
+.ke-cat-promo-copy h3 {
+    margin: 4px 0 10px;
+    font-family: var(--title-font);
+    font-size: 34px;
+    line-height: 1.05;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.ke-cat-promo-copy p {
+    margin: 0 0 18px;
+    max-width: 280px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 14px;
+}
+
+.ke-cat-promo-copy a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    min-height: 44px;
+    padding: 0 22px;
+    border-radius: 8px;
+    background: #F5C518;
+    color: #1C2D31;
+    font-family: var(--title-font);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.tour-catalog .ke-credits {
+    margin: 28px 0 0;
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.tour-catalog .travelling-offer-section.style__two .travelling-title .ke-offer-kicker {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--title-font);
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1C2D31;
+}
+
+@media (max-width: 1199px) {
+    .tour-catalog .ke-cat-aside { display: none; }
+    .tour-catalog .ke-cat-hero .booking-box {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .tour-catalog .ke-cat-hero .booking-button {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+    }
+    .ke-cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 767px) {
+    .tour-catalog .ke-cat-hero {
+        min-height: 0;
+        padding: 120px 0 0;
+    }
+    .tour-catalog .ke-cat-hero-copy {
+        text-align: center;
+        padding-bottom: 12px;
+    }
+    .tour-catalog .ke-cat-hero .breadcumb-item { justify-content: center; }
+    .tour-catalog .ke-cat-hero .travel-boking.style-two {
+        margin-bottom: 0;
+        padding: 20px 16px;
+    }
+    .tour-catalog .ke-cat-hero .booking-box { grid-template-columns: 1fr; }
+    .tour-catalog .ke-cat-hero .booking-button {
+        flex-direction: column;
+        width: 100%;
+    }
+    .tour-catalog .ke-cat-hero .booking-button button,
+    .tour-catalog .ke-cat-hero .ke-book-now,
+    .tour-catalog .ke-cat-hero .ke-cart-extra {
+        width: 100%;
+        min-width: 0;
+    }
+    .tour-catalog .tour__section.style__two { padding: 36px 0 48px; }
+    .ke-cat-grid { grid-template-columns: 1fr; }
+    .ke-cat-actions { flex-direction: column; }
+    .ke-cat-actions a,
+    .ke-cat-actions button { width: 100%; }
+}
+
+.tour-cebu .ke-cat-hero { background-image: url("../downloaded/dest-cebu.jpg"); }
+.tour-bohol .ke-cat-hero { background-image: url("../downloaded/dest-bohol.jpg"); }
+.tour-siquijor .ke-cat-hero { background-image: url("../downloaded/dest-siquijor.jpg"); }
+.tour-dumaguete .ke-cat-hero { background-image: url("../downloaded/dest-dumaguete.jpg"); }
+
+/* Kuya Ely — package detail page */
+
+.tour-detail {
+    background: #0c1f24;
+    color: #e8eef0;
+}
+.tour-detail::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("../downloaded/dest-cebu.jpg") center / cover no-repeat;
+    opacity: 0.18;
+    filter: saturate(0.75);
+    pointer-events: none;
+    z-index: 0;
+}
+.tour-bohol.tour-detail::before { background-image: url("../downloaded/dest-bohol.jpg"); }
+.tour-siquijor.tour-detail::before { background-image: url("../downloaded/dest-siquijor.jpg"); }
+.tour-dumaguete.tour-detail::before { background-image: url("../downloaded/dest-dumaguete.jpg"); }
+.tour-detail .travelik-header-area,
+.tour-detail .mobile-menu-area,
+.tour-detail .xs-sidebar-group,
+.tour-detail footer {
+    position: relative;
+    z-index: 20;
+}
+.tour-detail .ke-td {
+    position: relative;
+    z-index: 2;
+    padding: 130px 0 40px;
+}
+.ke-td-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 28px 32px;
+    align-items: start;
+}
+.ke-td-crumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 16px;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+}
+.ke-td-crumb a { color: rgba(255,255,255,0.7); }
+.ke-td-crumb a:hover { color: #F5C518; }
+.ke-td-title {
+    margin: 0 0 10px;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 0.9;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.ke-td-title span { color: #F5C518; }
+.ke-td-lead {
+    margin: 0 0 14px;
+    max-width: 640px;
+    color: rgba(255,255,255,0.82);
+    font-size: 16px;
+    line-height: 1.55;
+}
+.ke-td-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin: 0 0 16px;
+    align-items: center;
+    font-size: 14px;
+}
+.ke-td-stars { color: #F5C518; }
+.ke-td-meta i { color: #F5C518; margin-right: 6px; }
+.ke-td-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 22px;
+}
+.ke-td-pills span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(245,197,24,0.12);
+    border: 1px solid rgba(245,197,24,0.35);
+    color: #F5C518;
+    font-size: 12px;
+    font-weight: 600;
+}
+.ke-td-gallery {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+.ke-td-gallery-main,
+.ke-td-thumbs a,
+.ke-td-thumbs figure {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 14px;
+    margin: 0;
+    background: #10262c;
+}
+.ke-td-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.ke-td-gallery-main { min-height: 320px; }
+.ke-td-gallery-main img { height: 320px; }
+.ke-td-thumbs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.ke-td-thumbs img { height: 155px; }
+.ke-td-more {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8,22,26,0.45);
+    color: #fff;
+    font-family: var(--title-font);
+    letter-spacing: 1px;
+    font-size: 22px;
+}
+.ke-td h2 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+.ke-td-block { margin: 0 0 28px; }
+.ke-td-block p { margin: 0; line-height: 1.65; color: rgba(255,255,255,0.78); }
+.ke-td-hi {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.ke-td-hi li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: rgba(255,255,255,0.86);
+    font-size: 14px;
+}
+.ke-td-hi i { color: #F5C518; margin-top: 3px; }
+.ke-td-expect {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+.ke-td-expect article {
+    background: #10262c;
+    border-radius: 14px;
+    overflow: hidden;
+}
+.ke-td-expect img { width: 100%; height: 140px; object-fit: cover; display: block; }
+.ke-td-expect div { padding: 12px 14px 16px; }
+.ke-td-expect h3 {
+    margin: 0 0 6px;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 20px;
+    letter-spacing: 0.6px;
+}
+.ke-td-expect p { margin: 0; font-size: 13px; color: rgba(255,255,255,0.72); line-height: 1.5; }
+.ke-td-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+.ke-td-box {
+    background: #10262c;
+    border-radius: 14px;
+    padding: 18px 18px 8px;
+}
+.ke-td-box ul { margin: 0; padding: 0; list-style: none; }
+.ke-td-box li {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 10px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.82);
+}
+.ke-td-box .ok { color: #F5C518; }
+.ke-td-box .no { color: #e07a7a; }
+.ke-td-itin { list-style: none; margin: 0; padding: 0; }
+.ke-td-itin li {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 14px;
+}
+.ke-td-itin strong { color: #F5C518; }
+.ke-td-faq {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.ke-td-faq details {
+    background: #10262c;
+    border-radius: 10px;
+    margin: 0;
+    padding: 12px 16px;
+}
+.ke-td-faq summary {
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+}
+.ke-td-faq summary::after {
+    content: "+";
+    color: #F5C518;
+    font-size: 20px;
+    line-height: 1;
+}
+.ke-td-faq details[open] summary::after { content: "–"; }
+.ke-td-faq summary::-webkit-details-marker { display: none; }
+.ke-td-faq p { margin: 10px 0 0; font-size: 14px; }
+.ke-td-related {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+.ke-td-related a {
+    display: block;
+    background: #10262c;
+    border-radius: 14px;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+}
+.ke-td-related img { width: 100%; height: 140px; object-fit: cover; display: block; }
+.ke-td-related div { padding: 12px 14px 16px; }
+.ke-td-related h3 {
+    margin: 0 0 4px;
+    color: #fff;
+    font-family: var(--title-font);
+    font-size: 20px;
+}
+.ke-td-related p { margin: 0 0 10px; font-size: 13px; color: rgba(255,255,255,0.7); }
+.ke-td-related span { color: #F5C518; font-size: 12px; font-weight: 700; }
+
+.ke-td-side { position: sticky; top: 110px; }
+.ke-td-quote {
+    margin: 0 0 16px;
+    font-family: var(--style-font);
+    font-size: 28px;
+    line-height: 1.15;
+    color: #fff;
+    text-align: right;
+}
+.ke-td-quote span { color: #F5C518; }
+.ke-td-book {
+    background: #10262c;
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+.ke-td-price {
+    margin: 0;
+    color: #F5C518;
+    font-family: var(--title-font);
+    font-size: 42px;
+    line-height: 1;
+}
+.ke-td-price small { font-size: 18px; color: #fff; }
+.ke-td-book .rate { margin: 6px 0 12px; color: rgba(255,255,255,0.7); font-size: 13px; }
+.ke-td-book dl { margin: 0 0 14px; }
+.ke-td-book dt { color: rgba(255,255,255,0.55); font-size: 12px; }
+.ke-td-book dd { margin: 0 0 8px; color: #fff; font-size: 14px; }
+.ke-td-book label {
+    display: block;
+    margin: 0 0 4px;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+}
+.ke-td-book select,
+.ke-td-book input[type="date"] {
+    width: 100%;
+    min-height: 44px;
+    margin: 0 0 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: #0c1f24;
+    color: #fff;
+    font-size: 16px;
+}
+.ke-td-book .is-book,
+.ke-td-book .is-cart {
+    width: 100%;
+    min-height: 48px;
+    margin: 0 0 8px;
+    border-radius: 10px;
+    font-family: var(--title-font);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.ke-td-book .is-book {
+    background: #F5C518;
+    border: 0;
+    color: #1C2D31;
+}
+.ke-td-book .is-cart {
+    background: transparent;
+    border: 1px solid #F5C518;
+    color: #F5C518;
+}
+.ke-td-note { margin: 8px 0 0; font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.45; }
+.ke-td-promo {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 260px;
+    margin-bottom: 16px;
+    color: #fff;
+}
+.ke-td-promo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ke-td-promo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8,22,26,0.15), rgba(8,22,26,0.82));
+}
+.ke-td-promo div { position: relative; z-index: 1; padding: 22px 20px; }
+.ke-td-promo h3 {
+    margin: 0 0 8px;
+    font-family: var(--title-font);
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: 1px;
+}
+.ke-td-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+.ke-td-photos img { width: 100%; height: 90px; object-fit: cover; border-radius: 10px; display: block; }
+.ke-td-review {
+    background: #10262c;
+    border-radius: 14px;
+    padding: 16px;
+}
+.ke-td-review p { margin: 0 0 10px; font-size: 14px; line-height: 1.55; }
+.ke-td-review strong { color: #fff; }
+
+@media (max-width: 991px) {
+    .tour-detail .ke-td { padding-top: 110px; }
+    .ke-td-wrap,
+    .ke-td-gallery,
+    .ke-td-hi,
+    .ke-td-expect,
+    .ke-td-split,
+    .ke-td-related,
+    .ke-td-faq { grid-template-columns: 1fr; }
+    .ke-td-side { position: static; }
+    .ke-td-quote { text-align: left; }
+    .ke-td-gallery-main img,
+    .ke-td-thumbs img { height: 200px; }
 }

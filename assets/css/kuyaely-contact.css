@@ -217,7 +217,8 @@ a.ke-contact-card:hover {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.05);
     color: #fff;
-    font-size: 15px;
+    font-size: 16px;
+    font-family: var(--text-font);
     line-height: 1.4;
     padding: 13px 14px;
     outline: none;

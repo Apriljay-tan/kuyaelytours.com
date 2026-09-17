@@ -19,14 +19,13 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
 	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=sec1">';
-	if ($useSite || $mods !== '') {
-		echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
-		echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
-		echo '<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&display=swap" rel="stylesheet">';
-	}
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
+	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
+	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui27">';
 	echo '</head><body class="' . $class . '">';
 	if ($useSite) {
+		echo store_scene_html();
 		echo store_site_header($user, $count);
 	} else {
 		echo '<header class="ke-shop-top"><a class="ke-shop-brand" href="/index.html">';
@@ -48,6 +47,22 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms and Conditions</a></footer>';
 	}
 	echo '</body></html>';
+}
+
+function store_scene_html(): string
+{
+	$photos = [
+		'/assets/downloaded/dest-cebu.jpg',
+		'/assets/downloaded/dest-bohol.jpg',
+		'/assets/downloaded/dest-siquijor.jpg',
+		'/assets/downloaded/dest-dumaguete.jpg',
+	];
+	$html = '<div class="ke-scene" aria-hidden="true">';
+	foreach ($photos as $src) {
+		$html .= '<span style="background-image:url(\'' . store_h($src) . '\')"></span>';
+	}
+	$html .= '</div><div class="ke-scene-veil"></div>';
+	return $html;
 }
 
 function store_site_header(?array $user, int $cartCount): string
@@ -161,7 +176,10 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
 	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=sec1">';
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
+	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
+	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui27">';
 	echo '</head><body class="ke-auth">';
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
 	echo '<span style="background-image:url(\'/assets/downloaded/dest-siquijor.jpg\')"></span>';
