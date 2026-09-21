@@ -51,7 +51,7 @@ function ke_marketing_page(array $opt, string $main): void
 	<link rel="stylesheet" href="/assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/scroll-up.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui24" type="text/css" media="all">
-	<script src="/assets/js/kuyaely-nav.js?v=9"></script>
+	<script src="/assets/js/kuyaely-nav.js?v=11"></script>
 	<?= $extra ?>
 </head>
 
@@ -355,6 +355,25 @@ function ke_marketing_page(array $opt, string $main): void
 				e.preventDefault();
 				show(tab.getAttribute("data-area") || "all");
 			});
+		});
+		document.querySelectorAll(".ke-cat-grid .ke-cat-card:not(.ke-cat-promo)").forEach(function (card) {
+			card.addEventListener("click", function (e) {
+				if (e.target.closest("a, button")) return;
+				var href = card.getAttribute("data-ke-href");
+				if (!href) {
+					var link = card.querySelector(".ke-cat-actions a, .ke-cat-body h3 a");
+					href = link ? link.getAttribute("href") : "";
+				}
+				if (href) window.location.href = href;
+			});
+		});
+		var loc = document.getElementById("location");
+		if (loc) loc.addEventListener("change", function () {
+			if (loc.value) window.location.href = "/" + loc.value + "-tour";
+		});
+		var act = document.getElementById("activity");
+		if (act) act.addEventListener("change", function () {
+			if (act.value) window.location.href = "/tours/" + act.value;
 		});
 		var explore = document.querySelector(".ke-cat-promo-copy a[data-area]");
 		if (explore) explore.addEventListener("click", function (e) {

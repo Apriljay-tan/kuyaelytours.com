@@ -244,12 +244,35 @@
 }
 
 .tour-page .travelling-offer-section.style__two {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
     padding: 8px 0 0;
     overflow: hidden;
     background: url("../downloaded/travelling-bg copy.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+}
+
+.tour-page .main-footer-one,
+.tour-detail .main-footer-one {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    background-color: #122327;
+    background-image: url("../downloaded/footer-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.tour-page .main-footer-one .main-footer-section,
+.tour-detail .main-footer-one .main-footer-section {
+    background: transparent;
 }
 
 .tour-page .travelling-offer-section.style__two::before {
@@ -878,6 +901,7 @@
 .tour-detail footer {
     position: relative;
     z-index: 20;
+    width: 100%;
 }
 .tour-detail .ke-td {
     position: relative;
@@ -1222,6 +1246,24 @@
 }
 .ke-td-review p { margin: 0 0 10px; font-size: 14px; line-height: 1.55; }
 .ke-td-review strong { color: #fff; }
+.ke-td-gallery-main > a { display: block; height: 100%; }
+.ke-td-watch {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #F5C518;
+    color: #122327;
+    font-family: "Bebas Neue", Impact, sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
 
 @media (max-width: 991px) {
     .tour-detail .ke-td { padding-top: 110px; }
@@ -1237,3 +1279,143 @@
     .ke-td-gallery-main img,
     .ke-td-thumbs img { height: 200px; }
 }
+
+.ke-bookbox {
+    background: #10262c;
+    color: #fff;
+    border: 1px solid rgba(245,197,24,0.2);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+.ke-bookbox-head {
+    background: transparent;
+    color: #fff;
+    padding: 20px 20px 8px;
+}
+.ke-bookbox-from {
+    margin: 0;
+    color: #F5C518;
+    font-family: var(--title-font);
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.04em;
+}
+.ke-bookbox-from span {
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+    font-family: var(--title-font);
+}
+.ke-bookbox-head p:last-child {
+    margin: 8px 0 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+}
+.ke-bookbox-form { padding: 4px 20px 20px; background: transparent; }
+.ke-bookbox-field {
+    display: block;
+    margin: 0 0 12px;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+}
+.ke-bookbox-field span { display: block; margin-bottom: 4px; }
+.ke-bookbox-field select,
+.ke-bookbox-field input[type="date"] {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: #0c1f24;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 8px 12px;
+    border-radius: 8px;
+}
+.ke-bookbox-guest {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.ke-bookbox-guest strong { display: block; font-size: 14px; color: #fff; font-weight: 600; }
+.ke-bookbox-guest small { display: block; color: rgba(245,197,24,0.85); font-size: 12px; margin-top: 2px; }
+.ke-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.ke-step button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(245,197,24,0.35);
+    background: transparent;
+    color: #F5C518;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+}
+.ke-step input {
+    width: 28px;
+    border: 0;
+    background: none;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #F5C518;
+    padding: 0;
+}
+.ke-bookbox-addons {
+    background: rgba(245,197,24,0.08);
+    margin: 12px -20px 0;
+    padding: 14px 20px;
+    border-top: 1px solid rgba(245,197,24,0.15);
+}
+.ke-bookbox-addons p {
+    margin: 0 0 8px;
+    font-weight: 600;
+    color: #F5C518;
+    font-size: 13px;
+}
+.ke-bookbox-addons label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: 0 0 8px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.88);
+    font-size: 14px;
+}
+.ke-bookbox-addons input { width: auto; margin-top: 3px; accent-color: #F5C518; }
+.ke-bookbox-book,
+.ke-bookbox-cart {
+    width: 100%;
+    min-height: 48px;
+    margin: 8px 0 0;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: var(--title-font);
+}
+.ke-bookbox-book {
+    margin-top: 14px;
+    background: #F5C518;
+    border: 0;
+    color: #1C2D31;
+}
+.ke-bookbox-cart {
+    background: transparent;
+    border: 1px solid #F5C518;
+    color: #F5C518;
+}
+.ke-bookbox .ke-td-note { color: rgba(255,255,255,0.55); }

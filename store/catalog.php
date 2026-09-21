@@ -21,6 +21,9 @@ function store_product(string $id): ?array
 
 function store_line_total(array $item, ?array $product = null): int
 {
+	if (isset($item['line_total']) && $item['line_total'] !== '') {
+		return max(0, (int) $item['line_total']);
+	}
 	$product = $product ?: store_product((string) ($item['product_id'] ?? ''));
 	$price = (int) ($product['price_from'] ?? 0);
 	$qty = max(1, (int) ($item['guests'] ?? $item['qty'] ?? 1));

@@ -241,7 +241,16 @@
 		});
 	}
 	function postCart(fields, next) {
-		var body = new URLSearchParams(fields);
+		var body = new URLSearchParams();
+		Object.keys(fields || {}).forEach(function (k) {
+			var v = fields[k];
+			if (v === undefined || v === null) return;
+			if (Array.isArray(v)) {
+				v.forEach(function (item) { body.append(k, String(item)); });
+			} else {
+				body.set(k, String(v));
+			}
+		});
 		body.set("next", next || "/shop/cart.php");
 		return fetch("/shop/add-to-cart.php", {
 			method: "POST",
@@ -359,21 +368,46 @@
 				if (!btn) return;
 				e.preventDefault();
 				var form = btn.closest("form") || document.getElementById("dreamit-form");
-				var dateEl = form ? form.querySelector('[name="arrive"]') : null;
-				var groupEl = form ? form.querySelector('[name="group"]') : null;
-				var guests = "2";
-				if (groupEl && groupEl.value && groupEl.value !== "0") {
-					guests = /^\d+$/.test(groupEl.value) ? groupEl.value : String(groupEl.value).split("-")[0];
-				}
-				var fields = {
-					csrf: data.csrf,
-					product_id: btn.getAttribute("data-ke-product") || "tour-cebu",
-					date: dateEl ? dateEl.value : "",
-					guests: guests,
-					vehicle: "",
-					notes: btn.getAttribute("data-ke-notes") || ""
-				};
 				var next = btn.getAttribute("data-ke-next") || "/shop/cart.php";
+				var fields;
+				if (form && form.classList.contains("ke-bookbox-form")) {
+					fields = { csrf: data.csrf };
+					var fd = new FormData(form);
+					fd.forEach(function (v, k) {
+						if (k === "addons[]" || k === "addons") {
+							if (!fields["addons[]"]) fields["addons[]"] = [];
+							fields["addons[]"].push(v);
+						} else {
+							fields[k] = v;
+						}
+					});
+					var pax = (parseInt(fields.foreign_adult, 10) || 0)
+						+ (parseInt(fields.local_adult, 10) || 0)
+						+ (parseInt(fields.foreign_child, 10) || 0)
+						+ (parseInt(fields.local_child, 10) || 0);
+					if (pax < 1) {
+						window.alert("Select at least one guest.");
+						return;
+					}
+					if (!fields.date && fields.arrive) {
+						fields.date = fields.arrive;
+					}
+				} else {
+					var dateEl = form ? form.querySelector('[name="arrive"]') : null;
+					var groupEl = form ? form.querySelector('[name="group"]') : null;
+					var guests = "2";
+					if (groupEl && groupEl.value && groupEl.value !== "0") {
+						guests = /^\d+$/.test(groupEl.value) ? groupEl.value : String(groupEl.value).split("-")[0];
+					}
+					fields = {
+						csrf: data.csrf,
+						product_id: btn.getAttribute("data-ke-product") || "tour-cebu",
+						date: dateEl ? dateEl.value : "",
+						guests: guests,
+						vehicle: "",
+						notes: btn.getAttribute("data-ke-notes") || ""
+					};
+				}
 				if (!loggedIn()) {
 					goLogin({ fields: fields, next: next });
 					return;

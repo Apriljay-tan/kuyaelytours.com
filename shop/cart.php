@@ -81,7 +81,7 @@ foreach ($items as $item) {
 $rows = '';
 foreach ($items as $item) {
 	$product = store_product((string) ($item['product_id'] ?? ''));
-	$name = (string) ($product['name'] ?? 'Item');
+	$name = (string) ($item['label'] ?? $product['name'] ?? 'Item');
 	$image = (string) ($product['image'] ?? '/assets/downloaded/dest-cebu.jpg');
 	$desc = (string) ($product['description'] ?? '');
 	$unit = (string) ($product['unit'] ?? '');
@@ -112,8 +112,14 @@ foreach ($items as $item) {
 		$meta .= '<span>' . store_h(ke_cart_date($date)) . '</span>';
 	}
 	$meta .= '<span>' . $guests . ' guest' . ($guests === 1 ? '' : 's') . '</span>';
-	if ($vehicle !== '') {
+	$pickup = (string) ($item['pickup'] ?? '');
+	if ($pickup !== '') {
+		$meta .= '<span>Pickup: ' . store_h($pickup) . '</span>';
+	} elseif ($vehicle !== '') {
 		$meta .= '<span>Pickup: ' . store_h($vehicle) . '</span>';
+	}
+	if (!empty($item['addons']) && is_array($item['addons'])) {
+		$meta .= '<span>' . store_h(implode(', ', $item['addons'])) . '</span>';
 	}
 
 	$rows .= '<article class="ke-bag-item">'

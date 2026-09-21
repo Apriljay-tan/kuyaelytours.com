@@ -19,3 +19,5 @@ store/data/bookings.json
 store/data/blocked.json
 store/data/profile_meta.json
 store/oauth.local.php
+store/data/packages.json
+assets/uploads/

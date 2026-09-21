@@ -105,6 +105,9 @@ function ke_tour_related(string $slug, int $limit = 3): array
 		if (($other['island'] ?? '') !== ($tour['island'] ?? '')) {
 			continue;
 		}
+		if (isset($other['active']) && !$other['active']) {
+			continue;
+		}
 		$out[] = $other;
 		if (count($out) >= $limit) {
 			break;
@@ -113,7 +116,376 @@ function ke_tour_related(string $slug, int $limit = 3): array
 	return $out;
 }
 
-function ke_tours(): array
+function ke_tour_area_map(): array
+{
+	return [
+		'cebu-city-heritage-tour' => 'cebu-city',
+		'temple-of-leah-sirao-tour' => 'cebu-city',
+		'south-cebu-island-tour' => 'cebu-city',
+		'moalboal-sardine-run' => 'moalboal',
+		'kawasan-falls-day-tour' => 'moalboal',
+		'oslob-whale-shark-experience' => 'oslob',
+		'oslob-simala-tour' => 'oslob',
+		'mactan-island-hopping' => 'cebu-city',
+		'bohol-countryside-tour' => 'countryside',
+		'chocolate-hills-loboc-cruise' => 'countryside',
+		'panglao-island-tour' => 'panglao',
+		'balicasag-island-hopping' => 'panglao',
+		'hinagdanan-cave-beach' => 'panglao',
+		'bohol-combined-day-tour' => 'countryside',
+		'siquijor-island-tour' => 'island',
+		'cambugahay-falls' => 'falls',
+		'enchanted-balete-tree' => 'island',
+		'lazi-church-convent' => 'lazi',
+		'cave-swimming-adventure' => 'falls',
+		'salagdoong-beach-day' => 'beach',
+		'dumaguete-city-tour' => 'city',
+		'apo-island-snorkeling' => 'apo',
+		'twin-lakes-day-tour' => 'valencia',
+		'casaroro-falls' => 'valencia',
+		'valencia-highlands' => 'valencia',
+		'sidlakang-negros-experience' => 'city',
+	];
+}
+
+function ke_default_pickups(string $island): array
+{
+	$map = [
+		'cebu' => [
+			'Cebu City',
+			'Mactan / Lapu-lapu City',
+			'Mactan & drop-off Moalboal',
+			'Mactan & drop-off Oslob',
+			'Mandaue City',
+			'Talisay City',
+			'Moalboal',
+			'Moalboal & drop-off Mactan',
+			'Moalboal & drop-off Oslob',
+			'Ronda',
+			'Badian',
+			'Argao',
+			'Alegria',
+			'Oslob',
+			'Oslob & drop-off Cebu City',
+			'Oslob & drop-off Moalboal',
+			'Cuartel (port from Bohol)',
+			'Sumilon Island Port',
+			'Liloan Port (port from Dumaguete)',
+			'Santander',
+			'Boljoon',
+		],
+		'bohol' => [
+			'Tagbilaran City',
+			'Panglao / Alona',
+			'Bohol-Panglao Airport',
+			'Loboc',
+			'Carmen (Chocolate Hills)',
+			'Tagbilaran port',
+		],
+		'siquijor' => [
+			'Siquijor port',
+			'Larena',
+			'San Juan',
+			'Lazi',
+			'Maria',
+			'Siquijor town',
+		],
+		'dumaguete' => [
+			'Dumaguete City',
+			'Dumaguete Airport / Sibulan',
+			'Valencia',
+			'Malatapay / Zamboanguita',
+			'Apo Island jump-off',
+			'Dumaguete port',
+		],
+	];
+	return $map[$island] ?? $map['cebu'];
+}
+
+function ke_normalize_price_tiers($rows, int $fallback = 0): array
+{
+	$out = [];
+	if (!is_array($rows)) {
+		return $out;
+	}
+	foreach ($rows as $row) {
+		if (is_string($row)) {
+			$parts = array_map('trim', explode('|', $row));
+			$row = [
+				'min' => (int) ($parts[0] ?? 0),
+				'max' => (int) ($parts[1] ?? 0),
+				'foreign_adult' => (int) ($parts[2] ?? 0),
+				'local_adult' => (int) ($parts[3] ?? 0),
+				'foreign_child' => (int) ($parts[4] ?? 0),
+				'local_child' => (int) ($parts[5] ?? 0),
+			];
+		}
+		if (!is_array($row)) {
+			continue;
+		}
+		$min = max(1, (int) ($row['min'] ?? 0));
+		$max = max($min, (int) ($row['max'] ?? 0));
+		$fa = (int) ($row['foreign_adult'] ?? 0);
+		$la = (int) ($row['local_adult'] ?? $fa);
+		$fc = (int) ($row['foreign_child'] ?? $fa);
+		$lc = (int) ($row['local_child'] ?? $la);
+		if ($fa < 1 && $la < 1 && $fallback < 1) {
+			continue;
+		}
+		if ($fa < 1) {
+			$fa = $fallback;
+		}
+		if ($la < 1) {
+			$la = $fa;
+		}
+		if ($fc < 1) {
+			$fc = $fa;
+		}
+		if ($lc < 1) {
+			$lc = $la;
+		}
+		$out[] = [
+			'min' => $min,
+			'max' => $max,
+			'foreign_adult' => $fa,
+			'local_adult' => $la,
+			'foreign_child' => $fc,
+			'local_child' => $lc,
+		];
+	}
+	return $out;
+}
+
+function ke_normalize_addons($rows): array
+{
+	$out = [];
+	if (!is_array($rows)) {
+		return $out;
+	}
+	foreach ($rows as $row) {
+		if (is_string($row)) {
+			$parts = array_map('trim', explode('|', $row, 3));
+			$row = ['name' => $parts[0] ?? '', 'price' => (int) ($parts[1] ?? 0), 'hint' => $parts[2] ?? ''];
+		}
+		if (!is_array($row)) {
+			continue;
+		}
+		$name = trim((string) ($row['name'] ?? ''));
+		if ($name === '') {
+			continue;
+		}
+		$id = strtolower(preg_replace('/[^a-z0-9]+/', '-', $name) ?: 'addon');
+		$out[] = [
+			'id' => (string) ($row['id'] ?? $id),
+			'name' => $name,
+			'price' => max(0, (int) ($row['price'] ?? 0)),
+			'hint' => trim((string) ($row['hint'] ?? '')),
+		];
+	}
+	return $out;
+}
+
+function ke_tour_pickups(array $tour): array
+{
+	$saved = array_values(array_filter(array_map('strval', (array) ($tour['pickups'] ?? []))));
+	return $saved ?: ke_default_pickups((string) ($tour['island'] ?? 'cebu'));
+}
+
+function ke_tour_price_tiers(array $tour): array
+{
+	$tiers = ke_normalize_price_tiers($tour['price_tiers'] ?? [], 0);
+	if ($tiers) {
+		return $tiers;
+	}
+	$fallback = ke_package_price($tour);
+	if ($fallback < 1) {
+		return [];
+	}
+	return [[
+		'min' => 1,
+		'max' => 20,
+		'foreign_adult' => $fallback,
+		'local_adult' => $fallback,
+		'foreign_child' => $fallback,
+		'local_child' => $fallback,
+	]];
+}
+
+function ke_tour_addons(array $tour): array
+{
+	return ke_normalize_addons($tour['addons'] ?? []);
+}
+
+function ke_tier_for_pax(array $tiers, int $pax): ?array
+{
+	if (!$tiers) {
+		return null;
+	}
+	$pax = max(1, $pax);
+	foreach ($tiers as $tier) {
+		if ($pax >= (int) $tier['min'] && $pax <= (int) $tier['max']) {
+			return $tier;
+		}
+	}
+	$last = $tiers[array_key_last($tiers)];
+	if ($pax > (int) $last['max']) {
+		return $last;
+	}
+	return $tiers[0];
+}
+
+function ke_quote_booking(array $tour, array $qty, array $addonIds = []): array
+{
+	$counts = [
+		'foreign_adult' => max(0, (int) ($qty['foreign_adult'] ?? 0)),
+		'local_adult' => max(0, (int) ($qty['local_adult'] ?? 0)),
+		'foreign_child' => max(0, (int) ($qty['foreign_child'] ?? 0)),
+		'local_child' => max(0, (int) ($qty['local_child'] ?? 0)),
+	];
+	$pax = array_sum($counts);
+	$tiers = ke_tour_price_tiers($tour);
+	$tier = ke_tier_for_pax($tiers, $pax > 0 ? $pax : 1);
+	$rates = $tier ?: ['foreign_adult' => 0, 'local_adult' => 0, 'foreign_child' => 0, 'local_child' => 0];
+	$guestTotal = 0;
+	foreach ($counts as $key => $n) {
+		$guestTotal += $n * (int) ($rates[$key] ?? 0);
+	}
+	$from = 0;
+	foreach ($tiers as $row) {
+		foreach (['foreign_adult', 'local_adult'] as $key) {
+			$v = (int) ($row[$key] ?? 0);
+			if ($v > 0 && ($from === 0 || $v < $from)) {
+				$from = $v;
+			}
+		}
+	}
+	$addons = [];
+	$addonTotal = 0;
+	$want = [];
+	foreach ($addonIds as $id) {
+		$want[strtolower(trim((string) $id))] = true;
+	}
+	foreach (ke_tour_addons($tour) as $addon) {
+		$key = strtolower((string) $addon['id']);
+		$name = strtolower((string) $addon['name']);
+		if (isset($want[$key]) || isset($want[$name])) {
+			$addons[] = $addon;
+			$addonTotal += (int) $addon['price'];
+		}
+	}
+	return [
+		'pax' => $pax,
+		'counts' => $counts,
+		'rates' => $rates,
+		'from' => $from,
+		'guest_total' => $guestTotal,
+		'addons' => $addons,
+		'addon_total' => $addonTotal,
+		'total' => $guestTotal + $addonTotal,
+		'per_person' => $pax > 0 ? (int) round($guestTotal / $pax) : $from,
+	];
+}
+
+function ke_package_normalize(array $row): array
+{
+	$island = (string) ($row['island'] ?? 'cebu');
+	$product = (string) ($row['product'] ?? ('tour-' . $island));
+	$slug = strtolower(preg_replace('/[^a-z0-9-]+/', '-', (string) ($row['slug'] ?? '')));
+	$base = ke_tour_defaults($island, $product);
+	$areas = ke_tour_area_map();
+	$tiers = ke_normalize_price_tiers($row['price_tiers'] ?? [], (int) ($row['price_from'] ?? 0));
+	$merged = array_merge($base, $row, [
+		'slug' => $slug,
+		'island' => $island,
+		'product' => $product,
+		'catalog' => '/' . $island . '-tour',
+		'area' => (string) ($row['area'] ?? $areas[$slug] ?? 'all'),
+		'active' => array_key_exists('active', $row) ? (bool) $row['active'] : true,
+		'sort' => (int) ($row['sort'] ?? 0),
+		'price_from' => (int) ($row['price_from'] ?? 0),
+		'video_url' => (string) ($row['video_url'] ?? ''),
+		'images' => array_values(array_filter((array) ($row['images'] ?? []))),
+		'pickups' => array_values(array_filter(array_map('strval', (array) ($row['pickups'] ?? [])))),
+		'price_tiers' => $tiers,
+		'addons' => ke_normalize_addons($row['addons'] ?? []),
+		'age_adult' => (string) ($row['age_adult'] ?? '4 years old & above'),
+		'age_child' => (string) ($row['age_child'] ?? '3 years old'),
+	]);
+	return $merged;
+}
+
+function ke_package_price(array $tour): int
+{
+	$min = 0;
+	foreach (ke_normalize_price_tiers($tour['price_tiers'] ?? [], 0) as $tier) {
+		foreach (['foreign_adult', 'local_adult'] as $key) {
+			$v = (int) ($tier[$key] ?? 0);
+			if ($v > 0 && ($min === 0 || $v < $min)) {
+				$min = $v;
+			}
+		}
+	}
+	if ($min > 0) {
+		return $min;
+	}
+	$own = (int) ($tour['price_from'] ?? 0);
+	if ($own > 0) {
+		return $own;
+	}
+	$product = function_exists('store_product') ? store_product((string) ($tour['product'] ?? '')) : null;
+	return (int) ($product['price_from'] ?? 0);
+}
+
+function ke_package_cart_id(array $tour): string
+{
+	$slug = (string) ($tour['slug'] ?? '');
+	if ($slug !== '' && (int) ($tour['price_from'] ?? 0) > 0 && function_exists('store_product') && store_product('pkg-' . $slug)) {
+		return 'pkg-' . $slug;
+	}
+	return (string) ($tour['product'] ?? 'tour-cebu');
+}
+
+function ke_tours(bool $reload = false): array
+{
+	static $tours = null;
+	if ($reload) {
+		$tours = null;
+	}
+	if ($tours !== null) {
+		return $tours;
+	}
+	$dir = defined('STORE_DATA') ? STORE_DATA : (__DIR__ . '/data');
+	$file = $dir . '/packages.json';
+	if (is_readable($file)) {
+		$rows = json_decode((string) file_get_contents($file), true);
+		if (is_array($rows) && $rows) {
+			$indexed = [];
+			foreach ($rows as $row) {
+				if (!is_array($row) || empty($row['slug'])) {
+					continue;
+				}
+				$pkg = ke_package_normalize($row);
+				if ($pkg['slug'] !== '') {
+					$indexed[$pkg['slug']] = $pkg;
+				}
+			}
+			if ($indexed) {
+				uasort($indexed, static function ($a, $b) {
+					return ($a['sort'] ?? 0) <=> ($b['sort'] ?? 0);
+				});
+				$tours = $indexed;
+				return $tours;
+			}
+		}
+	}
+	$tours = ke_tours_builtin();
+	if (defined('STORE_DATA') && function_exists('store_write_json')) {
+		store_write_json('packages', array_values($tours));
+	}
+	return $tours;
+}
+
+function ke_tours_builtin(): array
 {
 	static $tours = null;
 	if ($tours !== null) {
@@ -458,7 +830,9 @@ function ke_tours(): array
 	];
 
 	$tours = [];
+	$sort = 0;
 	foreach ($raw as $row) {
+		$sort += 10;
 		[$slug, $island, $product, $name, $place, $badge, $lead, $images, $overview, $highlights, $expect, $itinerary] = $row;
 		$extra = (isset($row[12]) && is_array($row[12])) ? $row[12] : [];
 		$base = ke_tour_defaults($island, $product);
@@ -473,7 +847,9 @@ function ke_tours(): array
 			'highlights' => $highlights,
 			'expect' => $expect,
 			'itinerary' => $itinerary,
+			'sort' => $sort,
 		], is_array($extra) && isset($extra['included']) ? $extra : []);
+		$tours[$slug] = ke_package_normalize($tours[$slug]);
 	}
 
 	return $tours;
