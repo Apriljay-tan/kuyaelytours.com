@@ -7,6 +7,8 @@ $user = store_user();
 echo json_encode([
 	'count' => store_cart_count(),
 	'name' => $user['name'] ?? '',
+	'email' => $user['email'] ?? '',
+	'phone' => $user['phone'] ?? '',
 	'logged_in' => (bool) $user,
 	'csrf' => store_csrf_token(),
 ]);

@@ -65,6 +65,29 @@ function store_db_migrate(PDO $pdo): void
 	)');
 	store_db_add_column($pdo, 'ke_users', 'oauth_provider', 'VARCHAR(40) NOT NULL DEFAULT ""');
 	store_db_add_column($pdo, 'ke_users', 'oauth_id', 'VARCHAR(190) NOT NULL DEFAULT ""');
+	try {
+		$pdo->exec('CREATE TABLE IF NOT EXISTS ke_chats (
+			id VARCHAR(32) PRIMARY KEY,
+			token VARCHAR(64) NOT NULL UNIQUE,
+			user_id VARCHAR(32) NOT NULL DEFAULT "",
+			guest_name VARCHAR(140) NOT NULL DEFAULT "",
+			email VARCHAR(190) NOT NULL DEFAULT "",
+			phone VARCHAR(40) NOT NULL DEFAULT "",
+			last_message TEXT,
+			last_at VARCHAR(32) NOT NULL DEFAULT "",
+			unread_staff INT NOT NULL DEFAULT 0,
+			created VARCHAR(32) NOT NULL
+		)');
+		$pdo->exec('CREATE TABLE IF NOT EXISTS ke_chat_messages (
+			id VARCHAR(32) PRIMARY KEY,
+			chat_id VARCHAR(32) NOT NULL,
+			sender VARCHAR(16) NOT NULL,
+			body TEXT NOT NULL,
+			created VARCHAR(32) NOT NULL
+		)');
+	} catch (Throwable $e) {
+		// Keep bookings/users online if chat tables cannot be created.
+	}
 }
 
 function store_db_add_column(PDO $pdo, string $table, string $column, string $ddl): void
@@ -204,6 +227,424 @@ function store_persist_user_cart(): void
 	$meta['cart'] = function_exists('store_cart') ? store_cart() : [];
 	$meta['cart_updated'] = function_exists('store_now') ? store_now() : date('c');
 	store_save_profile_meta((string) $user['id'], $meta);
+}
+
+function store_chat_token(bool $create = false): string
+{
+	$token = (string) ($_COOKIE['ke_chat'] ?? '');
+	if (!preg_match('/^[a-f0-9]{32}$/', $token)) {
+		$token = '';
+	}
+	if ($token === '' && $create) {
+		$token = bin2hex(random_bytes(16));
+		$secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+		setcookie('ke_chat', $token, [
+			'expires' => time() + 86400 * 400,
+			'path' => '/',
+			'secure' => $secure,
+			'httponly' => true,
+			'samesite' => 'Lax',
+		]);
+		$_COOKIE['ke_chat'] = $token;
+	}
+	return $token;
+}
+
+function store_find_chat_token(string $token): ?array
+{
+	if ($token === '') {
+		return null;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('SELECT * FROM ke_chats WHERE token=?');
+			$stmt->execute([$token]);
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			if ($row) {
+				return $row;
+			}
+		} catch (Throwable $e) {
+		}
+	}
+	foreach (store_read_json('chats') as $row) {
+		if (($row['token'] ?? '') === $token) {
+			return $row;
+		}
+	}
+	return null;
+}
+
+function store_find_chat_user(string $userId): ?array
+{
+	if ($userId === '') {
+		return null;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('SELECT * FROM ke_chats WHERE user_id=? ORDER BY created DESC');
+			$stmt->execute([$userId]);
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			if ($row) {
+				return $row;
+			}
+		} catch (Throwable $e) {
+		}
+	}
+	foreach (store_read_json('chats') as $row) {
+		if ((string) ($row['user_id'] ?? '') === $userId) {
+			return $row;
+		}
+	}
+	return null;
+}
+
+function store_find_chat_id(string $id): ?array
+{
+	if ($id === '') {
+		return null;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('SELECT * FROM ke_chats WHERE id=?');
+			$stmt->execute([$id]);
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			if ($row) {
+				return $row;
+			}
+		} catch (Throwable $e) {
+		}
+	}
+	foreach (store_read_json('chats') as $row) {
+		if (($row['id'] ?? '') === $id) {
+			return $row;
+		}
+	}
+	return null;
+}
+
+function store_chats(): array
+{
+	$db = store_db();
+	if ($db) {
+		try {
+			$rows = $db->query('SELECT * FROM ke_chats ORDER BY last_at DESC, created DESC')->fetchAll(PDO::FETCH_ASSOC) ?: [];
+			if ($rows) {
+				return $rows;
+			}
+		} catch (Throwable $e) {
+		}
+	}
+	$rows = store_read_json('chats');
+	usort($rows, static function ($a, $b) {
+		return strcmp((string) ($b['last_at'] ?? ''), (string) ($a['last_at'] ?? ''));
+	});
+	return array_values($rows);
+}
+
+function store_chat_unread_count(): int
+{
+	$n = 0;
+	foreach (store_chats() as $chat) {
+		if ((int) ($chat['unread_staff'] ?? 0) > 0) {
+			$n++;
+		}
+	}
+	return $n;
+}
+
+function store_chat_messages(string $chatId): array
+{
+	if ($chatId === '') {
+		return [];
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('SELECT * FROM ke_chat_messages WHERE chat_id=? ORDER BY created ASC, id ASC');
+			$stmt->execute([$chatId]);
+			$rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+			if ($rows) {
+				return $rows;
+			}
+		} catch (Throwable $e) {
+		}
+	}
+	$chat = null;
+	foreach (store_read_json('chats') as $row) {
+		if (($row['id'] ?? '') === $chatId) {
+			$chat = $row;
+			break;
+		}
+	}
+	$msgs = is_array($chat['messages'] ?? null) ? $chat['messages'] : [];
+	return array_values($msgs);
+}
+
+function store_chat_public_messages(array $rows): array
+{
+	$out = [];
+	foreach ($rows as $row) {
+		$sender = strtolower(trim((string) ($row['sender'] ?? $row['from'] ?? '')));
+		$out[] = [
+			'id' => (string) ($row['id'] ?? ''),
+			'from' => ($sender === 'desk' || $sender === 'staff' || $sender === 'admin') ? 'desk' : 'guest',
+			'text' => (string) ($row['body'] ?? $row['text'] ?? ''),
+			'at' => (string) ($row['created'] ?? ''),
+		];
+	}
+	return $out;
+}
+
+function store_chat_write_json_row(array $chat): bool
+{
+	$all = store_read_json('chats');
+	$found = false;
+	foreach ($all as $i => $row) {
+		if (($row['id'] ?? '') === ($chat['id'] ?? '')) {
+			$all[$i] = $chat;
+			$found = true;
+			break;
+		}
+	}
+	if (!$found) {
+		$all[] = $chat;
+	}
+	return store_write_json('chats', array_values($all));
+}
+
+function store_chat_update(array $chat): bool
+{
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('UPDATE ke_chats SET user_id=?, guest_name=?, email=?, phone=?, last_message=?, last_at=?, unread_staff=? WHERE id=?');
+			$stmt->execute([
+				$chat['user_id'] ?? '',
+				$chat['guest_name'] ?? '',
+				$chat['email'] ?? '',
+				$chat['phone'] ?? '',
+				$chat['last_message'] ?? '',
+				$chat['last_at'] ?? store_now(),
+				(int) ($chat['unread_staff'] ?? 0),
+				$chat['id'],
+			]);
+		} catch (Throwable $e) {
+		}
+	}
+	return store_chat_write_json_row($chat);
+}
+
+function store_chat_open(string $token, array $guest): array
+{
+	$user = function_exists('store_user') ? store_user() : null;
+	$chat = $user ? store_find_chat_user((string) $user['id']) : null;
+	if (!$chat) {
+		$chat = store_find_chat_token($token);
+	}
+	$name = trim((string) ($guest['name'] ?? ''));
+	$email = strtolower(trim((string) ($guest['email'] ?? '')));
+	$phone = trim((string) ($guest['phone'] ?? ''));
+	if ($chat) {
+		if ($name !== '') {
+			$chat['guest_name'] = $name;
+		}
+		if ($email !== '') {
+			$chat['email'] = $email;
+		}
+		if ($phone !== '') {
+			$chat['phone'] = $phone;
+		}
+		if ($user) {
+			$chat['user_id'] = (string) $user['id'];
+			if ($name === '') {
+				$chat['guest_name'] = (string) ($user['name'] ?? $chat['guest_name']);
+			}
+			if ($email === '') {
+				$chat['email'] = (string) ($user['email'] ?? $chat['email']);
+			}
+			if ($phone === '') {
+				$chat['phone'] = (string) ($user['phone'] ?? $chat['phone']);
+			}
+		}
+		store_chat_update($chat);
+		return $chat;
+	}
+	$chat = [
+		'id' => store_id(),
+		'token' => $token,
+		'user_id' => $user ? (string) $user['id'] : '',
+		'guest_name' => $name !== '' ? $name : (string) ($user['name'] ?? ''),
+		'email' => $email !== '' ? $email : (string) ($user['email'] ?? ''),
+		'phone' => $phone !== '' ? $phone : (string) ($user['phone'] ?? ''),
+		'last_message' => '',
+		'last_at' => store_now(),
+		'unread_staff' => 0,
+		'created' => store_now(),
+		'messages' => [],
+	];
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('INSERT INTO ke_chats (id, token, user_id, guest_name, email, phone, last_message, last_at, unread_staff, created) VALUES (?,?,?,?,?,?,?,?,?,?)');
+			$stmt->execute([
+				$chat['id'], $chat['token'], $chat['user_id'], $chat['guest_name'], $chat['email'], $chat['phone'],
+				$chat['last_message'], $chat['last_at'], 0, $chat['created'],
+			]);
+		} catch (Throwable $e) {
+		}
+	}
+	store_chat_write_json_row($chat);
+	return $chat;
+}
+
+function store_chat_add_message(array &$chat, string $sender, string $body): ?array
+{
+	$body = trim($body);
+	if ($body === '' || ($chat['id'] ?? '') === '') {
+		return null;
+	}
+	$msg = [
+		'id' => store_id(),
+		'chat_id' => (string) $chat['id'],
+		'sender' => $sender === 'desk' ? 'desk' : 'guest',
+		'body' => $body,
+		'created' => store_now(),
+	];
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('INSERT INTO ke_chat_messages (id, chat_id, sender, body, created) VALUES (?,?,?,?,?)');
+			$stmt->execute([$msg['id'], $msg['chat_id'], $msg['sender'], $msg['body'], $msg['created']]);
+		} catch (Throwable $e) {
+		}
+	}
+	$latest = store_find_chat_id((string) $chat['id']);
+	if (is_array($latest)) {
+		$chat = $latest;
+	}
+	$chat['messages'] = is_array($chat['messages'] ?? null) ? $chat['messages'] : store_chat_messages((string) $chat['id']);
+	$chat['messages'][] = $msg;
+	$chat['last_message'] = $body;
+	$chat['last_at'] = $msg['created'];
+	if ($msg['sender'] === 'guest') {
+		$chat['unread_staff'] = (int) ($chat['unread_staff'] ?? 0) + 1;
+	} else {
+		$chat['unread_staff'] = 0;
+	}
+	store_chat_update($chat);
+	store_chat_write_json_row($chat);
+	return $msg;
+}
+
+function store_chat_pretty_phone(string $phone): string
+{
+	$raw = trim($phone);
+	$digits = preg_replace('/\D+/', '', $raw) ?? '';
+	if (strlen($digits) === 11 && str_starts_with($digits, '0')) {
+		$digits = '63' . substr($digits, 1);
+	}
+	if (strlen($digits) === 12 && str_starts_with($digits, '63')) {
+		return '+63 ' . substr($digits, 2, 3) . ' ' . substr($digits, 5, 3) . ' ' . substr($digits, 8);
+	}
+	return $raw;
+}
+
+function store_chat_channel_digits(string $phone): string
+{
+	$digits = preg_replace('/\D+/', '', $phone) ?? '';
+	if (strlen($digits) === 11 && str_starts_with($digits, '0')) {
+		return '63' . substr($digits, 1);
+	}
+	return $digits;
+}
+
+function store_chat_channels(): array
+{
+	$defaults = [
+		'whatsapp' => [
+			'phone' => '+63 920 985 1802',
+			'handle' => '',
+			'qr' => '',
+			'show' => true,
+		],
+		'wechat' => [
+			'phone' => '',
+			'handle' => '',
+			'qr' => '',
+			'show' => true,
+		],
+		'viber' => [
+			'phone' => '',
+			'handle' => '',
+			'qr' => '',
+			'show' => true,
+		],
+	];
+	$saved = store_read_json('chat_channels');
+	foreach ($defaults as $key => $row) {
+		$in = is_array($saved[$key] ?? null) ? $saved[$key] : [];
+		$defaults[$key]['phone'] = trim((string) ($in['phone'] ?? $row['phone']));
+		$defaults[$key]['handle'] = trim((string) ($in['handle'] ?? $row['handle']));
+		$defaults[$key]['qr'] = trim((string) ($in['qr'] ?? $row['qr']));
+		$defaults[$key]['show'] = array_key_exists('show', $in) ? !empty($in['show']) : $row['show'];
+	}
+	return $defaults;
+}
+
+function store_chat_channels_public(): array
+{
+	$out = [];
+	foreach (store_chat_channels() as $key => $row) {
+		$phone = store_chat_pretty_phone((string) $row['phone']);
+		$digits = store_chat_channel_digits((string) $row['phone']);
+		$handle = trim((string) $row['handle']);
+		$qr = trim((string) $row['qr']);
+		$href = '';
+		if ($key === 'whatsapp' && $digits !== '') {
+			$href = 'https://wa.me/' . $digits;
+		} elseif ($key === 'viber' && $digits !== '') {
+			$href = 'viber://chat?number=%2B' . $digits;
+		}
+		$out[$key] = [
+			'phone' => $phone,
+			'handle' => $handle,
+			'qr' => $qr,
+			'href' => $href,
+			'show' => !empty($row['show']),
+			'ready' => $phone !== '' || $handle !== '' || $qr !== '',
+		];
+	}
+	return $out;
+}
+
+function store_chat_channels_save(array $channels): bool
+{
+	$clean = [];
+	foreach (store_chat_channels() as $key => $row) {
+		$in = is_array($channels[$key] ?? null) ? $channels[$key] : [];
+		$phone = trim(strip_tags((string) ($in['phone'] ?? $row['phone'])));
+		if (function_exists('mb_substr')) {
+			$phone = mb_substr($phone, 0, 40);
+			$handle = mb_substr(trim(strip_tags((string) ($in['handle'] ?? $row['handle']))), 0, 80);
+		} else {
+			$phone = substr($phone, 0, 40);
+			$handle = substr(trim(strip_tags((string) ($in['handle'] ?? $row['handle']))), 0, 80);
+		}
+		$qr = trim((string) ($in['qr'] ?? $row['qr']));
+		if ($qr !== '' && !preg_match('#^/assets/uploads/[A-Za-z0-9._/\-]+\.(jpe?g|png|webp|gif)$#i', $qr)) {
+			$qr = $row['qr'];
+		}
+		$clean[$key] = [
+			'phone' => $phone,
+			'handle' => $handle,
+			'qr' => $qr,
+			'show' => !empty($in['show']),
+		];
+	}
+	return store_write_json('chat_channels', $clean);
 }
 
 function store_find_user_email(string $email): ?array

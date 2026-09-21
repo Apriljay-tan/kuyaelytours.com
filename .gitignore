@@ -21,3 +21,6 @@ store/data/profile_meta.json
 store/oauth.local.php
 store/data/packages.json
 assets/uploads/
+
+store/data/chats.json
+store/data/chat_channels.json

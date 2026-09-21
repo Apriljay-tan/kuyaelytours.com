@@ -417,3 +417,13 @@
 		})
 		.catch(function () {});
 })();
+
+(function () {
+	if (/^\/admin(\/|$)/i.test(location.pathname)) {
+		return;
+	}
+	var s = document.createElement("script");
+	s.src = "/assets/js/kuyaely-chat.js?v=6";
+	s.defer = true;
+	(document.head || document.documentElement).appendChild(s);
+})();
