@@ -74,10 +74,11 @@
 }
 
 .header-wrap--centered .header-menu > ul.nav_scroll > li > a {
-    padding: 34px 12px;
-    font-size: 17px;
-    letter-spacing: 0.6px;
+    padding: 34px 8px;
+    font-size: 15px;
+    letter-spacing: 0.4px;
     line-height: 1.2;
+    white-space: nowrap;
 }
 .header-wrap--centered .header-menu > ul.nav_scroll > li > a .fa-chevron-down {
     margin-left: 6px;
@@ -575,6 +576,42 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.ke-team-leaders {
+    margin-bottom: 8px;
+}
+
+.team-photo-ely figure,
+.team-photo-rosa figure {
+    aspect-ratio: 684 / 700;
+    overflow: hidden;
+    background: #12343c;
+}
+
+.team-photo-ely img,
+.team-photo-rosa img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.team-photo-ely img {
+    object-position: 52% 8%;
+    transform: scale(1.85);
+    transform-origin: 52% 6%;
+}
+
+.team-photo-rosa img {
+    object-position: 50% 8%;
+}
+
+.ke-team-leaders .team-name-long {
+    font-size: 20px;
+    letter-spacing: 1px;
+    line-height: 1.25;
+    padding: 0 12px;
 }
 
 .breadcumb-section::before {
@@ -1615,7 +1652,7 @@ input#arrive3 {
 	z-index: 5;
 }
 .header-menu .ke-shop-link a { color: #F5C518; }
-.ke-cart-extra { margin-top: 10px; width: 100%; }
+.ke-cart-extra { display: none !important; }
 .ke-book-now {
 	width: 100%;
 	min-height: 44px;

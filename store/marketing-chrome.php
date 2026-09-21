@@ -18,6 +18,7 @@ function ke_marketing_page(array $opt, string $main): void
 	$boholCur = $nav === 'bohol-tour.html' ? ' aria-current="page"' : '';
 	$siqCur = $nav === 'siquijor-tour.html' ? ' aria-current="page"' : '';
 	$dumCur = $nav === 'dumaguete-tour.html' ? ' aria-current="page"' : '';
+	$hubCur = ($nav === 'tours-and-packages.php' || $nav === 'tours') ? ' aria-current="page"' : '';
 ?>
 <!DOCTYPE HTML>
 <html lang="en-US">
@@ -50,8 +51,8 @@ function ke_marketing_page(array $opt, string $main): void
 	<link rel="stylesheet" href="/assets/css/responsive.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/scroll-up.css" type="text/css" media="all">
-	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui24" type="text/css" media="all">
-	<script src="/assets/js/kuyaely-nav.js?v=17"></script>
+	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui25" type="text/css" media="all">
+	<script src="/assets/js/kuyaely-nav.js?v=19"></script>
 	<?= $extra ?>
 </head>
 
@@ -82,7 +83,7 @@ function ke_marketing_page(array $opt, string $main): void
 									<li class="nav-story-item"><a href="/our-story.html">Our Story</a></li>
 								</ul>
 							</li>
-							<li><a href="#">Tours<i class="fa-solid fa-chevron-down"></i></a>
+							<li><a href="/tours-and-packages.php"<?= $hubCur ?>>Tours and Packages<i class="fa-solid fa-chevron-down"></i></a>
 								<ul class="sub_menu">
 									<li><a href="/cebu-tour.html"<?= $cebuCur ?>>Cebu Tour</a></li>
 									<li><a href="/bohol-tour.html"<?= $boholCur ?>>Bohol Tour</a></li>
@@ -155,7 +156,7 @@ function ke_marketing_page(array $opt, string $main): void
 							<li class="nav-story-item"><a href="/our-story.html">Our Story</a></li>
 						</ul>
 					</li>
-					<li><a href="#">Tours</a>
+					<li><a href="/tours-and-packages.php"<?= $hubCur ?>>Tours and Packages</a>
 						<ul class="sub_menu">
 							<li><a href="/cebu-tour.html"<?= $cebuCur ?>>Cebu Tour</a></li>
 							<li><a href="/bohol-tour.html"<?= $boholCur ?>>Bohol Tour</a></li>
@@ -256,7 +257,7 @@ function ke_marketing_page(array $opt, string $main): void
 							<ul class="footer-menu">
 								<li><a href="/about.html">about us <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li class="nav-story-item"><a href="/our-story.html">our story <i class="fa-solid fa-arrow-right"></i></a></li>
-								<li><a href="/cebu-tour.html">our tours <i class="fa-solid fa-arrow-right"></i></a></li>
+								<li><a href="/tours-and-packages.php">our tours <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/service.html">car rental <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/permits.html">permits <i class="fa-solid fa-arrow-right"></i></a></li>
 																<li><a href="/contact.html">contact us <i class="fa-solid fa-arrow-right"></i></a></li>

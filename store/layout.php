@@ -31,7 +31,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 		echo '<header class="ke-shop-top"><a class="ke-shop-brand" href="/index.html">';
 		echo '<img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span>KUYA ELY</span></a>';
 		echo '<nav class="ke-shop-icons">';
-		echo '<a class="ke-text-link" href="/shop/catalog.php">Tours &amp; fleet</a>';
+		echo '<a class="ke-text-link" href="/tours-and-packages.php">Tours and Packages</a>';
 		echo '<a class="ke-icon-btn" href="' . $accountHref . '" aria-label="' . $accountLabel . '" title="' . $accountLabel . '">' . store_svg_user() . '</a>';
 		echo '<a class="ke-icon-btn" href="/shop/cart.php" aria-label="Cart" title="Cart">' . store_svg_cart() . $badge . '</a>';
 		echo '</nav></header>';
@@ -79,13 +79,13 @@ function store_site_header(?array $user, int $cartCount): string
 		. '<button class="ke-gnav-toggle" type="button" aria-label="Open menu" onclick="this.closest(\'.ke-gnav\').classList.toggle(\'is-open\')"><span></span><span></span><span></span></button>'
 		. '<nav class="ke-gnav-links" aria-label="Primary">'
 		. '<a href="/index.html">Home</a>'
-		. '<a href="/shop/catalog.php">Tours &amp; Fleet</a>'
+		. '<a href="/tours-and-packages.php">Tours and Packages</a>'
 		. '<a href="/about.html">About Us</a>'
 		. '<a href="/galary.html">Travel Guide</a>'
 		. '<a href="/contact.html">Contact</a>'
 		. '</nav>'
 		. '<div class="ke-gnav-actions">'
-		. '<a class="ke-gnav-ico" href="/shop/catalog.php" aria-label="Search tours">' . store_svg_search() . '</a>'
+		. '<a class="ke-gnav-ico" href="/tours-and-packages.php" aria-label="Search tours">' . store_svg_search() . '</a>'
 		. '<div class="ke-gnav-account">'
 		. '<a class="ke-gnav-account-btn" href="' . $accountHref . '">' . store_svg_user() . '<span>My Account</span><i></i></a>'
 		. '<div class="ke-gnav-drop">' . $drop . '</div></div>'
@@ -101,7 +101,7 @@ function store_site_footer(): string
 		. '<p class="ke-gfoot-tag">Safe Travels. Brighter Stories.</p>'
 		. '<nav aria-label="Footer">'
 		. '<a href="/index.html">Home</a>'
-		. '<a href="/shop/catalog.php">Tours &amp; Fleet</a>'
+		. '<a href="/tours-and-packages.php">Tours and Packages</a>'
 		. '<a href="/about.html">About Us</a>'
 		. '<a href="/galary.html">Travel Guide</a>'
 		. '<a href="/contact.html">Contact</a>'

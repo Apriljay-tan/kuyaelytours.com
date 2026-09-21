@@ -14,6 +14,11 @@ if (!$tour || (isset($tour['active']) && !$tour['active'])) {
 	store_redirect('/cebu-tour');
 }
 
+$prefDate = (string) ($_GET['date'] ?? '');
+if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $prefDate) || $prefDate < store_today()) {
+	$prefDate = '';
+}
+
 $product = store_product((string) $tour['product']) ?: ['price_from' => 0, 'unit' => 'per guest'];
 $price = ke_package_price($tour);
 $cartId = ke_package_cart_id($tour);
@@ -219,7 +224,7 @@ ob_start();
 							</label>
 							<label class="ke-bookbox-field">
 								<span>Booking Date</span>
-								<input type="date" id="arrive1" name="arrive" min="<?= store_h(store_today()) ?>">
+								<input type="date" id="arrive1" name="arrive" min="<?= store_h(store_today()) ?>" value="<?= store_h($prefDate) ?>">
 								<input type="hidden" name="date" value="">
 							</label>
 							<?php

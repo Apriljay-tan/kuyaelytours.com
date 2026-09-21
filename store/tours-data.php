@@ -854,3 +854,109 @@ function ke_tours_builtin(): array
 
 	return $tours;
 }
+
+function ke_search_best_tour(string $island, string $type): ?array
+{
+	$keywords = [
+		'city' => ['city', 'heritage', 'temple', 'culture', 'downtown', 'boulevard', 'sirao', 'leah'],
+		'island' => ['island hopping', 'hopping', 'boat', 'pescador', 'mactan island', 'balicasag', 'apo island', 'snorkeling'],
+		'countryside' => ['countryside', 'chocolate', 'hills', 'tarsier', 'highland', 'kawasan', 'casaroro', 'twin lakes', 'valencia', 'falls'],
+		'beach' => ['beach', 'panglao', 'salagdoong', 'panagsama'],
+	];
+	$words = $keywords[$type] ?? [];
+	$best = null;
+	$bestScore = -1;
+	foreach (ke_tours() as $tour) {
+		if (isset($tour['active']) && !$tour['active']) {
+			continue;
+		}
+		$tIsland = (string) ($tour['island'] ?? '');
+		if ($island !== '' && $tIsland !== $island) {
+			continue;
+		}
+		$blob = strtolower(implode(' ', [
+			(string) ($tour['name'] ?? ''),
+			(string) ($tour['badge'] ?? ''),
+			(string) ($tour['lead'] ?? ''),
+			(string) ($tour['overview'] ?? ''),
+			(string) ($tour['place'] ?? ''),
+		]));
+		$score = 0;
+		if ($island !== '' && $tIsland === $island) {
+			$score += 40;
+		}
+		foreach ($words as $word) {
+			if ($word !== '' && strpos($blob, $word) !== false) {
+				$score += 25;
+			}
+		}
+		$score += max(0, 15 - (int) floor(((int) ($tour['sort'] ?? 0)) / 20));
+		if ($score > $bestScore) {
+			$bestScore = $score;
+			$best = $tour;
+		}
+	}
+	return $best;
+}
+
+function ke_search_best_url(string $island, string $type, string $tab = '', string $vehicle = '', string $date = ''): string
+{
+	$islands = ['cebu', 'bohol', 'siquijor', 'dumaguete'];
+	$island = strtolower(trim($island));
+	$type = strtolower(trim($type));
+	$tab = strtolower(trim($tab));
+	$vehicle = strtolower(trim($vehicle));
+	if ($island === '0') {
+		$island = '';
+	}
+	if (!in_array($island, $islands, true)) {
+		$island = '';
+	}
+	if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+		$date = '';
+	}
+
+	$vanTypes = ['van', 'suv', 'sedan', 'coaster', 'grandia', 'commuter', 'innova', 'fortuner', 'vios'];
+	$isVan = $tab === 'hotel' || $tab === 'van' || in_array($type, $vanTypes, true) || $vehicle !== '';
+	$isTransfer = $type === 'transfer';
+	if ($isVan || $isTransfer) {
+		$q = [];
+		if ($island !== '') {
+			$q['island'] = $island;
+		}
+		if ($vehicle !== '') {
+			$q['vehicle'] = $vehicle;
+		} elseif (in_array($type, $vanTypes, true)) {
+			$q['vehicle'] = $type;
+		}
+		if ($date !== '') {
+			$q['date'] = $date;
+		}
+		if ($isTransfer) {
+			$q['type'] = 'transfer';
+		}
+		return '/service.html' . ($q ? ('?' . http_build_query($q)) : '');
+	}
+
+	$q = [];
+	if ($date !== '') {
+		$q['date'] = $date;
+	}
+	if ($tab === 'visa' || $tab === 'private') {
+		$q['private'] = '1';
+	}
+
+	$best = null;
+	if ($island !== '' || $type !== '') {
+		$best = ke_search_best_tour($island, $type);
+	}
+	if (is_array($best) && ($best['slug'] ?? '') !== '') {
+		$url = '/tours/' . $best['slug'];
+		return $q ? ($url . '?' . http_build_query($q)) : $url;
+	}
+	if ($island !== '') {
+		$url = '/' . $island . '-tour';
+		return $q ? ($url . '?' . http_build_query($q)) : $url;
+	}
+	return '/tours-and-packages.php' . ($q ? ('?' . http_build_query($q)) : '');
+}

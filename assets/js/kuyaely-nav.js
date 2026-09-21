@@ -48,59 +48,36 @@
 		return String(el.value || "").trim();
 	}
 
-	function goContact(params) {
+	function searchFromDreamit(form) {
+		var active = form.querySelector(".add-bg.active") || form;
+		var locationEl = active.querySelector('[name="location"], [name="children"], [name="pickup"]');
+		var activityEl = active.querySelector('[name="activity"], [name="place"], [name="vehicle"]');
+		var dateEl = active.querySelector('[name="arrive"]');
+		var locVal = locationEl ? String(locationEl.value || "") : "";
+		var actVal = activityEl ? String(activityEl.value || "") : "";
+		if (locVal === "0") locVal = "";
+		var tab = document.querySelector(".bokking-tabs .tab.active") || document.querySelector(".tab.active");
+		var tabId = tab ? String(tab.getAttribute("data-tab") || "") : "";
+		var tabLabel = tab ? String(tab.textContent || "").replace(/\s+/g, " ").trim() : "";
+		if (!tabId) {
+			if (/van/i.test(tabLabel)) tabId = "hotel";
+			else if (/private/i.test(tabLabel)) tabId = "visa";
+			else if (/tours/i.test(tabLabel)) tabId = "travel";
+		}
 		var q = new URLSearchParams();
-		Object.keys(params).forEach(function (key) {
-			if (params[key]) q.set(key, params[key]);
-		});
-		window.location.href = "/contact.html?" + q.toString() + "#booking";
+		if (locVal) q.set("island", locVal);
+		if (actVal) q.set("type", actVal);
+		if (dateEl && dateEl.value) q.set("date", dateEl.value);
+		if (tabId) q.set("tab", tabId);
+		if (tabId === "hotel" && actVal) q.set("vehicle", actVal);
+		window.location.href = "/search-tours.php?" + q.toString();
 	}
 
 	document.addEventListener("submit", function (e) {
 		var form = e.target;
 		if (!form || form.id !== "dreamit-form") return;
-		if (window.keShopReady) return;
 		e.preventDefault();
-
-		var active = form.querySelector(".add-bg.active") || form;
-		var locationEl = active.querySelector('[name="location"], [name="children"], [name="pickup"]');
-		var activityEl = active.querySelector('[name="activity"], [name="place"], [name="vehicle"]');
-		var dateEl = active.querySelector('[name="arrive"]');
-		var groupEl = active.querySelector('[name="group"]');
-		var locVal = locationEl ? String(locationEl.value || "") : "";
-		var actVal = activityEl ? String(activityEl.value || "") : "";
-		var service = SERVICE_MAP[locVal] || SERVICE_MAP[actVal] || "";
-		var tab = document.querySelector(".bokking-tabs .tab.active") || document.querySelector(".tab.active");
-		var tabId = tab ? String(tab.getAttribute("data-tab") || "") : "";
-		var tabLabel = tab ? String(tab.textContent || "").replace(/\s+/g, " ").trim() : "";
-		var notes = [];
-
-		if (tabId === "hotel" || /van/i.test(tabLabel) || form.querySelector('[name="vehicle"], [name="pickup"]')) {
-			service = "Car Rental";
-			notes.push("Request type: Van / car hire");
-		} else if (tabId === "visa" || /private/i.test(tabLabel)) {
-			notes.push("Request type: Private tour");
-		} else if (tabId === "travel" || /tours/i.test(tabLabel)) {
-			notes.push("Request type: Island tour");
-		}
-
-		if (locVal && locVal !== "0") notes.push("Island / pickup: " + fieldText(locationEl));
-		if (actVal) notes.push("Tour / vehicle: " + fieldText(activityEl));
-		if (groupEl && groupEl.value && groupEl.value !== "0") notes.push("Group: " + fieldText(groupEl));
-
-		var guests = "";
-		if (groupEl && groupEl.value && groupEl.value !== "0") {
-			if (/^\d+$/.test(groupEl.value)) guests = groupEl.value;
-			else if (groupEl.value.indexOf("+") !== -1) guests = "11";
-			else guests = String(groupEl.value).split("-")[0];
-		}
-
-		goContact({
-			Service: service,
-			"Travel Date": dateEl ? dateEl.value : "",
-			Guests: guests,
-			Message: notes.join("\n")
-		});
+		searchFromDreamit(form);
 	});
 
 	document.addEventListener("DOMContentLoaded", function () {
@@ -183,6 +160,9 @@
 		document.querySelectorAll('.travel-boking input[type="date"], .ke-form input[type="date"], .ke-td-book input[type="date"]').forEach(function (el) {
 			el.min = min;
 			el.setAttribute("autocomplete", "off");
+		});
+		document.querySelectorAll("form#dreamit-form .booking-button button[type='submit']").forEach(function (btn) {
+			btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Search';
 		});
 	});
 
@@ -291,77 +271,6 @@
 					}
 				}
 			} catch (err) {}
-
-			document.addEventListener("submit", function (e) {
-				var form = e.target;
-				if (!form || form.id !== "dreamit-form") return;
-				e.preventDefault();
-				var active = form.querySelector(".add-bg.active") || form;
-				var locationEl = active.querySelector('[name="location"], [name="children"], [name="pickup"]');
-				var activityEl = active.querySelector('[name="activity"], [name="place"], [name="vehicle"]');
-				var dateEl = active.querySelector('[name="arrive"]');
-				var groupEl = active.querySelector('[name="group"]');
-				var locVal = locationEl ? String(locationEl.value || "") : "";
-				var actVal = activityEl ? String(activityEl.value || "") : "";
-				var tab = document.querySelector(".bokking-tabs .tab.active");
-				var tabId = tab ? String(tab.getAttribute("data-tab") || "") : "";
-				var productId = PRODUCT[locVal] || PRODUCT[actVal] || "tour-cebu";
-				if (tabId === "hotel" || /van/i.test(tab ? tab.textContent : "")) {
-					productId = PRODUCT[actVal] || PRODUCT.van;
-				}
-				if (actVal === "transfer" || locVal === "transfer") {
-					productId = "transfer-airport";
-				}
-				var guests = "2";
-				if (groupEl && groupEl.value && groupEl.value !== "0") {
-					guests = /^\d+$/.test(groupEl.value) ? groupEl.value : String(groupEl.value).split("-")[0];
-				}
-				var vehicle = PRODUCT[actVal] && String(PRODUCT[actVal]).indexOf("van-") === 0 ? actVal : "";
-				var goCheckout = form.getAttribute("data-ke-checkout") === "1";
-				var notes = "";
-				if (activityEl && activityEl.tagName === "SELECT") {
-					var opt = activityEl.options[activityEl.selectedIndex];
-					notes = opt && activityEl.value ? String(opt.text || "").trim() : "";
-				}
-				var fields = {
-					csrf: data.csrf,
-					product_id: productId,
-					date: dateEl ? dateEl.value : "",
-					guests: guests,
-					vehicle: vehicle,
-					notes: notes
-				};
-				var next = goCheckout ? "/shop/checkout.php" : "/shop/cart.php";
-				if (!loggedIn()) {
-					goLogin({ fields: fields, next: next });
-					return;
-				}
-				postCart(fields, next);
-			});
-
-			function bindBookNow(wrap) {
-				var book = wrap.querySelector(".ke-book-now");
-				if (!book || book.dataset.keBound === "1") return;
-				book.dataset.keBound = "1";
-				book.addEventListener("click", function () {
-					wrap.closest("form").setAttribute("data-ke-checkout", "1");
-					if (wrap.querySelector("button[type='submit']")) {
-						wrap.querySelector("button[type='submit']").click();
-					}
-				});
-			}
-
-			document.querySelectorAll("form#dreamit-form .booking-button").forEach(function (wrap) {
-				if (!wrap.querySelector(".ke-book-now")) {
-					var sub = wrap.querySelector("button[type='submit']");
-					if (sub) sub.textContent = "Add to cart";
-					var extra = document.createElement("div");
-					extra.className = "ke-cart-extra";
-					extra.innerHTML = '<button type="button" class="ke-book-now">Book now</button>';
-					wrap.appendChild(extra);
-				}
-				bindBookNow(wrap);
-			});
 
 			document.addEventListener("click", function (e) {
 				var btn = e.target.closest("[data-ke-cart]");
