@@ -15,6 +15,9 @@ function store_cart_count(): int
 function store_cart_save(array $cart): void
 {
 	$_SESSION['cart'] = array_values($cart);
+	if (function_exists('store_persist_user_cart')) {
+		store_persist_user_cart();
+	}
 }
 
 function store_cart_add(array $item): string

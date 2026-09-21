@@ -163,6 +163,49 @@ function store_update_user(array $user): bool
 	return false;
 }
 
+function store_set_user_password(string $userId, string $password): bool
+{
+	if ($userId === '' || strlen($password) < 10) {
+		return false;
+	}
+	$hash = password_hash($password, PASSWORD_DEFAULT);
+	$db = store_db();
+	if ($db) {
+		$stmt = $db->prepare('UPDATE ke_users SET password_hash=? WHERE id=?');
+		return $stmt->execute([$hash, $userId]);
+	}
+	$users = store_users();
+	foreach ($users as $i => $row) {
+		if (($row['id'] ?? '') === $userId) {
+			$users[$i]['password_hash'] = $hash;
+			return store_write_json('users', $users);
+		}
+	}
+	return false;
+}
+
+function store_saved_cart(string $userId): array
+{
+	$meta = store_profile_meta($userId);
+	$cart = $meta['cart'] ?? [];
+	return is_array($cart) ? $cart : [];
+}
+
+function store_persist_user_cart(): void
+{
+	if (!function_exists('store_user')) {
+		return;
+	}
+	$user = store_user();
+	if (!$user) {
+		return;
+	}
+	$meta = store_profile_meta((string) $user['id']);
+	$meta['cart'] = function_exists('store_cart') ? store_cart() : [];
+	$meta['cart_updated'] = function_exists('store_now') ? store_now() : date('c');
+	store_save_profile_meta((string) $user['id'], $meta);
+}
+
 function store_find_user_email(string $email): ?array
 {
 	$email = strtolower(trim($email));

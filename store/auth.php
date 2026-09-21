@@ -18,6 +18,23 @@ function store_require_login(string $next = '/shop/checkout.php'): void
 	store_redirect('/account/login.php?next=' . rawurlencode($next));
 }
 
+function store_after_login(): void
+{
+	if (function_exists('store_cart_count') && store_cart_count() < 1 && function_exists('store_saved_cart')) {
+		$user = store_user();
+		if ($user) {
+			$saved = store_saved_cart((string) $user['id']);
+			if ($saved && function_exists('store_cart_save')) {
+				store_cart_save($saved);
+				return;
+			}
+		}
+	}
+	if (function_exists('store_persist_user_cart')) {
+		store_persist_user_cart();
+	}
+}
+
 function store_register(string $name, string $email, string $phone, string $password): string
 {
 	$name = trim($name);
@@ -47,6 +64,7 @@ function store_register(string $name, string $email, string $phone, string $pass
 	}
 	$_SESSION['store_user'] = $user['id'];
 	session_regenerate_id(true);
+	store_after_login();
 	return '';
 }
 
@@ -59,6 +77,7 @@ function store_login(string $email, string $password): string
 	}
 	$_SESSION['store_user'] = $user['id'];
 	session_regenerate_id(true);
+	store_after_login();
 	return '';
 }
 
@@ -80,6 +99,7 @@ function store_login_oauth(string $provider, array $profile): string
 		store_update_user($user);
 		$_SESSION['store_user'] = $user['id'];
 		session_regenerate_id(true);
+		store_after_login();
 		return '';
 	}
 	$user = [
@@ -97,6 +117,7 @@ function store_login_oauth(string $provider, array $profile): string
 	}
 	$_SESSION['store_user'] = $user['id'];
 	session_regenerate_id(true);
+	store_after_login();
 	return '';
 }
 
