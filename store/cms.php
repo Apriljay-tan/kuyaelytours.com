@@ -302,6 +302,55 @@ function ke_cms_faq_from_text(string $text): array
 	return $out;
 }
 
+function ke_cms_expect_from_post(array $post, array $files = []): array
+{
+	$titles = (array) ($post['expect_title'] ?? []);
+	$texts = (array) ($post['expect_text'] ?? []);
+	$imgs = (array) ($post['expect_img'] ?? []);
+	$count = max(count($titles), count($texts), count($imgs));
+	$out = [];
+	for ($i = 0; $i < $count; $i++) {
+		$img = trim((string) ($imgs[$i] ?? ''));
+		if (!empty($files['expect_file']['name'][$i])) {
+			$file = [
+				'name' => $files['expect_file']['name'][$i] ?? '',
+				'type' => $files['expect_file']['type'][$i] ?? '',
+				'tmp_name' => $files['expect_file']['tmp_name'][$i] ?? '',
+				'error' => $files['expect_file']['error'][$i] ?? UPLOAD_ERR_NO_FILE,
+				'size' => $files['expect_file']['size'][$i] ?? 0,
+			];
+			$up = ke_cms_upload($file);
+			if (!empty($up['ok']) && empty($up['video']) && isset($up['path'])) {
+				$img = (string) $up['path'];
+			}
+		}
+		$title = trim((string) ($titles[$i] ?? ''));
+		$text = trim((string) ($texts[$i] ?? ''));
+		if ($title === '' && $text === '' && $img === '') {
+			continue;
+		}
+		$out[] = ['title' => $title, 'text' => $text, 'img' => $img];
+	}
+	return $out;
+}
+
+function ke_cms_faq_from_post(array $post): array
+{
+	$qs = (array) ($post['faq_q'] ?? []);
+	$as = (array) ($post['faq_a'] ?? []);
+	$count = max(count($qs), count($as));
+	$out = [];
+	for ($i = 0; $i < $count; $i++) {
+		$q = trim((string) ($qs[$i] ?? ''));
+		$a = trim((string) ($as[$i] ?? ''));
+		if ($q === '' && $a === '') {
+			continue;
+		}
+		$out[] = ['q' => $q, 'a' => $a];
+	}
+	return $out;
+}
+
 function ke_cms_upload_dir(): string
 {
 	return STORE_SITE . '/assets/uploads';
