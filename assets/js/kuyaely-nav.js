@@ -336,3 +336,61 @@
 	s.defer = true;
 	(document.head || document.documentElement).appendChild(s);
 })();
+
+(function () {
+	function normPath(p) {
+		p = String(p || "/").split("?")[0].split("#")[0];
+		if (p.length > 1 && p.slice(-1) === "/") {
+			p = p.slice(0, -1);
+		}
+		p = p.replace(/\.html$/i, "");
+		if (p === "/index" || p === "") {
+			p = "/";
+		}
+		return p || "/";
+	}
+
+	function mark() {
+		var path = normPath(location.pathname);
+		document.querySelectorAll(".header-menu > ul.nav_scroll > li > a").forEach(function (a) {
+			var href = a.getAttribute("href") || "";
+			var parent = a.parentElement;
+			var on = false;
+			if (parent && parent.classList.contains("nav-more-dropdown")) {
+				on = path === "/galary" || path === "/permits";
+			} else {
+				var abs;
+				try {
+					abs = normPath(new URL(href, location.origin).pathname);
+				} catch (e) {
+					return;
+				}
+				if (abs === "/") {
+					on = path === "/";
+				} else if (abs === "/about") {
+					on = path === "/about" || path === "/our-story";
+				} else if (abs.indexOf("tours-and-packages") !== -1) {
+					on = path.indexOf("/tours") === 0 || /\/(cebu|bohol|siquijor|dumaguete)-tour$/.test(path);
+				} else if (abs === "/service") {
+					on = path === "/service";
+				} else if (abs === "/contact") {
+					on = path === "/contact";
+				} else {
+					on = path === abs;
+				}
+			}
+			if (on) {
+				a.setAttribute("aria-current", "page");
+				if (parent) {
+					parent.classList.add("is-current");
+				}
+			}
+		});
+	}
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", mark);
+	} else {
+		mark();
+	}
+})();

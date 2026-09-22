@@ -18,23 +18,38 @@
 }
 
 .brand-name {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
     font-family: var(--title-font);
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 400;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     line-height: 1;
     color: #fff;
     white-space: nowrap;
 }
 
+.header-logo .brand-name::after,
+.header-col-logo .brand-name::after {
+    content: "TOURS AND TRAVEL";
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    font-weight: 500;
+    line-height: 1;
+    opacity: 0.92;
+}
+
 .header-wrap--centered {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: 16px;
+    column-gap: 28px;
     --bs-gutter-x: 0;
     margin-left: 0;
     margin-right: 0;
+    padding: 6px 28px 0;
 }
 
 .header-wrap--centered > [class*="col-"] {
@@ -45,18 +60,28 @@
     padding-right: 0;
 }
 
-.header-col-nav {
-    min-width: 0;
+.header-col-logo {
+    order: 1;
+    justify-self: start;
+    text-align: left;
 }
 
-.header-col-logo {
-    justify-self: center;
-    text-align: center;
+.header-col-nav {
+    order: 2;
+    min-width: 0;
+    justify-self: start;
 }
 
 .header-col-actions {
+    order: 3;
     justify-self: end;
     min-width: 0;
+}
+
+.header-sidbar-button,
+.header-wrap--centered .header-sidbar-button,
+.navSidebar-button {
+    display: none !important;
 }
 
 .header-wrap--centered .header-menu {
@@ -69,16 +94,19 @@
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    gap: 4px;
+    gap: 4px 18px;
     margin: 0;
 }
 
 .header-wrap--centered .header-menu > ul.nav_scroll > li > a {
-    padding: 34px 8px;
-    font-size: 15px;
-    letter-spacing: 0.4px;
+    padding: 28px 2px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     line-height: 1.2;
     white-space: nowrap;
+    text-transform: uppercase;
+    position: relative;
 }
 .header-wrap--centered .header-menu > ul.nav_scroll > li > a .fa-chevron-down {
     margin-left: 6px;
@@ -170,8 +198,21 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.header-wrap--centered .header-menu > ul.nav_scroll > li > a[aria-current="page"] {
+.header-wrap--centered .header-menu > ul.nav_scroll > li > a[aria-current="page"],
+.header-wrap--centered .header-menu > ul.nav_scroll > li.is-current > a {
     color: #F5C518;
+}
+
+.header-wrap--centered .header-menu > ul.nav_scroll > li > a[aria-current="page"]::after,
+.header-wrap--centered .header-menu > ul.nav_scroll > li.is-current > a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 16px;
+    height: 3px;
+    background: #F5C518;
+    border-radius: 2px;
 }
 
 .preloader {
@@ -353,6 +394,26 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
 
 .header-call-info a:hover {
     color: var(--primary-color);
+}
+
+.header-call-info p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 8px;
+    row-gap: 2px;
+    margin: 0;
+}
+
+.header-call-info p::after {
+    content: "TRAVEL BETTER TOGETHER";
+    flex-basis: 100%;
+    padding-left: 32px;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: #F5C518;
+    font-family: var(--title-font);
+    line-height: 1;
 }
 
 .hero-section-1 .hero_content {
@@ -950,10 +1011,6 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
 
 @media (max-width: 1199px) {
     .header-call-info {
-        display: none;
-    }
-
-    .header-wrap--centered .header-sidbar-button {
         display: none;
     }
 }
@@ -1790,14 +1847,19 @@ img, video, iframe, svg {
 	font-weight: 500;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1100px) {
 	.header-right-wrapper:has(.ke-header-icons) .header-btn {
 		display: none;
 	}
 	.header-wrap--centered .header-menu > ul.nav_scroll > li > a {
-		padding: 26px 9px;
-		font-size: 15px;
-		letter-spacing: 0.4px;
+		padding: 22px 2px 18px;
+		font-size: 12px;
+		letter-spacing: 0.06em;
+	}
+	.header-wrap--centered {
+		column-gap: 16px;
+		padding-left: 16px;
+		padding-right: 16px;
 	}
 }
 
