@@ -10,13 +10,15 @@ if (!in_array($island, ['cebu', 'bohol', 'siquijor', 'dumaguete'], true)) {
 	store_redirect('/cebu-tour');
 }
 
+$previewToken = (string) ($_GET['preview'] ?? '');
 $meta = ke_island_meta($island);
 $packages = [];
 foreach (ke_tours() as $tour) {
 	if (($tour['island'] ?? '') !== $island) {
 		continue;
 	}
-	if (isset($tour['active']) && !$tour['active']) {
+	$listed = !isset($tour['active']) || $tour['active'];
+	if (!$listed && !ke_package_preview_ok($tour, $previewToken)) {
 		continue;
 	}
 	$packages[] = $tour;
@@ -109,6 +111,9 @@ ob_start();
 
 	<div class="tour__section style__two">
 		<div class="container">
+			<?php if ($previewToken !== ''): ?>
+			<p class="ke-preview-bar">Preview — unpublished packages in this list are visible only with this link. <a href="/admin/packages.php">Back to packages</a></p>
+			<?php endif; ?>
 			<div class="tour-dest-tabs" role="tablist">
 				<?php foreach ($meta['tabs'] as $i => $tab): ?>
 					<a<?= $i === 0 ? ' class="is-active"' : '' ?> href="#ke-cat-grid" data-area="<?= $h((string) $tab[0]) ?>"><?= $h((string) $tab[1]) ?></a>
@@ -117,8 +122,12 @@ ob_start();
 			<div class="ke-cat-grid" id="ke-cat-grid">
 				<?php foreach ($packages as $pkg):
 					$href = '/tours/' . $pkg['slug'];
-					$img = (string) (($pkg['images'][0] ?? '') ?: $meta['hero']);
+					if ($previewToken !== '') {
+						$href .= '?preview=' . rawurlencode($previewToken);
+					}
+					$img = ke_package_cover($pkg, (string) $meta['hero']);
 					$sku = ke_package_cart_id($pkg);
+					$teaser = ke_package_teaser($pkg);
 					?>
 				<article class="ke-cat-card" data-area="<?= $h((string) ($pkg['area'] ?? 'all')) ?>" data-ke-href="<?= $h($href) ?>">
 					<a class="ke-cat-photo" href="<?= $h($href) ?>">
@@ -132,6 +141,9 @@ ob_start();
 							<span><i class="fa-regular fa-clock"></i> <?= $h((string) ($pkg['duration'] ?? '1 Day')) ?></span>
 							<span class="ke-cat-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><em>(<?= $h((string) ($pkg['rating'] ?? '5.0')) ?>)</em></span>
 						</div>
+						<?php if ($teaser !== ''): ?>
+							<p class="ke-cat-from"><?= $h($teaser) ?></p>
+						<?php endif; ?>
 						<p><?= $h((string) ($pkg['lead'] ?? '')) ?></p>
 						<div class="ke-cat-actions">
 							<a href="<?= $h($href) ?>">View Details</a>
@@ -195,7 +207,7 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=18" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=19" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $html);

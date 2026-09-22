@@ -684,6 +684,21 @@
     font-size: 14px;
     line-height: 1.55;
 }
+.ke-cat-from {
+    margin: 0 0 8px !important;
+    color: #F5C518 !important;
+    font-weight: 700;
+    font-size: 15px;
+}
+.ke-preview-bar {
+    background: #F5C518;
+    color: #122033;
+    text-align: center;
+    padding: 10px 16px;
+    font-weight: 600;
+    margin: 0 0 18px;
+}
+.ke-preview-bar a { color: #122033; text-decoration: underline; }
 
 .ke-cat-actions {
     display: flex;

@@ -49,6 +49,9 @@ Options -Indexes
 	# /tours/package-slug -> tour.php
 	RewriteRule ^tours/([a-z0-9-]+)/?$ /tour.php?p=$1 [L,QSA]
 
+	# Island catalog pages use CMS packages, not the old static HTML
+	RewriteRule ^(cebu|bohol|siquijor|dumaguete)-tour/?$ /island-tour.php?island=$1 [L,QSA]
+
 	# /about -> about.html
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f

@@ -403,6 +403,9 @@ function ke_package_normalize(array $row): array
 		'active' => array_key_exists('active', $row) ? (bool) $row['active'] : true,
 		'sort' => (int) ($row['sort'] ?? 0),
 		'price_from' => (int) ($row['price_from'] ?? 0),
+		'price_teaser' => trim((string) ($row['price_teaser'] ?? '')),
+		'cover' => trim((string) ($row['cover'] ?? '')),
+		'preview_token' => preg_replace('/[^a-f0-9]/', '', (string) ($row['preview_token'] ?? '')) ?: '',
 		'video_url' => (string) ($row['video_url'] ?? ''),
 		'images' => array_values(array_filter((array) ($row['images'] ?? []))),
 		'pickups' => array_values(array_filter(array_map('strval', (array) ($row['pickups'] ?? [])))),
@@ -412,6 +415,38 @@ function ke_package_normalize(array $row): array
 		'age_child' => (string) ($row['age_child'] ?? '3 years old'),
 	]);
 	return $merged;
+}
+
+function ke_package_cover(array $tour, string $fallback = ''): string
+{
+	$cover = trim((string) ($tour['cover'] ?? ''));
+	if ($cover !== '') {
+		return $cover;
+	}
+	$first = trim((string) (($tour['images'][0] ?? '') ?: $fallback));
+	return $first;
+}
+
+function ke_package_teaser(array $tour): string
+{
+	$custom = trim((string) ($tour['price_teaser'] ?? ''));
+	if ($custom !== '') {
+		return $custom;
+	}
+	$price = ke_package_price($tour);
+	if ($price < 1) {
+		return '';
+	}
+	return 'From ₱' . number_format($price) . ' / pax';
+}
+
+function ke_package_preview_ok(?array $tour, string $token): bool
+{
+	if (!$tour || $token === '') {
+		return false;
+	}
+	$known = (string) ($tour['preview_token'] ?? '');
+	return $known !== '' && hash_equals($known, $token);
 }
 
 function ke_package_price(array $tour): int

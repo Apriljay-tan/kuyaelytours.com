@@ -174,6 +174,9 @@ function ke_cms_save_package(array $pkg): bool
 	if ($pkg['slug'] === '') {
 		return false;
 	}
+	if ($pkg['preview_token'] === '') {
+		$pkg['preview_token'] = bin2hex(random_bytes(16));
+	}
 	$all = ke_cms_packages();
 	$found = false;
 	foreach ($all as $i => $row) {
@@ -222,7 +225,7 @@ function ke_cms_sync_catalog(array $pkg): void
 	if ($price < 1) {
 		$price = $islandPrice;
 	}
-	$image = (string) (($pkg['images'][0] ?? '') ?: ($island['image'] ?? '/assets/downloaded/dest-cebu.jpg'));
+	$image = ke_package_cover($pkg, (string) ($island['image'] ?? '/assets/downloaded/dest-cebu.jpg'));
 	$item = [
 		'id' => $id,
 		'type' => 'tour',

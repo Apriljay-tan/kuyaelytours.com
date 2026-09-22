@@ -10,7 +10,9 @@ if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
 }
 
 $tour = ke_tour($slug);
-if (!$tour || (isset($tour['active']) && !$tour['active'])) {
+$previewToken = (string) ($_GET['preview'] ?? '');
+$isPreview = ke_package_preview_ok($tour, $previewToken);
+if (!$tour || (isset($tour['active']) && !$tour['active'] && !$isPreview)) {
 	store_redirect('/cebu-tour');
 }
 
@@ -57,6 +59,9 @@ function ke_stars(): string
 
 ob_start();
 ?>
+	<?php if ($isPreview): ?>
+	<div class="ke-preview-bar">Preview only — this package is not published yet. <a href="/admin/package-edit.php?slug=<?= store_h($slug) ?>">Back to editor</a></div>
+	<?php endif; ?>
 	<section class="ke-td">
 		<div class="container">
 			<div class="ke-td-wrap">
@@ -364,7 +369,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=18" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=19" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $detailHtml);
