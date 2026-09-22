@@ -18,11 +18,18 @@ function store_db(): ?PDO
 		return null;
 	}
 	try {
+		$dsn = (string) $cfg['dsn'];
+		if (stripos($dsn, 'connect_timeout') === false) {
+			$dsn .= ';connect_timeout=3';
+		}
 		$pdo = new PDO(
-			(string) $cfg['dsn'],
+			$dsn,
 			(string) ($cfg['user'] ?? ''),
 			(string) ($cfg['pass'] ?? ''),
-			[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+			[
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+				PDO::ATTR_TIMEOUT => 3,
+			]
 		);
 		store_db_migrate($pdo);
 		store_db_seed_from_json($pdo);
@@ -771,8 +778,22 @@ function store_chat_channels_save(array $channels): bool
 function store_find_user_email(string $email): ?array
 {
 	$email = strtolower(trim($email));
-	foreach (store_users() as $user) {
-		if (strtolower((string) ($user['email'] ?? '')) === $email) {
+	if ($email === '') {
+		return null;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$st = $db->prepare('SELECT * FROM ke_users WHERE email = ? LIMIT 1');
+			$st->execute([$email]);
+			$row = $st->fetch(PDO::FETCH_ASSOC);
+			return $row ?: null;
+		} catch (Throwable $e) {
+			return null;
+		}
+	}
+	foreach (store_read_json('users') as $user) {
+		if (is_array($user) && strtolower((string) ($user['email'] ?? '')) === $email) {
 			return $user;
 		}
 	}
@@ -781,8 +802,24 @@ function store_find_user_email(string $email): ?array
 
 function store_find_user_oauth(string $provider, string $oauthId): ?array
 {
-	foreach (store_users() as $user) {
-		if (($user['oauth_provider'] ?? '') === $provider && (string) ($user['oauth_id'] ?? '') === $oauthId) {
+	$provider = trim($provider);
+	$oauthId = trim($oauthId);
+	if ($provider === '' || $oauthId === '') {
+		return null;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$st = $db->prepare('SELECT * FROM ke_users WHERE oauth_provider = ? AND oauth_id = ? LIMIT 1');
+			$st->execute([$provider, $oauthId]);
+			$row = $st->fetch(PDO::FETCH_ASSOC);
+			return $row ?: null;
+		} catch (Throwable $e) {
+			return null;
+		}
+	}
+	foreach (store_read_json('users') as $user) {
+		if (is_array($user) && ($user['oauth_provider'] ?? '') === $provider && (string) ($user['oauth_id'] ?? '') === $oauthId) {
 			return $user;
 		}
 	}
@@ -791,8 +828,23 @@ function store_find_user_oauth(string $provider, string $oauthId): ?array
 
 function store_find_user_id(string $id): ?array
 {
-	foreach (store_users() as $user) {
-		if (($user['id'] ?? '') === $id) {
+	$id = trim($id);
+	if ($id === '') {
+		return null;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$st = $db->prepare('SELECT * FROM ke_users WHERE id = ? LIMIT 1');
+			$st->execute([$id]);
+			$row = $st->fetch(PDO::FETCH_ASSOC);
+			return $row ?: null;
+		} catch (Throwable $e) {
+			return null;
+		}
+	}
+	foreach (store_read_json('users') as $user) {
+		if (is_array($user) && ($user['id'] ?? '') === $id) {
 			return $user;
 		}
 	}

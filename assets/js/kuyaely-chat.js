@@ -668,7 +668,7 @@
 			.then(applyAccount)
 			.catch(function () {});
 
-		setInterval(pollChat, 1500);
+		setInterval(pollChat, 5000);
 		document.addEventListener("visibilitychange", function () {
 			if (!document.hidden) {
 				pollChat();

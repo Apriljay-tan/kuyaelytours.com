@@ -68,6 +68,8 @@ function ke_chat_rate_ok(): bool
 
 $method = strtoupper((string) ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
 if ($method === 'GET') {
+	store_csrf_token();
+	session_write_close();
 	echo json_encode(ke_chat_payload(ke_chat_current()));
 	exit;
 }
@@ -94,6 +96,8 @@ if (!ke_chat_rate_ok()) {
 	echo json_encode(['ok' => false, 'error' => 'Please wait a moment before sending another message.']);
 	exit;
 }
+
+session_write_close();
 
 $text = trim(strip_tags((string) ($_POST['text'] ?? '')));
 $text = preg_replace('/\s+/u', ' ', $text) ?? $text;

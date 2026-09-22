@@ -50,6 +50,21 @@ function store_create_booking(array $user, array $items, string $status, string 
 
 function store_user_bookings(string $userId): array
 {
+	$userId = trim($userId);
+	if ($userId === '') {
+		return [];
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$st = $db->prepare('SELECT * FROM ke_bookings WHERE user_id = ? ORDER BY created DESC');
+			$st->execute([$userId]);
+			$rows = $st->fetchAll(PDO::FETCH_ASSOC) ?: [];
+			return array_map('store_decode_booking_row', $rows);
+		} catch (Throwable $e) {
+			return [];
+		}
+	}
 	return array_values(array_filter(store_bookings(), static function ($row) use ($userId) {
 		return ($row['user_id'] ?? '') === $userId;
 	}));
