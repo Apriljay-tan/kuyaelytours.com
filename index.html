@@ -39,16 +39,16 @@
 	<link rel="stylesheet" href="assets/css/responsive.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/scroll-up.css" type="text/css" media="all">
-	<link rel="stylesheet" href="assets/css/kuyaely.css?v=ui49" type="text/css" media="all">
+	<link rel="stylesheet" href="assets/css/kuyaely.css?v=ui54" type="text/css" media="all">
 	<style>
 		.preloader { animation: ke-preloader-hide 0.35s ease 0.35s forwards !important; }
 		@keyframes ke-preloader-hide { to { opacity: 0; visibility: hidden; pointer-events: none; } }
 	</style>
-	<script src="assets/js/kuyaely-nav.js?v=21"></script>
+	<script src="assets/js/kuyaely-nav.js?v=22"></script>
 
 </head>
 
-<body>
+<body class="ke-home">
 
 	<!-- ========= Prealoader ==============-->
 	<div class="preloader">
@@ -155,7 +155,10 @@
 			<div class="mobile-logo">
 				<a class="brand-lockup" href="index.html" title="Kuya Ely Tours">
 					<img src="assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours and Transport Services">
-					<span class="brand-name">KUYA ELY</span>
+					<span class="brand-text">
+						<span class="brand-name">KUYA ELY</span>
+						<span class="brand-sub">Tours and Transport Services</span>
+					</span>
 				</a>
 			</div>
 			<nav class="header-menu">
@@ -257,6 +260,13 @@
 							<span>Travel with Kuya Ely</span>
 							<h1 class="text-anime-3">ADVENTURE</h1>
 						</div>
+						<div class="ke-m-only ke-mhero">
+							<p class="ke-mhero-kicker">Travel with Kuya Ely</p>
+							<h1>Cebu, Bohol,<br>Siquijor &amp;<br>Dumaguete <span>Tours</span></h1>
+							<p class="ke-mhero-lead">Explore more. Travel easier. Create unforgettable memories with Kuya Ely.</p>
+						</div>
+						<p class="ke-m-only ke-mhero-script ke-mhero-script-l">Same Places<br>Bigger Stories</p>
+						<p class="ke-m-only ke-mhero-script ke-mhero-script-r">Travel<br>More Together!</p>
 
 						<!-- hero jurny contnet -->
 						<div class="hero-journey-box">
@@ -295,6 +305,47 @@
 	<!--==================================================-->
 	<!-- End Travelik Hero section one -->
 	<!--==================================================-->
+
+	<div class="ke-m-only ke-mhome">
+		<section class="ke-mfind" aria-label="Find your next adventure">
+			<h2><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Find Your Next Adventure</h2>
+			<form class="ke-mfind-search" action="/search-tours.php" method="get" role="search">
+				<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+				<input type="search" name="q" placeholder="Search tours, destinations..." aria-label="Search tours">
+			</form>
+			<a class="ke-mfind-btn" href="#tour-packages">SEE TOUR PACKAGES <span aria-hidden="true">→</span></a>
+		</section>
+		<nav class="ke-mtiles" aria-label="Quick links">
+			<a href="/tours-and-packages.php">
+				<span class="ke-mtile-icon"><i class="fa-solid fa-route"></i></span>
+				<span>Tour Packages</span>
+			</a>
+			<a href="service.html">
+				<span class="ke-mtile-icon"><i class="fa-solid fa-car"></i></span>
+				<span>Car Rental</span>
+			</a>
+			<a href="contact.html">
+				<span class="ke-mtile-icon"><i class="fa-solid fa-phone"></i></span>
+				<span>Contact Us</span>
+			</a>
+			<a href="about.html">
+				<span class="ke-mtile-icon"><i class="fa-solid fa-ellipsis"></i></span>
+				<span>More Services</span>
+			</a>
+		</nav>
+		<section class="ke-mwhy">
+			<div class="ke-mwhy-mark" aria-hidden="true">
+				<svg viewBox="0 0 88 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M2 32L22 12L36 26L52 6L86 32" stroke="#F5C518" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+					<circle cx="64" cy="8" r="6" stroke="#F5C518" stroke-width="2.5"/>
+					<path d="M64 2V0M70.2 4.2L71.6 2.8M72 10H74M70.2 15.8L71.6 17.2M64 18V16M57.8 15.8L56.4 17.2M56 10H54M57.8 4.2L56.4 2.8" stroke="#F5C518" stroke-width="2" stroke-linecap="round"/>
+				</svg>
+			</div>
+			<h2>Why Travel<br>With Kuya Ely?</h2>
+			<p>Local knowledge. Reliable service. Unforgettable journeys.</p>
+			<span class="ke-mwhy-rule"></span>
+		</section>
+	</div>
 
 
 	<!--==================================================-->

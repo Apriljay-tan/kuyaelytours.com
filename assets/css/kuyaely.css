@@ -2491,3 +2491,404 @@ html {
 		display: none;
 	}
 }
+
+/* ========== Homepage mobile layout (phones / small tablets). Desktop unchanged. ========== */
+.ke-m-only {
+	display: none !important;
+}
+
+@media (max-width: 1079px) {
+	body.ke-home .ke-mhero,
+	body.ke-home .ke-mhero-script,
+	body.ke-home .ke-mhome {
+		display: block !important;
+	}
+	body.ke-home .ke-mtiles {
+		display: grid !important;
+	}
+
+	/* Phase 1 — header */
+	body.ke-home .mobile-menu-area {
+		background: #122327;
+		border-bottom: 0;
+		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+	}
+	body.ke-home .mobile-logo {
+		left: 14px;
+		top: 12px;
+		right: 150px;
+	}
+	body.ke-home .mobile-logo .brand-lockup {
+		gap: 8px;
+	}
+	body.ke-home .mobile-logo .brand-lockup img {
+		width: 42px;
+		height: 42px;
+		border: 2px solid #F5C518;
+	}
+	body.ke-home .mobile-logo .brand-text {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		min-width: 0;
+	}
+	body.ke-home .mobile-logo .brand-name {
+		display: block;
+		font-size: 22px;
+		letter-spacing: 0.06em;
+		color: #fff;
+		line-height: 1;
+	}
+	body.ke-home .mobile-logo .brand-sub {
+		display: block;
+		font-family: var(--text-font);
+		font-size: 9px;
+		font-weight: 500;
+		letter-spacing: 0.01em;
+		color: rgba(255, 255, 255, 0.72);
+		white-space: nowrap;
+		line-height: 1.2;
+	}
+	body.ke-home .mean-container a.meanmenu-reveal {
+		width: auto;
+		height: auto;
+		padding: 8px 4px;
+		border: 0;
+		border-radius: 0;
+		background: transparent !important;
+		right: 14px !important;
+		top: 18px !important;
+		gap: 5px;
+	}
+	body.ke-home .mean-container a.meanmenu-reveal span {
+		width: 22px;
+		height: 2.5px;
+		background: #F5C518;
+	}
+	body.ke-home .mobile-menu .ke-header-icons.is-mobile {
+		right: 52px;
+		top: 14px;
+		gap: 6px;
+	}
+	body.ke-home .mobile-menu .ke-icon-btn {
+		width: 40px;
+		height: 40px;
+		border: 0;
+		background: transparent;
+		color: #F5C518 !important;
+	}
+	body.ke-home .mobile-menu .ke-icon-btn:hover {
+		background: transparent;
+	}
+	body.ke-home .mobile-menu .ke-cart-count {
+		background: #e11d2e;
+		color: #fff;
+	}
+
+	/* Phase 2 — hero */
+	body.ke-home .hero-section-1 {
+		position: relative;
+		height: auto !important;
+		min-height: 0 !important;
+		padding: 76px 0 0 !important;
+		align-items: flex-start !important;
+		overflow: visible !important;
+	}
+	body.ke-home .hero-section-1 .auto-container,
+	body.ke-home .hero-section-1 .row,
+	body.ke-home .hero-section-1 [class*="col-"] {
+		width: 100%;
+		max-width: none;
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	body.ke-home .hero-wrapper {
+		display: block;
+		position: relative;
+		min-height: 70vh;
+		min-height: 620px;
+		overflow: visible;
+	}
+	body.ke-home .hero-section-1 .hero_content {
+		display: none !important;
+	}
+	body.ke-home .hero-section-1 .hero-journey-box {
+		display: none !important;
+	}
+	body.ke-home .ke-mhero {
+		position: relative;
+		z-index: 4;
+		text-align: left;
+		padding: 6px 18px 0;
+		max-width: 100%;
+		pointer-events: none;
+	}
+	body.ke-home .ke-mhero-kicker {
+		margin: 0 0 6px;
+		font-family: var(--style-font);
+		font-style: italic;
+		font-size: 22px;
+		letter-spacing: 1px;
+		color: #F5C518;
+		line-height: 1;
+	}
+	body.ke-home .ke-mhero h1 {
+		margin: 0;
+		font-family: var(--title-font);
+		font-size: clamp(42px, 13vw, 56px);
+		line-height: 0.88;
+		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		color: #fff;
+		font-weight: 400;
+	}
+	body.ke-home .ke-mhero h1 span {
+		color: #F5C518;
+	}
+	body.ke-home .ke-mhero-lead {
+		margin: 12px 0 0;
+		max-width: 240px;
+		font-family: var(--text-font);
+		font-size: 13.5px;
+		font-weight: 500;
+		line-height: 1.45;
+		color: rgba(255, 255, 255, 0.9);
+	}
+	body.ke-home .hero-thumb {
+		order: unset;
+		position: absolute !important;
+		left: 50% !important;
+		right: auto !important;
+		top: 198px !important;
+		bottom: auto !important;
+		transform: translateX(-50%);
+		width: 100%;
+		max-width: none !important;
+		margin: 0;
+		z-index: 1;
+		pointer-events: none;
+	}
+	body.ke-home .hero-thumb img {
+		width: 100% !important;
+		max-width: none !important;
+		height: auto !important;
+		display: block;
+		filter: none;
+	}
+	body.ke-home .hero-section-1 .hero-plane {
+		display: block !important;
+		position: absolute;
+		top: 108px;
+		right: 8px;
+		width: 96px;
+		z-index: 3;
+		pointer-events: none;
+	}
+	body.ke-home .hero-section-1 .hero-plane img {
+		width: 100%;
+		height: auto;
+	}
+	body.ke-home .hero-section-1 .arrow-shape {
+		display: none !important;
+	}
+	body.ke-home .ke-mhero-script {
+		position: absolute;
+		z-index: 3;
+		margin: 0;
+		font-family: var(--style-font);
+		font-style: italic;
+		color: rgba(255, 255, 255, 0.94);
+		line-height: 1.15;
+		text-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+		pointer-events: none;
+	}
+	body.ke-home .ke-mhero-script-l {
+		left: 12px;
+		top: auto;
+		bottom: 22%;
+		font-size: 16px;
+		transform: rotate(-12deg);
+	}
+	body.ke-home .ke-mhero-script-r {
+		right: 10px;
+		top: 50%;
+		font-size: 17px;
+		text-align: right;
+		transform: rotate(12deg);
+		color: #F5C518;
+	}
+
+	/* Phase 3 — find card overlaps the subject */
+	body.ke-home .bokking-tabs,
+	body.ke-home .travel-boking {
+		display: none !important;
+	}
+	body.ke-home .destination-section {
+		padding-top: 8px !important;
+		margin-top: 0 !important;
+		background: #122327 !important;
+		background-image: none !important;
+	}
+	body.ke-home .ke-mhome {
+		position: relative;
+		z-index: 6;
+		margin: -168px 0 0;
+		padding: 0 16px 28px;
+		background: linear-gradient(180deg, rgba(18, 35, 39, 0) 0, rgba(18, 35, 39, 0) 48px, #122327 140px);
+	}
+	body.ke-home .ke-mfind {
+		background: #16343a;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-radius: 22px;
+		padding: 18px 16px 16px;
+		box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+	}
+	body.ke-home .ke-mfind h2 {
+		margin: 0 0 12px;
+		font-family: var(--text-font);
+		font-size: 16px;
+		font-weight: 700;
+		color: #fff;
+		letter-spacing: 0;
+		text-transform: none;
+	}
+	body.ke-home .ke-mfind h2 i {
+		color: #F5C518;
+		margin-right: 6px;
+	}
+	body.ke-home .ke-mfind-search {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		height: 48px;
+		padding: 0 16px;
+		border-radius: 14px;
+		background: #fff;
+		margin-bottom: 12px;
+	}
+	body.ke-home .ke-mfind-search i {
+		color: #8a9aa0;
+		font-size: 14px;
+	}
+	body.ke-home .ke-mfind-search input {
+		width: 100%;
+		border: 0;
+		outline: 0;
+		background: transparent;
+		font-family: var(--text-font);
+		font-size: 14px;
+		color: #122327;
+		min-width: 0;
+	}
+	body.ke-home .ke-mfind-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		height: 48px;
+		border-radius: 999px;
+		background: #F5C518;
+		color: #122327 !important;
+		font-family: var(--text-font);
+		font-size: 14px;
+		font-weight: 800;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		text-decoration: none !important;
+		box-shadow: 0 8px 18px rgba(245, 197, 24, 0.28);
+	}
+
+	/* Phase 4 — quick tiles */
+	body.ke-home .ke-mtiles {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 8px;
+		margin: 12px 0 8px;
+	}
+	body.ke-home .ke-mtiles a {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		min-height: 92px;
+		padding: 12px 6px 10px;
+		border-radius: 16px;
+		background: #16343a;
+		border: 1px solid rgba(255, 255, 255, 0.08);
+		color: #fff !important;
+		text-decoration: none !important;
+		text-align: center;
+		font-family: var(--text-font);
+		font-size: 11px;
+		font-weight: 600;
+		line-height: 1.2;
+	}
+	body.ke-home .ke-mtile-icon {
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #F5C518;
+		font-size: 20px;
+	}
+
+	/* Phase 5 — why travel */
+	body.ke-home .ke-mwhy {
+		text-align: center;
+		padding: 28px 10px 8px;
+	}
+	body.ke-home .ke-mwhy-mark {
+		width: 88px;
+		height: 40px;
+		margin: 0 auto 10px;
+	}
+	body.ke-home .ke-mwhy-mark svg {
+		width: 100%;
+		height: 100%;
+	}
+	body.ke-home .ke-mwhy h2 {
+		margin: 0;
+		font-family: var(--title-font);
+		font-size: clamp(32px, 9vw, 42px);
+		line-height: 0.95;
+		letter-spacing: 0.03em;
+		text-transform: uppercase;
+		color: #fff;
+		font-weight: 400;
+	}
+	body.ke-home .ke-mwhy p {
+		margin: 10px 0 12px;
+		font-family: var(--text-font);
+		font-size: 13px;
+		font-weight: 500;
+		color: rgba(255, 255, 255, 0.72);
+	}
+	body.ke-home .ke-mwhy-rule {
+		display: block;
+		width: 48px;
+		height: 3px;
+		margin: 0 auto;
+		background: #F5C518;
+		border-radius: 2px;
+	}
+	body.ke-home .ke-chat {
+		display: none !important;
+	}
+}
+
+@media (max-width: 420px) {
+	body.ke-home .mobile-logo .brand-name {
+		display: block;
+		font-size: 20px;
+	}
+	body.ke-home .mobile-logo .brand-sub {
+		font-size: 8px;
+	}
+	body.ke-home .ke-mtiles a {
+		font-size: 10px;
+		min-height: 84px;
+	}
+}
