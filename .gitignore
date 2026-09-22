@@ -23,4 +23,12 @@ store/data/packages.json
 assets/uploads/
 
 store/data/chats.json
+store/data/chat_channels.json*.key
+*.pem
+*.p12
+*.pfx
+*.bak
+*.bak-*
+.logs/
 store/data/chat_channels.json
+*.key

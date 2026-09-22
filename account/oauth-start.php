@@ -13,6 +13,9 @@ if (!store_oauth_enabled($provider)) {
 	store_redirect($login . '&err=social_setup');
 }
 
+if ($provider === 'facebook') {
+	unset($_SESSION['facebook_completion']);
+}
 $state = bin2hex(random_bytes(16));
 $_SESSION['oauth_state'] = $state;
 $_SESSION['oauth_provider'] = $provider;

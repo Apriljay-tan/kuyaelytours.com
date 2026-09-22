@@ -28,6 +28,10 @@ function store_db(): ?PDO
 		store_db_seed_from_json($pdo);
 		return $pdo;
 	} catch (Throwable $e) {
+		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
+		if (function_exists('store_fb_debug_exception')) {
+			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
+		}
 		$pdo = null;
 		return null;
 	}
@@ -38,7 +42,7 @@ function store_db_migrate(PDO $pdo): void
 	$pdo->exec('CREATE TABLE IF NOT EXISTS ke_users (
 		id VARCHAR(32) PRIMARY KEY,
 		name VARCHAR(140) NOT NULL,
-		email VARCHAR(190) NOT NULL UNIQUE,
+		email VARCHAR(190) NULL UNIQUE,
 		phone VARCHAR(40) NOT NULL DEFAULT "",
 		password_hash VARCHAR(255) NOT NULL,
 		oauth_provider VARCHAR(40) NOT NULL DEFAULT "",
@@ -87,6 +91,10 @@ function store_db_migrate(PDO $pdo): void
 			created VARCHAR(32) NOT NULL
 		)');
 	} catch (Throwable $e) {
+		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
+		if (function_exists('store_fb_debug_exception')) {
+			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
+		}
 		// Keep bookings/users online if chat tables cannot be created.
 	}
 }
@@ -96,6 +104,10 @@ function store_db_seed_from_json(PDO $pdo): void
 	try {
 		$n = (int) $pdo->query('SELECT COUNT(*) FROM ke_users')->fetchColumn();
 	} catch (Throwable $e) {
+		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
+		if (function_exists('store_fb_debug_exception')) {
+			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
+		}
 		return;
 	}
 	if ($n > 0) {
@@ -189,6 +201,10 @@ function store_db_seed_from_json(PDO $pdo): void
 		}
 		$pdo->commit();
 	} catch (Throwable $e) {
+		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
+		if (function_exists('store_fb_debug_exception')) {
+			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
+		}
 		if ($pdo->inTransaction()) {
 			$pdo->rollBack();
 		}

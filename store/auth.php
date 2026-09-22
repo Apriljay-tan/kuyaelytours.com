@@ -83,25 +83,66 @@ function store_login(string $email, string $password): string
 
 function store_login_oauth(string $provider, array $profile): string
 {
+	if ($provider === 'facebook') {
+		require_once __DIR__ . '/facebook.php';
+		return store_login_facebook($profile);
+	}
+	// TEMPORARY FB DEBUG: observe failures without changing login decisions.
+	store_fb_debug_stage('ACCOUNT_LINKING');
 	$id = (string) ($profile['id'] ?? '');
 	$email = strtolower(trim((string) ($profile['email'] ?? '')));
 	$name = trim((string) ($profile['name'] ?? ''));
 	if ($id === '' || $email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		store_fb_debug('[FAIL] ACCOUNT_LINKING INVALID_PROFILE');
+		store_fb_debug('EMAIL_VALID=' . (filter_var($email, FILTER_VALIDATE_EMAIL) ? 'YES' : 'NO'));
 		return 'Could not read that social account.';
 	}
-	$user = store_find_user_oauth($provider, $id) ?? store_find_user_email($email);
+	store_fb_debug_stage('DATABASE');
+	$oauthUser = store_find_user_oauth($provider, $id);
+	$user = $oauthUser ?? store_find_user_email($email);
+	store_fb_debug('OAUTH_USER_FOUND=' . ($oauthUser ? 'YES' : 'NO'));
+	if (defined('STORE_FB_DEBUG') && STORE_FB_DEBUG) {
+		// The original lookup skips email when an OAuth link already exists.
+		// This extra read is diagnostic only and must not change account choice.
+		try {
+			$emailUser = $oauthUser !== null ? store_find_user_email($email) : $user;
+			store_fb_debug('EXISTING_USER=' . ($emailUser ? 'YES' : 'NO'));
+		} catch (Throwable $e) {
+			store_fb_debug('EXISTING_USER=UNKNOWN');
+			store_fb_debug_exception($e, 'DATABASE EMAIL_LOOKUP_DIAGNOSTIC');
+		}
+		store_fb_debug('STORAGE_BACKEND=' . (store_db() ? 'PDO' : 'JSON'));
+	}
 	if ($user) {
 		$user['oauth_provider'] = $provider;
 		$user['oauth_id'] = $id;
 		if ($name !== '' && trim((string) ($user['name'] ?? '')) === '') {
 			$user['name'] = $name;
 		}
-		store_update_user($user);
+		store_fb_debug_stage('ACCOUNT_LINKING');
+		store_fb_debug('DATABASE_OPERATION=UPDATE_LINK');
+		$updated = store_update_user($user);
+		store_fb_debug('DATABASE_SUCCESS=' . ($updated ? 'YES' : 'NO'));
+		if (!$updated) {
+			store_fb_debug('[FAIL] DATABASE UPDATE');
+			store_fb_debug('[FAIL] ACCOUNT_LINKING');
+		}
+		// Existing behavior deliberately preserved: update failure does not abort.
+		store_fb_debug_stage('LOGIN_SESSION');
 		$_SESSION['store_user'] = $user['id'];
-		session_regenerate_id(true);
+		$regenerated = session_regenerate_id(true);
+		store_fb_debug('SESSION_REGENERATED=' . ($regenerated ? 'YES' : 'NO'));
+		$sessionCreated = session_status() === PHP_SESSION_ACTIVE && !empty($_SESSION['store_user']) && $_SESSION['store_user'] === $user['id'];
+		store_fb_debug('LOGIN_SESSION_CREATED=' . ($sessionCreated ? 'YES' : 'NO'));
+		if (!$regenerated || !$sessionCreated) {
+			store_fb_debug('[FAIL] LOGIN_SESSION');
+		}
+		store_fb_debug_stage('AFTER_LOGIN');
 		store_after_login();
+		store_fb_debug('AFTER_LOGIN_SUCCESS=YES');
 		return '';
 	}
+	store_fb_debug_stage('ACCOUNT_CREATION');
 	$user = [
 		'id' => store_id(),
 		'name' => $name !== '' ? $name : explode('@', $email)[0],
@@ -112,12 +153,26 @@ function store_login_oauth(string $provider, array $profile): string
 		'oauth_id' => $id,
 		'created' => store_now(),
 	];
+	store_fb_debug_stage('DATABASE');
+	store_fb_debug('DATABASE_OPERATION=INSERT');
 	if (!store_save_user($user)) {
+		store_fb_debug('DATABASE_SUCCESS=NO');
+		store_fb_debug('[FAIL] DATABASE INSERT');
 		return 'Could not save the account. Please try again.';
 	}
+	store_fb_debug('DATABASE_SUCCESS=YES');
+	store_fb_debug_stage('LOGIN_SESSION');
 	$_SESSION['store_user'] = $user['id'];
-	session_regenerate_id(true);
+	$regenerated = session_regenerate_id(true);
+	store_fb_debug('SESSION_REGENERATED=' . ($regenerated ? 'YES' : 'NO'));
+	$sessionCreated = session_status() === PHP_SESSION_ACTIVE && !empty($_SESSION['store_user']) && $_SESSION['store_user'] === $user['id'];
+	store_fb_debug('LOGIN_SESSION_CREATED=' . ($sessionCreated ? 'YES' : 'NO'));
+	if (!$regenerated || !$sessionCreated) {
+		store_fb_debug('[FAIL] LOGIN_SESSION');
+	}
+	store_fb_debug_stage('AFTER_LOGIN');
 	store_after_login();
+	store_fb_debug('AFTER_LOGIN_SUCCESS=YES');
 	return '';
 }
 

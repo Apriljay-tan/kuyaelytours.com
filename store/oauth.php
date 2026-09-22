@@ -1,6 +1,55 @@
 <?php
 declare(strict_types=1);
 
+// TEMPORARY FB DEBUG: remove these helpers and their call sites after diagnosis.
+function store_fb_debug(string $message): void
+{
+	if (defined('STORE_FB_DEBUG') && STORE_FB_DEBUG) {
+		error_log('[FB DEBUG]' . (strpos($message, '[FAIL]') === 0 ? '' : ' ') . $message);
+	}
+}
+
+function store_fb_debug_stage(string $stage = ''): string
+{
+	static $current = 'CALLBACK';
+	if ($stage !== '') {
+		$current = $stage;
+	}
+	return $current;
+}
+
+function store_fb_debug_secrets(array $values = []): array
+{
+	static $secrets = [];
+	if (defined('STORE_FB_DEBUG') && STORE_FB_DEBUG) {
+		foreach ($values as $value) {
+			if (is_string($value) && $value !== '') {
+				$secrets[] = $value;
+				$secrets[] = rawurlencode($value);
+				$secrets[] = urlencode($value);
+			}
+		}
+	}
+	return $secrets;
+}
+
+function store_fb_debug_exception(Throwable $e, string $stage = ''): void
+{
+	if (!defined('STORE_FB_DEBUG') || !STORE_FB_DEBUG) {
+		return;
+	}
+	$secrets = store_fb_debug_secrets([session_id()]);
+	$message = str_replace($secrets, '[REDACTED]', $e->getMessage());
+	// Never emit request URLs, query strings, or credential-labelled values.
+	$message = preg_replace('~https?://[^\s<>]+~i', '[URL REDACTED]', $message) ?? '[REDACTED]';
+	$message = preg_replace('~\b(client_secret|app_secret|access_token|code|state|PHPSESSID)\b["\x27]?\s*[:=]\s*[^\s,;]+~i', '$1=[REDACTED]', $message) ?? '[REDACTED]';
+	store_fb_debug('[FAIL] ' . ($stage !== '' ? $stage : store_fb_debug_stage()) . ' EXCEPTION=' . json_encode([
+		'message' => $message,
+		'file' => str_replace($secrets, '[REDACTED]', $e->getFile()),
+		'line' => $e->getLine(),
+	], JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE));
+}
+
 function store_oauth_config(): array
 {
 	static $cfg = null;
@@ -130,23 +179,35 @@ function store_oauth_google(string $code): ?array
 
 function store_oauth_facebook(string $code): ?array
 {
+	store_fb_debug_stage('TOKEN_EXCHANGE');
 	$cfg = store_oauth_config()['facebook'] ?? [];
+	store_fb_debug_secrets([$code, (string) ($cfg['client_secret'] ?? '')]);
 	$url = 'https://graph.facebook.com/v19.0/oauth/access_token?' . http_build_query([
 		'client_id' => (string) ($cfg['client_id'] ?? ''),
 		'client_secret' => (string) ($cfg['client_secret'] ?? ''),
 		'redirect_uri' => store_oauth_redirect_uri(),
 		'code' => $code,
 	]);
-	$token = store_http_get($url);
+	$token = store_http_get($url, 'TOKEN');
 	$access = (string) ($token['access_token'] ?? '');
+	store_fb_debug_secrets([$access]);
+	store_fb_debug('TOKEN_RECEIVED=' . ($access !== '' ? 'YES' : 'NO'));
 	if ($access === '') {
+		store_fb_debug('[FAIL] TOKEN_EXCHANGE');
 		return null;
 	}
-	$info = store_http_get('https://graph.facebook.com/me?fields=id,name,email&access_token=' . rawurlencode($access));
+	store_fb_debug_stage('GRAPH_API');
+	$info = store_http_get('https://graph.facebook.com/me?fields=id,name,email&access_token=' . rawurlencode($access), 'GRAPH');
 	$email = strtolower(trim((string) ($info['email'] ?? '')));
 	$id = (string) ($info['id'] ?? '');
-	if ($email === '' || $id === '') {
+	store_fb_debug('FACEBOOK_ID=' . ($id !== '' ? 'YES' : 'NO'));
+	store_fb_debug('EMAIL_PRESENT=' . ($email !== '' ? 'YES' : 'NO'));
+	if ($id === '') {
+		store_fb_debug('[FAIL] FACEBOOK_ID_MISSING');
 		return null;
+	}
+	if ($email === '') {
+		store_fb_debug('EMAIL_COMPLETION_MAY_BE_REQUIRED=YES');
 	}
 	return [
 		'id' => $id,
@@ -297,9 +358,9 @@ function store_http_form(string $url, array $fields): array
 	]);
 }
 
-function store_http_get(string $url): array
+function store_http_get(string $url, string $debugStage = ''): array
 {
-	return store_http_request($url, []);
+	return store_http_request($url, [], $debugStage);
 }
 
 function store_http_bearer(string $url, string $token): array
@@ -309,9 +370,16 @@ function store_http_bearer(string $url, string $token): array
 	]);
 }
 
-function store_http_request(string $url, array $opts): array
+function store_http_request(string $url, array $opts, string $debugStage = ''): array
 {
+	// TEMPORARY: only Facebook callers supply a diagnostic stage.
+	$debug = defined('STORE_FB_DEBUG') && STORE_FB_DEBUG && in_array($debugStage, ['TOKEN', 'GRAPH'], true);
+	$failure = $debugStage === 'TOKEN' ? 'TOKEN_EXCHANGE' : 'GRAPH_API';
 	if (!function_exists('curl_init')) {
+		if ($debug) {
+			store_fb_debug($debugStage . '_HTTP=0');
+			store_fb_debug('[FAIL] ' . $failure . ' CURL_UNAVAILABLE');
+		}
 		return [];
 	}
 	$ch = curl_init($url);
@@ -322,10 +390,33 @@ function store_http_request(string $url, array $opts): array
 	];
 	curl_setopt_array($ch, $defaults + $opts);
 	$raw = curl_exec($ch);
+	if ($debug) {
+		$status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$errno = curl_errno($ch);
+		store_fb_debug($debugStage . '_HTTP=' . $status);
+		store_fb_debug($debugStage . '_CURL_ERRNO=' . $errno);
+		if ($errno !== 0 || $status < 200 || $status >= 300) {
+			store_fb_debug('[FAIL] ' . $failure . ' HTTP_OR_TRANSPORT');
+		}
+	}
 	curl_close($ch);
 	if (!is_string($raw) || $raw === '') {
+		if ($debug) {
+			store_fb_debug('[FAIL] ' . $failure . ' EMPTY_RESPONSE');
+		}
 		return [];
 	}
 	$data = json_decode($raw, true);
+	if ($debug) {
+		store_fb_debug($debugStage . '_RESPONSE_SUCCESS=' . ($status >= 200 && $status < 300 && $errno === 0 && is_array($data) && !isset($data['error']) ? 'YES' : 'NO'));
+		if (!is_array($data)) {
+			store_fb_debug('[FAIL] ' . $failure . ' INVALID_JSON');
+		} elseif (isset($data['error'])) {
+			// Numeric API error codes only; never log response bodies or tokens.
+			$apiError = is_array($data['error']) ? $data['error'] : [];
+			store_fb_debug('[FAIL] ' . $failure . ' API_ERROR_CODE=' . (int) ($apiError['code'] ?? 0)
+				. ' API_ERROR_SUBCODE=' . (int) ($apiError['error_subcode'] ?? 0));
+		}
+	}
 	return is_array($data) ? $data : [];
 }
