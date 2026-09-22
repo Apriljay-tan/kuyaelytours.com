@@ -1,16 +1,16 @@
 /* Kuya Ely Tours — public chat launcher */
 .ke-chat {
 	position: fixed;
-	right: 20px;
-	bottom: 20px;
+	right: max(16px, env(safe-area-inset-right, 0px));
+	bottom: max(16px, env(safe-area-inset-bottom, 0px));
 	z-index: 10050;
 	font-family: Inter, "Plus Jakarta Sans", Arial, sans-serif;
 	color: #122033;
 }
 
 body:has(.prgoress_indicator) .ke-chat {
-	right: 86px;
-	bottom: 28px;
+	right: max(16px, env(safe-area-inset-right, 0px));
+	bottom: calc(78px + env(safe-area-inset-bottom, 0px));
 }
 
 .ke-chat-launch {
@@ -434,6 +434,18 @@ body:has(.prgoress_indicator) .ke-chat {
 	color: #98a2b3 !important;
 }
 
+@media (max-width: 991px) {
+	.ke-chat {
+		right: 14px;
+		bottom: 14px;
+	}
+
+	body:has(.prgoress_indicator) .ke-chat {
+		right: 14px;
+		bottom: 80px;
+	}
+}
+
 @media (max-width: 480px) {
 	.ke-chat {
 		right: 12px;
@@ -442,7 +454,13 @@ body:has(.prgoress_indicator) .ke-chat {
 
 	body:has(.prgoress_indicator) .ke-chat {
 		right: 12px;
-		bottom: 84px;
+		bottom: 78px;
+	}
+
+	.ke-chat-panel {
+		width: calc(100vw - 16px);
+		max-height: calc(100vh - 96px);
+		right: -4px;
 	}
 }
 

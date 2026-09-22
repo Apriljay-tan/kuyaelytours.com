@@ -869,8 +869,26 @@
     .ke-cat-actions { flex-direction: column; }
     .ke-cat-actions a,
     .ke-cat-actions button { width: 100%; }
+    .tour-catalog .tour-dest-tabs,
+    .ke-hub-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .tour-catalog .tour-dest-tabs a,
+    .ke-hub-tabs a {
+        min-width: 0;
+        width: 100%;
+        text-align: center;
+    }
 }
 
+@media (max-width: 575px) {
+  .tour-catalog .tour-dest-tabs,
+  .ke-hub-tabs {
+    grid-template-columns: 1fr !important;
+  }
+}
 .tour-cebu .ke-cat-hero { background-image: url("../downloaded/dest-cebu.jpg"); }
 .tour-bohol .ke-cat-hero { background-image: url("../downloaded/dest-bohol.jpg"); }
 .tour-siquijor .ke-cat-hero { background-image: url("../downloaded/dest-siquijor.jpg"); }
@@ -1266,7 +1284,7 @@
 }
 
 @media (max-width: 991px) {
-    .tour-detail .ke-td { padding-top: 110px; }
+    .tour-detail .ke-td { padding-top: 110px; padding-bottom: 48px; }
     .ke-td-wrap,
     .ke-td-gallery,
     .ke-td-hi,
@@ -1278,6 +1296,7 @@
     .ke-td-quote { text-align: left; }
     .ke-td-gallery-main img,
     .ke-td-thumbs img { height: 200px; }
+    .ke-bookbox { margin-bottom: 24px; }
 }
 
 .ke-bookbox {

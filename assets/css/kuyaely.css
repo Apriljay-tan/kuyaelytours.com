@@ -578,40 +578,46 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     display: block;
 }
 
-.ke-team-leaders {
+.team-sectoin .row.justify-content-center {
+    padding-top: 32px;
+}
+
+.team-sectoin .row.ke-team-leaders {
     margin-bottom: 8px;
+    padding-top: 44px;
 }
 
-.team-photo-ely figure,
-.team-photo-rosa figure {
-    aspect-ratio: 684 / 700;
-    overflow: hidden;
-    background: #12343c;
-}
-
-.team-photo-ely img,
-.team-photo-rosa img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.team-photo-ely img {
-    object-position: 52% 8%;
-    transform: scale(1.85);
-    transform-origin: 52% 6%;
-}
-
-.team-photo-rosa img {
-    object-position: 50% 8%;
+.team-sectoin .row > [class*="col-"] {
+    display: flex;
+    overflow: visible;
 }
 
 .ke-team-leaders .team-name-long {
-    font-size: 20px;
-    letter-spacing: 1px;
+    font-size: 16px;
+    letter-spacing: 0.4px;
     line-height: 1.25;
-    padding: 0 12px;
+    padding: 0 10px;
+}
+
+.team-sectoin .team-single-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.team-sectoin .team-content {
+    min-height: 108px;
+    padding: 0 10px 18px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+.team-sectoin .team-content .team-name {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    max-width: 100%;
 }
 
 .breadcumb-section::before {
@@ -1093,6 +1099,10 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    .bokking-tabs .tab-buttons {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 /* Homepage booking: match Travelik card — photo left, tabs on top, 4 fields */
@@ -1494,16 +1504,17 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
 
     .bokking-tabs .tab-buttons {
         display: grid !important;
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
         gap: 8px !important;
     }
 
     .bokking-tabs .tab-buttons .tab {
         width: 100%;
         flex: none;
-        padding: 14px 12px !important;
+        padding: 12px 6px !important;
         border-radius: 12px;
-        font-size: 16px;
+        font-size: 13px;
+        letter-spacing: 0.4px;
     }
 
     .destination-section .section-title h1 span {
@@ -1827,5 +1838,81 @@ img, video, iframe, svg {
 	.photography-sectoin .gelary-track,
 	.preloader {
 		animation: none !important;
+	}
+}
+
+html {
+	overflow-x: clip;
+}
+
+.prgoress_indicator {
+	right: max(14px, env(safe-area-inset-right, 0px)) !important;
+	bottom: max(14px, env(safe-area-inset-bottom, 0px)) !important;
+	z-index: 10040;
+}
+
+.team-sectoin .team-content {
+	min-height: 108px;
+}
+
+.team-sectoin .team-content .team-name {
+	overflow-wrap: anywhere;
+	word-break: break-word;
+}
+
+@media (max-width: 991px) {
+	.prgoress_indicator {
+		right: 14px !important;
+		bottom: 14px !important;
+	}
+
+	body:has(.prgoress_indicator) .ke-chat {
+		right: 14px !important;
+		bottom: 80px !important;
+	}
+
+	.destination-section .travel-boking {
+		padding-bottom: 36px !important;
+	}
+
+	.destination-section .travel-boking .booking-button button {
+		letter-spacing: 1px;
+	}
+
+	.ke-team-leaders .team-name,
+	.team-sectoin .team-name {
+		font-size: 18px !important;
+		letter-spacing: 0.5px !important;
+		line-height: 1.25 !important;
+		padding: 0 8px;
+	}
+
+	.ke-team-leaders .team-name-long {
+		font-size: 15px !important;
+		letter-spacing: 0.2px !important;
+	}
+
+	.tour-catalog .tour-dest-tabs,
+	.ke-hub-tabs {
+		display: grid !important;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+		margin-bottom: 28px;
+		padding-bottom: 8px;
+	}
+
+	.tour-catalog .tour-dest-tabs a,
+	.ke-hub-tabs a {
+		min-width: 0 !important;
+		width: 100%;
+		text-align: center;
+		justify-content: center;
+	}
+}
+
+@media (max-width: 575px) {
+	.tour-catalog .tour-dest-tabs,
+	.ke-hub-tabs {
+		grid-template-columns: 1fr;
 	}
 }

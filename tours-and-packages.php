@@ -58,33 +58,16 @@ ob_start();
 	<div class="tour__section style__two">
 		<div class="container">
 			<div class="tour-dest-tabs ke-hub-tabs" role="navigation" aria-label="Island tours">
-				<a class="is-active" href="/tours-and-packages.php">All islands</a>
 				<a href="/cebu-tour">Cebu</a>
 				<a href="/bohol-tour">Bohol</a>
 				<a href="/siquijor-tour">Siquijor</a>
 				<a href="/dumaguete-tour">Dumaguete</a>
 			</div>
 
-			<div class="row ke-hub-islands">
-				<?php foreach ($islands as $key => $meta):
-					$count = count($byIsland[$key] ?? []);
-				?>
-				<div class="col-md-6 col-lg-3">
-					<a class="ke-hub-island" href="/<?= $h($key) ?>-tour">
-						<img src="<?= $h((string) $meta['hero']) ?>" alt="<?= $h((string) $meta['label']) ?>">
-						<span>
-							<strong><?= $h((string) $meta['label']) ?></strong>
-							<small><?= $count === 1 ? '1 package' : $count . ' packages' ?></small>
-						</span>
-					</a>
-				</div>
-				<?php endforeach; ?>
-			</div>
-
 			<div class="ke-hub-head">
 				<p class="ke-cat-kicker">Featured</p>
 				<h2>Tours guests book most</h2>
-				<p>Open any island above for the full list, or start with a featured package here.</p>
+				<p>Start with a featured package, or open an island above for the full list.</p>
 			</div>
 
 			<div class="ke-cat-grid" id="ke-cat-grid">
@@ -130,19 +113,14 @@ $opt = [
 	'image' => '/assets/downloaded/dest-cebu.jpg',
 	'body' => 'tour-page tour-catalog tour-hub',
 	'nav' => 'tours-and-packages.php',
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=19" type="text/css" media="all"><style>
-.ke-hub-islands{margin:8px -12px 36px}
-.ke-hub-islands>[class*="col-"]{padding:12px}
-.ke-hub-island{display:block;position:relative;overflow:hidden;border-radius:16px;color:#fff;text-decoration:none;min-height:210px;box-shadow:0 12px 28px rgba(10,18,32,.22)}
-.ke-hub-island img{width:100%;height:210px;object-fit:cover;display:block;transform:scale(1.02);transition:transform .25s ease}
-.ke-hub-island:hover img{transform:scale(1.08)}
-.ke-hub-island span{position:absolute;left:0;right:0;bottom:0;padding:18px 16px 14px;background:linear-gradient(transparent,rgba(10,18,32,.88))}
-.ke-hub-island strong{display:block;font-size:22px;letter-spacing:.04em}
-.ke-hub-island small{display:block;color:rgba(255,255,255,.8);font-size:13px}
-.ke-hub-head{margin:8px 0 18px}
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=21" type="text/css" media="all"><style>
+.ke-hub-head{margin:4px 0 22px}
 .ke-hub-head h2{margin:0 0 8px;font-size:32px}
 .ke-hub-head p{margin:0;color:#4a5568}
-.ke-hub-tabs a.is-active{background:#F5C518;color:#122033}
+.ke-hub-tabs{margin-bottom:28px}
+@media (max-width:767px){
+.ke-hub-head h2{font-size:26px}
+}
 </style>',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
