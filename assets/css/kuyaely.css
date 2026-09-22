@@ -2635,7 +2635,8 @@ html {
 		min-height: 0 !important;
 		padding: 76px 0 0 !important;
 		align-items: flex-start !important;
-		overflow: visible !important;
+		overflow-x: clip;
+		overflow-y: visible;
 	}
 	body.ke-home .hero-section-1 .auto-container,
 	body.ke-home .hero-section-1 .row,
@@ -2652,7 +2653,8 @@ html {
 		position: relative;
 		min-height: 70vh;
 		min-height: 620px;
-		overflow: visible;
+		overflow-x: clip;
+		overflow-y: visible;
 	}
 	body.ke-home .hero-section-1 .hero_content {
 		display: none !important;
@@ -2708,14 +2710,15 @@ html {
 		bottom: auto !important;
 		transform: translateX(-50%);
 		width: 100%;
-		max-width: none !important;
+		max-width: min(92vw, 420px) !important;
 		margin: 0;
 		z-index: 1;
 		pointer-events: none;
+		overflow: hidden;
 	}
 	body.ke-home .hero-thumb img {
-		width: 100% !important;
-		max-width: none !important;
+		width: auto !important;
+		max-width: 100% !important;
 		height: auto !important;
 		display: block;
 		filter: none;
@@ -2983,13 +2986,23 @@ html {
 	}
 }
 
+@media (max-width: 480px) {
+	body.ke-home .mobile-logo .brand-sub {
+		display: none !important;
+	}
+	body.ke-home .mobile-menu .ke-icon-btn {
+		width: 42px;
+		height: 42px;
+	}
+}
+
 @media (max-width: 420px) {
 	body.ke-home .mobile-logo .brand-name {
 		display: block;
 		font-size: 20px;
 	}
 	body.ke-home .mobile-logo .brand-sub {
-		font-size: 8px;
+		display: none !important;
 	}
 	body.ke-home .ke-mtiles a {
 		font-size: 10px;

@@ -255,6 +255,15 @@
         grid-template-columns: 1fr;
         gap: 32px;
     }
+
+    .rental-page .work-process-section {
+        overflow: hidden;
+    }
+
+    .rental-page .shape2,
+    .rental-page .shape2.dance {
+        display: none !important;
+    }
 }
 
 @media (max-width: 767px) {

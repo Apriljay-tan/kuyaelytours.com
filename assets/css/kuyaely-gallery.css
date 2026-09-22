@@ -224,3 +224,10 @@
         font-size: 13px;
     }
 }
+
+/* Prevent theme marquee thumbs from expanding page width */
+.galary-thumb {
+    min-width: 0 !important;
+    flex: 0 0 auto;
+    max-width: 100%;
+}

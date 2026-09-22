@@ -334,6 +334,13 @@
         max-width: 190px;
         max-height: 200px;
     }
+
+    .tour-dest-tabs a,
+    .tour-catalog .tour-dest-tabs a,
+    .ke-hub-tabs a {
+        min-width: 0;
+        flex: 1 1 120px;
+    }
 }
 
 @media (max-width: 767px) {

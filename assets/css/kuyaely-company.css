@@ -470,6 +470,7 @@
 .ke-drivers {
     background: #1C2D31;
     padding: 70px 0 90px;
+    overflow: hidden;
 }
 
 .ke-drivers-lead {
@@ -486,10 +487,13 @@
     align-items: center;
     gap: 14px;
     margin-top: 36px;
+    overflow: hidden;
+    min-width: 0;
 }
 
 .ke-drivers-swiper {
     width: 100%;
+    min-width: 0;
     overflow: hidden;
     border-radius: 22px;
 }

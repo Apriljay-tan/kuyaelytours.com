@@ -22,7 +22,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui31">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui33">';
 	echo '</head><body class="' . $class . '">';
 	if ($useSite) {
 		echo store_scene_html();
@@ -76,7 +76,6 @@ function store_site_header(?array $user, int $cartCount): string
 	return '<header class="ke-gnav">'
 		. '<div class="ke-gnav-inner">'
 		. '<a class="ke-gnav-brand" href="/index.html"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span><strong>KUYA ELY</strong><small>Tours and Transport Services</small></span></a>'
-		. '<button class="ke-gnav-toggle" type="button" aria-label="Open menu" onclick="this.closest(\'.ke-gnav\').classList.toggle(\'is-open\')"><span></span><span></span><span></span></button>'
 		. '<nav class="ke-gnav-links" aria-label="Primary">'
 		. '<a href="/index.html">Home</a>'
 		. '<a href="/tours-and-packages.php">Tours and Packages</a>'
@@ -90,7 +89,9 @@ function store_site_header(?array $user, int $cartCount): string
 		. '<a class="ke-gnav-account-btn" href="' . $accountHref . '">' . store_svg_user() . '<span>My Account</span><i></i></a>'
 		. '<div class="ke-gnav-drop">' . $drop . '</div></div>'
 		. '<a class="ke-gnav-ico ke-gnav-cart" href="/shop/cart.php" aria-label="Cart">' . store_svg_cart() . $badge . '</a>'
-		. '</div></div></header>';
+		. '</div>'
+		. '<button class="ke-gnav-toggle" type="button" aria-label="Open menu" onclick="this.closest(\'.ke-gnav\').classList.toggle(\'is-open\')"><span></span><span></span><span></span></button>'
+		. '</div></header>';
 }
 
 function store_site_footer(): string
@@ -180,7 +181,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui31">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui33">';
 	echo '</head><body class="ke-auth">';
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
 	echo '<span style="background-image:url(\'/assets/downloaded/dest-siquijor.jpg\')"></span>';
