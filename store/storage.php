@@ -25,6 +25,7 @@ function store_db(): ?PDO
 			[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
 		);
 		store_db_migrate($pdo);
+		store_db_seed_from_json($pdo);
 		return $pdo;
 	} catch (Throwable $e) {
 		$pdo = null;
@@ -87,6 +88,110 @@ function store_db_migrate(PDO $pdo): void
 		)');
 	} catch (Throwable $e) {
 		// Keep bookings/users online if chat tables cannot be created.
+	}
+}
+
+function store_db_seed_from_json(PDO $pdo): void
+{
+	try {
+		$n = (int) $pdo->query('SELECT COUNT(*) FROM ke_users')->fetchColumn();
+	} catch (Throwable $e) {
+		return;
+	}
+	if ($n > 0) {
+		return;
+	}
+	$users = store_read_json('users');
+	if (!$users) {
+		return;
+	}
+	try {
+		$pdo->beginTransaction();
+		$userStmt = $pdo->prepare('INSERT IGNORE INTO ke_users (id, name, email, phone, password_hash, oauth_provider, oauth_id, created) VALUES (?,?,?,?,?,?,?,?)');
+		foreach ($users as $user) {
+			if (!is_array($user) || ($user['id'] ?? '') === '') {
+				continue;
+			}
+			$userStmt->execute([
+				(string) $user['id'],
+				(string) ($user['name'] ?? ''),
+				(string) ($user['email'] ?? ''),
+				(string) ($user['phone'] ?? ''),
+				(string) ($user['password_hash'] ?? ''),
+				(string) ($user['oauth_provider'] ?? ''),
+				(string) ($user['oauth_id'] ?? ''),
+				(string) ($user['created'] ?? ''),
+			]);
+		}
+		$bookStmt = $pdo->prepare('INSERT IGNORE INTO ke_bookings (id, user_id, status, pay_method, total, guest_name, email, phone, notes, items_json, created) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+		foreach (store_read_json('bookings') as $booking) {
+			if (!is_array($booking) || ($booking['id'] ?? '') === '') {
+				continue;
+			}
+			$items = $booking['items'] ?? [];
+			$bookStmt->execute([
+				(string) $booking['id'],
+				(string) ($booking['user_id'] ?? ''),
+				(string) ($booking['status'] ?? ''),
+				(string) ($booking['pay_method'] ?? ''),
+				(int) ($booking['total'] ?? 0),
+				(string) ($booking['guest_name'] ?? ''),
+				(string) ($booking['email'] ?? ''),
+				(string) ($booking['phone'] ?? ''),
+				(string) ($booking['notes'] ?? ''),
+				json_encode(is_array($items) ? $items : [], JSON_UNESCAPED_UNICODE),
+				(string) ($booking['created'] ?? ''),
+			]);
+		}
+		$blockStmt = $pdo->prepare('INSERT IGNORE INTO ke_blocked (id, vehicle, travel_date, booking_id) VALUES (?,?,?,?)');
+		foreach (store_read_json('blocked') as $row) {
+			if (!is_array($row)) {
+				continue;
+			}
+			$blockStmt->execute([
+				(string) ($row['id'] ?? bin2hex(random_bytes(8))),
+				(string) ($row['vehicle'] ?? ''),
+				(string) ($row['travel_date'] ?? ''),
+				(string) ($row['booking_id'] ?? ''),
+			]);
+		}
+		$chatStmt = $pdo->prepare('INSERT IGNORE INTO ke_chats (id, token, user_id, guest_name, email, phone, last_message, last_at, unread_staff, created) VALUES (?,?,?,?,?,?,?,?,?,?)');
+		$msgStmt = $pdo->prepare('INSERT IGNORE INTO ke_chat_messages (id, chat_id, sender, body, created) VALUES (?,?,?,?,?)');
+		foreach (store_read_json('chats') as $chat) {
+			if (!is_array($chat) || ($chat['id'] ?? '') === '') {
+				continue;
+			}
+			$chatStmt->execute([
+				(string) $chat['id'],
+				(string) ($chat['token'] ?? ''),
+				(string) ($chat['user_id'] ?? ''),
+				(string) ($chat['guest_name'] ?? ''),
+				(string) ($chat['email'] ?? ''),
+				(string) ($chat['phone'] ?? ''),
+				(string) ($chat['last_message'] ?? ''),
+				(string) ($chat['last_at'] ?? ''),
+				(int) ($chat['unread_staff'] ?? 0),
+				(string) ($chat['created'] ?? ''),
+			]);
+			$messages = is_array($chat['messages'] ?? null) ? $chat['messages'] : [];
+			foreach ($messages as $msg) {
+				if (!is_array($msg) || ($msg['id'] ?? '') === '') {
+					continue;
+				}
+				$msgStmt->execute([
+					(string) $msg['id'],
+					(string) ($msg['chat_id'] ?? $chat['id']),
+					(string) ($msg['sender'] ?? 'guest'),
+					(string) ($msg['body'] ?? $msg['text'] ?? ''),
+					(string) ($msg['created'] ?? ''),
+				]);
+			}
+		}
+		$pdo->commit();
+	} catch (Throwable $e) {
+		if ($pdo->inTransaction()) {
+			$pdo->rollBack();
+		}
 	}
 }
 
