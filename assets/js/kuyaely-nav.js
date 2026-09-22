@@ -200,19 +200,38 @@
 	}
 	function injectNav(data) {
 		document.querySelectorAll(".ke-shop-link, .ke-header-icons").forEach(function (el) { el.remove(); });
-		var accountHref = data.name ? "/account/bookings.php" : "/account/login.php";
-		var accountLabel = data.name ? "Account" : "Sign in";
-		var count = parseInt(data.count, 10) || 0;
+		var name = (data && data.name) ? String(data.name).trim() : "";
+		var logged = !!(data && (data.logged_in || name));
+		var first = name.split(/\s+/)[0] || "Account";
+		var accountHref = logged ? "/account/bookings.php" : "/account/login.php";
+		var accountLabel = logged ? first : "Sign in";
+		var count = parseInt(data && data.count, 10) || 0;
 		var badge = count > 0 ? '<span class="ke-cart-count">' + count + "</span>" : "";
-		var icons = '<div class="ke-header-icons">'
-			+ '<a class="ke-icon-btn" href="' + accountHref + '" aria-label="' + accountLabel + '" title="' + accountLabel + '">' + iconSvgUser() + "</a>"
-			+ '<a class="ke-icon-btn" href="/shop/cart.php" aria-label="Cart" title="Cart">' + iconSvgCart() + badge + "</a>"
-			+ "</div>";
-		document.querySelectorAll(".header-right-wrapper").forEach(function (wrap) {
-			var sidebar = wrap.querySelector(".header-sidebar");
-			if (sidebar) sidebar.insertAdjacentHTML("beforebegin", icons);
-			else wrap.insertAdjacentHTML("afterbegin", icons);
+		document.querySelectorAll(".ke-cart-count").forEach(function (el) {
+			el.textContent = String(count);
+			if (count > 0) el.removeAttribute("hidden");
+			else el.setAttribute("hidden", "");
 		});
+		document.querySelectorAll("[data-ke-account-title]").forEach(function (el) {
+			el.textContent = logged ? first : "Sign In";
+		});
+		var menuHtml = logged
+			? '<a href="/account/bookings.php">My bookings</a><a href="/account/profile.php">Profile</a><a href="/account/logout.php">Sign out</a>'
+			: '<a href="/account/login.php">Sign in</a><a href="/account/register.php">Create account</a>';
+		document.querySelectorAll("[data-ke-account-menu]").forEach(function (el) {
+			el.innerHTML = menuHtml;
+		});
+		if (!document.querySelector(".ke-site-head")) {
+			var icons = '<div class="ke-header-icons">'
+				+ '<a class="ke-icon-btn" href="' + accountHref + '" aria-label="' + accountLabel + '" title="' + accountLabel + '">' + iconSvgUser() + "</a>"
+				+ '<a class="ke-icon-btn" href="/shop/cart.php" aria-label="Cart" title="Cart">' + iconSvgCart() + badge + "</a>"
+				+ "</div>";
+			document.querySelectorAll(".header-right-wrapper").forEach(function (wrap) {
+				var sidebar = wrap.querySelector(".header-sidebar");
+				if (sidebar) sidebar.insertAdjacentHTML("beforebegin", icons);
+				else wrap.insertAdjacentHTML("afterbegin", icons);
+			});
+		}
 		document.querySelectorAll(".mobile-menu").forEach(function (bar) {
 			bar.insertAdjacentHTML("beforeend", '<div class="ke-header-icons is-mobile">'
 				+ '<a class="ke-icon-btn" href="' + accountHref + '" aria-label="' + accountLabel + '" title="' + accountLabel + '">' + iconSvgUser() + "</a>"

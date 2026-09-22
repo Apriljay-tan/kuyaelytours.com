@@ -898,7 +898,17 @@ function ke_search_best_tour(string $island, string $type): ?array
 		'countryside' => ['countryside', 'chocolate', 'hills', 'tarsier', 'highland', 'kawasan', 'casaroro', 'twin lakes', 'valencia', 'falls'],
 		'beach' => ['beach', 'panglao', 'salagdoong', 'panagsama'],
 	];
-	$words = $keywords[$type] ?? [];
+	if (isset($keywords[$type])) {
+		$words = $keywords[$type];
+	} else {
+		$parts = preg_split('/[^a-z0-9]+/', strtolower($type)) ?: [];
+		$words = [];
+		foreach ($parts as $word) {
+			if (strlen($word) >= 3) {
+				$words[] = $word;
+			}
+		}
+	}
 	$best = null;
 	$bestScore = -1;
 	foreach (ke_tours() as $tour) {
