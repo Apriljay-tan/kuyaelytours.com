@@ -799,7 +799,7 @@ body.ke-site {
 	inset: 0;
 	z-index: 1;
 	pointer-events: none;
-	background: linear-gradient(180deg, rgba(6, 20, 24, 0.28) 0%, rgba(8, 24, 28, 0.22) 42%, rgba(8, 24, 28, 0.42) 100%);
+	background: linear-gradient(180deg, rgba(4, 14, 18, 0.82) 0%, rgba(6, 18, 22, 0.78) 42%, rgba(6, 18, 22, 0.88) 100%);
 }
 @media (prefers-reduced-motion: reduce) {
 	.ke-scene span { animation: none; opacity: 0; }
@@ -877,7 +877,7 @@ body.ke-bag .ke-shop-main {
 .ke-dash-tag,
 .ke-dash-lede,
 .ke-dash-script {
-	text-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+	text-shadow: 0 4px 28px rgba(0, 0, 0, 0.9);
 }
 .ke-dash-kicker {
 	margin: 0 0 8px;
