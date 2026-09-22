@@ -77,7 +77,7 @@ $filters = [
 	'all' => 'All',
 	'upcoming' => 'Upcoming',
 	'completed' => 'Completed',
-	'pending' => 'Pending Payment',
+	'pending' => 'Pending',
 	'cancelled' => 'Cancelled',
 ];
 
@@ -95,7 +95,7 @@ ob_start();
 		</div>
 	</div>
 	<dl class="ke-bk-stats">
-		<div><dt>Total Bookings</dt><dd><?= (int) $counts['all'] ?></dd></div>
+		<div><dt>Bookings</dt><dd><?= (int) $counts['all'] ?></dd></div>
 		<div><dt>Upcoming</dt><dd><?= (int) $counts['upcoming'] ?></dd></div>
 		<div><dt>Completed</dt><dd><?= (int) $counts['completed'] ?></dd></div>
 	</dl>
@@ -114,8 +114,14 @@ ob_start();
 		<h2>My Bookings</h2>
 		<p class="ke-bk-lede">Manage your tours, payments, and travel details.</p>
 		<nav class="ke-bk-filters" aria-label="Filter bookings">
-			<?php foreach ($filters as $key => $label): ?>
-				<a href="/account/bookings.php?filter=<?= store_h($key) ?>"<?= $filter === $key ? ' aria-current="page"' : '' ?>><?= store_h($label) ?> (<?= (int) $counts[$key] ?>)</a>
+			<?php foreach ($filters as $key => $label):
+				$pillLabel = trim((string) $label);
+				if ($pillLabel === '') {
+					$pillLabel = $key === 'all' ? 'All' : ucfirst(str_replace('_', ' ', $key));
+				}
+				$pillCount = (int) ($counts[$key] ?? 0);
+				?>
+				<a href="/account/bookings.php?filter=<?= store_h($key) ?>"<?= $filter === $key ? ' aria-current="page"' : '' ?>><span class="ke-bk-filter-label"><?= store_h($pillLabel) ?></span> <span class="ke-bk-filter-count">(<?= $pillCount ?>)</span></a>
 			<?php endforeach; ?>
 		</nav>
 

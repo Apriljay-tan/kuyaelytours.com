@@ -15,14 +15,14 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	}
 	$useSite = (bool) preg_match('/\b(ke-site|ke-dash|ke-bag)\b/', $mods);
 	echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
 	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui30">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui31">';
 	echo '</head><body class="' . $class . '">';
 	if ($useSite) {
 		echo store_scene_html();
@@ -115,7 +115,7 @@ function store_site_footer(): string
 
 function store_svg_search(): string
 {
-	return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.2" stroke="currentColor" stroke-width="1.8"/><path d="M16 16.5 20.2 20.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+	return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.2" stroke="currentColor" stroke-width="1.8"/><path d="M16 16.5 20.2 20.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 }
 
 function store_first_name(string $name): string
@@ -173,14 +173,14 @@ function store_hello_band(array $user, string $active): string
 function store_auth_page(string $title, string $heading, string $lede, string $form, string $alt, string $error = '', string $visualTitle = 'Kuya Ely Tours', string $visualLede = 'Travel is the only purchase that enriches you in ways beyond the fare.'): void
 {
 	echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
-	echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
+	echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
 	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui30">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui31">';
 	echo '</head><body class="ke-auth">';
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
 	echo '<span style="background-image:url(\'/assets/downloaded/dest-siquijor.jpg\')"></span>';
@@ -252,12 +252,12 @@ function store_field_icon(string $name): string
 
 function store_svg_user(): string
 {
-	return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M5 19.2c.8-3.2 3.4-5.2 7-5.2s6.2 2 7 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+	return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M5 19.2c.8-3.2 3.4-5.2 7-5.2s6.2 2 7 5.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
 }
 
 function store_svg_cart(): string
 {
-	return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 7h15l-1.4 8.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.7L5.2 4H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg>';
+	return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 7h15l-1.4 8.2a2 2 0 0 1-2 1.8H9.2a2 2 0 0 1-2-1.7L5.2 4H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4" fill="currentColor"/><circle cx="18" cy="20" r="1.4" fill="currentColor"/></svg>';
 }
 
 function store_svg_plane(): string

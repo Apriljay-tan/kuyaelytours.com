@@ -760,10 +760,12 @@ body.ke-auth {
 }
 
 body.ke-dash,
-body.ke-site {
+body.ke-site,
+body.ke-bag,
+body.ke-bk {
 	background: #08181c;
 	font-family: Inter, "Segoe UI", Tahoma, sans-serif;
-	overflow-x: hidden;
+	overflow-x: clip;
 	position: relative;
 }
 .ke-scene {
@@ -839,10 +841,12 @@ body.ke-bag .ke-shop-main {
 	background: #061418;
 }
 .ke-dash .ke-shop-main.ke-app-main,
-.ke-site .ke-shop-main.ke-app-main {
+.ke-site .ke-shop-main.ke-app-main,
+.ke-bag .ke-shop-main.ke-app-main {
 	width: min(1280px, calc(100% - 40px));
 	margin: 0 auto;
 	padding: 0 0 48px;
+	box-sizing: border-box;
 }
 .ke-dash .ke-shop-foot {
 	padding: 28px;
@@ -1397,9 +1401,12 @@ body.ke-bag .ke-shop-main {
 }
 @media (max-width: 759px) {
 	.ke-dash .ke-shop-top { padding: 12px 16px; }
-	.ke-dash .ke-shop-main.ke-app-main {
-		width: calc(100% - 20px);
-		padding-bottom: 32px;
+	.ke-dash .ke-shop-main.ke-app-main,
+	.ke-site .ke-shop-main.ke-app-main,
+	.ke-bag .ke-shop-main.ke-app-main {
+		width: 100%;
+		padding: 0 max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px));
+		box-sizing: border-box;
 	}
 	.ke-dash .ke-shop-foot {
 		padding: 20px 16px;
@@ -1486,26 +1493,37 @@ body.ke-bag .ke-shop-main {
 	gap: 10px;
 	color: #fff;
 	text-decoration: none;
-	flex-shrink: 0;
+	flex-shrink: 1;
+	min-width: 0;
+	max-width: min(220px, 42vw);
 }
 .ke-gnav-brand img {
 	width: 46px;
 	height: 46px;
 	border-radius: 50%;
 	background: #fff;
+	flex-shrink: 0;
+}
+.ke-gnav-brand span {
+	min-width: 0;
+	overflow: hidden;
 }
 .ke-gnav-brand strong {
 	display: block;
 	letter-spacing: 0.12em;
 	font-size: 15px;
+	white-space: nowrap;
 }
 .ke-gnav-brand small {
 	display: block;
 	margin-top: 1px;
 	color: var(--gold);
 	font-size: 9px;
-	letter-spacing: 0.12em;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .ke-gnav-links {
 	display: flex;
@@ -1545,6 +1563,12 @@ body.ke-bag .ke-shop-main {
 	background: transparent;
 }
 .ke-gnav-ico { width: 42px; padding: 0; }
+.ke-gnav-ico svg,
+.ke-gnav-account-btn svg {
+	width: 22px;
+	height: 22px;
+	flex-shrink: 0;
+}
 .ke-gnav-account-btn span { color: #fff; font-size: 14px; font-weight: 600; }
 .ke-gnav-account-btn i {
 	width: 6px;
@@ -1858,10 +1882,93 @@ body.ke-bag .ke-shop-main {
 	.ke-bag-photo img { height: 160px; }
 }
 @media (max-width: 759px) {
-	.ke-gnav-inner { width: calc(100% - 20px); min-height: 64px; }
-	.ke-gfoot-inner { width: calc(100% - 20px); }
+	.ke-gnav-inner {
+		width: 100%;
+		max-width: none;
+		min-height: 64px;
+		gap: 10px;
+		padding: 8px max(16px, env(safe-area-inset-right, 0px)) 8px max(16px, env(safe-area-inset-left, 0px));
+		box-sizing: border-box;
+	}
+	.ke-gfoot-inner {
+		width: 100%;
+		padding-left: max(16px, env(safe-area-inset-left, 0px));
+		padding-right: max(16px, env(safe-area-inset-right, 0px));
+		box-sizing: border-box;
+	}
 	.ke-bag-copy-top { display: grid; }
 	.ke-bag-price { text-align: left; }
+	.ke-gnav-brand {
+		max-width: min(168px, 46vw);
+		gap: 8px;
+	}
+	.ke-gnav-brand img {
+		width: 40px;
+		height: 40px;
+	}
+	.ke-gnav-brand strong {
+		font-size: 13px;
+		letter-spacing: 0.08em;
+	}
+	.ke-gnav-brand small {
+		font-size: 8px;
+		letter-spacing: 0.04em;
+	}
+	.ke-gnav-actions { gap: 4px; flex-shrink: 0; }
+	.ke-gnav-ico,
+	.ke-gnav-account-btn,
+	.ke-gnav-toggle {
+		width: 46px;
+		min-width: 46px;
+		min-height: 46px;
+		padding: 0;
+	}
+	.ke-gnav-ico svg,
+	.ke-gnav-account-btn svg {
+		width: 22px;
+		height: 22px;
+	}
+	.ke-gnav-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		gap: 5px;
+	}
+	.ke-dash .ke-shop-main.ke-app-main,
+	.ke-site .ke-shop-main.ke-app-main,
+	.ke-bag .ke-shop-main.ke-app-main {
+		width: 100%;
+		padding: 0 max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px));
+		box-sizing: border-box;
+	}
+	.ke-bk-hello {
+		padding: 16px;
+		gap: 14px;
+	}
+	.ke-bk-hello h1 { font-size: 24px; }
+	.ke-bk-hello p,
+	.ke-bk-welcome {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+	.ke-bk-panel { padding: 16px; }
+	.ke-bk-stats {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 6px;
+	}
+	.ke-bk-stats > div { padding: 8px 4px; }
+	.ke-bk-stats dt { font-size: 9.5px; }
+	.ke-bk-stats dd { font-size: 17px; }
+	.ke-bk-tabs {
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+	}
+	.ke-bk-tabs::-webkit-scrollbar { display: none; }
+	.ke-bk-tabs a { flex-shrink: 0; }
 }
 
 .ke-bk-crumb {
@@ -1895,9 +2002,11 @@ body.ke-bag .ke-shop-main {
 	display: flex;
 	gap: 10px;
 	margin: 0;
+	min-width: 0;
 }
 .ke-bk-stats > div {
-	min-width: 92px;
+	min-width: 0;
+	flex: 1 1 0;
 	padding: 10px 14px;
 	border-radius: 14px;
 	background: #fff;
@@ -1954,16 +2063,22 @@ body.ke-bag .ke-shop-main {
 	padding: 22px;
 }
 .ke-bk-panel h2 { margin: 0 0 4px; font-size: 24px; }
-.ke-bk-lede { margin: 0 0 16px; color: #6a7c80; }
+.ke-bk-lede { margin: 0 0 16px; color: #6a7c80; overflow-wrap: anywhere; }
 .ke-bk-filters {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	gap: 8px;
-	margin-bottom: 16px;
+	margin: 0 0 16px;
+	padding: 2px 0 6px;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
 }
+.ke-bk-filters::-webkit-scrollbar { display: none; }
 .ke-bk-filters a {
 	display: inline-flex;
 	align-items: center;
+	flex-shrink: 0;
 	min-height: 34px;
 	padding: 0 12px;
 	border-radius: 999px;
@@ -1972,6 +2087,11 @@ body.ke-bag .ke-shop-main {
 	text-decoration: none;
 	font-size: 13px;
 	font-weight: 700;
+	white-space: nowrap;
+}
+.ke-bk-filter-label,
+.ke-bk-filter-count {
+	display: inline;
 }
 .ke-bk-filters a[aria-current="page"] {
 	background: var(--navy);
@@ -2102,8 +2222,19 @@ body.ke-bag .ke-shop-main {
 		display: grid;
 	}
 	.ke-bk-hello { align-items: start; }
-	.ke-bk-stats { width: 100%; }
-	.ke-bk-stats > div { flex: 1; }
+	.ke-bk-stats {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 8px;
+		width: 100%;
+	}
+	.ke-bk-stats > div {
+		flex: none;
+		min-width: 0;
+		padding: 8px 6px;
+	}
+	.ke-bk-stats dt { font-size: 10px; line-height: 1.2; }
+	.ke-bk-stats dd { font-size: 18px; }
 	.ke-bk-pay, .ke-bk-actions { text-align: left; justify-content: flex-start; }
 	.ke-bk-row img { width: 100%; height: 150px; }
 }
