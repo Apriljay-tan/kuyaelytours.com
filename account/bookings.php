@@ -165,16 +165,16 @@ ob_start();
 								<button class="ke-bk-cancel" type="submit" name="cancel" value="<?= store_h($id) ?>">Cancel request</button>
 							</form>
 						<?php elseif ($status === 'pending_request'): ?>
-							<a class="ke-bk-ghost" href="/shop/catalog.php">View details</a>
+							<a class="ke-bk-ghost" href="/tours-and-packages.php">View details</a>
 							<form method="post">
 								<input type="hidden" name="csrf" value="<?= $csrf ?>">
 								<button class="ke-bk-cancel" type="submit" name="cancel" value="<?= store_h($id) ?>">Cancel request</button>
 							</form>
 						<?php elseif (in_array($status, ['paid', 'confirmed'], true)): ?>
-							<a class="ke-bk-ghost" href="<?= store_h((string) ($product['page'] ?? '/shop/catalog.php')) ?>">View details</a>
-							<a class="ke-dash-gold" href="/shop/catalog.php">Book again</a>
+							<a class="ke-bk-ghost" href="<?= store_h((string) ($product['page'] ?? '/tours-and-packages.php')) ?>">View details</a>
+							<a class="ke-dash-gold" href="/tours-and-packages.php">Book again</a>
 						<?php else: ?>
-							<a class="ke-dash-gold" href="/shop/catalog.php">Book again</a>
+							<a class="ke-dash-gold" href="/tours-and-packages.php">Book again</a>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -185,7 +185,7 @@ ob_start();
 			<div class="ke-bk-empty">
 				<strong><?= $counts['all'] === 0 ? 'No trips on file yet' : 'No bookings in this view' ?></strong>
 				<p>Add a tour or van, then Book now or Pay now.</p>
-				<a class="ke-dash-gold" href="/shop/catalog.php">Browse tours</a>
+				<a class="ke-dash-gold" href="/tours-and-packages.php">Browse tours</a>
 			</div>
 		<?php endif; ?>
 	</section>
@@ -199,11 +199,11 @@ ob_start();
 		</section>
 		<section class="ke-bk-quick">
 			<h2>Quick Actions</h2>
-			<a href="/shop/catalog.php"><span>Browse tours<small>Find your next adventure</small></span></a>
+			<a href="/tours-and-packages.php"><span>Browse tours<small>Find your next adventure</small></span></a>
 			<a href="/account/bookings.php?voucher=1"><span>Download voucher<small>Sent by email after confirmation</small></span></a>
 			<a href="/contact.html"><span>Contact support<small>Get help from our team</small></span></a>
 		</section>
-		<a class="ke-bk-promo" href="/shop/catalog.php">
+		<a class="ke-bk-promo" href="/tours-and-packages.php">
 			<img src="/assets/downloaded/dest-siquijor.jpg" alt="">
 			<span>Travel More<br>Explore the Philippines</span>
 		</a>

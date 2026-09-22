@@ -211,7 +211,7 @@ ob_start();
 		<article class="ke-dash-promo">
 			<p>New destinations are calling.</p>
 			<p>Let Kuya Ely take you there.</p>
-			<a class="ke-dash-gold" href="/shop/catalog.php">Browse Tours <?= ke_profile_icon('chev') ?></a>
+			<a class="ke-dash-gold" href="/tours-and-packages.php">Browse Tours <?= ke_profile_icon('chev') ?></a>
 		</article>
 	</aside>
 
@@ -234,7 +234,7 @@ ob_start();
 					<span><?= ke_profile_icon('heart') ?></span>
 					<strong>Your wishlist is empty</strong>
 					<p>Browse the fleet and save a trip when you are ready.</p>
-					<a class="ke-dash-gold" href="/shop/catalog.php">Explore Tours <?= ke_profile_icon('chev') ?></a>
+					<a class="ke-dash-gold" href="/tours-and-packages.php">Explore Tours <?= ke_profile_icon('chev') ?></a>
 				</div>
 			</section>
 		<?php elseif ($panel === 'security'): ?>
@@ -336,7 +336,7 @@ ob_start();
 						<span><?= ke_profile_icon('bag') ?></span>
 						<strong>No upcoming trips yet</strong>
 						<p>Your next adventure is just a booking away!</p>
-						<a class="ke-dash-gold" href="/shop/catalog.php">Explore Tours <?= ke_profile_icon('chev') ?></a>
+						<a class="ke-dash-gold" href="/tours-and-packages.php">Explore Tours <?= ke_profile_icon('chev') ?></a>
 					</div>
 				<?php else: ?>
 					<ul>

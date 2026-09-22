@@ -4,7 +4,7 @@ require dirname(__DIR__) . '/store/bootstrap.php';
 require dirname(__DIR__) . '/store/tours-data.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' || !store_csrf_ok()) {
-	store_redirect('/shop/catalog.php');
+	store_redirect('/tours-and-packages.php');
 }
 
 if (!store_user()) {
@@ -14,7 +14,7 @@ if (!store_user()) {
 $productId = trim((string) ($_POST['product_id'] ?? ''));
 $product = store_product($productId);
 if (!$product) {
-	store_redirect('/shop/catalog.php');
+	store_redirect('/tours-and-packages.php');
 }
 
 $vehicle = trim((string) ($_POST['vehicle'] ?? ($product['vehicle'] ?? '')));

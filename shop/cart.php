@@ -67,7 +67,7 @@ if ($count === 0) {
 		. '<span class="ke-cart-empty-icon" aria-hidden="true">' . store_svg_cart() . '</span>'
 		. '<h2>Your cart is empty</h2>'
 		. '<p>Add a Cebu, Bohol, Siquijor, or Dumaguete tour, or a private van, then come back to check out.</p>'
-		. '<a class="ke-dash-gold" href="/shop/catalog.php">Browse Tours</a>'
+		. '<a class="ke-dash-gold" href="/tours-and-packages.php">Browse Tours</a>'
 		. '</section>';
 	store_page('Your Cart', $body, '', true, 'ke-site ke-dash ke-bag');
 	exit;
@@ -90,7 +90,7 @@ foreach ($items as $item) {
 	$vehicle = (string) ($item['vehicle'] ?? '');
 	$line = store_line_total($item, $product);
 	$from = (int) ($product['price_from'] ?? 0);
-	$edit = (string) ($product['page'] ?? '/shop/catalog.php');
+	$edit = (string) ($product['page'] ?? '/tours-and-packages.php');
 	$chips = [];
 	$badge = ke_cart_badge($product ?: []);
 	$chips[] = $badge;
@@ -185,7 +185,7 @@ $body = $hero . $notice
 	. '<form method="post"><input type="hidden" name="csrf" value="' . $csrf . '">'
 	. '<button class="ke-bag-clear" type="submit" name="clear" value="1">Clear Cart</button></form></div>'
 	. $rows
-	. ($addons !== '' ? '<section class="ke-bag-addons"><div class="ke-bag-head"><h2>Recommended Add-ons</h2><a href="/shop/catalog.php">View more add-ons</a></div><div class="ke-bag-addon-grid">' . $addons . '</div></section>' : '')
+	. ($addons !== '' ? '<section class="ke-bag-addons"><div class="ke-bag-head"><h2>Recommended Add-ons</h2><a href="/tours-and-packages.php">View more add-ons</a></div><div class="ke-bag-addon-grid">' . $addons . '</div></section>' : '')
 	. '</div><div class="ke-bag-side">' . $sum . '</div></div>';
 
 store_page('Your Cart', $body, '', true, 'ke-site ke-dash ke-bag');
