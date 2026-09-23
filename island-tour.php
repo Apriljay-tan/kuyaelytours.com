@@ -133,6 +133,9 @@ ob_start();
 					<a class="ke-cat-photo" href="<?= $h($href) ?>">
 						<img src="<?= $h($img) ?>" alt="<?= $h((string) $pkg['name']) ?>">
 						<span class="ke-cat-badge"><?= $h((string) ($pkg['badge'] ?? '')) ?></span>
+						<?php if ($teaser !== ''): ?>
+						<span class="ke-cat-price"><?= $h($teaser) ?></span>
+						<?php endif; ?>
 					</a>
 					<div class="ke-cat-body">
 						<h3><a href="<?= $h($href) ?>"><?= $h((string) $pkg['name']) ?></a></h3>
@@ -141,9 +144,6 @@ ob_start();
 							<span><i class="fa-regular fa-clock"></i> <?= $h((string) ($pkg['duration'] ?? '1 Day')) ?></span>
 							<span class="ke-cat-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><em>(<?= $h((string) ($pkg['rating'] ?? '5.0')) ?>)</em></span>
 						</div>
-						<?php if ($teaser !== ''): ?>
-							<p class="ke-cat-from"><?= $h($teaser) ?></p>
-						<?php endif; ?>
 						<p><?= $h((string) ($pkg['lead'] ?? '')) ?></p>
 						<div class="ke-cat-actions">
 							<a href="<?= $h($href) ?>">View Details</a>
@@ -207,7 +207,7 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=19" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $html);

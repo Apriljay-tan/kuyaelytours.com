@@ -77,20 +77,24 @@ ob_start();
 					$img = (string) (($pkg['images'][0] ?? '') ?: ($islands[$island]['hero'] ?? '/assets/downloaded/dest-cebu.jpg'));
 					$sku = ke_package_cart_id($pkg);
 					$price = ke_package_price($pkg);
+					$teaser = function_exists('ke_package_teaser') ? ke_package_teaser($pkg) : '';
+					if ($teaser === '' && $price > 0) {
+						$teaser = 'From ₱' . number_format($price);
+					}
 				?>
 				<article class="ke-cat-card" data-area="<?= $h($island) ?>">
 					<a class="ke-cat-photo" href="<?= $h($href) ?>">
 						<img src="<?= $h($img) ?>" alt="<?= $h((string) $pkg['name']) ?>">
 						<span class="ke-cat-badge"><?= $h(ucfirst($island)) ?></span>
+						<?php if ($teaser !== ''): ?>
+						<span class="ke-cat-price"><?= $h($teaser) ?></span>
+						<?php endif; ?>
 					</a>
 					<div class="ke-cat-body">
 						<h3><a href="<?= $h($href) ?>"><?= $h((string) $pkg['name']) ?></a></h3>
 						<div class="ke-cat-meta">
 							<span><i class="fa-solid fa-location-dot"></i> <?= $h((string) ($pkg['place'] ?? ucfirst($island))) ?></span>
 							<span><i class="fa-regular fa-clock"></i> <?= $h((string) ($pkg['duration'] ?? '1 Day')) ?></span>
-							<?php if ($price > 0): ?>
-								<span>From ₱<?= $h(number_format($price)) ?></span>
-							<?php endif; ?>
 						</div>
 						<p><?= $h((string) ($pkg['lead'] ?? '')) ?></p>
 						<div class="ke-cat-actions">
@@ -113,7 +117,7 @@ $opt = [
 	'image' => '/assets/downloaded/dest-cebu.jpg',
 	'body' => 'tour-page tour-catalog tour-hub',
 	'nav' => 'tours-and-packages.php',
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=21" type="text/css" media="all"><style>
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all"><style>
 .ke-hub-head{margin:4px 0 22px}
 .ke-hub-head h2{margin:0 0 8px;font-size:32px}
 .ke-hub-head p{margin:0;color:#4a5568}

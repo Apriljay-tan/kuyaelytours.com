@@ -211,7 +211,7 @@ ob_start();
 					<div class="ke-bookbox" data-book="<?= store_h(json_encode($bookData, JSON_UNESCAPED_UNICODE)) ?>">
 						<div class="ke-bookbox-head">
 							<p class="ke-bookbox-from">From <?= store_h('₱' . number_format($fromPrice)) ?> <span>/pax</span></p>
-							<p>Price per person varies by group size</p>
+							<p class="ke-bookbox-sub">Price per person varies by group size</p>
 						</div>
 						<form class="ke-bookbox-form" id="ke-bookbox-form" action="/shop/add-to-cart.php" method="post">
 							<input type="hidden" name="csrf" value="<?= store_h(store_csrf_token()) ?>">
@@ -241,10 +241,11 @@ ob_start();
 							];
 							foreach ($guestRows as $row):
 							?>
-							<div class="ke-bookbox-guest">
+							<div class="ke-bookbox-guest" data-guest-type="<?= store_h($row[0]) ?>">
 								<div>
 									<strong><?= store_h($row[1]) ?></strong>
 									<small><?= store_h($row[2]) ?></small>
+									<em class="ke-bookbox-unit" data-unit="<?= store_h($row[0]) ?>">—</em>
 								</div>
 								<div class="ke-step">
 									<button type="button" data-step="<?= $row[0] ?>" data-dir="-">−</button>
@@ -264,6 +265,10 @@ ob_start();
 								<?php endforeach; ?>
 							</div>
 							<?php endif; ?>
+							<div class="ke-bookbox-breakdown" hidden>
+								<div class="ke-bookbox-lines"></div>
+								<p class="ke-bookbox-total">Booking cost: <strong></strong></p>
+							</div>
 							<button type="button" class="ke-bookbox-book is-book" data-ke-cart data-ke-product="<?= store_h($cartId) ?>" data-ke-notes="<?= store_h((string) $tour['name']) ?>" data-ke-next="/shop/checkout.php">Book now</button>
 							<button type="button" class="ke-bookbox-cart is-cart" data-ke-cart data-ke-product="<?= store_h($cartId) ?>" data-ke-notes="<?= store_h((string) $tour['name']) ?>">Add to cart</button>
 							<p class="ke-td-note">Secure your trip with a small deposit. Full payment can be settled on the day of the tour.</p>
@@ -293,23 +298,78 @@ ob_start();
 						function money(n) {
 							return "₱" + Number(n || 0).toLocaleString();
 						}
+						var labels = {
+							foreign_adult: "Foreign Adult",
+							local_adult: "Local Adult",
+							foreign_child: "Foreign Child",
+							local_child: "Local Child"
+						};
+						var types = ["foreign_adult", "local_adult", "foreign_child", "local_child"];
 						function refresh() {
 							var n = pax();
-							var t = tierFor(n);
+							var t = tierFor(Math.max(1, n));
 							var total = 0;
-							if (t) {
-								total += qty("foreign_adult") * (t.foreign_adult || 0);
-								total += qty("local_adult") * (t.local_adult || 0);
-								total += qty("foreign_child") * (t.foreign_child || 0);
-								total += qty("local_child") * (t.local_child || 0);
-							}
-							box.querySelectorAll(".ke-addon:checked").forEach(function (el) {
-								total += parseInt(el.getAttribute("data-price"), 10) || 0;
+							var lines = [];
+							types.forEach(function (type) {
+								var q = qty(type);
+								var rate = t ? (t[type] || 0) : 0;
+								var unitEl = box.querySelector('[data-unit="' + type + '"]');
+								if (unitEl) {
+									unitEl.textContent = t ? (money(rate) + " / pax") : "—";
+								}
+								if (q > 0 && t) {
+									var sub = q * rate;
+									total += sub;
+									lines.push(labels[type] + " (" + q + ") × " + money(rate) + " = " + money(sub));
+								}
 							});
+							box.querySelectorAll(".ke-addon:checked").forEach(function (el) {
+								var addonPrice = parseInt(el.getAttribute("data-price"), 10) || 0;
+								total += addonPrice;
+								var label = (el.parentElement && el.parentElement.querySelector("span"))
+									? el.parentElement.querySelector("span").textContent.replace(/\s*\(\+₱[\d,]+\)$/, "").trim()
+									: "Add-on";
+								lines.push(label + " = " + money(addonPrice));
+							});
+							var breakdown = box.querySelector(".ke-bookbox-breakdown");
+							var linesEl = box.querySelector(".ke-bookbox-lines");
+							var totalEl = box.querySelector(".ke-bookbox-total strong");
+							if (breakdown && linesEl) {
+								if (n >= 1) {
+									linesEl.innerHTML = lines.map(function (line) {
+										return "<div>" + line + "</div>";
+									}).join("");
+									if (totalEl) totalEl.textContent = money(total);
+									breakdown.hidden = false;
+								} else {
+									linesEl.innerHTML = "";
+									if (totalEl) totalEl.textContent = "";
+									breakdown.hidden = true;
+								}
+							}
 							var head = box.querySelector(".ke-bookbox-from");
+							var sub = box.querySelector(".ke-bookbox-sub") || box.querySelector(".ke-bookbox-head p:last-child");
 							if (head) {
-								if (n < 1) head.innerHTML = "From " + money(data.from || 0) + " <span>/pax</span>";
-								else head.innerHTML = money(total) + " <span>total</span>";
+								if (n < 1) {
+									head.innerHTML = "From " + money(data.from || 0) + " <span>/pax</span>";
+									if (sub) sub.textContent = "Price per person varies by group size";
+								} else {
+									var primary = 0;
+									if (t) {
+										if (qty("foreign_adult") > 0) primary = t.foreign_adult || 0;
+										else if (qty("local_adult") > 0) primary = t.local_adult || 0;
+										else {
+											for (var i = 0; i < types.length; i++) {
+												if (qty(types[i]) > 0) {
+													primary = t[types[i]] || 0;
+													break;
+												}
+											}
+										}
+									}
+									head.innerHTML = money(primary) + " <span>/pax</span>";
+									if (sub) sub.textContent = "Booking cost: " + money(total);
+								}
 							}
 							var guests = box.querySelector('[name="guests"]');
 							if (guests) guests.value = String(Math.max(1, n));
@@ -369,7 +429,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=19" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=1" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=1" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $detailHtml);

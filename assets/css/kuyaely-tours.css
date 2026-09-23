@@ -636,6 +636,25 @@
     line-height: 1;
 }
 
+.ke-cat-price {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #F5C518;
+    color: #122327;
+    font-family: var(--title-font);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    line-height: 1.15;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+    max-width: calc(100% - 100px);
+    text-align: right;
+}
+
 .ke-cat-body {
     display: flex;
     flex-direction: column;
@@ -1386,6 +1405,33 @@
 }
 .ke-bookbox-guest strong { display: block; font-size: 14px; color: #fff; font-weight: 600; }
 .ke-bookbox-guest small { display: block; color: rgba(245,197,24,0.85); font-size: 12px; margin-top: 2px; }
+.ke-bookbox-unit {
+    display: block;
+    margin-top: 4px;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    color: #F5C518;
+}
+.ke-bookbox-breakdown {
+    margin: 12px 0 14px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.ke-bookbox-lines {
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.88);
+}
+.ke-bookbox-total {
+    margin: 10px 0 0;
+    font-size: 15px;
+    color: #fff;
+}
+.ke-bookbox-total strong { color: #F5C518; }
 .ke-step {
     display: flex;
     align-items: center;
