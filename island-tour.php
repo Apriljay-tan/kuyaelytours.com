@@ -71,7 +71,7 @@ ob_start();
 					$sku = ke_package_cart_id($pkg);
 					$teaser = ke_package_teaser($pkg);
 					?>
-				<article class="ke-cat-card" data-area="<?= $h((string) ($pkg['area'] ?? 'all')) ?>" data-ke-href="<?= $h($href) ?>">
+				<article class="ke-cat-card" data-area="<?= $h((string) ($pkg['area'] ?? 'all')) ?>" data-ke-href="<?= $h($href) ?>" data-ke-book="<?= $h(ke_package_book_attr($pkg)) ?>">
 					<a class="ke-cat-photo" href="<?= $h($href) ?>">
 						<img src="<?= $h($img) ?>" alt="<?= $h((string) $pkg['name']) ?>">
 						<span class="ke-cat-badge"><?= $h((string) ($pkg['badge'] ?? '')) ?></span>
@@ -149,7 +149,7 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=25" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=26" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [

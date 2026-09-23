@@ -529,6 +529,18 @@ function ke_package_cart_id(array $tour): string
 	return (string) ($tour['product'] ?? 'tour-cebu');
 }
 
+function ke_package_book_attr(array $tour): string
+{
+	$json = json_encode([
+		'slug' => (string) ($tour['slug'] ?? ''),
+		'split' => ke_package_split_local($tour),
+		'ageAdult' => (string) ($tour['age_adult'] ?? '5 years old & above'),
+		'ageChild' => (string) ($tour['age_child'] ?? 'Below 5 years old'),
+		'pickups' => array_values(array_filter(array_map('strval', ke_tour_pickups($tour)))),
+	], JSON_UNESCAPED_UNICODE);
+	return is_string($json) ? $json : '{}';
+}
+
 function ke_tours(bool $reload = false): array
 {
 	static $tours = null;
