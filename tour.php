@@ -304,6 +304,7 @@ ob_start();
 						function isMobile() { return mq.matches; }
 						function openSheet() {
 							if (!sheet || !isMobile()) return;
+							if (sheet.parentNode !== document.body) document.body.appendChild(sheet);
 							sheet.hidden = false;
 							document.body.classList.add("ke-mbook-open");
 							var closeEl = sheet.querySelector(".ke-mbook-close");
@@ -495,7 +496,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=23" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=4" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=24" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=6" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $detailHtml);

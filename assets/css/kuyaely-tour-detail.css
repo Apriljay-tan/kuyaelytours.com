@@ -471,7 +471,15 @@
         display: block !important;
         position: fixed;
         inset: 0;
-        z-index: 10060;
+        z-index: 200000;
+    }
+    body.ke-mbook-open .travelik-header-area,
+    body.ke-mbook-open .mobile-menu-area,
+    body.ke-mbook-open .ke-gnav,
+    body.ke-mbook-open .ke-site-head,
+    body.ke-mbook-open .mean-bar,
+    body.ke-mbook-open .prgoress_indicator {
+        visibility: hidden !important;
     }
     .ke-mbook-backdrop {
         display: block;
@@ -498,14 +506,14 @@
         display: grid;
         place-items: center;
         position: absolute;
-        top: max(10px, env(safe-area-inset-top, 0px));
+        top: max(14px, env(safe-area-inset-top, 0px));
         right: 12px;
-        z-index: 3;
+        z-index: 5;
         width: 40px;
         height: 40px;
         border: 0;
         border-radius: 50%;
-        background: rgba(18, 35, 39, 0.55);
+        background: rgba(18, 35, 39, 0.12);
         color: #122327;
         font-size: 28px;
         line-height: 1;
@@ -520,11 +528,12 @@
     .ke-mbook-panel .ke-bookbox-head {
         position: sticky;
         top: 0;
-        z-index: 2;
+        z-index: 4;
         background: #F5C518;
         color: #122327;
-        padding: 18px 52px 14px 20px;
-        font-family: var(--text-font);
+        min-height: 76px;
+        padding: max(16px, env(safe-area-inset-top, 0px)) 56px 14px 20px;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
         letter-spacing: normal;
         text-transform: none;
     }
@@ -562,4 +571,46 @@
 
 @media (prefers-reduced-motion: reduce) {
     .ke-mbook-panel { animation: none; }
+}
+
+/* Booking sheet: regular formal type, not the condensed display face */
+.ke-mbook-panel,
+.ke-mbook-panel .ke-bookbox,
+.ke-mbook-panel .ke-bookbox * {
+    font-family: Inter, "Segoe UI", Arial, sans-serif !important;
+    font-stretch: normal !important;
+    font-style: normal !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    line-height: 1.35;
+}
+.ke-mbook-panel .ke-bookbox-from {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    line-height: 1.25 !important;
+}
+.ke-mbook-panel .ke-bookbox-from span,
+.ke-mbook-panel .ke-bookbox-sub,
+.ke-mbook-panel .ke-bookbox-head p:last-child,
+.ke-mbook-panel .ke-bookbox-field,
+.ke-mbook-panel .ke-bookbox-field span,
+.ke-mbook-panel .ke-bookbox-guest small,
+.ke-mbook-panel .ke-bookbox-unit,
+.ke-mbook-panel .ke-td-note {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+.ke-mbook-panel .ke-bookbox-guest strong,
+.ke-mbook-panel .ke-bookbox-field select,
+.ke-mbook-panel .ke-bookbox-field input,
+.ke-mbook-panel .ke-step input {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+.ke-mbook-panel .ke-bookbox-book,
+.ke-mbook-panel .ke-bookbox-cart {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
 }

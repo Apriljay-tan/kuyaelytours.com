@@ -1347,8 +1347,15 @@
     border-radius: 18px;
     overflow: hidden;
     margin-bottom: 16px;
-    font-family: var(--text-font);
-    letter-spacing: normal;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+}
+.ke-bookbox,
+.ke-bookbox * {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-stretch: normal;
+    letter-spacing: 0;
     text-transform: none;
 }
 .ke-bookbox-head {
