@@ -39,4 +39,9 @@ if ($q !== '') {
 	}
 }
 
-store_redirect(ke_search_best_url($island, $type, $tab, $vehicle, $date));
+$searchUrl = ke_search_best_url($island, $type, $tab, $vehicle, $date);
+$searchTerm = $q !== '' ? $q : trim($island . ' ' . $type . ' ' . $vehicle);
+if ($searchTerm !== '') {
+	$searchUrl .= (str_contains($searchUrl, '?') ? '&' : '?') . 'ke_find=' . rawurlencode($searchTerm);
+}
+store_redirect($searchUrl);

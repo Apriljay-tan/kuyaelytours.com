@@ -161,4 +161,4 @@ if (!$stored && $staffSent === '' && $guestSent === '') {
 }
 
 $_SESSION['ke_last_mail'] = $now;
-ke_redirect('inquiry-sent.html');
+ke_redirect('inquiry-sent.html?ok=1&kind=' . ($isBooking ? 'lead' : 'subscribe'));

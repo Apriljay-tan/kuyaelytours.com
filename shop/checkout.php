@@ -226,14 +226,14 @@ if ($paid && $booking) {
 	$left = '<section class="ke-secure-card ke-secure-done"><p class="ke-kicker">Payment</p><h2>Continue to PayMongo</h2>'
 		. $cancelNote
 		. ($error !== '' ? '<p>' . store_h($error) . '</p>' : '<p>Your booking is saved. Proceed to payment to finish it.</p>')
-		. '<form method="post"><input type="hidden" name="csrf" value="' . store_h(store_csrf_token()) . '">'
+		. '<form method="post" data-pay-full="' . (int) $dueNow . '" data-pay-half="' . (int) $dueNow . '"><input type="hidden" name="csrf" value="' . store_h(store_csrf_token()) . '">'
 		. '<button class="ke-secure-gold" type="submit" name="action" value="pay">Proceed to payment</button></form></section>';
 } else {
 	$signin = $user
 		? '<div class="ke-secure-return"><span>Signed in as ' . store_h((string) $user['name']) . '</span></div>'
 		: '<div class="ke-secure-return"><span>Returning customer? Sign in for a faster checkout.</span><a href="/account/login.php?next=' . rawurlencode('/shop/checkout.php') . '">Sign in</a></div>';
 	$left = $signin
-		. '<form method="post" class="ke-secure-form">'
+		. '<form method="post" class="ke-secure-form" data-pay-full="' . (int) $payable . '" data-pay-half="' . (int) $halfNow . '">'
 		. '<input type="hidden" name="csrf" value="' . store_h(store_csrf_token()) . '">'
 		. '<section class="ke-secure-card"><h2>Customer information</h2><p>We send the booking confirmation here.</p>'
 		. '<label>Email address<input type="email" name="email" required value="' . store_h($emailVal) . '" placeholder="you@example.com"></label>'
@@ -268,5 +268,29 @@ $body = '<section class="ke-secure-hero" style="background-image:url(\'/assets/d
 	. $notice
 	. '<div class="ke-secure-grid"><div class="ke-secure-main">' . $left . '</div>' . $summary . '</div>'
 	. '<ul class="ke-secure-trust"><li>Secure payment</li><li>DOT accredited</li><li>No hidden charges</li></ul>';
+
+$pixelIds = [];
+$pixelNames = [];
+foreach ($sourceItems as $pixelItem) {
+	if (!is_array($pixelItem)) {
+		continue;
+	}
+	$pixelIds[] = (string) ($pixelItem['package_slug'] ?? ($pixelItem['product_id'] ?? 'tour'));
+	$pixelNames[] = (string) ($pixelItem['label'] ?? 'Tour');
+}
+$pixelName = $pixelNames !== [] ? implode(', ', $pixelNames) : 'Tour';
+$pixelParams = [
+	'value' => $paid ? (int) $dueNow : (int) $payable,
+	'currency' => 'PHP',
+	'content_type' => 'product',
+	'content_ids' => $pixelIds !== [] ? $pixelIds : ['tour'],
+	'content_name' => $pixelName,
+	'num_items' => max(1, count($pixelIds)),
+];
+if ($paid && $booking) {
+	store_pixel_once('purchase-' . (string) $booking['id'], 'Purchase', $pixelParams);
+} elseif (!$paid) {
+	store_pixel_once('checkout-' . md5(implode('|', $pixelIds) . ':' . $payable), 'InitiateCheckout', $pixelParams);
+}
 
 store_page('Secure checkout', $body, '', true, 'ke-site ke-dash ke-secure');

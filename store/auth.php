@@ -161,6 +161,10 @@ function store_login_oauth(string $provider, array $profile): string
 		return 'Could not save the account. Please try again.';
 	}
 	store_fb_debug('DATABASE_SUCCESS=YES');
+	store_pixel_push('CompleteRegistration', [
+		'content_name' => 'Account',
+		'status' => $provider,
+	]);
 	store_fb_debug_stage('LOGIN_SESSION');
 	$_SESSION['store_user'] = $user['id'];
 	$regenerated = session_regenerate_id(true);

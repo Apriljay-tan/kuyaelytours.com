@@ -27,6 +27,10 @@ if (!$pending) {
 			$error = store_complete_facebook($email, (string) ($_POST['password'] ?? ''));
 			if ($error === '') {
 				store_fb_debug('COMPLETE_PROFILE_SUCCESS=YES');
+				store_pixel_push('CompleteRegistration', [
+					'content_name' => 'Account',
+					'status' => 'facebook',
+				]);
 				store_redirect($next);
 			}
 		}

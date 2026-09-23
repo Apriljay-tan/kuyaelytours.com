@@ -15,6 +15,10 @@ $phone = trim((string) ($_POST['phone'] ?? ''));
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok()) {
 	$error = store_register($name, $email, $phone, (string) ($_POST['password'] ?? ''));
 	if ($error === '') {
+		store_pixel_push('CompleteRegistration', [
+			'content_name' => 'Account',
+			'status' => 'email',
+		]);
 		store_redirect($next);
 	}
 } else {

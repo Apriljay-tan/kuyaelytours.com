@@ -150,6 +150,14 @@ $opt = [
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
 	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=25" type="text/css" media="all">',
+	'pixel' => [[
+		'event' => 'ViewContent',
+		'params' => [
+			'content_name' => (string) $meta['label'] . ' tours',
+			'content_category' => $island,
+			'content_type' => 'product_group',
+		],
+	]],
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $html);

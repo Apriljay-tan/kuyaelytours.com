@@ -523,6 +523,17 @@ $opt = [
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
 	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=24" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=6" type="text/css" media="all">',
+	'pixel' => [[
+		'event' => 'ViewContent',
+		'params' => [
+			'content_name' => (string) $tour['name'],
+			'content_ids' => [(string) $tour['slug']],
+			'content_type' => 'product',
+			'content_category' => (string) ($tour['island'] ?? ''),
+			'value' => (int) $fromPrice,
+			'currency' => 'PHP',
+		],
+	]],
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $detailHtml);

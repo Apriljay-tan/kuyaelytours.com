@@ -117,6 +117,13 @@ $opt = [
 	'image' => '/assets/downloaded/dest-cebu.jpg',
 	'body' => 'tour-page tour-catalog tour-hub',
 	'nav' => 'tours-and-packages.php',
+	'pixel' => [[
+		'event' => 'ViewContent',
+		'params' => [
+			'content_name' => 'Tours and Packages',
+			'content_type' => 'product_group',
+		],
+	]],
 	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all"><style>
 .ke-hub-head{margin:4px 0 22px}
 .ke-hub-head h2{margin:0 0 8px;font-size:32px}

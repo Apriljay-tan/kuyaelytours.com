@@ -29,6 +29,8 @@ function ke_marketing_page(array $opt, string $main): void
 <html lang="en-US">
 
 <head>
+	<?= store_gtm_head() ?>
+	<?= store_pixel_head() ?>
 	<meta charset="UTF-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title><?= $title ?></title>
@@ -62,6 +64,7 @@ function ke_marketing_page(array $opt, string $main): void
 </head>
 
 <body class="<?= $body ?>">
+	<?= store_gtm_body() ?>
 	<div class="preloader">
 		<div class="loader"></div>
 	</div>
@@ -398,6 +401,7 @@ function ke_marketing_page(array $opt, string $main): void
 	})();
 	</script>
 	<script src="/assets/js/main.js"></script>
+	<?= store_pixel_page_script(is_array($opt['pixel'] ?? null) ? $opt['pixel'] : []) ?>
 </body>
 
 </html>

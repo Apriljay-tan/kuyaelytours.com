@@ -1,6 +1,128 @@
 <?php
 declare(strict_types=1);
 
+function store_gtm_head(): string
+{
+	return <<<'HTML'
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T8SH1P8Z');</script>
+<!-- End Google Tag Manager -->
+HTML;
+}
+
+function store_gtm_body(): string
+{
+	return <<<'HTML'
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8SH1P8Z"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+HTML;
+}
+
+function store_pixel_head(): string
+{
+	return <<<'HTML'
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1757833078759116');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1757833078759116&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+HTML;
+}
+
+function store_pixel_params(array $params): array
+{
+	$out = [];
+	foreach ($params as $key => $value) {
+		$key = preg_replace('/[^a-z0-9_]/i', '', (string) $key) ?? '';
+		if ($key === '') {
+			continue;
+		}
+		if (is_int($value) || is_float($value)) {
+			$out[$key] = $value;
+		} elseif (is_array($value)) {
+			$list = [];
+			foreach ($value as $item) {
+				if (is_scalar($item)) {
+					$list[] = (string) $item;
+				}
+			}
+			$out[$key] = $list;
+		} elseif (is_scalar($value)) {
+			$out[$key] = (string) $value;
+		}
+	}
+	return $out;
+}
+
+function store_pixel_push(string $event, array $params = []): void
+{
+	$allowed = ['ViewContent', 'Search', 'AddToCart', 'InitiateCheckout', 'AddPaymentInfo', 'Purchase', 'Lead', 'CompleteRegistration', 'Contact', 'Schedule', 'Subscribe', 'CustomizeProduct'];
+	if (!in_array($event, $allowed, true)) {
+		return;
+	}
+	if (!isset($_SESSION['ke_pixel']) || !is_array($_SESSION['ke_pixel'])) {
+		$_SESSION['ke_pixel'] = [];
+	}
+	$_SESSION['ke_pixel'][] = ['event' => $event, 'params' => store_pixel_params($params)];
+}
+
+function store_pixel_once(string $key, string $event, array $params = []): void
+{
+	if (!isset($_SESSION['ke_pixel_once']) || !is_array($_SESSION['ke_pixel_once'])) {
+		$_SESSION['ke_pixel_once'] = [];
+	}
+	if (!empty($_SESSION['ke_pixel_once'][$key])) {
+		return;
+	}
+	$_SESSION['ke_pixel_once'][$key] = 1;
+	if (count($_SESSION['ke_pixel_once']) > 40) {
+		$_SESSION['ke_pixel_once'] = array_slice($_SESSION['ke_pixel_once'], -40, null, true);
+	}
+	store_pixel_push($event, $params);
+}
+
+function store_pixel_page_script(array $events = []): string
+{
+	$clean = [];
+	foreach ($events as $event) {
+		if (!is_array($event)) {
+			continue;
+		}
+		$name = (string) ($event['event'] ?? '');
+		if ($name === '') {
+			continue;
+		}
+		$clean[] = [
+			'event' => $name,
+			'params' => store_pixel_params((array) ($event['params'] ?? [])),
+		];
+	}
+	$json = json_encode($clean, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
+	if ($json === false) {
+		$json = '[]';
+	}
+	return '<script>window.kePixelEvents=' . $json . ';</script>'
+		. '<script src="/assets/js/kuyaely-pixel.js?v=1" defer></script>';
+}
+
 function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tours', bool $bare = false, string $mods = ''): void
 {
 	$user = store_user();
@@ -14,7 +136,10 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 		$class .= ' ' . trim($mods);
 	}
 	$useSite = (bool) preg_match('/\b(ke-site|ke-dash|ke-bag)\b/', $mods);
-	echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
+	echo '<!DOCTYPE html><html lang="en"><head>';
+	echo store_gtm_head();
+	echo store_pixel_head();
+	echo '<meta charset="UTF-8">';
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
@@ -24,6 +149,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
 	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui35">';
 	echo '</head><body class="' . $class . '">';
+	echo store_gtm_body();
 	if ($useSite) {
 		echo store_scene_html();
 		echo store_site_header($user, $count);
@@ -47,6 +173,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms and Conditions</a></footer>';
 	}
 	echo '<script src="/assets/js/kuyaely-chat.js?v=6" defer></script>';
+	echo store_pixel_page_script();
 	echo '</body></html>';
 }
 
@@ -173,7 +300,10 @@ function store_hello_band(array $user, string $active): string
 
 function store_auth_page(string $title, string $heading, string $lede, string $form, string $alt, string $error = '', string $visualTitle = 'Kuya Ely Tours', string $visualLede = 'Travel is the only purchase that enriches you in ways beyond the fare.'): void
 {
-	echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">';
+	echo '<!DOCTYPE html><html lang="en"><head>';
+	echo store_gtm_head();
+	echo store_pixel_head();
+	echo '<meta charset="UTF-8">';
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
@@ -183,6 +313,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
 	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui35">';
 	echo '</head><body class="ke-auth">';
+	echo store_gtm_body();
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
 	echo '<span style="background-image:url(\'/assets/downloaded/dest-siquijor.jpg\')"></span>';
 	echo '</div><div class="ke-auth-veil"></div>';
@@ -205,6 +336,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '</section></article></div>';
 	echo '<script>(function(){document.querySelectorAll(".ke-pass-toggle").forEach(function(btn){btn.addEventListener("click",function(){var box=btn.closest(".ke-field-box");var input=box?box.querySelector("input"):null;if(!input)return;var show=input.type==="password";input.type=show?"text":"password";btn.setAttribute("aria-label",show?"Hide password":"Show password");btn.setAttribute("aria-pressed",show?"true":"false");btn.classList.toggle("is-on",show);});});})();</script>';
 	echo '<script src="/assets/js/kuyaely-chat.js?v=6" defer></script>';
+	echo store_pixel_page_script();
 	echo '</body></html>';
 }
 

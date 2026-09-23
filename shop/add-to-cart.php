@@ -98,6 +98,17 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 	}
 }
 
+$pixelName = (string) ($item['label'] ?? ($product['name'] ?? 'Tour'));
+$pixelId = (string) ($item['package_slug'] ?? $productId);
+$pixelValue = (int) ($item['line_total'] ?? ($product['price_from'] ?? 0));
+store_pixel_push('AddToCart', [
+	'content_name' => $pixelName,
+	'content_ids' => [$pixelId !== '' ? $pixelId : 'tour'],
+	'content_type' => 'product',
+	'value' => $pixelValue,
+	'currency' => 'PHP',
+	'num_items' => max(1, (int) ($item['guests'] ?? 1)),
+]);
 store_cart_add($item);
 
 $next = store_safe_next((string) ($_POST['next'] ?? '/shop/cart.php'), '/shop/cart.php');
