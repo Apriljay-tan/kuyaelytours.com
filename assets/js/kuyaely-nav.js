@@ -342,10 +342,6 @@
 						notes: btn.getAttribute("data-ke-notes") || ""
 					};
 				}
-				if (!loggedIn()) {
-					goLogin({ fields: fields, next: next });
-					return;
-				}
 				postCart(fields, next);
 			});
 		})

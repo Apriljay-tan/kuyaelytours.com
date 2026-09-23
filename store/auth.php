@@ -179,4 +179,6 @@ function store_login_oauth(string $provider, array $profile): string
 function store_logout(): void
 {
 	unset($_SESSION['store_user']);
+	$_SESSION['cart'] = [];
+	unset($_SESSION['promo']);
 }

@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__) . '/store/bootstrap.php';
+require dirname(__DIR__) . '/store/tours-data.php';
 store_require_login('/account/bookings.php');
 $user = store_user();
 if (!$user) {
@@ -137,8 +138,8 @@ ob_start();
 			$items = ke_book_items($booking);
 			$firstItem = $items[0] ?? [];
 			$product = store_product((string) ($firstItem['product_id'] ?? ''));
-			$title = (string) ($product['name'] ?? 'Private trip');
-			$image = (string) ($product['image'] ?? '/assets/downloaded/dest-cebu.jpg');
+			$title = (string) ($firstItem['label'] ?? ($product['name'] ?? 'Private trip'));
+			$image = ke_item_cover($firstItem, (string) ($product['image'] ?? '/assets/downloaded/dest-cebu.jpg'));
 			$date = (string) ($firstItem['date'] ?? '');
 			$guests = max(1, (int) ($firstItem['guests'] ?? 1));
 			$pickup = trim((string) ($firstItem['vehicle'] ?? ''));

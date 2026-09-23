@@ -15,8 +15,13 @@ if ($secret === '' || $raw === '' || $header === '' || !store_paymongo_signature
 }
 
 $data = json_decode($raw, true);
-$type = (string) ($data['data']['attributes']['type'] ?? '');
-$bookingId = (string) ($data['data']['attributes']['data']['attributes']['metadata']['booking_id'] ?? '');
+$attrs = $data['data']['attributes'] ?? [];
+$type = (string) ($attrs['type'] ?? '');
+$resource = $attrs['data']['attributes'] ?? [];
+$bookingId = (string) ($resource['metadata']['booking_id'] ?? '');
+if ($bookingId === '' && preg_match('/Booking ([a-f0-9]{16})/', (string) ($resource['description'] ?? ''), $match)) {
+	$bookingId = $match[1];
+}
 if ($bookingId === '' || !str_contains($type, 'paid')) {
 	echo 'ok';
 	exit;
@@ -24,8 +29,9 @@ if ($bookingId === '' || !str_contains($type, 'paid')) {
 
 $booking = store_find_booking($bookingId);
 if ($booking && ($booking['status'] ?? '') !== 'cancelled') {
-	$booking['status'] = 'paid';
-	$booking['pay_method'] = 'paymongo';
+	$deposit = str_contains((string) ($booking['notes'] ?? ''), 'Balance due');
+	$booking['status'] = $deposit ? 'confirmed' : 'paid';
+	$booking['pay_method'] = $deposit ? 'half' : 'paymongo';
 	store_update_booking($booking);
 }
 echo 'ok';

@@ -441,6 +441,25 @@ function ke_package_cover(array $tour, string $fallback = ''): string
 	return $first;
 }
 
+function ke_item_cover(array $item, string $fallback = '/assets/downloaded/dest-cebu.jpg'): string
+{
+	$slug = strtolower(trim((string) ($item['package_slug'] ?? '')));
+	if ($slug !== '' && function_exists('ke_tour')) {
+		$tour = ke_tour($slug);
+		if (is_array($tour)) {
+			$cover = ke_package_cover($tour, '');
+			if ($cover !== '') {
+				return $cover;
+			}
+		}
+	}
+	$saved = trim((string) ($item['cover'] ?? ''));
+	if ($saved !== '') {
+		return $saved;
+	}
+	return $fallback !== '' ? $fallback : '/assets/downloaded/dest-cebu.jpg';
+}
+
 function ke_package_teaser(array $tour): string
 {
 	$custom = trim((string) ($tour['price_teaser'] ?? ''));

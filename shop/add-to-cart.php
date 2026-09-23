@@ -7,10 +7,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST' || !store_csrf_ok()) {
 	store_redirect('/tours-and-packages.php');
 }
 
-if (!store_user()) {
-	store_require_login('/shop/cart.php');
-}
-
 $productId = trim((string) ($_POST['product_id'] ?? ''));
 $product = store_product($productId);
 if (!$product) {
@@ -90,6 +86,7 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 		}
 		$item['package_slug'] = $slug;
 		$item['label'] = (string) $tour['name'];
+		$item['cover'] = ke_package_cover($tour);
 		$item['pickup'] = $pickup;
 		$item['pax'] = $qty;
 		$item['addons'] = array_map(static function ($a) {

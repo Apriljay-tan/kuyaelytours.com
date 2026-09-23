@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__) . '/store/bootstrap.php';
+require dirname(__DIR__) . '/store/tours-data.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok()) {
 	if (!empty($_POST['remove'])) {
@@ -10,7 +11,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok()) {
 		store_cart_clear();
 	}
 	if (isset($_POST['promo'])) {
-		store_redirect('/shop/cart.php?promo=1');
+		store_redirect('/shop/cart.php?promo=' . rawurlencode(store_promo_apply((string) ($_POST['code'] ?? ''))));
 	}
 	store_redirect('/shop/cart.php');
 }
@@ -20,14 +21,22 @@ $notice = '';
 if ($err === 'blocked') {
 	$notice = '<p class="ke-err ke-banner ke-dash-banner">That vehicle is already confirmed on the selected date. Choose another date or van.</p>';
 }
-if (($_GET['promo'] ?? '') === '1') {
-	$notice .= '<p class="ke-ok ke-banner ke-dash-banner">Promo codes are confirmed by Kuya Ely with your booking. Your cart total is unchanged for now.</p>';
+$promoState = (string) ($_GET['promo'] ?? '');
+if ($promoState === 'ok') {
+	$notice .= '<p class="ke-ok ke-banner ke-dash-banner">Promo applied. The discount is included in your total.</p>';
+} elseif ($promoState === 'invalid') {
+	$notice .= '<p class="ke-err ke-banner ke-dash-banner">That promo code is not active. Check the spelling or ask Kuya Ely.</p>';
+} elseif ($promoState === 'cleared') {
+	$notice .= '<p class="ke-ok ke-banner ke-dash-banner">Promo code removed.</p>';
 }
 
 $items = store_cart();
 $count = count($items);
 $csrf = store_h(store_csrf_token());
 $total = store_cart_total();
+$discount = store_promo_discount($total);
+$payable = max(0, $total - $discount);
+$applied = store_promo();
 
 function ke_cart_date(string $ymd): string
 {
@@ -82,7 +91,7 @@ $rows = '';
 foreach ($items as $item) {
 	$product = store_product((string) ($item['product_id'] ?? ''));
 	$name = (string) ($item['label'] ?? $product['name'] ?? 'Item');
-	$image = (string) ($product['image'] ?? '/assets/downloaded/dest-cebu.jpg');
+	$image = ke_item_cover($item, (string) ($product['image'] ?? '/assets/downloaded/dest-cebu.jpg'));
 	$desc = (string) ($product['description'] ?? '');
 	$unit = (string) ($product['unit'] ?? '');
 	$guests = max(1, (int) ($item['guests'] ?? 1));
@@ -163,12 +172,13 @@ $sum = '<aside class="ke-bag-sum">'
 	. '<h2>Trip Summary</h2>'
 	. '<p class="ke-bag-sum-lede">Review your booking details.</p>'
 	. '<p class="ke-sum-line"><span>Subtotal (' . $count . ' item' . ($count === 1 ? '' : 's') . ')</span><span>' . store_money($total) . '</span></p>'
-	. '<p class="ke-total">Total <span>' . store_money($total) . '</span></p>'
+	. ($discount > 0 && $applied ? '<p class="ke-sum-line"><span>Promo ' . store_h((string) $applied['code']) . '</span><span>−' . store_money($discount) . '</span></p>' : '')
+	. '<p class="ke-total">Total <span>' . store_money($payable) . '</span></p>'
 	. '<p class="ke-bag-rate">Kuya Ely confirms the final rate, van, and date.</p>'
 	. '<form method="post" class="ke-bag-promo"><label>Promo Code<small>Have a promo code?</small></label>'
 	. '<input type="hidden" name="csrf" value="' . $csrf . '">'
-	. '<div><input type="text" name="code" placeholder="Enter promo code"><button type="submit" name="promo" value="1">Apply</button></div></form>'
-	. '<a class="ke-dash-gold ke-bag-checkout" href="/shop/checkout.php">Proceed to Checkout</a>'
+	. '<div><input type="text" name="code" value="' . store_h((string) ($applied['code'] ?? '')) . '" placeholder="Enter promo code"><button type="submit" name="promo" value="1">Apply</button></div></form>'
+	. '<a class="ke-dash-gold ke-bag-checkout" href="/shop/checkout.php">Proceed to payment</a>'
 	. '<p class="trust">Secure Booking<br>Your information is encrypted and protected.</p>'
 	. '</aside>'
 	. '<aside class="ke-bag-help">'

@@ -13,7 +13,7 @@ function store_booking_status_label(string $status): string
 	return $map[$status] ?? $status;
 }
 
-function store_create_booking(array $user, array $items, string $status, string $payMethod, string $notes = ''): ?array
+function store_create_booking(array $user, array $items, string $status, string $payMethod, string $notes = '', int $discount = 0, string $promoCode = ''): ?array
 {
 	if (!$items) {
 		return null;
@@ -29,9 +29,15 @@ function store_create_booking(array $user, array $items, string $status, string 
 	foreach ($items as $item) {
 		$total += store_line_total($item);
 	}
+	$discount = max(0, min($total, $discount));
+	$total -= $discount;
+	$promoCode = strtoupper(trim($promoCode));
+	if ($promoCode !== '') {
+		$notes = trim($notes . "\nPromo " . $promoCode . ($discount > 0 ? ' −' . $discount : ''));
+	}
 	$booking = [
 		'id' => store_id(),
-		'user_id' => $user['id'],
+		'user_id' => (string) ($user['id'] ?? ''),
 		'status' => $status,
 		'pay_method' => $payMethod,
 		'total' => $total,

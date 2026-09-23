@@ -22,7 +22,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui33">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui35">';
 	echo '</head><body class="' . $class . '">';
 	if ($useSite) {
 		echo store_scene_html();
@@ -181,7 +181,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui33">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui35">';
 	echo '</head><body class="ke-auth">';
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
 	echo '<span style="background-image:url(\'/assets/downloaded/dest-siquijor.jpg\')"></span>';
