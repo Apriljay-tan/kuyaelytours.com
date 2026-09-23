@@ -48,64 +48,6 @@ ob_start();
 					<li><i class="fa-solid fa-arrow-right-long"></i><?= $h((string) $meta['crumb']) ?></li>
 				</ul>
 			</div>
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="travel-boking style-two">
-						<form action="/contact.html" method="get" id="dreamit-form">
-							<div class="add-bg active">
-								<div class="booking-box">
-									<div class="bokking-main-card">
-										<h2 class="bokking-title">LOCATION</h2>
-										<div class="booking-input-box">
-											<select name="location" id="location">
-												<option value="cebu"<?= $island === 'cebu' ? ' selected' : '' ?>>Cebu Tours</option>
-												<option value="bohol"<?= $island === 'bohol' ? ' selected' : '' ?>>Bohol Tour</option>
-												<option value="siquijor"<?= $island === 'siquijor' ? ' selected' : '' ?>>Siquijor Tour</option>
-												<option value="dumaguete"<?= $island === 'dumaguete' ? ' selected' : '' ?>>Dumaguete Tour</option>
-											</select>
-										</div>
-									</div>
-									<div class="bokking-main-card">
-										<h2 class="bokking-title">ACTIVITY</h2>
-										<div class="booking-input-box">
-											<select name="activity" id="activity">
-												<option value="">Select Activity</option>
-												<?php foreach ($packages as $pkg): ?>
-													<option value="<?= $h((string) $pkg['slug']) ?>"><?= $h((string) $pkg['name']) ?></option>
-												<?php endforeach; ?>
-											</select>
-										</div>
-									</div>
-									<div class="bokking-main-card">
-										<h2 class="bokking-title">DATE</h2>
-										<div class="booking-input-box">
-											<input type="date" id="arrive1" name="arrive">
-											<label for="arrive1">mm/dd/yyyy</label>
-										</div>
-									</div>
-									<div class="bokking-main-card">
-										<h2 class="bokking-title">GROUP</h2>
-										<div class="booking-input-box">
-											<select name="group" id="group">
-												<option value="0">Group Size</option>
-												<option value="1-3">1–3 guests</option>
-												<option value="4-6">4–6 guests</option>
-												<option value="7-10">7–10 guests</option>
-												<option value="11+">11+ guests</option>
-											</select>
-										</div>
-									</div>
-									<div class="booking-button">
-										<button type="submit">Add to cart</button>
-										<button type="button" class="ke-book-now">Book now</button>
-									</div>
-								</div>
-							</div>
-						</form>
-						<div id="status"></div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 
@@ -207,7 +149,7 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=25" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $html);

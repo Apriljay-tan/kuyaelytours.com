@@ -924,10 +924,35 @@
     }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 767px) {
+  .tour-catalog .ke-cat-hero {
+    padding-bottom: 8px;
+  }
+  .tour-catalog .tour__section.style__two {
+    padding-top: 18px;
+  }
   .tour-catalog .tour-dest-tabs,
   .ke-hub-tabs {
-    grid-template-columns: 1fr !important;
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: 0 0 16px;
+  }
+  .tour-catalog .tour-dest-tabs a,
+  .ke-hub-tabs a {
+    flex: 0 1 auto;
+    width: auto;
+    min-width: 0;
+    min-height: 34px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    box-shadow: none;
   }
 }
 .tour-cebu .ke-cat-hero { background-image: url("../downloaded/dest-cebu.jpg"); }
