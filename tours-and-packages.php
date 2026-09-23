@@ -124,7 +124,7 @@ $opt = [
 			'content_type' => 'product_group',
 		],
 	]],
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=26" type="text/css" media="all"><style>
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=27" type="text/css" media="all"><style>
 .ke-hub-head{margin:4px 0 22px}
 .ke-hub-head h2{margin:0 0 8px;font-size:32px}
 .ke-hub-head p{margin:0;color:#4a5568}

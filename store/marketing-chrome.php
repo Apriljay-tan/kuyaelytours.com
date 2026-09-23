@@ -58,8 +58,8 @@ function ke_marketing_page(array $opt, string $main): void
 	<link rel="stylesheet" href="/assets/css/responsive.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/scroll-up.css" type="text/css" media="all">
-	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui50" type="text/css" media="all">
-	<script src="/assets/js/kuyaely-nav.js?v=28"></script>
+	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui58" type="text/css" media="all">
+	<script src="/assets/js/kuyaely-nav.js?v=30"></script>
 	<?= $extra ?>
 </head>
 
@@ -400,7 +400,7 @@ function ke_marketing_page(array $opt, string $main): void
 		});
 	})();
 	</script>
-	<script src="/assets/js/main.js"></script>
+	<script src="/assets/js/main.js?v=2"></script>
 	<?= store_pixel_page_script(is_array($opt['pixel'] ?? null) ? $opt['pixel'] : []) ?>
 </body>
 

@@ -3089,3 +3089,80 @@ html {
 	font-weight: 700;
 	cursor: pointer;
 }
+
+.ke-line { display: block; }
+
+html.ke-i18n .goog-text-highlight,
+html.ke-i18n font {
+	background: transparent !important;
+	box-shadow: none !important;
+}
+html.ke-i18n .hero-section-1 {
+	height: auto !important;
+	min-height: 0 !important;
+}
+html.ke-i18n .hero-section-1 .hero_content h1 {
+	font-size: clamp(40px, 7vw, 72px) !important;
+	line-height: 1.2 !important;
+}
+html.ke-i18n body.ke-home .ke-mhero h1,
+html.ke-i18n body.ke-home .ke-mwhy h2,
+html.ke-i18n .section-title h1,
+html.ke-i18n h1.footer-sing-up-title,
+html.ke-i18n .hero-section-1 .hero-journey-box h2 {
+	line-height: 1.25 !important;
+	text-transform: none;
+}
+html.ke-i18n body.ke-home .ke-mhero h1 {
+	font-size: clamp(28px, 8vw, 40px) !important;
+}
+html.ke-i18n body.ke-home .hero-wrapper { min-height: 0 !important; }
+html.ke-i18n body.ke-home .hero-thumb {
+	position: relative !important;
+	top: auto !important;
+	left: auto !important;
+	transform: none !important;
+	margin: 8px auto 0 !important;
+}
+html.ke-i18n body.ke-home .ke-mhome { margin-top: 0 !important; }
+html.ke-i18n body.ke-home .ke-mhero-script {
+	position: static !important;
+	transform: none !important;
+	display: block;
+	margin: 8px 18px !important;
+	text-align: left !important;
+}
+html.ke-i18n .brand-name,
+html.ke-i18n .brand-sub,
+html.ke-i18n .ke-book-btn,
+html.ke-i18n .header-btn a,
+html.ke-i18n .hero-btn a,
+html.ke-i18n .defult-btn a,
+html.ke-i18n .ke-mfind-btn,
+html.ke-i18n .form-input-bx button,
+html.ke-i18n .ke-dot-copy {
+	white-space: normal !important;
+}
+html.ke-i18n .form-input-bx button {
+	position: static !important;
+	width: 100%;
+	height: auto !important;
+	min-height: 48px;
+	margin-top: 8px;
+	border-radius: 50px !important;
+	padding: 12px 16px !important;
+}
+html.ke-i18n .ke-dot-banner,
+html.ke-i18n .ke-dot-banner--mob {
+	height: auto !important;
+	border-radius: 16px !important;
+}
+html.ke-i18n .split-line,
+html.ke-i18n .text-anime-3 div,
+html.ke-i18n .text-effect div {
+	display: inline !important;
+	position: static !important;
+	transform: none !important;
+	opacity: 1 !important;
+	overflow: visible !important;
+}

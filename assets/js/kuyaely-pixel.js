@@ -26,23 +26,48 @@
 			.slice(0, 80);
 	}
 
-	function track(event, params) {
-		if (typeof window.fbq !== "function" || !event) {
+	function track(event, params, eventId) {
+		if (!event) {
+			return "";
+		}
+		if (!eventId) {
+			eventId = Math.random().toString(16).slice(2) + Date.now().toString(16);
+		}
+		if (typeof window.fbq === "function") {
+			var opts = { eventID: eventId };
+			if (standard[event]) {
+				window.fbq("track", event, params || {}, opts);
+			} else {
+				window.fbq("trackCustom", event, params || {}, opts);
+			}
+		}
+		return eventId;
+	}
+
+	function sendCapi(events) {
+		if (!events || !events.length) {
 			return;
 		}
-		if (standard[event]) {
-			window.fbq("track", event, params || {});
-		} else {
-			window.fbq("trackCustom", event, params || {});
-		}
+		fetch("/shop/capi.php", {
+			method: "POST",
+			credentials: "same-origin",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ events: events, url: location.href })
+		}).catch(function () {});
 	}
 
 	function fireList(list) {
+		var capi = [];
 		(list || []).forEach(function (item) {
-			if (item && item.event) {
-				track(item.event, item.params || {});
+			if (!item || !item.event) {
+				return;
+			}
+			var id = track(item.event, item.params || {}, item.event_id || "");
+			if (standard[item.event]) {
+				capi.push({ event: item.event, event_id: id, params: item.params || {} });
 			}
 		});
+		sendCapi(capi);
 	}
 
 	fireList(window.kePixelEvents);
@@ -54,7 +79,8 @@
 		try {
 			if (term && !sessionStorage.getItem(key)) {
 				sessionStorage.setItem(key, "1");
-				track("Search", { search_string: term });
+				var searchId = track("Search", { search_string: term });
+				sendCapi([{ event: "Search", event_id: searchId, params: { search_string: term } }]);
 			}
 		} catch (err) {}
 		if (window.history && history.replaceState) {
@@ -81,11 +107,14 @@
 			content_category: location.pathname
 		});
 		if (/^tel:/i.test(href)) {
-			track("Contact", { content_name: "Phone" });
+			var phoneId = track("Contact", { content_name: "Phone" });
+			sendCapi([{ event: "Contact", event_id: phoneId, params: { content_name: "Phone" } }]);
 		} else if (/^mailto:/i.test(href)) {
-			track("Contact", { content_name: "Email" });
+			var mailId = track("Contact", { content_name: "Email" });
+			sendCapi([{ event: "Contact", event_id: mailId, params: { content_name: "Email" } }]);
 		} else if (/wa\.me|whatsapp/i.test(href)) {
-			track("Contact", { content_name: "WhatsApp" });
+			var waId = track("Contact", { content_name: "WhatsApp" });
+			sendCapi([{ event: "Contact", event_id: waId, params: { content_name: "WhatsApp" } }]);
 		}
 	}, true);
 
@@ -97,7 +126,8 @@
 		var picked = form.querySelector("input[name='plan']:checked");
 		var half = picked && picked.value === "half";
 		var value = Number(half ? form.getAttribute("data-pay-half") : form.getAttribute("data-pay-full")) || 0;
-		track("AddPaymentInfo", { value: value, currency: "PHP" });
+		var payId = track("AddPaymentInfo", { value: value, currency: "PHP" });
+		sendCapi([{ event: "AddPaymentInfo", event_id: payId, params: { value: value, currency: "PHP" } }]);
 	}, true);
 
 	document.addEventListener("change", function (e) {
@@ -106,16 +136,26 @@
 			return;
 		}
 		if ((el.name === "date" || el.name === "arrive") && el.value) {
-			track("Schedule", {
+			var scheduleId = track("Schedule", {
 				content_name: clean(document.title),
 				content_category: location.pathname
 			});
+			sendCapi([{
+				event: "Schedule",
+				event_id: scheduleId,
+				params: { content_name: clean(document.title), content_category: location.pathname }
+			}]);
 		}
 		if (/^(guests|foreign_adult|local_adult|foreign_child|local_child|vehicle|group)$/.test(el.name)) {
-			track("CustomizeProduct", {
+			var customId = track("CustomizeProduct", {
 				content_name: el.name,
 				content_category: location.pathname
 			});
+			sendCapi([{
+				event: "CustomizeProduct",
+				event_id: customId,
+				params: { content_name: el.name, content_category: location.pathname }
+			}]);
 		}
 	}, true);
 })();

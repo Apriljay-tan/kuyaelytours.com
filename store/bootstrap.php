@@ -37,6 +37,7 @@ require STORE_ROOT . '/auth.php';
 require STORE_ROOT . '/oauth.php';
 require STORE_ROOT . '/bookings.php';
 require STORE_ROOT . '/pay.php';
+require STORE_ROOT . '/meta.php';
 require STORE_ROOT . '/layout.php';
 
 function store_h(string $value): string

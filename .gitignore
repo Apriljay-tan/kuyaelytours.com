@@ -14,6 +14,7 @@ admin/config.local.php
 admin/mail.local.php
 store/db.local.php
 store/pay.local.php
+store/meta.local.php
 store/data/users.json
 store/data/bookings.json
 store/data/blocked.json

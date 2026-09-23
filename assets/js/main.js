@@ -711,6 +711,7 @@
 
     /* Text Effect Animation */
     function initHeadingAnimation() {
+        if (window.keI18n) return;
 
         if ($('.text-effect').length) {
             var textheading = $(".text-effect");

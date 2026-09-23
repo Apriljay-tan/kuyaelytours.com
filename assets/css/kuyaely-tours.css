@@ -645,11 +645,11 @@
     border-radius: 8px;
     background: #F5C518;
     color: #122327;
-    font-family: var(--title-font);
-    font-size: 14px;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: 0.04em;
-    line-height: 1.15;
+    letter-spacing: 0;
+    line-height: 1.25;
     box-shadow: 0 6px 16px rgba(0,0,0,0.28);
     max-width: calc(100% - 100px);
     text-align: right;

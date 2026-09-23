@@ -696,3 +696,292 @@
 		mark();
 	}
 })();
+
+(function () {
+	if (/^\/admin(\/|$)/i.test(location.pathname)) return;
+
+	var earlyLang = "";
+	var earlyMatch = document.cookie.match(/(?:^|; )googtrans=(?:\/en\/)([^;]+)/);
+	if (earlyMatch && earlyMatch[1]) earlyLang = decodeURIComponent(earlyMatch[1]);
+	if (!earlyLang) {
+		try { earlyLang = localStorage.getItem("ke_lang") || "en"; } catch (e) { earlyLang = "en"; }
+	}
+	var lineStyle = document.createElement("style");
+	lineStyle.textContent = ".ke-line{display:block}";
+	document.head.appendChild(lineStyle);
+	if (earlyLang && earlyLang !== "en") {
+		document.documentElement.classList.add("ke-i18n");
+		window.keI18n = true;
+		var i18nStyle = document.createElement("style");
+		i18nStyle.textContent = "html.ke-i18n .goog-text-highlight,html.ke-i18n font{background:transparent!important;box-shadow:none!important}html.ke-i18n .hero-section-1{height:auto!important;min-height:0!important}html.ke-i18n .hero-section-1 .hero_content h1{font-size:clamp(40px,7vw,72px)!important;line-height:1.2!important}html.ke-i18n body.ke-home .ke-mhero h1,html.ke-i18n body.ke-home .ke-mwhy h2,html.ke-i18n .section-title h1,html.ke-i18n h1.footer-sing-up-title,html.ke-i18n .hero-section-1 .hero-journey-box h2{line-height:1.25!important;text-transform:none}html.ke-i18n body.ke-home .ke-mhero h1{font-size:clamp(28px,8vw,40px)!important}html.ke-i18n body.ke-home .hero-wrapper{min-height:0!important}html.ke-i18n body.ke-home .hero-thumb{position:relative!important;top:auto!important;left:auto!important;transform:none!important;margin:8px auto 0!important}html.ke-i18n body.ke-home .ke-mhome{margin-top:0!important}html.ke-i18n body.ke-home .ke-mhero-script{position:static!important;transform:none!important;display:block;margin:8px 18px!important;text-align:left!important}html.ke-i18n .brand-name,html.ke-i18n .brand-sub,html.ke-i18n .ke-book-btn,html.ke-i18n .header-btn a,html.ke-i18n .hero-btn a,html.ke-i18n .defult-btn a,html.ke-i18n .ke-mfind-btn,html.ke-i18n .form-input-bx button,html.ke-i18n .ke-dot-copy{white-space:normal!important}html.ke-i18n .form-input-bx button{position:static!important;width:100%;height:auto!important;min-height:48px;margin-top:8px;border-radius:50px!important;padding:12px 16px!important}html.ke-i18n .ke-dot-banner,html.ke-i18n .ke-dot-banner--mob{height:auto!important;border-radius:16px!important}html.ke-i18n .split-line,html.ke-i18n .text-anime-3 div,html.ke-i18n .text-effect div{display:inline!important;position:static!important;transform:none!important;opacity:1!important;overflow:visible!important}html.ke-i18n .ke-line{display:block}";
+		document.head.appendChild(i18nStyle);
+	}
+
+	var CURRENCIES = [
+		{ code: "PHP", name: "Philippine peso", php: 1, symbol: "₱", digits: 0 },
+		{ code: "USD", name: "US dollar", php: 58, symbol: "$", digits: 2 },
+		{ code: "EUR", name: "Euro", php: 63, symbol: "€", digits: 2 },
+		{ code: "GBP", name: "British pound", php: 75, symbol: "£", digits: 2 },
+		{ code: "AUD", name: "Australian dollar", php: 38, symbol: "A$", digits: 2 },
+		{ code: "SGD", name: "Singapore dollar", php: 44, symbol: "S$", digits: 2 },
+		{ code: "CNY", name: "Chinese yuan", php: 8.1, symbol: "CN¥", digits: 0 },
+		{ code: "TWD", name: "Taiwan dollar", php: 1.85, symbol: "NT$", digits: 0 },
+		{ code: "JPY", name: "Japanese yen", php: 0.39, symbol: "¥", digits: 0 },
+		{ code: "KRW", name: "Korean won", php: 0.042, symbol: "₩", digits: 0 }
+	];
+	var LANGS = [
+		{ code: "en", short: "EN", name: "English" },
+		{ code: "ko", short: "KO", name: "한국어" },
+		{ code: "zh-CN", short: "ZH", name: "中文" },
+		{ code: "ja", short: "JA", name: "日本語" },
+		{ code: "tl", short: "FIL", name: "Filipino" }
+	];
+	var priceRe = /₱\s?(\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?/g;
+	var applying = false;
+
+	function stored(key, fallback) {
+		try { return localStorage.getItem(key) || fallback; } catch (e) { return fallback; }
+	}
+	function save(key, value) {
+		try { localStorage.setItem(key, value); } catch (e) {}
+	}
+	function currency() {
+		var code = stored("ke_cur", "PHP");
+		for (var i = 0; i < CURRENCIES.length; i++) {
+			if (CURRENCIES[i].code === code) return CURRENCIES[i];
+		}
+		return CURRENCIES[0];
+	}
+	function language() {
+		var match = document.cookie.match(/(?:^|; )googtrans=(?:\/en\/)([^;]+)/);
+		if (match && match[1] && match[1] !== "en") return decodeURIComponent(match[1]);
+		return stored("ke_lang", "en");
+	}
+	function langMeta(code) {
+		for (var i = 0; i < LANGS.length; i++) {
+			if (LANGS[i].code === code) return LANGS[i];
+		}
+		return LANGS[0];
+	}
+	function formatMoney(pesos, cur) {
+		var n = pesos / cur.php;
+		var text = n.toLocaleString("en-US", {
+			minimumFractionDigits: cur.digits,
+			maximumFractionDigits: cur.digits
+		});
+		return cur.symbol + text;
+	}
+	function renderMoney() {
+		var cur = currency();
+		applying = true;
+		document.querySelectorAll("[data-ke-php]").forEach(function (el) {
+			var pesos = parseFloat(el.getAttribute("data-ke-php")) || 0;
+			el.textContent = formatMoney(pesos, cur);
+		});
+		var note = document.getElementById("ke-cur-note");
+		if (cur.code === "PHP") {
+			if (note) note.remove();
+		} else if (!note) {
+			note = document.createElement("p");
+			note.id = "ke-cur-note";
+			note.textContent = "Prices in " + cur.code + " are approximate. You pay in Philippine pesos.";
+			var main = document.querySelector("main") || document.body;
+			main.insertBefore(note, main.firstChild);
+		} else {
+			note.textContent = "Prices in " + cur.code + " are approximate. You pay in Philippine pesos.";
+		}
+		applying = false;
+	}
+	function scan(root) {
+		if (!root || applying) return;
+		applying = true;
+		var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+			acceptNode: function (node) {
+				if (!node.nodeValue || node.nodeValue.indexOf("₱") === -1) return NodeFilter.FILTER_REJECT;
+				var parent = node.parentElement;
+				if (!parent || parent.closest("script, style, textarea, [data-ke-php], [data-ke-picker]")) return NodeFilter.FILTER_REJECT;
+				return NodeFilter.FILTER_ACCEPT;
+			}
+		});
+		var nodes = [];
+		while (walker.nextNode()) nodes.push(walker.currentNode);
+		nodes.forEach(function (node) {
+			var text = node.nodeValue || "";
+			var parent = node.parentNode;
+			if (!parent) return;
+			var frag = document.createDocumentFragment();
+			var last = 0;
+			var match;
+			priceRe.lastIndex = 0;
+			while ((match = priceRe.exec(text))) {
+				if (match.index > last) frag.appendChild(document.createTextNode(text.slice(last, match.index)));
+				var span = document.createElement("span");
+				span.setAttribute("data-ke-php", String(parseFloat(match[1].replace(/,/g, "")) || 0));
+				span.textContent = match[0];
+				frag.appendChild(span);
+				last = match.index + match[0].length;
+			}
+			if (last === 0) return;
+			if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+			parent.replaceChild(frag, node);
+		});
+		applying = false;
+		renderMoney();
+	}
+	function fillMenu(details, items, current, onPick) {
+		var box = details.querySelector("div");
+		var summary = details.querySelector("summary");
+		if (!box || !summary) return;
+		details.classList.add("notranslate");
+		details.setAttribute("translate", "no");
+		box.innerHTML = "";
+		items.forEach(function (item) {
+			var btn = document.createElement("button");
+			btn.type = "button";
+			btn.textContent = item.label;
+			if (item.code === current) btn.setAttribute("aria-current", "true");
+			btn.addEventListener("click", function (e) {
+				e.preventDefault();
+				onPick(item);
+				details.removeAttribute("open");
+			});
+			box.appendChild(btn);
+		});
+		summary.textContent = items.filter(function (item) { return item.code === current; })[0]
+			? items.filter(function (item) { return item.code === current; })[0].short
+			: current;
+	}
+	function setLanguage(code) {
+		var host = location.hostname.replace(/^www\./, "");
+		function write(value, age) {
+			var base = "googtrans=" + value + "; Path=/; Max-Age=" + age + "; SameSite=Lax";
+			document.cookie = base;
+			if (host.indexOf(".") > 0) document.cookie = base + "; Domain=." + host;
+		}
+		if (code === "en") {
+			write("", 0);
+		} else {
+			write("/en/" + code, 31536000);
+		}
+		save("ke_lang", code);
+		location.reload();
+	}
+	function loadTranslate(code) {
+		if (code === "en" || window.google && window.google.translate) return;
+		var box = document.createElement("div");
+		box.id = "google_translate_element";
+		box.hidden = true;
+		document.body.appendChild(box);
+		window.googleTranslateElementInit = function () {
+			new window.google.translate.TranslateElement({
+				pageLanguage: "en",
+				includedLanguages: "en,ko,zh-CN,ja,tl",
+				autoDisplay: false
+			}, "google_translate_element");
+		};
+		var script = document.createElement("script");
+		script.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+		document.body.appendChild(script);
+	}
+	function boot() {
+		var style = document.createElement("style");
+		style.textContent = ".ke-mini-dd{position:relative;display:inline-block;vertical-align:middle}.ke-mini-dd>summary{list-style:none;cursor:pointer;color:#fff;font:700 12px/1 Inter,Segoe UI,Arial,sans-serif;letter-spacing:.04em}.ke-mini-dd>summary::-webkit-details-marker{display:none}.ke-mini-dd>summary::after{content:\"\\25BE\";margin-left:4px;font-size:9px;opacity:.8}.ke-mini-dd>div{display:none;position:absolute;right:0;top:calc(100% + 6px);min-width:168px;padding:6px;background:#1C2D31;color:#fff;border:1px solid rgba(245,197,24,.28);border-radius:8px;box-shadow:0 10px 24px rgba(0,0,0,.35);z-index:40}.ke-mini-dd[open]>div{display:block}.ke-mini-dd>div button{display:block;width:100%;text-align:left;background:transparent;border:0;color:#fff;font:600 13px/1.3 Inter,Segoe UI,Arial,sans-serif;padding:7px 8px;border-radius:6px;cursor:pointer}.ke-mini-dd>div button[aria-current=true],.ke-mini-dd>div button:hover{background:rgba(245,197,24,.16);color:#F5C518}.ke-cur-hint{margin:4px 8px 6px;color:rgba(255,255,255,.72);font:500 11px/1.3 Inter,Segoe UI,Arial,sans-serif}#ke-cur-note{margin:0;padding:8px 16px;background:#10262c;color:#F5C518;font:600 13px/1.4 Inter,Segoe UI,Arial,sans-serif;text-align:center}.goog-te-banner-frame,.skiptranslate,iframe.skiptranslate,#goog-gt-tt,.goog-te-balloon-frame{display:none!important}body{top:0!important}";
+		document.head.appendChild(style);
+
+		var moneyHost = document.querySelector("[data-ke-picker='money']");
+		var langHost = document.querySelector("[data-ke-picker='lang']");
+		document.querySelectorAll(".ke-mini-dd").forEach(function (el) {
+			var summary = el.querySelector("summary");
+			var label = summary ? summary.textContent.replace(/\s+/g, "") : "";
+			if (!moneyHost && label === "PHP") moneyHost = el;
+			if (!langHost && label === "EN") langHost = el;
+		});
+		var slot = document.querySelector(".ke-topbar-right, .ke-gnav-actions, .ke-shop-icons");
+		if (slot && !moneyHost) {
+			slot.insertAdjacentHTML("beforeend", '<details class="ke-mini-dd" data-ke-picker="money"><summary>PHP</summary><div></div></details>');
+			moneyHost = slot.querySelector("[data-ke-picker='money']");
+		}
+		if (slot && !langHost) {
+			slot.insertAdjacentHTML("beforeend", '<details class="ke-mini-dd" data-ke-picker="lang"><summary>EN</summary><div></div></details>');
+			langHost = slot.querySelector("[data-ke-picker='lang']");
+		}
+		function payPage() {
+			return /\/shop\/(checkout|pay|confirm|pay-return)(?:\.php)?(?:\/|$)/i.test(location.pathname);
+		}
+		function moneyItems() {
+			return CURRENCIES.map(function (item) {
+				return { code: item.code, short: item.code, label: item.code + " · " + item.name };
+			});
+		}
+		function mountMoney(host) {
+			fillMenu(host, moneyItems(), currency().code, function (item) {
+				save("ke_cur", item.code);
+				mountMoney(host);
+				if (payPage()) {
+					var existing = document.getElementById("ke-cur-note");
+					if (item.code === "PHP") {
+						if (existing) existing.remove();
+					} else if (!existing) {
+						var note = document.createElement("p");
+						note.id = "ke-cur-note";
+						note.textContent = "This page stays in Philippine pesos, which is the amount you pay.";
+						var main = document.querySelector("main") || document.body;
+						main.insertBefore(note, main.firstChild);
+					}
+				} else {
+					renderMoney();
+				}
+			});
+			var box = host.querySelector("div");
+			if (box) {
+				var hint = document.createElement("p");
+				hint.className = "ke-cur-hint";
+				hint.textContent = "Approximate. You pay in PHP.";
+				box.appendChild(hint);
+			}
+		}
+		if (moneyHost) {
+			moneyHost.setAttribute("data-ke-picker", "money");
+			mountMoney(moneyHost);
+		}
+		var lang = language();
+		if (langHost) {
+			langHost.setAttribute("data-ke-picker", "lang");
+			fillMenu(langHost, LANGS.map(function (item) {
+				return { code: item.code, short: item.short, label: item.name };
+			}), lang, function (item) {
+				setLanguage(item.code);
+			});
+		}
+		if (!payPage()) {
+			scan(document.body);
+			var timer = 0;
+			var observer = new MutationObserver(function (records) {
+				if (applying) return;
+				var nodes = [];
+				records.forEach(function (rec) {
+					rec.addedNodes.forEach(function (node) {
+						if (node.nodeType !== 1) return;
+						if (node.closest && node.closest("font, .skiptranslate, #google_translate_element")) return;
+						nodes.push(node);
+					});
+				});
+				if (!nodes.length) return;
+				clearTimeout(timer);
+				timer = setTimeout(function () {
+					nodes.forEach(function (node) { if (node.isConnected) scan(node); });
+				}, 180);
+			});
+			observer.observe(document.body, { childList: true, subtree: true });
+		} else if (currency().code !== "PHP") {
+			var payNote = document.createElement("p");
+			payNote.id = "ke-cur-note";
+			payNote.textContent = "This page stays in Philippine pesos, which is the amount you pay.";
+			var payMain = document.querySelector("main") || document.body;
+			payMain.insertBefore(payNote, payMain.firstChild);
+		}
+		loadTranslate(lang);
+	}
+	if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+	else boot();
+})();

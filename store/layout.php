@@ -95,7 +95,15 @@ function store_pixel_push(string $event, array $params = []): void
 	if (!isset($_SESSION['ke_pixel']) || !is_array($_SESSION['ke_pixel'])) {
 		$_SESSION['ke_pixel'] = [];
 	}
-	$_SESSION['ke_pixel'][] = ['event' => $event, 'params' => store_pixel_params($params)];
+	$row = [
+		'event' => $event,
+		'event_id' => bin2hex(random_bytes(16)),
+		'params' => store_pixel_params($params),
+	];
+	$_SESSION['ke_pixel'][] = $row;
+	if (function_exists('store_capi_send')) {
+		store_capi_send([$row]);
+	}
 }
 
 function store_pixel_once(string $key, string $event, array $params = []): void
@@ -129,6 +137,7 @@ function store_pixel_page_script(array $events = []): string
 		}
 		$clean[] = [
 			'event' => $name,
+			'event_id' => bin2hex(random_bytes(16)),
 			'params' => store_pixel_params((array) ($event['params'] ?? [])),
 		];
 	}
@@ -137,7 +146,7 @@ function store_pixel_page_script(array $events = []): string
 		$json = '[]';
 	}
 	return '<script>window.kePixelEvents=' . $json . ';</script>'
-		. '<script src="/assets/js/kuyaely-pixel.js?v=2" defer></script>';
+		. '<script src="/assets/js/kuyaely-pixel.js?v=3" defer></script>';
 }
 
 function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tours', bool $bare = false, string $mods = ''): void
@@ -189,6 +198,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	} else {
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms and Conditions</a></footer>';
 	}
+	echo '<script src="/assets/js/kuyaely-nav.js?v=30" defer></script>';
 	echo '<script src="/assets/js/kuyaely-chat.js?v=6" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
