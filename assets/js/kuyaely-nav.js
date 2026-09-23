@@ -320,6 +320,12 @@
 					if (!fields.date && fields.arrive) {
 						fields.date = fields.arrive;
 					}
+					if (!fields.date) {
+						window.alert("Choose a booking date first.");
+						var dateInput = form.querySelector('[name="arrive"]');
+						if (dateInput) dateInput.focus();
+						return;
+					}
 				} else {
 					var dateEl = form ? form.querySelector('[name="arrive"]') : null;
 					var groupEl = form ? form.querySelector('[name="group"]') : null;

@@ -365,7 +365,7 @@ ob_start();
 								var rate = t ? (t[type] || 0) : 0;
 								var unitEl = box.querySelector('[data-unit="' + type + '"]');
 								if (unitEl) {
-									unitEl.textContent = t ? (money(rate) + " / pax") : "—";
+									unitEl.textContent = (q > 0 && t) ? (money(rate) + " / pax") : "";
 								}
 								if (q > 0 && t) {
 									var sub = q * rate;
@@ -469,6 +469,12 @@ ob_start();
 						if (mq.addEventListener) mq.addEventListener("change", onViewportChange);
 						else if (mq.addListener) mq.addListener(onViewportChange);
 						refresh();
+						if (/[?&]need=date(?:&|$)/.test(location.search)) {
+							window.alert("Choose a booking date first.");
+							if (isMobile()) openSheet();
+							var dateInput = box.querySelector('[name="arrive"]');
+							if (dateInput) dateInput.focus();
+						}
 					})();
 					</script>
 					<div class="ke-td-promo">

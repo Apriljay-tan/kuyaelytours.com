@@ -22,7 +22,12 @@ $date = trim((string) ($_POST['date'] ?? ''));
 if ($date === '') {
 	$date = trim((string) ($_POST['arrive'] ?? ''));
 }
-if ($date === '') {
+$slugEarly = strtolower(trim((string) ($_POST['package_slug'] ?? '')));
+$dateOk = (bool) preg_match('/^\d{4}-\d{2}-\d{2}$/', $date);
+if ($slugEarly !== '' && preg_match('/^[a-z0-9-]+$/', $slugEarly) && !$dateOk) {
+	store_redirect('/tours/' . $slugEarly . '?need=date');
+}
+if (!$dateOk) {
 	$date = store_today();
 }
 if (store_is_blocked($vehicle, $date)) {
