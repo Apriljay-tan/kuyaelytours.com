@@ -10,6 +10,16 @@ if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
 }
 
 $tour = ke_tour($slug);
+if (is_array($tour) && (string) ($tour['slug'] ?? '') !== $slug) {
+	$qs = $_GET;
+	unset($qs['p']);
+	$target = '/tours/' . rawurlencode((string) $tour['slug']);
+	if ($qs) {
+		$target .= '?' . http_build_query($qs);
+	}
+	header('Location: ' . $target, true, 301);
+	exit;
+}
 $previewToken = (string) ($_GET['preview'] ?? '');
 $isPreview = ke_package_preview_ok($tour, $previewToken);
 if (!$tour || (isset($tour['active']) && !$tour['active'] && !$isPreview)) {

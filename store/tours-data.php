@@ -87,8 +87,17 @@ function ke_tour_faq(string $island = 'cebu'): array
 
 function ke_tour(string $slug): ?array
 {
+	$slug = strtolower(trim($slug));
 	$all = ke_tours();
-	return $all[$slug] ?? null;
+	if (isset($all[$slug])) {
+		return $all[$slug];
+	}
+	foreach ($all as $tour) {
+		if (in_array($slug, (array) ($tour['aliases'] ?? []), true)) {
+			return $tour;
+		}
+	}
+	return null;
 }
 
 function ke_tour_related(string $slug, int $limit = 3): array
@@ -419,6 +428,11 @@ function ke_package_normalize(array $row): array
 		'price_teaser' => trim((string) ($row['price_teaser'] ?? '')),
 		'cover' => trim((string) ($row['cover'] ?? '')),
 		'preview_token' => preg_replace('/[^a-f0-9]/', '', (string) ($row['preview_token'] ?? '')) ?: '',
+		'aliases' => array_values(array_unique(array_filter(array_map(static function ($alias) use ($slug) {
+			$alias = strtolower(trim((string) preg_replace('/[^a-z0-9-]+/', '-', (string) $alias)));
+			$alias = trim($alias, '-');
+			return ($alias !== '' && $alias !== $slug) ? $alias : '';
+		}, (array) ($row['aliases'] ?? []))))),
 		'video_url' => (string) ($row['video_url'] ?? ''),
 		'images' => array_values(array_filter((array) ($row['images'] ?? []))),
 		'pickups' => array_values(array_filter(array_map('strval', (array) ($row['pickups'] ?? [])))),
