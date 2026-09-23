@@ -96,8 +96,6 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok() && !$bookin
 		} else {
 			store_booking_grant((string) $created['id']);
 			store_cart_clear();
-			store_booking_mail($created, false);
-			store_booking_mail($created, true);
 			$_SESSION['pay_due'][(string) $created['id']] = $due;
 			$url = store_paymongo_checkout($created, $due);
 			if ($url !== '') {
@@ -129,8 +127,7 @@ if ($booking) {
 }
 $applied = $booking ? null : store_promo();
 $qr = ($booking && isset($_SESSION['pay_qr'][$bookingId]) && is_array($_SESSION['pay_qr'][$bookingId])) ? $_SESSION['pay_qr'][$bookingId] : null;
-$returnedPaid = (string) ($_GET['ok'] ?? '') === '1';
-$paid = $booking && ($returnedPaid || in_array((string) ($booking['status'] ?? ''), ['paid', 'confirmed'], true));
+$paid = $booking && in_array((string) ($booking['status'] ?? ''), ['paid', 'confirmed'], true);
 $step = $paid ? 3 : 2;
 
 $fullName = trim((string) ($user['name'] ?? ($booking['guest_name'] ?? '')));
@@ -201,8 +198,8 @@ $summary = '<aside class="ke-secure-sum">'
 	. ($dueNow < $payable ? '<p class="ke-secure-line"><span>Due now</span><strong>' . store_money($dueNow) . '</strong></p>' : '')
 	. '</div>'
 	. '<div class="ke-secure-know"><h3>Good to know</h3><ul>'
-	. '<li>Free cancellation up to 48 hours before the tour</li>'
-	. '<li>Instant confirmation via email</li>'
+	. '<li>Changes and refunds depend on notice, supplier rules, and whether a vehicle is already reserved</li>'
+	. '<li>Confirmation email after PayMongo receives the payment</li>'
 	. '<li>Local Cebu support, 24/7</li>'
 	. '</ul></div>'
 	. '<p class="ke-secure-script">Travel Local<br>Support Local</p>'
@@ -222,7 +219,11 @@ if ($paid && $booking) {
 		. (str_contains((string) ($booking['notes'] ?? ''), 'Balance due') ? '<p>Half of the tour is paid. The remaining balance is due before the trip.</p>' : '')
 		. '<a class="ke-secure-gold" href="/tours-and-packages.php">Back to tours</a></section>';
 } elseif ($booking) {
-	$cancelNote = (string) ($_GET['ok'] ?? '') === '0' ? '<p>Payment was cancelled. You can continue to PayMongo again.</p>' : '';
+	$returnFlag = (string) ($_GET['ok'] ?? '');
+	$cancelNote = $returnFlag === '0' ? '<p>Payment was cancelled. You can continue to PayMongo again.</p>' : '';
+	if ($returnFlag === 'pending') {
+		$cancelNote = '<p>PayMongo has not confirmed this payment yet. If you already paid, wait a moment and refresh this page.</p>';
+	}
 	$left = '<section class="ke-secure-card ke-secure-done"><p class="ke-kicker">Payment</p><h2>Continue to PayMongo</h2>'
 		. $cancelNote
 		. ($error !== '' ? '<p>' . store_h($error) . '</p>' : '<p>Your booking is saved. Proceed to payment to finish it.</p>')

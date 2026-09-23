@@ -99,6 +99,49 @@ function store_cancel_booking(array $booking): bool
 	return store_update_booking($booking);
 }
 
+function store_booking_due_pesos(array $booking): int
+{
+	$notes = (string) ($booking['notes'] ?? '');
+	if (preg_match('/Due now ₱([0-9,]+)/u', $notes, $match)) {
+		$due = (int) str_replace(',', '', $match[1]);
+		if ($due >= 100) {
+			return $due;
+		}
+	}
+	return max(0, (int) ($booking['total'] ?? 0));
+}
+
+function store_booking_confirm_payment(array $booking, int $paidCentavos, string $currency): bool
+{
+	$id = (string) ($booking['id'] ?? '');
+	$fresh = $id !== '' ? (store_find_booking($id) ?: $booking) : $booking;
+	if ((string) ($fresh['status'] ?? '') === 'cancelled') {
+		return false;
+	}
+	if (strtoupper(trim($currency)) !== 'PHP') {
+		return false;
+	}
+	$expected = store_booking_due_pesos($fresh) * 100;
+	if ($expected < 10000 || $paidCentavos !== $expected) {
+		return false;
+	}
+	$done = in_array((string) ($fresh['status'] ?? ''), ['paid', 'confirmed'], true);
+	if (!$done) {
+		$deposit = str_contains((string) ($fresh['notes'] ?? ''), 'Balance due');
+		$fresh['status'] = $deposit ? 'confirmed' : 'paid';
+		$fresh['pay_method'] = $deposit ? 'half' : 'paymongo';
+		store_update_booking($fresh);
+	}
+	if (!str_contains((string) ($fresh['notes'] ?? ''), 'Payment notice sent')) {
+		store_booking_mail($fresh, false);
+		store_booking_mail($fresh, true);
+		$again = $id !== '' ? (store_find_booking($id) ?: $fresh) : $fresh;
+		$again['notes'] = rtrim((string) ($again['notes'] ?? '')) . "\nPayment notice sent";
+		store_update_booking($again);
+	}
+	return true;
+}
+
 function store_booking_mail(array $booking, bool $toGuest): void
 {
 	$mailer = STORE_SITE . '/ke-mail.php';

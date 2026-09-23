@@ -59,7 +59,7 @@ function ke_marketing_page(array $opt, string $main): void
 	<link rel="stylesheet" href="/assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/scroll-up.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui50" type="text/css" media="all">
-	<script src="/assets/js/kuyaely-nav.js?v=27"></script>
+	<script src="/assets/js/kuyaely-nav.js?v=28"></script>
 	<?= $extra ?>
 </head>
 

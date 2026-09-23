@@ -26,12 +26,9 @@ if (!is_string($saved) || $saved === '') {
 		$saved = $match[1];
 	}
 }
-$remote = $saved !== '' ? store_paymongo_intent_status($saved) : '';
-if ($remote === 'succeeded') {
-	$deposit = str_contains((string) ($booking['notes'] ?? ''), 'Balance due');
-	$booking['status'] = $deposit ? 'confirmed' : 'paid';
-	$booking['pay_method'] = $deposit ? 'qrph_deposit' : 'paymongo';
-	store_update_booking($booking);
-	$status = (string) $booking['status'];
+$remote = $saved !== '' ? store_paymongo_intent_payment($saved) : ['paid' => false, 'amount' => 0, 'currency' => ''];
+if (!empty($remote['paid']) && store_booking_confirm_payment($booking, (int) $remote['amount'], (string) $remote['currency'])) {
+	$fresh = store_find_booking($id);
+	$status = (string) ($fresh['status'] ?? $status);
 }
-echo json_encode(['ok' => 1, 'status' => $status !== '' ? $status : $remote]);
+echo json_encode(['ok' => 1, 'status' => $status]);

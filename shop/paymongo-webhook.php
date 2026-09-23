@@ -28,11 +28,11 @@ if ($bookingId === '' || !str_contains($type, 'paid')) {
 }
 
 $booking = store_find_booking($bookingId);
-if ($booking && ($booking['status'] ?? '') !== 'cancelled') {
-	$deposit = str_contains((string) ($booking['notes'] ?? ''), 'Balance due');
-	$booking['status'] = $deposit ? 'confirmed' : 'paid';
-	$booking['pay_method'] = $deposit ? 'half' : 'paymongo';
-	store_update_booking($booking);
+$amount = (int) ($resource['amount'] ?? 0);
+$currency = (string) ($resource['currency'] ?? '');
+$payStatus = strtolower((string) ($resource['status'] ?? 'paid'));
+if ($booking && ($payStatus === '' || $payStatus === 'paid')) {
+	store_booking_confirm_payment($booking, $amount, $currency);
 }
 echo 'ok';
 

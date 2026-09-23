@@ -101,6 +101,10 @@ function store_paymongo_checkout(array $booking, int $chargePesos = 0): string
 	curl_close($ch);
 	$data = json_decode((string) $raw, true);
 	$url = (string) ($data['data']['attributes']['checkout_url'] ?? '');
+	$sessionId = (string) ($data['data']['id'] ?? '');
+	if ($url !== '' && $sessionId !== '') {
+		store_paymongo_remember_session($booking, $sessionId);
+	}
 	if ($url === '') {
 		$detail = (string) ($data['errors'][0]['detail'] ?? '');
 		$GLOBALS['ke_paymongo_error'] = $detail !== '' ? $detail : ('PayMongo did not open a checkout (' . $code . ').');
@@ -210,10 +214,103 @@ function store_paymongo_qr(array $booking, int $amountPesos): array
 
 function store_paymongo_intent_status(string $intentId): string
 {
+	$paid = store_paymongo_intent_payment($intentId);
+	return $paid['paid'] ? 'succeeded' : '';
+}
+
+function store_paymongo_remember_session(array $booking, string $sessionId): void
+{
+	$sessionId = trim($sessionId);
+	$id = (string) ($booking['id'] ?? '');
+	if ($id === '' || !preg_match('/^cs_[A-Za-z0-9]+$/', $sessionId) || !function_exists('store_find_booking')) {
+		return;
+	}
+	$saved = store_find_booking($id);
+	if (!$saved) {
+		return;
+	}
+	$notes = (string) ($saved['notes'] ?? '');
+	if (str_contains($notes, $sessionId)) {
+		return;
+	}
+	$saved['notes'] = rtrim($notes) . "\nPayMongo session " . $sessionId;
+	store_update_booking($saved);
+}
+
+function store_paymongo_payment_row(array $payment): array
+{
+	$attrs = $payment['attributes'] ?? $payment;
+	if (!is_array($attrs)) {
+		return ['paid' => false, 'amount' => 0, 'currency' => ''];
+	}
+	$status = strtolower((string) ($attrs['status'] ?? ''));
+	$paid = $status === 'paid' || $status === 'succeeded';
+	return [
+		'paid' => $paid,
+		'amount' => (int) ($attrs['amount'] ?? 0),
+		'currency' => strtoupper((string) ($attrs['currency'] ?? '')),
+	];
+}
+
+function store_paymongo_session_payment(string $sessionId): array
+{
+	$empty = ['paid' => false, 'amount' => 0, 'currency' => ''];
+	$sessionId = trim($sessionId);
+	if (!preg_match('/^cs_[A-Za-z0-9]+$/', $sessionId)) {
+		return $empty;
+	}
+	$data = store_paymongo_request('GET', '/v1/checkout_sessions/' . rawurlencode($sessionId));
+	$attrs = $data['data']['attributes'] ?? null;
+	if (!is_array($attrs)) {
+		return $empty;
+	}
+	$amount = 0;
+	$currency = '';
+	$payments = $attrs['payments'] ?? [];
+	if (is_array($payments)) {
+		foreach ($payments as $payment) {
+			if (is_string($payment) && preg_match('/^pay_[A-Za-z0-9]+$/', $payment)) {
+				$loaded = store_paymongo_request('GET', '/v1/payments/' . rawurlencode($payment));
+				$payment = $loaded['data'] ?? [];
+			}
+			if (!is_array($payment)) {
+				continue;
+			}
+			$row = store_paymongo_payment_row($payment);
+			if (!$row['paid']) {
+				continue;
+			}
+			$amount += $row['amount'];
+			if ($row['currency'] !== '') {
+				$currency = $row['currency'];
+			}
+		}
+	}
+	if ($amount < 1 && is_array($attrs['payment_intent'] ?? null)) {
+		$row = store_paymongo_payment_row($attrs['payment_intent']);
+		if ($row['paid']) {
+			$amount = $row['amount'];
+			$currency = $row['currency'];
+		}
+	}
+	if ($amount < 1) {
+		return $empty;
+	}
+	return ['paid' => true, 'amount' => $amount, 'currency' => $currency];
+}
+
+function store_paymongo_intent_payment(string $intentId): array
+{
+	$empty = ['paid' => false, 'amount' => 0, 'currency' => ''];
 	$intentId = trim($intentId);
-	if ($intentId === '') {
-		return '';
+	if (!preg_match('/^pi_[A-Za-z0-9]+$/', $intentId)) {
+		return $empty;
 	}
 	$data = store_paymongo_request('GET', '/v1/payment_intents/' . rawurlencode($intentId));
-	return (string) ($data['data']['attributes']['status'] ?? '');
+	$attrs = $data['data']['attributes'] ?? null;
+	if (!is_array($attrs)) {
+		return $empty;
+	}
+	$row = store_paymongo_payment_row(['attributes' => $attrs]);
+	return $row['paid'] ? $row : $empty;
 }

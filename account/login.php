@@ -31,6 +31,7 @@ $form = '<form method="post" class="ke-auth-form">'
 	. store_field('Email', 'email', 'email', $email, 'mail', true, 'autocomplete="email"')
 	. store_field('Password', 'password', 'password', '', 'lock', true, 'autocomplete="current-password"')
 	. '<button class="ke-btn ke-auth-submit" type="submit">Login</button>'
+	. '<p class="ke-auth-alt"><a href="/account/forgot.php">Forgot password?</a></p>'
 	. '</form>'
 	. store_oauth_buttons($next);
 

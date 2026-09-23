@@ -1,8 +1,16 @@
 <?php
 declare(strict_types=1);
 
+function store_tracking_allowed(): bool
+{
+	return (string) ($_COOKIE['ke_consent'] ?? '') === '1';
+}
+
 function store_gtm_head(): string
 {
+	if (!store_tracking_allowed()) {
+		return '';
+	}
 	return <<<'HTML'
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -16,6 +24,9 @@ HTML;
 
 function store_gtm_body(): string
 {
+	if (!store_tracking_allowed()) {
+		return '';
+	}
 	return <<<'HTML'
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8SH1P8Z"
@@ -26,6 +37,9 @@ HTML;
 
 function store_pixel_head(): string
 {
+	if (!store_tracking_allowed()) {
+		return '';
+	}
 	return <<<'HTML'
 <!-- Meta Pixel Code -->
 <script>
@@ -101,6 +115,9 @@ function store_pixel_once(string $key, string $event, array $params = []): void
 
 function store_pixel_page_script(array $events = []): string
 {
+	if (!store_tracking_allowed()) {
+		return '';
+	}
 	$clean = [];
 	foreach ($events as $event) {
 		if (!is_array($event)) {
@@ -120,7 +137,7 @@ function store_pixel_page_script(array $events = []): string
 		$json = '[]';
 	}
 	return '<script>window.kePixelEvents=' . $json . ';</script>'
-		. '<script src="/assets/js/kuyaely-pixel.js?v=1" defer></script>';
+		. '<script src="/assets/js/kuyaely-pixel.js?v=2" defer></script>';
 }
 
 function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tours', bool $bare = false, string $mods = ''): void

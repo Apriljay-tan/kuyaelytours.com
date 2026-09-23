@@ -1,4 +1,7 @@
 (function () {
+	if (!/(?:^|; )ke_consent=1(?:;|$)/.test(document.cookie)) {
+		return;
+	}
 	var standard = {
 		ViewContent: 1,
 		Search: 1,

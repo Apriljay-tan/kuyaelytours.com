@@ -186,3 +186,85 @@ function store_logout(): void
 	$_SESSION['cart'] = [];
 	unset($_SESSION['promo']);
 }
+
+function store_password_reset_request(string $email): void
+{
+	$email = strtolower(trim($email));
+	if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		return;
+	}
+	$tries = (int) ($_SESSION['ke_reset_tries'] ?? 0);
+	if ($tries > 5) {
+		return;
+	}
+	$_SESSION['ke_reset_tries'] = $tries + 1;
+	$user = store_find_user_email($email);
+	if (!$user || (string) ($user['password_hash'] ?? '') === '') {
+		return;
+	}
+	$token = bin2hex(random_bytes(32));
+	$now = time();
+	$kept = [];
+	foreach (store_read_json('password_resets') as $row) {
+		if (is_array($row) && (int) ($row['exp'] ?? 0) > $now && (string) ($row['email'] ?? '') !== $email) {
+			$kept[] = $row;
+		}
+	}
+	$kept[] = [
+		'email' => $email,
+		'hash' => hash('sha256', $token),
+		'exp' => $now + 3600,
+	];
+	store_write_json('password_resets', $kept);
+	$link = 'https://kuyaelytours.com/account/reset.php?token=' . rawurlencode($token);
+	$mailer = STORE_SITE . '/ke-mail.php';
+	if (!is_file($mailer)) {
+		return;
+	}
+	require_once $mailer;
+	if (function_exists('ke_send_mail')) {
+		ke_send_mail(
+			$email,
+			'Reset your Kuya Ely Tours password',
+			"Open this link within one hour to choose a new password:\n\n" . $link . "\n\nIf you did not ask for this, you can ignore this email.",
+			KE_MAIL_FROM
+		);
+	}
+}
+
+function store_password_reset_apply(string $token, string $password): string
+{
+	$token = trim($token);
+	if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
+		return 'This reset link is not valid. Ask for a new one.';
+	}
+	if (strlen($password) < 10) {
+		return 'Use at least 10 characters for the password.';
+	}
+	$hash = hash('sha256', $token);
+	$now = time();
+	$email = '';
+	$kept = [];
+	foreach (store_read_json('password_resets') as $row) {
+		if (!is_array($row) || (int) ($row['exp'] ?? 0) <= $now) {
+			continue;
+		}
+		if ($email === '' && hash_equals((string) ($row['hash'] ?? ''), $hash)) {
+			$email = strtolower((string) ($row['email'] ?? ''));
+			continue;
+		}
+		$kept[] = $row;
+	}
+	store_write_json('password_resets', $kept);
+	if ($email === '') {
+		return 'This reset link has expired. Ask for a new one.';
+	}
+	$user = store_find_user_email($email);
+	if (!$user || !store_set_user_password((string) $user['id'], $password)) {
+		return 'Could not update that password. Please try again.';
+	}
+	$_SESSION['store_user'] = $user['id'];
+	session_regenerate_id(true);
+	store_after_login();
+	return '';
+}
