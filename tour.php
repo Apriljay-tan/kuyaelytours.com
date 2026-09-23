@@ -208,78 +208,113 @@ ob_start();
 
 				<aside class="ke-td-side">
 					<p class="ke-td-quote"><?= store_h((string) $tour['quote'][0]) ?> <span><?= store_h((string) $tour['quote'][1]) ?></span></p>
-					<div class="ke-bookbox" data-book="<?= store_h(json_encode($bookData, JSON_UNESCAPED_UNICODE)) ?>">
-						<div class="ke-bookbox-head">
-							<p class="ke-bookbox-from">From <?= store_h('₱' . number_format($fromPrice)) ?> <span>/pax</span></p>
-							<p class="ke-bookbox-sub">Price per person varies by group size</p>
+					<div class="ke-mbook" data-mbook>
+						<div class="ke-mbook-bar">
+							<div class="ke-mbook-price">
+								<strong class="ke-mbook-from">From <?= store_h('₱' . number_format($fromPrice)) ?> <span>/pax</span></strong>
+								<span class="ke-mbook-sub">Price per person varies by group size</span>
+							</div>
+							<button type="button" class="ke-mbook-open">Book now</button>
 						</div>
-						<form class="ke-bookbox-form" id="ke-bookbox-form" action="/shop/add-to-cart.php" method="post">
-							<input type="hidden" name="csrf" value="<?= store_h(store_csrf_token()) ?>">
-							<input type="hidden" name="product_id" value="<?= store_h($cartId) ?>">
-							<input type="hidden" name="package_slug" value="<?= store_h((string) $tour['slug']) ?>">
-							<input type="hidden" name="notes" value="<?= store_h((string) $tour['name']) ?>">
-							<input type="hidden" name="guests" value="1">
-							<label class="ke-bookbox-field">
-								<span>Select Pickup Location</span>
-								<select name="pickup" required>
-									<?php foreach ($pickups as $i => $stop): ?>
-										<option value="<?= store_h($stop) ?>"<?= $i === 0 ? ' selected' : '' ?>><?= store_h($stop) ?></option>
-									<?php endforeach; ?>
-								</select>
-							</label>
-							<label class="ke-bookbox-field">
-								<span>Booking Date</span>
-								<input type="date" id="arrive1" name="arrive" min="<?= store_h(store_today()) ?>" value="<?= store_h($prefDate) ?>">
-								<input type="hidden" name="date" value="">
-							</label>
-							<?php
-							$guestRows = [
-								['foreign_adult', 'Foreign Adult', $ageAdult],
-								['local_adult', 'Local Adult', $ageAdult],
-								['foreign_child', 'Foreign Child', $ageChild],
-								['local_child', 'Local Child', $ageChild],
-							];
-							foreach ($guestRows as $row):
-							?>
-							<div class="ke-bookbox-guest" data-guest-type="<?= store_h($row[0]) ?>">
-								<div>
-									<strong><?= store_h($row[1]) ?></strong>
-									<small><?= store_h($row[2]) ?></small>
-									<em class="ke-bookbox-unit" data-unit="<?= store_h($row[0]) ?>">—</em>
+						<div class="ke-mbook-sheet" hidden>
+							<div class="ke-mbook-backdrop" data-mbook-close></div>
+							<div class="ke-mbook-panel" role="dialog" aria-modal="true" aria-label="Book this tour">
+								<button type="button" class="ke-mbook-close" data-mbook-close aria-label="Close">×</button>
+								<div class="ke-bookbox" data-book="<?= store_h(json_encode($bookData, JSON_UNESCAPED_UNICODE)) ?>">
+									<div class="ke-bookbox-head">
+										<p class="ke-bookbox-from">From <?= store_h('₱' . number_format($fromPrice)) ?> <span>/pax</span></p>
+										<p class="ke-bookbox-sub">Price per person varies by group size</p>
+									</div>
+									<form class="ke-bookbox-form" id="ke-bookbox-form" action="/shop/add-to-cart.php" method="post">
+										<input type="hidden" name="csrf" value="<?= store_h(store_csrf_token()) ?>">
+										<input type="hidden" name="product_id" value="<?= store_h($cartId) ?>">
+										<input type="hidden" name="package_slug" value="<?= store_h((string) $tour['slug']) ?>">
+										<input type="hidden" name="notes" value="<?= store_h((string) $tour['name']) ?>">
+										<input type="hidden" name="guests" value="1">
+										<label class="ke-bookbox-field">
+											<span>Select Pickup Location</span>
+											<select name="pickup" required>
+												<?php foreach ($pickups as $i => $stop): ?>
+													<option value="<?= store_h($stop) ?>"<?= $i === 0 ? ' selected' : '' ?>><?= store_h($stop) ?></option>
+												<?php endforeach; ?>
+											</select>
+										</label>
+										<label class="ke-bookbox-field">
+											<span>Booking Date</span>
+											<input type="date" id="arrive1" name="arrive" min="<?= store_h(store_today()) ?>" value="<?= store_h($prefDate) ?>">
+											<input type="hidden" name="date" value="">
+										</label>
+										<?php
+										$guestRows = [
+											['foreign_adult', 'Foreign Adult', $ageAdult],
+											['local_adult', 'Local Adult', $ageAdult],
+											['foreign_child', 'Foreign Child', $ageChild],
+											['local_child', 'Local Child', $ageChild],
+										];
+										foreach ($guestRows as $row):
+										?>
+										<div class="ke-bookbox-guest" data-guest-type="<?= store_h($row[0]) ?>">
+											<div>
+												<strong><?= store_h($row[1]) ?></strong>
+												<small><?= store_h($row[2]) ?></small>
+												<em class="ke-bookbox-unit" data-unit="<?= store_h($row[0]) ?>">—</em>
+											</div>
+											<div class="ke-step">
+												<button type="button" data-step="<?= $row[0] ?>" data-dir="-">−</button>
+												<input type="text" name="<?= $row[0] ?>" value="0" readonly inputmode="numeric">
+												<button type="button" data-step="<?= $row[0] ?>" data-dir="+">+</button>
+											</div>
+										</div>
+										<?php endforeach; ?>
+										<?php if ($addons): ?>
+										<div class="ke-bookbox-addons">
+											<p>Add-ons</p>
+											<?php foreach ($addons as $addon): ?>
+												<label>
+													<input class="ke-addon" type="checkbox" name="addons[]" value="<?= store_h((string) $addon['id']) ?>" data-price="<?= (int) $addon['price'] ?>">
+													<span><?= store_h((string) $addon['name']) ?> (+<?= store_h('₱' . number_format((int) $addon['price'])) ?>)</span>
+												</label>
+											<?php endforeach; ?>
+										</div>
+										<?php endif; ?>
+										<div class="ke-bookbox-breakdown" hidden>
+											<div class="ke-bookbox-lines"></div>
+											<p class="ke-bookbox-total">Booking cost: <strong></strong></p>
+										</div>
+										<button type="button" class="ke-bookbox-book is-book" data-ke-cart data-ke-product="<?= store_h($cartId) ?>" data-ke-notes="<?= store_h((string) $tour['name']) ?>" data-ke-next="/shop/checkout.php">Book now</button>
+										<button type="button" class="ke-bookbox-cart is-cart" data-ke-cart data-ke-product="<?= store_h($cartId) ?>" data-ke-notes="<?= store_h((string) $tour['name']) ?>">Add to cart</button>
+										<p class="ke-td-note">Secure your trip with a small deposit. Full payment can be settled on the day of the tour.</p>
+									</form>
 								</div>
-								<div class="ke-step">
-									<button type="button" data-step="<?= $row[0] ?>" data-dir="-">−</button>
-									<input type="text" name="<?= $row[0] ?>" value="0" readonly inputmode="numeric">
-									<button type="button" data-step="<?= $row[0] ?>" data-dir="+">+</button>
-								</div>
 							</div>
-							<?php endforeach; ?>
-							<?php if ($addons): ?>
-							<div class="ke-bookbox-addons">
-								<p>Add-ons</p>
-								<?php foreach ($addons as $addon): ?>
-									<label>
-										<input class="ke-addon" type="checkbox" name="addons[]" value="<?= store_h((string) $addon['id']) ?>" data-price="<?= (int) $addon['price'] ?>">
-										<span><?= store_h((string) $addon['name']) ?> (+<?= store_h('₱' . number_format((int) $addon['price'])) ?>)</span>
-									</label>
-								<?php endforeach; ?>
-							</div>
-							<?php endif; ?>
-							<div class="ke-bookbox-breakdown" hidden>
-								<div class="ke-bookbox-lines"></div>
-								<p class="ke-bookbox-total">Booking cost: <strong></strong></p>
-							</div>
-							<button type="button" class="ke-bookbox-book is-book" data-ke-cart data-ke-product="<?= store_h($cartId) ?>" data-ke-notes="<?= store_h((string) $tour['name']) ?>" data-ke-next="/shop/checkout.php">Book now</button>
-							<button type="button" class="ke-bookbox-cart is-cart" data-ke-cart data-ke-product="<?= store_h($cartId) ?>" data-ke-notes="<?= store_h((string) $tour['name']) ?>">Add to cart</button>
-							<p class="ke-td-note">Secure your trip with a small deposit. Full payment can be settled on the day of the tour.</p>
-						</form>
+						</div>
 					</div>
 					<script>
 					(function () {
+						var root = document.querySelector("[data-mbook]");
 						var box = document.querySelector(".ke-bookbox");
 						if (!box) return;
+						var sheet = root ? root.querySelector(".ke-mbook-sheet") : null;
+						var openBtn = root ? root.querySelector(".ke-mbook-open") : null;
+						var barFrom = root ? root.querySelector(".ke-mbook-from") : null;
+						var barSub = root ? root.querySelector(".ke-mbook-sub") : null;
+						var mq = window.matchMedia("(max-width: 991px)");
 						var data = {};
 						try { data = JSON.parse(box.getAttribute("data-book") || "{}"); } catch (e) { data = {}; }
+						function isMobile() { return mq.matches; }
+						function openSheet() {
+							if (!sheet || !isMobile()) return;
+							sheet.hidden = false;
+							document.body.classList.add("ke-mbook-open");
+							var closeEl = sheet.querySelector(".ke-mbook-close");
+							if (closeEl) closeEl.focus();
+						}
+						function closeSheet() {
+							if (!sheet) return;
+							sheet.hidden = true;
+							document.body.classList.remove("ke-mbook-open");
+							if (openBtn && isMobile()) openBtn.focus();
+						}
 						function qty(name) {
 							var el = box.querySelector('[name="' + name + '"]');
 							return parseInt(el && el.value, 10) || 0;
@@ -305,6 +340,10 @@ ob_start();
 							local_child: "Local Child"
 						};
 						var types = ["foreign_adult", "local_adult", "foreign_child", "local_child"];
+						function syncBar(headHtml, subText) {
+							if (barFrom) barFrom.innerHTML = headHtml;
+							if (barSub) barSub.textContent = subText;
+						}
 						function refresh() {
 							var n = pax();
 							var t = tierFor(Math.max(1, n));
@@ -349,10 +388,12 @@ ob_start();
 							}
 							var head = box.querySelector(".ke-bookbox-from");
 							var sub = box.querySelector(".ke-bookbox-sub") || box.querySelector(".ke-bookbox-head p:last-child");
+							var headHtml = "From " + money(data.from || 0) + " <span>/pax</span>";
+							var subText = "Price per person varies by group size";
 							if (head) {
 								if (n < 1) {
-									head.innerHTML = "From " + money(data.from || 0) + " <span>/pax</span>";
-									if (sub) sub.textContent = "Price per person varies by group size";
+									head.innerHTML = headHtml;
+									if (sub) sub.textContent = subText;
 								} else {
 									var primary = 0;
 									if (t) {
@@ -367,10 +408,13 @@ ob_start();
 											}
 										}
 									}
-									head.innerHTML = money(primary) + " <span>/pax</span>";
-									if (sub) sub.textContent = "Booking cost: " + money(total);
+									headHtml = money(primary) + " <span>/pax</span>";
+									subText = "Booking cost: " + money(total);
+									head.innerHTML = headHtml;
+									if (sub) sub.textContent = subText;
 								}
 							}
+							syncBar(headHtml, subText);
 							var guests = box.querySelector('[name="guests"]');
 							if (guests) guests.value = String(Math.max(1, n));
 							var arrive = box.querySelector('[name="arrive"]');
@@ -391,6 +435,28 @@ ob_start();
 							refresh();
 						});
 						box.addEventListener("change", refresh);
+						if (openBtn) {
+							openBtn.addEventListener("click", function (e) {
+								e.preventDefault();
+								openSheet();
+							});
+						}
+						if (root) {
+							root.querySelectorAll("[data-mbook-close]").forEach(function (el) {
+								el.addEventListener("click", function (e) {
+									e.preventDefault();
+									closeSheet();
+								});
+							});
+						}
+						document.addEventListener("keydown", function (e) {
+							if (e.key === "Escape" && sheet && !sheet.hidden) closeSheet();
+						});
+						function onViewportChange() {
+							if (!isMobile()) closeSheet();
+						}
+						if (mq.addEventListener) mq.addEventListener("change", onViewportChange);
+						else if (mq.addListener) mq.addListener(onViewportChange);
 						refresh();
 					})();
 					</script>
@@ -429,7 +495,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=1" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=22" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=2" type="text/css" media="all">',
 ];
 require __DIR__ . '/store/marketing-chrome.php';
 ke_marketing_page($opt, $detailHtml);
