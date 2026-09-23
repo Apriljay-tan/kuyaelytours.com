@@ -435,6 +435,7 @@ function ke_package_normalize(array $row): array
 		}, (array) ($row['aliases'] ?? []))))),
 		'video_url' => (string) ($row['video_url'] ?? ''),
 		'images' => array_values(array_filter((array) ($row['images'] ?? []))),
+		'guest_photos' => array_values(array_unique(array_filter(array_map('strval', (array) ($row['guest_photos'] ?? []))))),
 		'pickups' => array_values(array_filter(array_map('strval', (array) ($row['pickups'] ?? [])))),
 		'price_tiers' => $tiers,
 		'addons' => ke_normalize_addons($row['addons'] ?? []),

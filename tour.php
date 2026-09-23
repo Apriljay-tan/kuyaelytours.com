@@ -35,6 +35,14 @@ $product = store_product((string) $tour['product']) ?: ['price_from' => 0, 'unit
 $price = ke_package_price($tour);
 $cartId = ke_package_cart_id($tour);
 $videoUrl = trim((string) ($tour['video_url'] ?? ''));
+$images = array_values(array_filter(array_map('strval', (array) ($tour['images'] ?? []))));
+$guestPhotos = array_values(array_unique(array_filter(array_map('strval', (array) ($tour['guest_photos'] ?? [])))));
+$packPhotos = [];
+foreach (array_merge($images, $guestPhotos) as $src) {
+	if ($src !== '' && !in_array($src, $packPhotos, true)) {
+		$packPhotos[] = $src;
+	}
+}
 $pickups = ke_tour_pickups($tour);
 $addons = ke_tour_addons($tour);
 $tiers = ke_tour_price_tiers($tour);
@@ -48,9 +56,9 @@ $bookData = [
 	'split' => $splitLocal,
 ];
 $related = ke_tour_related($slug, 3);
-$images = array_values($tour['images'] ?? []);
 if (!$images) {
 	$images = ['/assets/downloaded/dest-cebu.jpg'];
+	$packPhotos = $images;
 }
 while (count($images) < 4) {
 	$images[] = $images[0];
@@ -67,6 +75,24 @@ $navCurrent = $island . '-tour.html';
 function ke_stars(): string
 {
 	return str_repeat('<i class="fa-solid fa-star"></i>', 5);
+}
+
+function ke_tour_video_html(string $url): string
+{
+	$url = trim($url);
+	if ($url === '') {
+		return '';
+	}
+	if (preg_match('~(?:youtube\.com/watch\?v=|youtube\.com/embed/|youtu\.be/)([A-Za-z0-9_-]{6,})~', $url, $match)) {
+		return '<iframe src="https://www.youtube.com/embed/' . store_h($match[1]) . '" title="Tour video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+	}
+	if (preg_match('~vimeo\.com/(?:video/)?(\d+)~', $url, $match)) {
+		return '<iframe src="https://player.vimeo.com/video/' . store_h($match[1]) . '" title="Tour video" allowfullscreen></iframe>';
+	}
+	if (preg_match('~\.(mp4|webm)(\?|$)~i', $url)) {
+		return '<video controls playsinline src="' . store_h($url) . '"></video>';
+	}
+	return '<p><a href="' . store_h($url) . '" target="_blank" rel="noopener">Watch video</a></p>';
 }
 
 ob_start();
@@ -103,17 +129,17 @@ ob_start();
 								<img src="<?= store_h($images[0]) ?>" alt="<?= store_h($tour['name']) ?>">
 							</a>
 							<?php if ($videoUrl !== ''): ?>
-								<a class="ke-td-watch" href="<?= store_h($videoUrl) ?>" target="_blank" rel="noopener"><i class="fa-solid fa-play"></i> Watch Video</a>
+								<button class="ke-td-watch" type="button" data-ke-photos><i class="fa-solid fa-play"></i> Watch Video</button>
 							<?php endif; ?>
 						</div>
 						<div class="ke-td-thumbs">
 							<a href="<?= store_h($images[1]) ?>"><img src="<?= store_h($images[1]) ?>" alt=""></a>
 							<a href="<?= store_h($images[2]) ?>"><img src="<?= store_h($images[2]) ?>" alt=""></a>
 							<a href="<?= store_h($images[3]) ?>"><img src="<?= store_h($images[3]) ?>" alt=""></a>
-							<a href="/galary.html">
+							<button class="ke-td-open-photos" type="button" data-ke-photos>
 								<img src="<?= store_h($images[0]) ?>" alt="">
 								<span class="ke-td-more">+ Photos</span>
-							</a>
+							</button>
 						</div>
 					</div>
 
@@ -495,14 +521,14 @@ ob_start();
 							<p><a class="is-cart" href="/about.html" style="display:inline-flex;margin-top:10px;padding:10px 16px;border:1px solid #F5C518;border-radius:10px;color:#F5C518;text-decoration:none;font-family:var(--title-font);letter-spacing:1px;text-transform:uppercase;">Travel Responsibly</a></p>
 						</div>
 					</div>
+					<?php if ($guestPhotos): ?>
 					<h2 style="font-size:22px;margin:0 0 10px">Customer Photos</h2>
 					<div class="ke-td-photos">
-						<img src="<?= store_h($images[0]) ?>" alt="">
-						<img src="<?= store_h($images[1]) ?>" alt="">
-						<img src="<?= store_h($images[2]) ?>" alt="">
-						<img src="<?= store_h($images[3]) ?>" alt="">
+						<?php foreach ($guestPhotos as $guestPhoto): ?>
+							<button type="button" data-ke-photos><img src="<?= store_h($guestPhoto) ?>" alt="Guest photo"></button>
+						<?php endforeach; ?>
 					</div>
-					<p style="margin:0 0 12px"><a href="/galary.html">See All Photos</a></p>
+					<?php endif; ?>
 					<div class="ke-td-review">
 						<p class="ke-td-stars"><?= ke_stars() ?></p>
 						<p>“<?= store_h((string) $tour['review']['quote']) ?>”</p>
@@ -512,6 +538,47 @@ ob_start();
 			</div>
 		</div>
 	</section>
+	<dialog id="ke-pack-photos" class="ke-pack-modal">
+		<div class="ke-pack-modal-bar">
+			<strong><?= store_h((string) $tour['name']) ?></strong>
+			<button type="button" data-ke-photos-close>Close</button>
+		</div>
+		<div class="ke-pack-modal-body">
+			<?php if ($videoUrl !== ''): ?>
+				<div class="ke-pack-modal-video"><?= ke_tour_video_html($videoUrl) ?></div>
+			<?php endif; ?>
+			<div class="ke-pack-modal-grid">
+				<?php foreach ($packPhotos as $photo): ?>
+					<img src="<?= store_h($photo) ?>" alt="<?= store_h((string) $tour['name']) ?>">
+				<?php endforeach; ?>
+			</div>
+		</div>
+	</dialog>
+	<script>
+	(function () {
+		var modal = document.getElementById('ke-pack-photos');
+		if (!modal) return;
+		function stopMedia() {
+			modal.querySelectorAll('video').forEach(function (video) { video.pause(); });
+			modal.querySelectorAll('iframe').forEach(function (frame) {
+				var src = frame.getAttribute('src');
+				if (src) frame.setAttribute('src', src);
+			});
+		}
+		document.querySelectorAll('[data-ke-photos]').forEach(function (btn) {
+			btn.addEventListener('click', function (e) {
+				e.preventDefault();
+				if (modal.showModal) modal.showModal();
+			});
+		});
+		var closeBtn = modal.querySelector('[data-ke-photos-close]');
+		if (closeBtn) closeBtn.addEventListener('click', function () { modal.close(); });
+		modal.addEventListener('click', function (e) {
+			if (e.target === modal) modal.close();
+		});
+		modal.addEventListener('close', stopMedia);
+	})();
+	</script>
 <?php
 $detailHtml = ob_get_clean();
 
@@ -522,7 +589,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=24" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=6" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=24" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=7" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [
