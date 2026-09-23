@@ -190,6 +190,13 @@ function ke_cms_save_package(array $pkg): bool
 		}
 	}
 	if (!$found) {
+		$max = 0;
+		foreach ($all as $row) {
+			$max = max($max, (int) ($row['sort'] ?? 0));
+		}
+		if ((int) ($pkg['sort'] ?? 0) === 0) {
+			$pkg['sort'] = $max + 10;
+		}
 		$all[] = $pkg;
 	}
 	$ok = ke_cms_save_packages($all);
@@ -197,6 +204,49 @@ function ke_cms_save_package(array $pkg): bool
 		ke_cms_sync_catalog($pkg);
 	}
 	return $ok;
+}
+
+function ke_cms_reorder_packages(array $slugs): bool
+{
+	$wanted = [];
+	foreach ($slugs as $slug) {
+		$slug = strtolower(trim((string) $slug));
+		if ($slug !== '' && !in_array($slug, $wanted, true)) {
+			$wanted[] = $slug;
+		}
+	}
+	if (!$wanted) {
+		return false;
+	}
+	$all = ke_cms_packages();
+	$bySlug = [];
+	foreach ($all as $row) {
+		if (is_array($row) && !empty($row['slug'])) {
+			$bySlug[(string) $row['slug']] = $row;
+		}
+	}
+	$slots = [];
+	foreach ($wanted as $slug) {
+		if (isset($bySlug[$slug])) {
+			$slots[] = (int) ($bySlug[$slug]['sort'] ?? 0);
+		}
+	}
+	sort($slots, SORT_NUMERIC);
+	if (count(array_unique($slots)) < count($slots)) {
+		$slots = [];
+		$step = 10;
+		foreach ($wanted as $_slug) {
+			$slots[] = $step;
+			$step += 10;
+		}
+	}
+	foreach ($wanted as $i => $slug) {
+		if (!isset($bySlug[$slug])) {
+			continue;
+		}
+		$bySlug[$slug]['sort'] = (int) ($slots[$i] ?? (($i + 1) * 10));
+	}
+	return ke_cms_save_packages(array_values($bySlug));
 }
 
 function ke_cms_delete_package(string $slug): bool
