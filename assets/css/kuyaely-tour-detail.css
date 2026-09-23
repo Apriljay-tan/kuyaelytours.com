@@ -420,19 +420,22 @@
     }
     .ke-mbook-from {
         display: block;
-        font-family: var(--title-font);
-        font-size: 22px;
-        font-weight: 400;
-        letter-spacing: 0.04em;
+        font-family: var(--text-font);
+        font-size: 19px;
+        font-weight: 700;
+        letter-spacing: normal;
         line-height: 1.1;
         color: #F5C518;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-transform: none;
     }
     .ke-mbook-from span {
         font-size: 14px;
         color: rgba(255, 255, 255, 0.85);
+        font-family: var(--text-font);
+        font-weight: 700;
     }
     .ke-mbook-sub {
         display: block;
@@ -442,6 +445,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        font-family: var(--text-font);
     }
     .ke-mbook-open {
         flex: 0 0 auto;
@@ -451,9 +455,10 @@
         border-radius: 10px;
         background: #F5C518;
         color: #122327;
-        font-family: var(--title-font);
+        font-family: var(--text-font);
         font-size: 16px;
-        letter-spacing: 1px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
         text-transform: uppercase;
         cursor: pointer;
     }
@@ -519,17 +524,27 @@
         background: #F5C518;
         color: #122327;
         padding: 18px 52px 14px 20px;
+        font-family: var(--text-font);
+        letter-spacing: normal;
+        text-transform: none;
     }
     .ke-mbook-panel .ke-bookbox-from {
         color: #122327;
-        font-size: 34px;
+        font-size: 28px;
+        font-family: var(--text-font);
+        font-weight: 700;
+        letter-spacing: normal;
+        text-transform: none;
     }
     .ke-mbook-panel .ke-bookbox-from span {
         color: rgba(18, 35, 39, 0.8);
+        font-family: var(--text-font);
+        font-weight: 700;
     }
     .ke-mbook-panel .ke-bookbox-sub,
     .ke-mbook-panel .ke-bookbox-head p:last-child {
         color: rgba(18, 35, 39, 0.72);
+        font-family: var(--text-font);
     }
     .ke-mbook-panel .ke-bookbox-form {
         padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px));

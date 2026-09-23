@@ -1347,6 +1347,9 @@
     border-radius: 18px;
     overflow: hidden;
     margin-bottom: 16px;
+    font-family: var(--text-font);
+    letter-spacing: normal;
+    text-transform: none;
 }
 .ke-bookbox-head {
     background: transparent;
@@ -1356,23 +1359,27 @@
 .ke-bookbox-from {
     margin: 0;
     color: #F5C518;
-    font-family: var(--title-font);
-    font-size: 42px;
-    font-weight: 400;
+    font-family: var(--text-font);
+    font-size: 28px;
+    font-weight: 700;
     line-height: 1;
-    letter-spacing: 0.04em;
+    letter-spacing: normal;
+    text-transform: none;
 }
 .ke-bookbox-from span {
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 700;
     color: #fff;
-    font-family: var(--title-font);
+    font-family: var(--text-font);
+    letter-spacing: normal;
+    text-transform: none;
 }
 .ke-bookbox-head p:last-child {
     margin: 8px 0 0;
     font-size: 13px;
     font-weight: 400;
     color: rgba(255,255,255,0.7);
+    font-family: var(--text-font);
 }
 .ke-bookbox-form { padding: 4px 20px 20px; background: transparent; }
 .ke-bookbox-field {
@@ -1381,8 +1388,15 @@
     font-size: 12px;
     font-weight: 400;
     color: rgba(255,255,255,0.7);
+    font-family: var(--text-font);
+    text-transform: none;
 }
-.ke-bookbox-field span { display: block; margin-bottom: 4px; }
+.ke-bookbox-field span {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--text-font);
+    text-transform: none;
+}
 .ke-bookbox-field select,
 .ke-bookbox-field input[type="date"] {
     width: 100%;
@@ -1394,6 +1408,8 @@
     font-weight: 400;
     padding: 8px 12px;
     border-radius: 8px;
+    font-family: var(--text-font);
+    text-transform: none;
 }
 .ke-bookbox-guest {
     display: flex;
@@ -1403,15 +1419,30 @@
     padding: 12px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.ke-bookbox-guest strong { display: block; font-size: 14px; color: #fff; font-weight: 600; }
-.ke-bookbox-guest small { display: block; color: rgba(245,197,24,0.85); font-size: 12px; margin-top: 2px; }
+.ke-bookbox-guest strong {
+    display: block;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+    font-family: var(--text-font);
+    letter-spacing: normal;
+    text-transform: none;
+}
+.ke-bookbox-guest small {
+    display: block;
+    color: rgba(245,197,24,0.85);
+    font-size: 12px;
+    margin-top: 2px;
+    font-family: var(--text-font);
+}
 .ke-bookbox-unit {
     display: block;
     margin-top: 4px;
     font-style: normal;
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 600;
     color: #F5C518;
+    font-family: var(--text-font);
 }
 .ke-bookbox-breakdown {
     margin: 12px 0 14px;
@@ -1419,17 +1450,20 @@
     border-radius: 12px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.1);
+    font-family: var(--text-font);
 }
 .ke-bookbox-lines {
     display: grid;
     gap: 6px;
     font-size: 13px;
     color: rgba(255,255,255,0.88);
+    font-family: var(--text-font);
 }
 .ke-bookbox-total {
     margin: 10px 0 0;
     font-size: 15px;
     color: #fff;
+    font-family: var(--text-font);
 }
 .ke-bookbox-total strong { color: #F5C518; }
 .ke-step {
@@ -1458,6 +1492,7 @@
     font-weight: 600;
     color: #F5C518;
     padding: 0;
+    font-family: var(--text-font);
 }
 .ke-bookbox-addons {
     background: rgba(245,197,24,0.08);
@@ -1470,6 +1505,7 @@
     font-weight: 600;
     color: #F5C518;
     font-size: 13px;
+    font-family: var(--text-font);
 }
 .ke-bookbox-addons label {
     display: flex;
@@ -1479,6 +1515,7 @@
     font-weight: 400;
     color: rgba(255,255,255,0.88);
     font-size: 14px;
+    font-family: var(--text-font);
 }
 .ke-bookbox-addons input { width: auto; margin-top: 3px; accent-color: #F5C518; }
 .ke-bookbox-book,
@@ -1488,11 +1525,11 @@
     margin: 8px 0 0;
     border-radius: 10px;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: var(--title-font);
+    letter-spacing: 0.04em;
+    font-family: var(--text-font);
 }
 .ke-bookbox-book {
     margin-top: 14px;
