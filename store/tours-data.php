@@ -334,6 +334,14 @@ function ke_tier_for_pax(array $tiers, int $pax): ?array
 	return $tiers[0];
 }
 
+function ke_package_split_local(array $tour): bool
+{
+	if (!array_key_exists('split_local_foreign', $tour)) {
+		return true;
+	}
+	return (bool) $tour['split_local_foreign'];
+}
+
 function ke_quote_booking(array $tour, array $qty, array $addonIds = []): array
 {
 	$counts = [
@@ -346,13 +354,18 @@ function ke_quote_booking(array $tour, array $qty, array $addonIds = []): array
 	$tiers = ke_tour_price_tiers($tour);
 	$tier = ke_tier_for_pax($tiers, $pax > 0 ? $pax : 1);
 	$rates = $tier ?: ['foreign_adult' => 0, 'local_adult' => 0, 'foreign_child' => 0, 'local_child' => 0];
+	if (!ke_package_split_local($tour)) {
+		$rates['local_adult'] = (int) ($rates['foreign_adult'] ?? 0);
+		$rates['local_child'] = (int) ($rates['foreign_child'] ?? 0);
+	}
 	$guestTotal = 0;
 	foreach ($counts as $key => $n) {
 		$guestTotal += $n * (int) ($rates[$key] ?? 0);
 	}
 	$from = 0;
+	$fromKeys = ke_package_split_local($tour) ? ['foreign_adult', 'local_adult'] : ['foreign_adult'];
 	foreach ($tiers as $row) {
-		foreach (['foreign_adult', 'local_adult'] as $key) {
+		foreach ($fromKeys as $key) {
 			$v = (int) ($row[$key] ?? 0);
 			if ($v > 0 && ($from === 0 || $v < $from)) {
 				$from = $v;
@@ -411,6 +424,7 @@ function ke_package_normalize(array $row): array
 		'pickups' => array_values(array_filter(array_map('strval', (array) ($row['pickups'] ?? [])))),
 		'price_tiers' => $tiers,
 		'addons' => ke_normalize_addons($row['addons'] ?? []),
+		'split_local_foreign' => array_key_exists('split_local_foreign', $row) ? (bool) $row['split_local_foreign'] : true,
 		'age_adult' => (string) ($row['age_adult'] ?? '4 years old & above'),
 		'age_child' => (string) ($row['age_child'] ?? '3 years old'),
 	]);
@@ -452,8 +466,9 @@ function ke_package_preview_ok(?array $tour, string $token): bool
 function ke_package_price(array $tour): int
 {
 	$min = 0;
+	$priceKeys = ke_package_split_local($tour) ? ['foreign_adult', 'local_adult'] : ['foreign_adult'];
 	foreach (ke_normalize_price_tiers($tour['price_tiers'] ?? [], 0) as $tier) {
-		foreach (['foreign_adult', 'local_adult'] as $key) {
+		foreach ($priceKeys as $key) {
 			$v = (int) ($tier[$key] ?? 0);
 			if ($v > 0 && ($min === 0 || $v < $min)) {
 				$min = $v;

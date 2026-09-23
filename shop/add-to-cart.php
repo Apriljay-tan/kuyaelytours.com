@@ -61,11 +61,16 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 			$bits[] = 'Pickup: ' . $pickup;
 		}
 		$guestBits = [];
-		$labels = [
+		$labels = ke_package_split_local($tour) ? [
 			'foreign_adult' => 'Foreign adult',
 			'local_adult' => 'Local adult',
 			'foreign_child' => 'Foreign child',
 			'local_child' => 'Local child',
+		] : [
+			'foreign_adult' => 'Adult',
+			'local_adult' => 'Adult',
+			'foreign_child' => 'Child',
+			'local_child' => 'Child',
 		];
 		foreach ($labels as $key => $label) {
 			if ($qty[$key] > 0) {

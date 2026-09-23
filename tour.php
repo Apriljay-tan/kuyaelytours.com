@@ -29,11 +29,13 @@ $pickups = ke_tour_pickups($tour);
 $addons = ke_tour_addons($tour);
 $tiers = ke_tour_price_tiers($tour);
 $fromPrice = (int) (ke_quote_booking($tour, [])['from'] ?: $price);
-$ageAdult = (string) ($tour['age_adult'] ?? '4 years old & above');
-$ageChild = (string) ($tour['age_child'] ?? '3 years old');
+$splitLocal = ke_package_split_local($tour);
+$ageAdult = $splitLocal ? (string) ($tour['age_adult'] ?? '4 years old & above') : '5 years old & above';
+$ageChild = $splitLocal ? (string) ($tour['age_child'] ?? '3 years old') : 'Below 5 years old';
 $bookData = [
 	'from' => $fromPrice,
 	'tiers' => $tiers,
+	'split' => $splitLocal,
 ];
 $related = ke_tour_related($slug, 3);
 $images = array_values($tour['images'] ?? []);
@@ -245,11 +247,14 @@ ob_start();
 											<input type="hidden" name="date" value="">
 										</label>
 										<?php
-										$guestRows = [
+										$guestRows = $splitLocal ? [
 											['foreign_adult', 'Foreign Adult', $ageAdult],
 											['local_adult', 'Local Adult', $ageAdult],
 											['foreign_child', 'Foreign Child', $ageChild],
 											['local_child', 'Local Child', $ageChild],
+										] : [
+											['foreign_adult', 'Adult', $ageAdult],
+											['foreign_child', 'Child', $ageChild],
 										];
 										foreach ($guestRows as $row):
 										?>
@@ -334,7 +339,12 @@ ob_start();
 						function money(n) {
 							return "₱" + Number(n || 0).toLocaleString();
 						}
-						var labels = {
+						var labels = data.split === false ? {
+							foreign_adult: "Adult",
+							local_adult: "Adult",
+							foreign_child: "Child",
+							local_child: "Child"
+						} : {
 							foreign_adult: "Foreign Adult",
 							local_adult: "Local Adult",
 							foreign_child: "Foreign Child",

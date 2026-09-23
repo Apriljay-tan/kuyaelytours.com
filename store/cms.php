@@ -99,15 +99,18 @@ function ke_cms_tiers_from_post(array $post): array
 	$fc = $post['tier_fc'] ?? [];
 	$lc = $post['tier_lc'] ?? [];
 	$rows = [];
+	$split = !empty($post['split_local_foreign']);
 	$count = max(count((array) $mins), count((array) $maxs), count((array) $fa));
 	for ($i = 0; $i < $count; $i++) {
+		$adult = (int) ($fa[$i] ?? 0);
+		$child = (int) ($fc[$i] ?? 0);
 		$rows[] = [
 			'min' => (int) ($mins[$i] ?? 0),
 			'max' => (int) ($maxs[$i] ?? 0),
-			'foreign_adult' => (int) ($fa[$i] ?? 0),
-			'local_adult' => (int) ($la[$i] ?? 0),
-			'foreign_child' => (int) ($fc[$i] ?? 0),
-			'local_child' => (int) ($lc[$i] ?? 0),
+			'foreign_adult' => $adult,
+			'local_adult' => $split ? (int) ($la[$i] ?? 0) : $adult,
+			'foreign_child' => $child,
+			'local_child' => $split ? (int) ($lc[$i] ?? 0) : $child,
 		];
 	}
 	return ke_normalize_price_tiers($rows, 0);
