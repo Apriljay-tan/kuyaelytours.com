@@ -100,17 +100,22 @@ function ke_cms_tiers_from_post(array $post): array
 	$lc = $post['tier_lc'] ?? [];
 	$rows = [];
 	$split = !empty($post['split_local_foreign']);
+	$mode = ke_child_price_mode_value((string) ($post['child_price_mode'] ?? 'fixed'));
 	$count = max(count((array) $mins), count((array) $maxs), count((array) $fa));
 	for ($i = 0; $i < $count; $i++) {
 		$adult = (int) ($fa[$i] ?? 0);
-		$child = (int) ($fc[$i] ?? 0);
+		$localAdult = $split ? (int) ($la[$i] ?? 0) : $adult;
+		$childOff = max(0, (int) ($fc[$i] ?? 0));
+		$localOff = $split ? max(0, (int) ($lc[$i] ?? 0)) : $childOff;
 		$rows[] = [
 			'min' => (int) ($mins[$i] ?? 0),
 			'max' => (int) ($maxs[$i] ?? 0),
 			'foreign_adult' => $adult,
-			'local_adult' => $split ? (int) ($la[$i] ?? 0) : $adult,
-			'foreign_child' => $child,
-			'local_child' => $split ? (int) ($lc[$i] ?? 0) : $child,
+			'local_adult' => $localAdult,
+			'foreign_child' => ke_child_rate($adult, $childOff, $mode),
+			'local_child' => ke_child_rate($localAdult > 0 ? $localAdult : $adult, $localOff, $mode),
+			'foreign_child_off' => $childOff,
+			'local_child_off' => $localOff,
 		];
 	}
 	return ke_normalize_price_tiers($rows, 0);

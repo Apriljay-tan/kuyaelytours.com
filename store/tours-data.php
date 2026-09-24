@@ -211,6 +211,25 @@ function ke_default_pickups(string $island): array
 	return $map[$island] ?? $map['cebu'];
 }
 
+function ke_child_price_mode_value(string $mode): string
+{
+	return in_array($mode, ['fixed', 'amount', 'percent'], true) ? $mode : 'fixed';
+}
+
+function ke_child_rate(int $adult, int $entered, string $mode): int
+{
+	$adult = max(0, $adult);
+	$entered = max(0, $entered);
+	if ($mode === 'amount') {
+		return max(0, $adult - $entered);
+	}
+	if ($mode === 'percent') {
+		$entered = min(100, $entered);
+		return max(0, (int) round($adult * (100 - $entered) / 100));
+	}
+	return $entered > 0 ? $entered : $adult;
+}
+
 function ke_normalize_price_tiers($rows, int $fallback = 0): array
 {
 	$out = [];
@@ -236,6 +255,9 @@ function ke_normalize_price_tiers($rows, int $fallback = 0): array
 		$max = max($min, (int) ($row['max'] ?? 0));
 		$fa = (int) ($row['foreign_adult'] ?? 0);
 		$la = (int) ($row['local_adult'] ?? $fa);
+		$hasChildOff = array_key_exists('foreign_child_off', $row) || array_key_exists('local_child_off', $row);
+		$fcOff = array_key_exists('foreign_child_off', $row) ? max(0, (int) $row['foreign_child_off']) : null;
+		$lcOff = array_key_exists('local_child_off', $row) ? max(0, (int) $row['local_child_off']) : null;
 		$fc = (int) ($row['foreign_child'] ?? $fa);
 		$lc = (int) ($row['local_child'] ?? $la);
 		if ($fa < 1 && $la < 1 && $fallback < 1) {
@@ -247,20 +269,27 @@ function ke_normalize_price_tiers($rows, int $fallback = 0): array
 		if ($la < 1) {
 			$la = $fa;
 		}
-		if ($fc < 1) {
+		if ($fc < 1 && !$hasChildOff) {
 			$fc = $fa;
 		}
-		if ($lc < 1) {
+		if ($lc < 1 && !$hasChildOff) {
 			$lc = $la;
 		}
-		$out[] = [
+		$tier = [
 			'min' => $min,
 			'max' => $max,
 			'foreign_adult' => $fa,
 			'local_adult' => $la,
-			'foreign_child' => $fc,
-			'local_child' => $lc,
+			'foreign_child' => max(0, $fc),
+			'local_child' => max(0, $lc),
 		];
+		if ($fcOff !== null) {
+			$tier['foreign_child_off'] = $fcOff;
+		}
+		if ($lcOff !== null) {
+			$tier['local_child_off'] = $lcOff;
+		}
+		$out[] = $tier;
 	}
 	return $out;
 }
@@ -303,6 +332,15 @@ function ke_tour_pickups(array $tour): array
 function ke_tour_price_tiers(array $tour): array
 {
 	$tiers = ke_normalize_price_tiers($tour['price_tiers'] ?? [], 0);
+	$mode = ke_child_price_mode_value((string) ($tour['child_price_mode'] ?? 'fixed'));
+	if ($mode !== 'fixed') {
+		foreach ($tiers as $i => $tier) {
+			$foreignOff = array_key_exists('foreign_child_off', $tier) ? (int) $tier['foreign_child_off'] : 0;
+			$localOff = array_key_exists('local_child_off', $tier) ? (int) $tier['local_child_off'] : $foreignOff;
+			$tiers[$i]['foreign_child'] = ke_child_rate((int) $tier['foreign_adult'], $foreignOff, $mode);
+			$tiers[$i]['local_child'] = ke_child_rate((int) $tier['local_adult'], $localOff, $mode);
+		}
+	}
 	if ($tiers) {
 		return $tiers;
 	}
@@ -440,6 +478,7 @@ function ke_package_normalize(array $row): array
 		'price_tiers' => $tiers,
 		'addons' => ke_normalize_addons($row['addons'] ?? []),
 		'split_local_foreign' => array_key_exists('split_local_foreign', $row) ? (bool) $row['split_local_foreign'] : true,
+		'child_price_mode' => ke_child_price_mode_value((string) ($row['child_price_mode'] ?? 'fixed')),
 		'age_adult' => (string) ($row['age_adult'] ?? '4 years old & above'),
 		'age_child' => (string) ($row['age_child'] ?? '3 years old'),
 	]);
