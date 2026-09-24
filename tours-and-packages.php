@@ -124,9 +124,9 @@ $opt = [
 			'content_type' => 'product_group',
 		],
 	]],
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=29" type="text/css" media="all"><style>
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=30" type="text/css" media="all"><style>
 .ke-hub-head{margin:4px 0 22px}
-.ke-hub-head h2{margin:0 0 8px;font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-0.03em}
+.ke-hub-head h2{margin:0 0 8px;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-0.03em}
 .ke-hub-head p{margin:0;color:#4a5568}
 .ke-hub-tabs{margin-bottom:28px}
 @media (max-width:767px){

@@ -52,8 +52,8 @@
     color: #F5C518;
     font-family: var(--title-font);
     font-size: 28px;
-    font-weight: 800;
-    line-height: 1.05;
+    font-weight: 400;
+    line-height: 1;
     margin-bottom: 6px;
 }
 
@@ -138,10 +138,9 @@
 
 .ke-story-card-copy h2 {
     color: #fff;
-    font-size: clamp(26px, 3vw, 36px);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    font-size: clamp(28px, 3.4vw, 42px);
+    font-weight: 400;
+    line-height: 1.12;
     margin: 0 0 18px;
 }
 
@@ -190,7 +189,7 @@
     color: #F5C518;
     font-family: var(--title-font);
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.04em;
     margin: 18px 0 8px;
 }
@@ -275,10 +274,8 @@
 
 .ke-value h3 {
     color: #fff;
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.2;
+    font-size: 28px;
+    font-weight: 400;
     margin: 0 0 12px;
 }
 
@@ -384,9 +381,8 @@
 
 .ke-team-card h3 {
     color: #fff;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 22px;
+    font-weight: 400;
     margin: 18px 16px 6px;
 }
 

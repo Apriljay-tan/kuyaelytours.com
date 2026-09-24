@@ -64,23 +64,23 @@ html {
 .story-h1,
 .story-h2 {
     font-family: var(--title-font);
-    font-weight: 800;
+    font-weight: 400;
     text-transform: uppercase;
     color: #fff;
     letter-spacing: 0.02em;
 }
 
 .story-h1 {
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.05;
+    font-size: clamp(44px, 6vw, 84px);
+    line-height: 0.9;
     margin: 0 0 24px;
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
 }
 
 .story-h2 {
-    font-size: clamp(28px, 3.6vw, 44px);
-    line-height: 1.12;
+    font-size: clamp(34px, 4.4vw, 58px);
+    line-height: 1.05;
     margin: 0 0 28px;
 }
 
@@ -457,9 +457,8 @@ html {
 
 .story-year {
     font-family: var(--title-font);
-    font-size: clamp(64px, 10vw, 96px);
-    font-weight: 800;
-    line-height: 0.95;
+    font-size: clamp(80px, 12vw, 140px);
+    line-height: 0.85;
     margin-bottom: 18px;
 }
 
@@ -474,7 +473,7 @@ html {
 .story-brand-stack span {
     display: block;
     font-size: 22px;
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.55);
     letter-spacing: 0.18em;
     margin-top: 8px;
 }
@@ -646,7 +645,7 @@ html {
     text-align: center;
     font-size: 14px;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 @keyframes story-advocacy-scroll {
@@ -752,7 +751,7 @@ html {
     margin-top: 14px;
     font-size: 14px;
     font-style: normal;
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.45);
 }
 
 /* CTA */
@@ -783,7 +782,7 @@ html {
     margin-top: 22px;
     font-size: 14px;
     letter-spacing: 0.04em;
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 @keyframes story-float {

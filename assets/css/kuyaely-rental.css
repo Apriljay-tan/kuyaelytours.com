@@ -142,8 +142,8 @@
 .rental-why-badge strong {
     color: #F5C518;
     font-family: var(--title-font);
-    font-size: 18px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 400;
     letter-spacing: 0.8px;
 }
 
@@ -194,9 +194,9 @@
     margin: 2px 0 8px;
     color: #fff;
     font-family: var(--title-font);
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
     line-height: 1.2;
 }
 

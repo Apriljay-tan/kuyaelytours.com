@@ -33,10 +33,9 @@ body.legal-page,
 	z-index: 1;
 }
 .legal-page .breadcumb-content h1 {
-	font-family: Inter, "Segoe UI", Arial, sans-serif !important;
-	font-weight: 800 !important;
-	letter-spacing: -0.03em;
-	line-height: 1.12;
+	font-family: "Bebas Neue", sans-serif !important;
+	font-weight: 400 !important;
+	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	font-size: clamp(32px, 6vw, 48px) !important;
 	color: #fff !important;

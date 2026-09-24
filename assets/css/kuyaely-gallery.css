@@ -30,9 +30,8 @@
     background: rgba(255, 255, 255, 0.06);
     color: #fff;
     font-family: var(--title-font);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+    font-size: 14px;
+    letter-spacing: 1px;
     text-transform: uppercase;
     cursor: pointer;
     transition: 0.25s ease;
@@ -125,8 +124,8 @@
     display: block;
     color: #fff;
     font-family: var(--title-font);
-    font-size: 18px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 400;
     letter-spacing: 0.4px;
     line-height: 1.2;
 }

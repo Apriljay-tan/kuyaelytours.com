@@ -61,9 +61,9 @@ a.ke-contact-card:hover {
 .ke-contact-card h3 {
     margin: 0 0 8px;
     color: #fff;
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
 }
 
 .ke-contact-card p,
@@ -174,10 +174,8 @@ a.ke-contact-card:hover {
 .ke-form h2 {
     margin: 0 0 6px;
     color: #fff;
-    font-size: 28px;
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    font-size: 34px;
+    font-weight: 400;
 }
 
 .ke-form .ke-form-note {
@@ -242,7 +240,7 @@ a.ke-contact-card:hover {
 
 .ke-field input::placeholder,
 .ke-field textarea::placeholder {
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(255, 255, 255, 0.42);
 }
 
 .ke-field input:focus,

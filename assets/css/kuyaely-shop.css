@@ -86,8 +86,8 @@ h1, h2 { font-weight: 600; }
 .ke-kicker,
 .ke-shop-brand span,
 .ke-auth-brand span {
-	font-family: Inter, "Segoe UI", Arial, sans-serif;
-	font-weight: 800;
+	font-family: "Bebas Neue", sans-serif;
+	font-weight: 400;
 }
 .ke-kicker { color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; font-size: 13px; }
 .lede, .ke-shop-foot, .trust { color: rgba(237,245,246,0.75); line-height: 1.6; }
@@ -256,11 +256,11 @@ body.ke-auth {
 }
 .ke-auth-copy h2 {
 	margin: 0 0 10px;
-	font-size: clamp(28px, 4vw, 40px);
-	line-height: 1.08;
-	font-family: Inter, "Segoe UI", Arial, sans-serif;
-	font-weight: 800;
-	letter-spacing: -0.03em;
+	font-size: clamp(34px, 5vw, 52px);
+	line-height: 1;
+	font-family: "Bebas Neue", sans-serif;
+	font-weight: 400;
+	letter-spacing: 0.04em;
 }
 .ke-auth-copy p {
 	margin: 0;
@@ -288,11 +288,10 @@ body.ke-auth {
 .ke-auth-panel h1 {
 	margin: 0;
 	color: var(--navy);
-	font-family: Inter, "Segoe UI", Arial, sans-serif;
-	font-weight: 800;
-	font-size: clamp(30px, 4vw, 40px);
-	line-height: 1.08;
-	letter-spacing: -0.03em;
+	font-family: "Bebas Neue", sans-serif;
+	font-weight: 400;
+	font-size: clamp(36px, 5vw, 50px);
+	letter-spacing: 0.03em;
 }
 .ke-auth-panel .lede {
 	margin: 6px 0 22px;
@@ -2266,10 +2265,9 @@ body.ke-bag .ke-shop-main {
 .ke-panel h2,
 .ke-bk-hello h1,
 .ke-bk-panel h2 {
-	font-family: Inter, "Segoe UI", Arial, sans-serif;
-	font-weight: 800;
-	letter-spacing: -0.02em;
-	line-height: 1.15;
+	font-family: "Bebas Neue", sans-serif;
+	font-weight: 400;
+	letter-spacing: 0.03em;
 }
 
 .ke-app .ke-profile-form input,
@@ -2340,10 +2338,10 @@ body.ke-bag .ke-shop-main {
 .ke-secure-hero h1 {
 	margin: 0 0 8px;
 	font-family: Inter, sans-serif;
-	font-size: clamp(32px, 5vw, 48px);
+	font-size: clamp(40px, 6vw, 64px);
 	font-weight: 800;
 	letter-spacing: -0.03em;
-	line-height: 1.08;
+	line-height: 0.95;
 }
 .ke-secure-hero h1 em {
 	font-family: Satisfy, cursive;
