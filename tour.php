@@ -549,9 +549,17 @@ ob_start();
 			<?php endif; ?>
 			<div class="ke-pack-modal-grid">
 				<?php foreach ($packPhotos as $photo): ?>
-					<img src="<?= store_h($photo) ?>" alt="<?= store_h((string) $tour['name']) ?>">
+					<button type="button" class="ke-pack-shot">
+						<img src="<?= store_h($photo) ?>" alt="<?= store_h((string) $tour['name']) ?>">
+					</button>
 				<?php endforeach; ?>
 			</div>
+		</div>
+		<div class="ke-pack-view" hidden>
+			<button type="button" class="ke-pack-view-back" data-ke-shot-back>Back</button>
+			<button type="button" class="ke-pack-view-nav is-prev" data-ke-shot-prev aria-label="Previous photo">‹</button>
+			<img alt="">
+			<button type="button" class="ke-pack-view-nav is-next" data-ke-shot-next aria-label="Next photo">›</button>
 		</div>
 	</dialog>
 	<script>
@@ -576,7 +584,49 @@ ob_start();
 		modal.addEventListener('click', function (e) {
 			if (e.target === modal) modal.close();
 		});
-		modal.addEventListener('close', stopMedia);
+		modal.addEventListener('close', function () {
+			stopMedia();
+			closeShot();
+		});
+		var view = modal.querySelector('.ke-pack-view');
+		var viewImg = view ? view.querySelector('img') : null;
+		var shots = Array.prototype.slice.call(modal.querySelectorAll('.ke-pack-shot'));
+		var shotIndex = 0;
+		function closeShot() {
+			if (!view) return;
+			view.hidden = true;
+			if (viewImg) viewImg.removeAttribute('src');
+		}
+		function showShot(index) {
+			if (!view || !viewImg || !shots.length) return;
+			shotIndex = (index + shots.length) % shots.length;
+			var img = shots[shotIndex].querySelector('img');
+			if (!img) return;
+			viewImg.src = img.getAttribute('src') || '';
+			viewImg.alt = img.getAttribute('alt') || '';
+			view.hidden = false;
+			var single = shots.length < 2;
+			view.querySelectorAll('[data-ke-shot-prev], [data-ke-shot-next]').forEach(function (btn) {
+				btn.hidden = single;
+			});
+		}
+		shots.forEach(function (btn, index) {
+			btn.addEventListener('click', function () { showShot(index); });
+		});
+		if (view) {
+			var backBtn = view.querySelector('[data-ke-shot-back]');
+			if (backBtn) backBtn.addEventListener('click', closeShot);
+			var prevBtn = view.querySelector('[data-ke-shot-prev]');
+			var nextBtn = view.querySelector('[data-ke-shot-next]');
+			if (prevBtn) prevBtn.addEventListener('click', function () { showShot(shotIndex - 1); });
+			if (nextBtn) nextBtn.addEventListener('click', function () { showShot(shotIndex + 1); });
+		}
+		modal.addEventListener('cancel', function (e) {
+			if (view && !view.hidden) {
+				e.preventDefault();
+				closeShot();
+			}
+		});
 	})();
 	</script>
 <?php
@@ -589,7 +639,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=10" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=11" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [
