@@ -189,11 +189,30 @@ ob_start();
 					</div>
 					<div class="ke-td-block">
 						<h2>Sample Itinerary</h2>
+						<?php $itinDays = ke_itinerary_days($tour); ?>
+						<?php if ($itinDays): ?>
+						<div class="ke-td-days">
+							<?php foreach ($itinDays as $dayIndex => $day): ?>
+							<details class="ke-td-day"<?= $dayIndex === 0 ? ' open' : '' ?>>
+								<summary>
+									<span class="ke-td-day-num">Day <?= sprintf('%02d', $dayIndex + 1) ?></span>
+									<span class="ke-td-day-title"><?= store_h((string) $day['title']) ?></span>
+								</summary>
+								<ul class="ke-td-itin">
+									<?php foreach ($day['items'] as $row): ?>
+										<li><strong><?= store_h((string) $row[0]) ?></strong><span><?= store_h((string) $row[1]) ?></span></li>
+									<?php endforeach; ?>
+								</ul>
+							</details>
+							<?php endforeach; ?>
+						</div>
+						<?php else: ?>
 						<ul class="ke-td-itin">
 							<?php foreach ($tour['itinerary'] as $row): ?>
 								<li><strong><?= store_h((string) $row[0]) ?></strong><span><?= store_h((string) $row[1]) ?></span></li>
 							<?php endforeach; ?>
 						</ul>
+						<?php endif; ?>
 					</div>
 					<div class="ke-td-block ke-td-split">
 						<div class="ke-td-box">
@@ -639,7 +658,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=11" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=12" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [

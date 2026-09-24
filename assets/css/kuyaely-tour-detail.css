@@ -742,3 +742,52 @@
     font-weight: 600 !important;
     letter-spacing: 0.01em !important;
 }
+
+.ke-td-days { display: flex; flex-direction: column; gap: 8px; }
+.ke-td-day {
+	background: #10262c;
+	border: 1px solid rgba(245, 197, 24, 0.35);
+	border-radius: 12px;
+	overflow: hidden;
+}
+.ke-td-day summary {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 14px;
+	cursor: pointer;
+	list-style: none;
+}
+.ke-td-day summary::-webkit-details-marker { display: none; }
+.ke-td-day-num {
+	flex: none;
+	background: #F5C518;
+	color: #122327;
+	font-weight: 800;
+	font-size: 12px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	border-radius: 8px;
+	padding: 6px 10px;
+}
+.ke-td-day-title {
+	flex: 1;
+	color: #fff;
+	font-weight: 700;
+	font-size: 16px;
+}
+.ke-td-day summary::after {
+	content: "";
+	flex: none;
+	width: 8px;
+	height: 8px;
+	border-right: 2px solid #F5C518;
+	border-bottom: 2px solid #F5C518;
+	transform: rotate(45deg);
+	margin-top: -4px;
+}
+.ke-td-day[open] summary::after {
+	transform: rotate(-135deg);
+	margin-top: 4px;
+}
+.ke-td-day .ke-td-itin { margin: 0; padding: 0 16px 12px; }

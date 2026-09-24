@@ -481,8 +481,87 @@ function ke_package_normalize(array $row): array
 		'child_price_mode' => ke_child_price_mode_value((string) ($row['child_price_mode'] ?? 'fixed')),
 		'age_adult' => (string) ($row['age_adult'] ?? '4 years old & above'),
 		'age_child' => (string) ($row['age_child'] ?? '3 years old'),
+		'itinerary_days' => ke_itinerary_days($row),
 	]);
 	return $merged;
+}
+
+function ke_itinerary_days(array $tour): array
+{
+	$days = [];
+	foreach ((array) ($tour['itinerary_days'] ?? []) as $day) {
+		if (!is_array($day)) {
+			continue;
+		}
+		$title = trim((string) ($day['title'] ?? ''));
+		$items = [];
+		foreach ((array) ($day['items'] ?? []) as $item) {
+			if (!is_array($item)) {
+				continue;
+			}
+			$time = trim((string) ($item[0] ?? ($item['time'] ?? '')));
+			$text = trim((string) ($item[1] ?? ($item['text'] ?? '')));
+			if ($time === '' && $text === '') {
+				continue;
+			}
+			$items[] = [$time, $text];
+		}
+		if ($title === '' && !$items) {
+			continue;
+		}
+		if ($title === '') {
+			$title = 'Day ' . (count($days) + 1);
+		}
+		$days[] = ['title' => $title, 'items' => $items];
+	}
+	return $days;
+}
+
+function ke_itinerary_days_from_rows(array $rows): array
+{
+	$days = [];
+	$current = null;
+	foreach ($rows as $row) {
+		if (!is_array($row)) {
+			continue;
+		}
+		$time = trim((string) ($row[0] ?? ''));
+		$text = trim((string) ($row[1] ?? ''));
+		$text = (string) preg_replace('/^\s*(?:->|→)\s*/u', '', $text);
+		$label = $time === '' ? $text : '';
+		if ($label !== '' && preg_match('/^(?:day\s*(\d+)|last\s*day)\b[:\-\s]*(.*)$/i', $label, $match)) {
+			if ($current) {
+				$days[] = $current;
+			}
+			$rest = trim((string) ($match[2] ?? ''));
+			if ($rest !== '') {
+				$title = $rest;
+			} elseif (stripos($label, 'last') === 0) {
+				$title = 'Last day';
+			} else {
+				$title = 'Day ' . max(1, (int) ($match[1] ?? 1));
+			}
+			$current = ['title' => $title, 'items' => []];
+			continue;
+		}
+		if ($current === null) {
+			$current = ['title' => 'Day 1', 'items' => []];
+		}
+		if ($time === '' && preg_match('/^end of tour\b/i', $text)) {
+			continue;
+		}
+		if ($time === '' && $text === '') {
+			continue;
+		}
+		$current['items'][] = [$time, $text];
+	}
+	if ($current && ($current['items'] || count($days) > 0)) {
+		$days[] = $current;
+	}
+	if (!$days) {
+		$days[] = ['title' => 'Day 1', 'items' => []];
+	}
+	return $days;
 }
 
 function ke_package_cover(array $tour, string $fallback = ''): string

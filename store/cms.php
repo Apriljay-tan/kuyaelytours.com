@@ -336,6 +336,47 @@ function ke_cms_itinerary_from_text(string $text): array
 	return $out;
 }
 
+function ke_cms_itinerary_days_from_post(array $post): array
+{
+	$titles = $post['day_title'] ?? null;
+	if (!is_array($titles)) {
+		return [];
+	}
+	$bodies = $post['day_lines'] ?? [];
+	if (!is_array($bodies)) {
+		$bodies = [];
+	}
+	$days = [];
+	foreach (array_values($titles) as $i => $title) {
+		$items = ke_cms_itinerary_from_text((string) ($bodies[$i] ?? ''));
+		$title = trim((string) $title);
+		if ($title === '' && !$items) {
+			continue;
+		}
+		if ($title === '') {
+			$title = 'Day ' . (count($days) + 1);
+		}
+		$days[] = ['title' => $title, 'items' => $items];
+	}
+	return $days;
+}
+
+function ke_cms_itinerary_flat(array $days): array
+{
+	$flat = [];
+	foreach ($days as $day) {
+		if (!is_array($day)) {
+			continue;
+		}
+		foreach ((array) ($day['items'] ?? []) as $item) {
+			if (is_array($item)) {
+				$flat[] = $item;
+			}
+		}
+	}
+	return $flat;
+}
+
 function ke_cms_expect_from_text(string $text): array
 {
 	$out = [];
