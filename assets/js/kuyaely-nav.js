@@ -381,34 +381,93 @@
 				var el = quickBook && quickBook.querySelector('[name="' + name + '"]');
 				return parseInt(el && el.value, 10) || 0;
 			}
+			function quickMoney(n) {
+				return "₱" + Number(n || 0).toLocaleString("en-US");
+			}
+			function quickTier(tiers, n) {
+				n = Math.max(1, n);
+				for (var i = 0; i < tiers.length; i++) {
+					if (n >= tiers[i].min && n <= tiers[i].max) return tiers[i];
+				}
+				return tiers.length ? tiers[tiers.length - 1] : null;
+			}
+			function refreshQuickQuote() {
+				if (!quickBook) return;
+				var book = quickBook._book || {};
+				var tiers = Array.isArray(book.tiers) ? book.tiers : [];
+				var types = ["foreign_adult", "local_adult", "foreign_child", "local_child"];
+				var counts = {};
+				var pax = 0;
+				types.forEach(function (type) {
+					counts[type] = quickQty(type);
+					pax += counts[type];
+				});
+				var tier = quickTier(tiers, pax > 0 ? pax : 1);
+				var rates = [];
+				var total = 0;
+				types.forEach(function (type) {
+					var rate = tier ? (tier[type] || 0) : 0;
+					var unit = quickBook.querySelector('[data-qb-unit="' + type + '"]');
+					if (unit) unit.textContent = rate > 0 ? (quickMoney(rate) + " / pax") : "";
+					if (counts[type] > 0 && rate > 0) {
+						total += counts[type] * rate;
+						if (rates.indexOf(rate) < 0) rates.push(rate);
+					}
+				});
+				var fromEl = quickBook.querySelector(".ke-qb-from");
+				if (fromEl) {
+					fromEl.textContent = book.from > 0 ? ("From " + quickMoney(book.from) + " / pax") : "";
+				}
+				var perEl = quickBook.querySelector(".ke-qb-perpax");
+				var totalEl = quickBook.querySelector(".ke-qb-total");
+				if (pax < 1) {
+					if (perEl) perEl.textContent = book.from > 0 ? (quickMoney(book.from) + " / pax") : "—";
+					if (totalEl) totalEl.textContent = "—";
+					return;
+				}
+				var per = rates.length === 1 ? rates[0] : Math.round(total / pax);
+				if (perEl) perEl.textContent = quickMoney(per) + " / pax";
+				if (totalEl) totalEl.textContent = quickMoney(total);
+			}
 			function ensureQuickBook() {
 				if (quickBook) return quickBook;
 				if (!document.getElementById("ke-quick-book-css")) {
 					var style = document.createElement("style");
 					style.id = "ke-quick-book-css";
 					style.textContent = ""
-						+ "dialog#ke-quick-book{width:min(420px,calc(100vw - 28px))!important;max-height:min(92vh,820px)!important;margin:auto!important;padding:0!important;border:0!important;border-radius:18px!important;background:#10262c!important;color:#fff!important;overflow:auto!important;box-shadow:0 24px 60px rgba(0,0,0,.45)!important}"
-						+ "dialog#ke-quick-book::backdrop{background:rgba(6,16,18,.72)!important}"
-						+ "dialog#ke-quick-book .ke-bookbox{margin:0!important;border:0!important;border-radius:18px!important;background:#10262c!important;color:#fff!important;overflow:hidden!important}"
+						+ "dialog#ke-quick-book{width:min(880px,calc(100vw - 48px))!important;max-height:none!important;margin:auto!important;padding:0!important;border:0!important;border-radius:20px!important;background:#10262c!important;color:#fff!important;overflow:hidden!important;box-shadow:0 28px 70px rgba(0,0,0,.5)!important}"
+						+ "dialog#ke-quick-book::backdrop{background:rgba(6,16,18,.45)!important;backdrop-filter:blur(10px)!important;-webkit-backdrop-filter:blur(10px)!important}"
+						+ "dialog#ke-quick-book .ke-bookbox{margin:0!important;border:0!important;border-radius:20px!important;background:#10262c!important;color:#fff!important;overflow:hidden!important}"
 						+ "dialog#ke-quick-book .ke-bookbox,dialog#ke-quick-book .ke-bookbox *{font-family:Inter,Segoe UI,Arial,sans-serif!important;letter-spacing:0!important;text-transform:none!important;box-sizing:border-box}"
-						+ "dialog#ke-quick-book .ke-qb-top{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:12px!important;padding:18px 18px 6px!important}"
-						+ "dialog#ke-quick-book .ke-qb-top p{margin:6px 0 0!important;color:rgba(255,255,255,.7)!important;font-size:13px!important;font-weight:500!important}"
-						+ "dialog#ke-quick-book .ke-qb-top .ke-bookbox-from{margin:0!important;color:#F5C518!important;font-size:22px!important;font-weight:700!important;line-height:1.2!important}"
-						+ "dialog#ke-quick-book .ke-qb-close{flex:0 0 auto!important;width:36px!important;height:36px!important;border-radius:50%!important;border:1px solid rgba(245,197,24,.5)!important;background:transparent!important;color:#F5C518!important;font-size:22px!important;line-height:1!important;cursor:pointer!important;padding:0!important}"
-						+ "dialog#ke-quick-book .ke-bookbox-form{display:flex!important;flex-direction:column!important;gap:0!important;padding:8px 18px 18px!important;background:transparent!important}"
-						+ "dialog#ke-quick-book .ke-bookbox-field{display:flex!important;flex-direction:column!important;gap:6px!important;margin:0 0 12px!important;width:100%!important}"
-						+ "dialog#ke-quick-book .ke-bookbox-field span{display:block!important;color:rgba(255,255,255,.72)!important;font-size:13px!important}"
+						+ "dialog#ke-quick-book .ke-qb-top{display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:16px!important;padding:20px 22px 16px!important;border-bottom:1px solid rgba(245,197,24,.22)!important}"
+						+ "dialog#ke-quick-book .ke-qb-top p{margin:4px 0 0!important;color:rgba(255,255,255,.72)!important;font-size:13px!important;font-weight:500!important;line-height:1.4!important}"
+						+ "dialog#ke-quick-book .ke-qb-top .ke-bookbox-from{margin:0!important;color:#fff!important;font-size:22px!important;font-weight:700!important;line-height:1.25!important}"
+						+ "dialog#ke-quick-book .ke-qb-from{margin:6px 0 0!important;color:#F5C518!important;font-size:18px!important;font-weight:700!important;line-height:1.2!important}"
+						+ "dialog#ke-quick-book .ke-qb-close{flex:0 0 auto!important;width:36px!important;height:36px!important;border-radius:50%!important;border:1px solid rgba(245,197,24,.5)!important;background:#0c1f24!important;color:#F5C518!important;font-size:22px!important;line-height:1!important;cursor:pointer!important;padding:0!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-form{display:block!important;padding:18px 22px 22px!important;background:transparent!important}"
+						+ "dialog#ke-quick-book .ke-qb-cols{display:grid!important;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)!important;gap:16px!important;align-items:start!important}"
+						+ "dialog#ke-quick-book .ke-qb-side,dialog#ke-quick-book .ke-qb-guests{background:rgba(255,255,255,.04)!important;border:1px solid rgba(245,197,24,.2)!important;border-radius:16px!important}"
+						+ "dialog#ke-quick-book .ke-qb-side{padding:16px 16px 4px!important}"
+						+ "dialog#ke-quick-book .ke-qb-guests{padding:4px 16px!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-field{display:flex!important;flex-direction:column!important;gap:6px!important;margin:0 0 14px!important;width:100%!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-field span{display:block!important;color:rgba(255,255,255,.72)!important;font-size:13px!important;font-weight:600!important}"
 						+ "dialog#ke-quick-book .ke-bookbox-field select,dialog#ke-quick-book .ke-bookbox-field input[type=date]{display:block!important;width:100%!important;min-height:46px!important;height:46px!important;border-radius:10px!important;border:1px solid rgba(255,255,255,.16)!important;background:#0c1f24!important;color:#fff!important;padding:0 12px!important;color-scheme:dark}"
-						+ "dialog#ke-quick-book .ke-bookbox-guest{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;width:100%!important;padding:12px 0!important;border-top:1px solid rgba(255,255,255,.08)!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-guest{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;width:100%!important;padding:11px 0!important;border-top:1px solid rgba(255,255,255,.08)!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-guest:first-child{border-top:0!important}"
 						+ "dialog#ke-quick-book .ke-bookbox-guest strong{display:block!important;color:#fff!important;font-size:15px!important;font-weight:700!important}"
 						+ "dialog#ke-quick-book .ke-bookbox-guest small{display:block!important;color:#F5C518!important;font-size:12px!important;margin-top:2px!important}"
 						+ "dialog#ke-quick-book .ke-step{display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important}"
 						+ "dialog#ke-quick-book .ke-step button{width:34px!important;height:34px!important;min-height:0!important;border-radius:50%!important;border:1px solid #F5C518!important;background:transparent!important;color:#F5C518!important;font-size:20px!important;line-height:1!important;padding:0!important;cursor:pointer!important}"
 						+ "dialog#ke-quick-book .ke-step input{width:36px!important;height:auto!important;min-height:0!important;border:0!important;background:transparent!important;color:#fff!important;text-align:center!important;font-size:16px!important;font-weight:700!important;padding:0!important}"
-						+ "dialog#ke-quick-book .ke-qb-error{margin:8px 0 0!important;color:#ffb4b4!important;font-size:14px!important}"
-						+ "dialog#ke-quick-book .ke-bookbox-book,dialog#ke-quick-book .ke-bookbox-cart{display:block!important;width:100%!important;min-height:48px!important;margin-top:14px!important;border-radius:10px!important;font-size:16px!important;font-weight:700!important;cursor:pointer!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-unit{display:block!important;margin-top:3px!important;color:#fff!important;font-size:12px!important;font-style:normal!important;font-weight:600!important}"
+						+ "dialog#ke-quick-book .ke-qb-sum{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;margin:16px 0 0!important;padding:0!important;background:transparent!important;border:0!important}"
+						+ "dialog#ke-quick-book .ke-qb-sum p{display:flex!important;justify-content:space-between!important;align-items:center!important;gap:12px!important;margin:0!important;padding:12px 14px!important;border-radius:12px!important;background:rgba(245,197,24,.08)!important;border:1px solid rgba(245,197,24,.22)!important;color:#fff!important;font-size:14px!important;font-weight:600!important}"
+						+ "dialog#ke-quick-book .ke-qb-sum strong{color:#F5C518!important;font-weight:700!important;font-size:16px!important}"
+						+ "dialog#ke-quick-book .ke-qb-error{margin:10px 0 0!important;color:#ffb4b4!important;font-size:14px!important}"
+						+ "dialog#ke-quick-book .ke-bookbox-book,dialog#ke-quick-book .ke-bookbox-cart{display:block!important;width:100%!important;min-height:50px!important;margin-top:14px!important;border-radius:12px!important;font-size:16px!important;font-weight:700!important;cursor:pointer!important}"
 						+ "dialog#ke-quick-book .ke-bookbox-book{background:#F5C518!important;color:#122327!important;border:0!important}"
-						+ "dialog#ke-quick-book .ke-bookbox-cart{background:transparent!important;color:#F5C518!important;border:1px solid #F5C518!important}";
+						+ "dialog#ke-quick-book .ke-bookbox-cart{background:transparent!important;color:#F5C518!important;border:1px solid #F5C518!important}"
+						+ "@media (max-width:767px){dialog#ke-quick-book{width:min(420px,calc(100vw - 24px))!important;max-height:min(92vh,820px)!important;overflow:auto!important}dialog#ke-quick-book .ke-qb-cols{display:flex!important;flex-direction:column!important}dialog#ke-quick-book .ke-qb-sum{grid-template-columns:1fr!important}}";
 					document.head.appendChild(style);
 				}
 				quickBook = document.createElement("dialog");
@@ -416,12 +475,17 @@
 				quickBook.className = "ke-quick-book";
 				quickBook.innerHTML = ''
 					+ '<div class="ke-bookbox">'
-					+ '<div class="ke-qb-top"><div><p class="ke-bookbox-from"></p><p>Choose a date and how many guests.</p></div>'
+					+ '<div class="ke-qb-top"><div><p class="ke-bookbox-from"></p><p class="ke-qb-from"></p><p>Choose a date and how many guests.</p></div>'
 					+ '<button type="button" class="ke-qb-close" data-ke-qb-close aria-label="Close">×</button></div>'
 					+ '<form class="ke-bookbox-form">'
+					+ '<div class="ke-qb-cols">'
+					+ '<div class="ke-qb-side">'
 					+ '<label class="ke-bookbox-field ke-qb-pickup"><span>Select Pickup Location</span><select name="pickup"></select></label>'
-					+ '<label class="ke-bookbox-field"><span>Booking Date</span><input type="date" name="date" required></label>'
+					+ '<label class="ke-bookbox-field ke-qb-date"><span>Booking Date</span><input type="date" name="date" required></label>'
+					+ '</div>'
 					+ '<div class="ke-qb-guests"></div>'
+					+ '</div>'
+					+ '<div class="ke-qb-sum"><p>Per pax <strong class="ke-qb-perpax">—</strong></p><p>Total <strong class="ke-qb-total">—</strong></p></div>'
 					+ '<p class="ke-qb-error" hidden></p>'
 					+ '<button type="submit" class="ke-bookbox-book"></button>'
 					+ '</form></div>';
@@ -437,6 +501,7 @@
 						if (v < 0) v = 0;
 						if (v > 30) v = 30;
 						input.value = String(v);
+						refreshQuickQuote();
 						return;
 					}
 					if (ev.target === quickBook || ev.target.closest("[data-ke-qb-close]")) {
@@ -496,6 +561,7 @@
 					notes: btn.getAttribute("data-ke-notes") || "",
 					next: btn.getAttribute("data-ke-next") || "/shop/cart.php"
 				};
+				dlg._book = book;
 				var title = dlg.querySelector(".ke-bookbox-from");
 				if (title) title.textContent = btn.getAttribute("data-ke-notes") || "Book this tour";
 				var go = dlg.querySelector(".ke-bookbox-book, .ke-bookbox-cart");
@@ -542,6 +608,10 @@
 					small.textContent = row[2];
 					copy.appendChild(strong);
 					copy.appendChild(small);
+					var unit = document.createElement("em");
+					unit.className = "ke-bookbox-unit";
+					unit.setAttribute("data-qb-unit", row[0]);
+					copy.appendChild(unit);
 					var step = document.createElement("div");
 					step.className = "ke-step";
 					var minus = document.createElement("button");
@@ -567,6 +637,7 @@
 					line.appendChild(step);
 					guests.appendChild(line);
 				});
+				refreshQuickQuote();
 				if (dlg.showModal) dlg.showModal();
 				if (dateInput) dateInput.focus();
 			}

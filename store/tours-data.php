@@ -570,12 +570,32 @@ function ke_package_cart_id(array $tour): string
 
 function ke_package_book_attr(array $tour): string
 {
+	$tiers = [];
+	$from = ke_package_price($tour);
+	$bestPax = 14;
+	foreach (ke_tour_price_tiers($tour) as $tier) {
+		$tiers[] = [
+			'min' => (int) $tier['min'],
+			'max' => (int) $tier['max'],
+			'foreign_adult' => (int) $tier['foreign_adult'],
+			'local_adult' => (int) $tier['local_adult'],
+			'foreign_child' => (int) $tier['foreign_child'],
+			'local_child' => (int) $tier['local_child'],
+		];
+		$adult = (int) $tier['foreign_adult'];
+		if ($from > 0 && $adult === $from) {
+			$bestPax = ((int) $tier['min'] <= 14 && 14 <= (int) $tier['max']) ? 14 : (int) $tier['min'];
+		}
+	}
 	$json = json_encode([
 		'slug' => (string) ($tour['slug'] ?? ''),
 		'split' => ke_package_split_local($tour),
 		'ageAdult' => (string) ($tour['age_adult'] ?? '5 years old & above'),
 		'ageChild' => (string) ($tour['age_child'] ?? 'Below 5 years old'),
 		'pickups' => array_values(array_filter(array_map('strval', ke_tour_pickups($tour)))),
+		'from' => $from,
+		'bestPax' => $bestPax,
+		'tiers' => $tiers,
 	], JSON_UNESCAPED_UNICODE);
 	return is_string($json) ? $json : '{}';
 }
