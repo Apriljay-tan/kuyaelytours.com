@@ -10,19 +10,20 @@
 		var secure = location.protocol === "https:" ? "; Secure" : "";
 		document.cookie = "ke_consent=" + value + "; Path=/; Max-Age=15552000; SameSite=Lax" + secure;
 	}
-	function loadTags() {
-		if (window.__keTagsLoaded) return;
-		window.__keTagsLoaded = true;
-		if (!document.querySelector("script[src*='gtm.js?id=GTM-T8SH1P8Z']")) {
-			(function (w, d, s, l, i) {
-				w[l] = w[l] || [];
-				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-				var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l !== "dataLayer" ? "&l=" + l : "";
-				j.async = true;
-				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-				f.parentNode.insertBefore(j, f);
-			})(window, document, "script", "dataLayer", "GTM-T8SH1P8Z");
-		}
+	function loadGtm() {
+		if (document.querySelector("script[src*='gtm.js?id=GTM-T8GFHP8Z']")) return;
+		(function (w, d, s, l, i) {
+			w[l] = w[l] || [];
+			w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+			var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l !== "dataLayer" ? "&l=" + l : "";
+			j.async = true;
+			j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+			f.parentNode.insertBefore(j, f);
+		})(window, document, "script", "dataLayer", "GTM-T8GFHP8Z");
+	}
+	function loadPixel() {
+		if (window.__kePixelLoaded || window.fbq) return;
+		window.__kePixelLoaded = true;
 		if (!window.fbq) {
 			(function (f, b, e, v, n, t, s) {
 				if (f.fbq) return;
@@ -46,9 +47,11 @@
 		if (document.getElementById("ke-consent")) return;
 		var bar = document.createElement("div");
 		bar.id = "ke-consent";
-		bar.innerHTML = '<p>We use cookies, Google Tag Manager, and the Meta Pixel to measure visits and bookings. <a href="/privacy-policy">Privacy policy</a></p><div><button type="button" data-ke-consent="0">Decline</button><button type="button" data-ke-consent="1">Accept</button></div>';
+		bar.setAttribute("role", "dialog");
+		bar.setAttribute("aria-label", "Cookie notice");
+		bar.innerHTML = '<p>By continuing to use the website, you will be agreeing to our <a href="/privacy-policy">Privacy Policy</a> and <a href="/privacy-policy#cookies">Cookie Policy</a>.</p><button type="button" data-ke-consent="1">I agree</button><button type="button" data-ke-consent="0" aria-label="Close">&times;</button>';
 		var style = document.createElement("style");
-		style.textContent = "#ke-consent{position:fixed;z-index:80;left:16px;right:16px;bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;max-width:880px;margin:0 auto;padding:14px 16px;border-radius:14px;background:#10262c;color:#fff;box-shadow:0 16px 40px rgba(0,0,0,.35);font-family:Inter,Segoe UI,Arial,sans-serif}#ke-consent p{margin:0;font-size:14px;line-height:1.45}#ke-consent a{color:#F5C518}#ke-consent div{display:flex;gap:8px}#ke-consent button{min-height:40px;border-radius:999px;padding:0 16px;cursor:pointer;font-weight:700}#ke-consent [data-ke-consent='0']{background:transparent;color:#F5C518;border:1px solid rgba(245,197,24,.6)}#ke-consent [data-ke-consent='1']{background:#F5C518;color:#122327;border:0}";
+		style.textContent = "#ke-consent{position:fixed;z-index:10060;left:0;right:0;bottom:0;display:flex;flex-wrap:wrap;gap:14px 16px;align-items:center;justify-content:center;min-height:64px;padding:14px 56px;background:#10262c;color:#fff;border-top:1px solid rgba(245,197,24,.4);box-shadow:0 -10px 28px rgba(0,0,0,.35);font-family:Inter,Segoe UI,Arial,sans-serif}#ke-consent p{margin:0;max-width:760px;font-size:15px;line-height:1.45;text-align:center}#ke-consent a{color:#F5C518;text-decoration:underline;text-underline-offset:2px}#ke-consent [data-ke-consent='1']{flex:none;min-height:40px;padding:0 22px;border:0;border-radius:8px;background:#F5C518;color:#122327;font:700 15px/1 Inter,Segoe UI,Arial,sans-serif;cursor:pointer}#ke-consent [data-ke-consent='1']:hover{background:#ffd84a}#ke-consent [data-ke-consent='0']{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:0;background:transparent;color:#fff;font-size:26px;line-height:1;cursor:pointer}#ke-consent [data-ke-consent='0']:hover{color:#F5C518}@media (max-width:720px){#ke-consent{padding:14px 48px 16px 16px}#ke-consent p{flex:1 1 100%}}";
 		document.head.appendChild(style);
 		document.body.appendChild(bar);
 		bar.addEventListener("click", function (ev) {
@@ -63,8 +66,9 @@
 			bar.remove();
 		});
 	}
+	loadGtm();
 	if (consentValue() === "1") {
-		loadTags();
+		loadPixel();
 	} else if (consentValue() !== "0") {
 		if (document.body) showBanner();
 		else document.addEventListener("DOMContentLoaded", showBanner);
