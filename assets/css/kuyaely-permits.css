@@ -38,7 +38,7 @@
     color: #F5C518;
     font-family: var(--title-font);
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 800;
     letter-spacing: 0.04em;
     margin-bottom: 4px;
 }
@@ -151,8 +151,9 @@
 .ke-permit-body h3 {
     margin: 0 0 6px;
     color: #fff;
-    font-size: 24px;
-    font-weight: 400;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     line-height: 1.2;
 }
 
@@ -190,7 +191,7 @@
 .ke-permits-note {
     max-width: 720px;
     margin: 28px auto 0;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.78);
     font-size: 14px;
     line-height: 1.6;
     text-align: center;

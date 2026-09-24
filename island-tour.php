@@ -149,7 +149,7 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=27" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=29" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [

@@ -589,7 +589,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=24" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=7" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=29" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=9" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [

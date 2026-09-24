@@ -24,8 +24,8 @@
     gap: 3px;
     font-family: var(--title-font);
     font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 0.16em;
+    font-weight: 800;
+    letter-spacing: 0.04em;
     line-height: 1;
     color: #fff;
     white-space: nowrap;
@@ -1394,8 +1394,10 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     }
 
     .hero-section-1 .hero_content h1 {
-        font-size: clamp(52px, 14vw, 92px) !important;
-        line-height: 0.88 !important;
+        font-size: clamp(36px, 9vw, 56px) !important;
+        line-height: 1.08 !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.03em !important;
         width: 100%;
         max-width: 100%;
         overflow: visible !important;
@@ -2167,10 +2169,10 @@ html {
 	display: block;
 	color: #fff !important;
 	font-family: var(--title-font);
-	font-size: 28px;
-	font-weight: 400;
-	letter-spacing: 0.06em;
-	line-height: 0.95;
+	font-size: 26px;
+	font-weight: 800;
+	letter-spacing: 0.04em;
+	line-height: 1.05;
 	white-space: nowrap;
 }
 .ke-site-head .brand-name::after,
@@ -2682,12 +2684,12 @@ html {
 	body.ke-home .ke-mhero h1 {
 		margin: 0;
 		font-family: var(--title-font);
-		font-size: clamp(42px, 13vw, 56px);
-		line-height: 0.88;
-		letter-spacing: 0.02em;
+		font-size: clamp(34px, 10vw, 48px);
+		line-height: 1.08;
+		letter-spacing: -0.03em;
 		text-transform: uppercase;
 		color: #fff;
-		font-weight: 400;
+		font-weight: 800;
 	}
 	body.ke-home .ke-mhero h1 span {
 		color: #F5C518;
@@ -2959,12 +2961,12 @@ html {
 	body.ke-home .ke-mwhy h2 {
 		margin: 0;
 		font-family: var(--title-font);
-		font-size: clamp(32px, 9vw, 42px);
-		line-height: 0.95;
-		letter-spacing: 0.03em;
+		font-size: clamp(28px, 8vw, 36px);
+		line-height: 1.12;
+		letter-spacing: -0.03em;
 		text-transform: uppercase;
 		color: #fff;
-		font-weight: 400;
+		font-weight: 800;
 	}
 	body.ke-home .ke-mwhy p {
 		margin: 10px 0 12px;
@@ -3165,4 +3167,37 @@ html.ke-i18n .text-effect div {
 	transform: none !important;
 	opacity: 1 !important;
 	overflow: visible !important;
+}
+
+:root {
+	--title-font: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.section-title h1,
+.section-title h1 .section__style,
+.breadcumb-content h1 {
+	font-family: Inter, "Segoe UI", Arial, sans-serif;
+	font-weight: 800;
+	font-size: clamp(32px, 4vw, 48px);
+	line-height: 1.12;
+	letter-spacing: -0.03em;
+}
+
+.header-menu ul li a {
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	font-size: 15px;
+}
+
+.ke-hub-head h2 {
+	font-family: Inter, "Segoe UI", Arial, sans-serif;
+	font-weight: 800;
+	line-height: 1.15;
+	letter-spacing: -0.03em;
+}
+
+.hero-section-1 .hero-journey-box h2,
+.hero-section-1 .hero_content h1 {
+	font-family: Inter, "Segoe UI", Arial, sans-serif;
+	font-weight: 800;
 }
