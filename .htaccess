@@ -1,5 +1,6 @@
 DirectoryIndex index.html
 Options -Indexes
+ErrorDocument 404 /404.php
 
 <IfModule mod_headers.c>
 	Header always set X-Content-Type-Options "nosniff"
