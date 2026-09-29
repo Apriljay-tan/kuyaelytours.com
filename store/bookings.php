@@ -111,7 +111,7 @@ function store_booking_due_pesos(array $booking): int
 	return max(0, (int) ($booking['total'] ?? 0));
 }
 
-function store_booking_confirm_payment(array $booking, int $paidCentavos, string $currency): bool
+function store_booking_confirm_payment(array $booking, int $paidCentavos, string $currency, string $method = ''): bool
 {
 	$id = (string) ($booking['id'] ?? '');
 	$fresh = $id !== '' ? (store_find_booking($id) ?: $booking) : $booking;
@@ -129,7 +129,7 @@ function store_booking_confirm_payment(array $booking, int $paidCentavos, string
 	if (!$done) {
 		$deposit = str_contains((string) ($fresh['notes'] ?? ''), 'Balance due');
 		$fresh['status'] = $deposit ? 'confirmed' : 'paid';
-		$fresh['pay_method'] = $deposit ? 'half' : 'paymongo';
+		$fresh['pay_method'] = $deposit ? 'half' : ($method !== '' ? $method : 'paymongo');
 		store_update_booking($fresh);
 	}
 	if (!str_contains((string) ($fresh['notes'] ?? ''), 'Payment notice sent')) {

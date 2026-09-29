@@ -124,7 +124,7 @@
 			return;
 		}
 		var picked = form.querySelector("input[name='plan']:checked");
-		var half = picked && picked.value === "half";
+		var half = picked && (picked.value === "half" || picked.value === "down");
 		var value = Number(half ? form.getAttribute("data-pay-half") : form.getAttribute("data-pay-full")) || 0;
 		var payId = track("AddPaymentInfo", { value: value, currency: "PHP" });
 		sendCapi([{ event: "AddPaymentInfo", event_id: payId, params: { value: value, currency: "PHP" } }]);

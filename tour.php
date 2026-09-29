@@ -63,6 +63,10 @@ if (!$images) {
 while (count($images) < 4) {
 	$images[] = $images[0];
 }
+$keShot = static function (string $src) use ($packPhotos): int {
+	$index = array_search($src, $packPhotos, true);
+	return $index === false ? 0 : (int) $index;
+};
 $island = (string) $tour['island'];
 $islandLabel = ucfirst($island);
 $catalog = (string) $tour['catalog'];
@@ -125,17 +129,17 @@ ob_start();
 					</div>
 					<div class="ke-td-gallery">
 						<div class="ke-td-gallery-main">
-							<a href="<?= store_h($images[0]) ?>">
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[0]) ?>">
 								<img src="<?= store_h($images[0]) ?>" alt="<?= store_h($tour['name']) ?>">
-							</a>
+							</button>
 							<?php if ($videoUrl !== ''): ?>
 								<button class="ke-td-watch" type="button" data-ke-photos><i class="fa-solid fa-play"></i> Watch Video</button>
 							<?php endif; ?>
 						</div>
 						<div class="ke-td-thumbs">
-							<a href="<?= store_h($images[1]) ?>"><img src="<?= store_h($images[1]) ?>" alt=""></a>
-							<a href="<?= store_h($images[2]) ?>"><img src="<?= store_h($images[2]) ?>" alt=""></a>
-							<a href="<?= store_h($images[3]) ?>"><img src="<?= store_h($images[3]) ?>" alt=""></a>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[1]) ?>"><img src="<?= store_h($images[1]) ?>" alt=""></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[2]) ?>"><img src="<?= store_h($images[2]) ?>" alt=""></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[3]) ?>"><img src="<?= store_h($images[3]) ?>" alt=""></button>
 							<button class="ke-td-open-photos" type="button" data-ke-photos>
 								<img src="<?= store_h($images[0]) ?>" alt="">
 								<span class="ke-td-more">+ Photos</span>
@@ -632,6 +636,14 @@ ob_start();
 		shots.forEach(function (btn, index) {
 			btn.addEventListener('click', function () { showShot(index); });
 		});
+		document.querySelectorAll('[data-ke-open-shot]').forEach(function (btn) {
+			btn.addEventListener('click', function () {
+				var index = parseInt(btn.getAttribute('data-ke-open-shot'), 10);
+				if (isNaN(index)) index = 0;
+				if (modal.showModal) modal.showModal();
+				showShot(index);
+			});
+		});
 		if (view) {
 			var backBtn = view.querySelector('[data-ke-shot-back]');
 			if (backBtn) backBtn.addEventListener('click', closeShot);
@@ -658,7 +670,7 @@ $opt = [
 	'image' => $images[0],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=12" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><link rel="stylesheet" href="/assets/css/kuyaely-tour-detail.css?v=13" type="text/css" media="all">',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [

@@ -53,7 +53,7 @@ function store_paymongo_checkout(array $booking, int $chargePesos = 0): string
 	$amountPesos = $chargePesos > 0 ? $chargePesos : max(0, (int) ($booking['total'] ?? 0));
 	$amount = $amountPesos * 100;
 	if ($amountPesos < (int) ($booking['total'] ?? 0)) {
-		$label .= ' (half payment)';
+		$label .= ' (30% down payment)';
 	}
 	if ($amount < 10000) {
 		$GLOBALS['ke_paymongo_error'] = 'PayMongo needs a total of at least ₱100.';

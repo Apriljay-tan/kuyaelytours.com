@@ -51,6 +51,7 @@ ob_start();
 					<li><a href="/index.html"><i class="fa-solid fa-house"></i> Home </a></li>
 					<li><i class="fa-solid fa-arrow-right-long"></i>Tours and Packages</li>
 				</ul>
+				<p class="ke-hub-seo">Kuya Ely Tours offers private tour packages in Cebu, Bohol, Siquijor, and Dumaguete, with hotel pickup and a private van for your group. Spend the day at waterfalls, islands, heritage sites, or countryside stops without joining a crowded tour. Choose an island below, then open a package to see the route, the price per person, and what is included.</p>
 			</div>
 		</div>
 	</div>
@@ -129,6 +130,11 @@ $opt = [
 .ke-hub-head h2{margin:0 0 8px;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-0.03em}
 .ke-hub-head p{margin:0;color:#4a5568}
 .ke-hub-tabs{margin-bottom:28px}
+.tour-hub .ke-hub-seo{display:none}
+@media (min-width:768px){
+.tour-hub .ke-cat-hero .breadcumb-item{display:none}
+.tour-hub .ke-hub-seo{display:block;max-width:680px;margin:22px 0 8px;padding:0;color:#fff;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:18px;font-weight:400;line-height:1.65;letter-spacing:0;text-transform:none;text-shadow:0 1px 2px rgba(0,0,0,0.85),0 8px 22px rgba(0,0,0,0.55)}
+}
 @media (max-width:767px){
 .ke-hub-head h2{font-size:26px}
 }

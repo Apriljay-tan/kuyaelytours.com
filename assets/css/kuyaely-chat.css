@@ -13,6 +13,57 @@ body:has(.prgoress_indicator) .ke-chat {
 	bottom: calc(78px + env(safe-area-inset-bottom, 0px));
 }
 
+.ke-chat-dock {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 10px;
+}
+
+.ke-chat-app {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	color: #fff;
+	text-decoration: none;
+	box-shadow: 0 10px 28px rgba(10, 18, 32, 0.35);
+	transition: transform 0.18s ease;
+}
+
+.ke-chat-app svg {
+	width: 30px;
+	height: 30px;
+}
+
+.ke-chat-app-wa { background: #25D366; }
+.ke-chat-app-vb {
+	background: transparent;
+	padding: 0;
+	overflow: hidden;
+}
+.ke-chat-app-vb img,
+.ke-chat-ico-vb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transform: scale(1.58);
+	display: block;
+}
+
+.ke-chat-app:hover,
+.ke-chat-app:focus-visible {
+	transform: translateY(-2px);
+	outline: 2px solid #fff;
+	outline-offset: 3px;
+}
+
+.ke-chat.is-open .ke-chat-app,
+.ke-chat-app[hidden] {
+	display: none !important;
+}
+
 .ke-chat-launch {
 	width: 58px;
 	height: 58px;
@@ -181,7 +232,10 @@ body:has(.prgoress_indicator) .ke-chat {
 
 .ke-chat-ico-wa { background: #25D366; }
 .ke-chat-ico-wc { background: #09B83E; }
-.ke-chat-ico-vb { background: #7360F2; }
+.ke-chat-ico-vb {
+	background: transparent;
+	padding: 0;
+}
 .ke-chat-ico-in { background: #122033; color: #F5C518 !important; }
 
 .ke-chat-channel b {
@@ -442,19 +496,38 @@ body:has(.prgoress_indicator) .ke-chat {
 
 	body:has(.prgoress_indicator) .ke-chat {
 		right: 14px;
-		bottom: 80px;
+		bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+	}
+	body.tour-detail .ke-chat {
+		bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
 	}
 }
 
 @media (max-width: 480px) {
+	.ke-chat-app,
+	.ke-chat-launch {
+		width: 48px;
+		height: 48px;
+	}
+	.ke-chat-app svg,
+	.ke-chat-launch svg {
+		width: 24px;
+		height: 24px;
+	}
+	.ke-chat-dock {
+		gap: 8px;
+	}
 	.ke-chat {
 		right: 12px;
-		bottom: 12px;
+		bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 	}
 
 	body:has(.prgoress_indicator) .ke-chat {
 		right: 12px;
-		bottom: 78px;
+		bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+	}
+	body.tour-detail .ke-chat {
+		bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
 	}
 
 	.ke-chat-panel {

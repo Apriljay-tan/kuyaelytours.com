@@ -8,7 +8,7 @@
 	}
 
 	var WA = "https://wa.me/639209851802";
-	var CSS = "/assets/css/kuyaely-chat.css?v=6";
+	var CSS = "/assets/css/kuyaely-chat.css?v=10";
 	var KEY = "keChatBox";
 	var WELCOME = "Hi! Tell us your name and how we can help with a tour or van.";
 
@@ -99,7 +99,7 @@
 			return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.5 3.2C5.2 3.2 1.7 6.3 1.7 10.1c0 2.15 1.15 4.08 2.95 5.4l-.55 2.05c-.1.35.25.64.55.48l2.55-1.45c.7.18 1.45.27 2.22.27.22 0 .43 0 .64-.03A5.6 5.6 0 0 1 9.2 14.4c-2.95 0-5.35-2.25-5.35-5.02S6.25 4.36 9.2 4.36c2.7 0 4.95 1.9 5.4 4.4.72-.1 1.46-.1 2.18.03C16.3 5.5 13.2 3.2 9.5 3.2zm5.55 6.55c-2.72 0-4.95 1.9-4.95 4.28 0 2.37 2.23 4.27 4.95 4.27.55 0 1.08-.07 1.58-.2l2.12 1.2c.22.12.5-.06.4-.3l-.42-1.72c1.48-.95 2.42-2.45 2.42-4.15 0-2.38-2.23-4.28-5.1-4.28zM7.85 8.2a.95.95 0 1 1 0 1.9.95.95 0 0 1 0-1.9zm3.55 0a.95.95 0 1 1 0 1.9.95.95 0 0 1 0-1.9zm3.65 3.85a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm3.5 0a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6z"/></svg>';
 		}
 		if (name === "vb") {
-			return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c5.1 0 9.2 3.5 9.2 8.4 0 4.2-3.1 7.7-7.4 8.3l.2 2.8c.05.7-.7 1.15-1.25.75l-3.7-2.55C5.3 18.9 2.8 15.4 2.8 10.4 2.8 5.5 6.9 2 12 2zm-2.2 5.3c-.4 0-.7.3-.7.7 0 4.1 2.6 6.8 6.6 6.8.4 0 .7-.3.7-.7s-.3-.7-.7-.7c-3.2 0-5.2-2-5.2-5.4 0-.4-.3-.7-.7-.7zm-.1 2.5c-.4 0-.7.3-.7.7 0 2.5 1.5 4.1 4 4.1.4 0 .7-.3.7-.7s-.3-.7-.7-.7c-1.7 0-2.6-1-2.6-2.7 0-.4-.3-.7-.7-.7z"/></svg>';
+			return '<img src="/assets/downloaded/viber-logo.png" alt="" width="64" height="64">';
 		}
 		return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.2 5.4A2.4 2.4 0 0 1 6.6 3h10.8A2.4 2.4 0 0 1 19.8 5.4v8.2a2.4 2.4 0 0 1-2.4 2.4h-5.1L8 18.8c-.5.38-1.2.02-1.2-.6v-2.2H6.6a2.4 2.4 0 0 1-2.4-2.4V5.4z"/></svg>';
 	}
@@ -167,9 +167,13 @@
 						'</div>' +
 					'</div>' +
 				'</div>' +
-				'<button class="ke-chat-launch" type="button" aria-label="Open chat" aria-expanded="false">' +
-					'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6.2A2.2 2.2 0 0 1 7.2 4h9.6A2.2 2.2 0 0 1 19 6.2v7.1A2.2 2.2 0 0 1 16.8 15.5H12L8.2 18.4c-.5.4-1.2 0-1.2-.6v-2.3H7.2A2.2 2.2 0 0 1 5 13.3V6.2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>' +
-				'</button>' +
+				'<div class="ke-chat-dock">' +
+					'<a class="ke-chat-app ke-chat-app-wa" href="' + WA + '" target="_blank" rel="noopener" aria-label="WhatsApp">' + icon("wa") + '</a>' +
+					'<a class="ke-chat-app ke-chat-app-vb" href="viber://chat?number=%2B639209851802" aria-label="Viber">' + icon("vb") + '</a>' +
+					'<button class="ke-chat-launch" type="button" aria-label="Open chat" aria-expanded="false">' +
+						'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6.2A2.2 2.2 0 0 1 7.2 4h9.6A2.2 2.2 0 0 1 19 6.2v7.1A2.2 2.2 0 0 1 16.8 15.5H12L8.2 18.4c-.5.4-1.2 0-1.2-.6v-2.3H7.2A2.2 2.2 0 0 1 5 13.3V6.2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>' +
+					'</button>' +
+				'</div>' +
 			'</div>'
 		);
 	}
@@ -317,6 +321,19 @@
 					} else {
 						openBtn.hidden = true;
 						openBtn.removeAttribute("href");
+					}
+				}
+				var dockName = key === "whatsapp" ? "wa" : (key === "viber" ? "vb" : "");
+				var dock = dockName ? root.querySelector(".ke-chat-app-" + dockName) : null;
+				if (dock) {
+					dock.hidden = !channelState[key].show;
+					if (channelState[key].href) {
+						dock.setAttribute("href", channelState[key].href);
+						if (/^viber:/i.test(channelState[key].href)) {
+							dock.removeAttribute("target");
+						} else {
+							dock.setAttribute("target", "_blank");
+						}
 					}
 				}
 			});

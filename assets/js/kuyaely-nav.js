@@ -709,7 +709,7 @@
 		return;
 	}
 	var s = document.createElement("script");
-	s.src = "/assets/js/kuyaely-chat.js?v=7";
+	s.src = "/assets/js/kuyaely-chat.js?v=10";
 	s.defer = true;
 	(document.head || document.documentElement).appendChild(s);
 })();

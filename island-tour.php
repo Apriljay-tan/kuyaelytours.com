@@ -47,10 +47,10 @@ ob_start();
 					<li><a href="/index.html"><i class="fa-solid fa-house"></i> Home </a></li>
 					<li><i class="fa-solid fa-arrow-right-long"></i><?= $h((string) $meta['crumb']) ?></li>
 				</ul>
+				<p class="ke-island-seo"><?= $h((string) $meta['seo']) ?></p>
 			</div>
 		</div>
 	</div>
-
 	<div class="tour__section style__two">
 		<div class="container">
 			<?php if ($previewToken !== ''): ?>
@@ -149,7 +149,16 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all">',
+	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=33" type="text/css" media="all"><style>
+.tour-catalog .ke-island-seo{display:none}
+@media (min-width:768px){
+.tour-cebu .ke-cat-hero .breadcumb-item,
+.tour-bohol .ke-cat-hero .breadcumb-item,
+.tour-siquijor .ke-cat-hero .breadcumb-item,
+.tour-dumaguete .ke-cat-hero .breadcumb-item{display:none}
+.tour-catalog .ke-island-seo{display:block;max-width:680px;margin:22px 0 8px;padding:0;color:#fff;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:18px;font-weight:400;line-height:1.65;letter-spacing:0;text-transform:none;text-shadow:0 1px 2px rgba(0,0,0,0.85),0 8px 22px rgba(0,0,0,0.55)}
+}
+</style>',
 	'pixel' => [[
 		'event' => 'ViewContent',
 		'params' => [

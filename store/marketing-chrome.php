@@ -43,7 +43,7 @@ function ke_marketing_page(array $opt, string $main): void
 	<meta property="og:type" content="website">
 	<meta property="og:image" content="<?= $image ?>">
 
-	<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192.png">
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/all.min.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/swiper-bundle.min.css" type="text/css" media="all">
@@ -58,8 +58,8 @@ function ke_marketing_page(array $opt, string $main): void
 	<link rel="stylesheet" href="/assets/css/responsive.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/scroll-up.css" type="text/css" media="all">
-	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui61" type="text/css" media="all">
-	<script src="/assets/js/kuyaely-nav.js?v=36"></script>
+	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui65" type="text/css" media="all">
+	<script src="/assets/js/kuyaely-nav.js?v=39"></script>
 	<?= $extra ?>
 </head>
 

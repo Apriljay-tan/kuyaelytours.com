@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="92" height="32" viewBox="0 0 92 32">
+  <rect width="92" height="32" rx="6" fill="#0b3a82"/>
+  <rect x="8" y="7" width="7" height="7" fill="#fff"/>
+  <rect x="8" y="18" width="7" height="7" fill="#fff"/>
+  <rect x="19" y="7" width="7" height="7" fill="#fff"/>
+  <rect x="19" y="18" width="4" height="4" fill="#7eb6ff"/>
+  <text x="32" y="21" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#fff">QR Ph</text>
+</svg>

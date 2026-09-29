@@ -28,11 +28,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<meta name="twitter:title" content="Kuya Ely Tours | Private Visayas Tours">
 	<meta name="twitter:description" content="Cebu, Bohol, Siquijor, and Dumaguete tours with private van service from Mactan.">
 	<script type="application/ld+json">
-	{"@context":"https://schema.org","@type":"TravelAgency","name":"Kuya Ely Tours and Transport Services","url":"https://kuyaelytours.com/","telephone":"+63-920-985-1802","email":"info@kuyaelytours.com","image":"https://kuyaelytours.com/assets/downloaded/kuyaely_logo_web.png","address":{"@type":"PostalAddress","streetAddress":"Pony Ville, Suba-Basbas","addressLocality":"Lapu-Lapu City","addressRegion":"Cebu","addressCountry":"PH"},"areaServed":["Cebu","Bohol","Siquijor","Dumaguete","Mactan"]}
+	{"@context":"https://schema.org","@type":"TravelAgency","name":"Kuya Ely Tours and Transport Services","url":"https://kuyaelytours.com/","telephone":"+63-920-985-1802","email":"info@kuyaelytours.com","image":"https://kuyaelytours.com/assets/downloaded/kuyaely_logo_web.png","logo":"https://kuyaelytours.com/assets/downloaded/kuyaely_logo_web.png","address":{"@type":"PostalAddress","streetAddress":"Pony Ville, Suba-Basbas","addressLocality":"Lapu-Lapu City","addressRegion":"Cebu","addressCountry":"PH"},"areaServed":["Cebu","Bohol","Siquijor","Dumaguete","Mactan"]}
 	</script>
 
 	<!-- css link -->
-	<link rel="icon" type="image/png" sizes="56x56" href="assets/images/fav-icon.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192.png">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/all.min.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/swiper-bundle.min.css" type="text/css" media="all">
@@ -46,12 +46,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<link rel="stylesheet" href="assets/css/responsive.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/scroll-up.css" type="text/css" media="all">
-	<link rel="stylesheet" href="assets/css/kuyaely.css?v=ui61" type="text/css" media="all">
+	<link rel="stylesheet" href="assets/css/kuyaely.css?v=ui65" type="text/css" media="all">
 	<style>
 		.preloader { animation: ke-preloader-hide 0.35s ease 0.35s forwards !important; }
 		@keyframes ke-preloader-hide { to { opacity: 0; visibility: hidden; pointer-events: none; } }
 	</style>
-	<script src="assets/js/kuyaely-nav.js?v=36"></script>
+	<script src="assets/js/kuyaely-nav.js?v=39"></script>
 
 </head>
 
@@ -1205,7 +1205,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<div class="row">
 				<div class="col-lg-12 pl-0 pr-0">
 					<div class="gallery-marquee">
-						<div class="gelary-track">
+						<div class="gelary-track" id="ke-moments-track">
 							<a href="galary.html" class="galary-thumb wow fadeInUp"><img loading="lazy" decoding="async" src="assets/downloaded/moments/moment-6336.jpg?v=3" alt="Guests at the I Love Siquijor sign"></a>
 							<a href="galary.html" class="galary-thumb wow fadeInUp" data-wow-delay="200ms"><img loading="lazy" decoding="async" src="assets/downloaded/moments/moment-6375.jpg?v=3" alt="Guests at a Siquijor forest tree"></a>
 							<a href="galary.html" class="galary-thumb wow fadeInUp" data-wow-delay="300ms"><img loading="lazy" decoding="async" src="assets/downloaded/moments/moment-6420.jpg?v=3" alt="Guests at a Siquijor church"></a>
@@ -1924,6 +1924,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<script src="assets/js/animation-text.js"></script>
 	<script src="assets/js/swiper-bundle.min.js"></script>
 	<script src="assets/js/main.js?v=2"></script>
+<script>
+(function () {
+	var track = document.getElementById("ke-moments-track");
+	if (!track) return;
+	fetch("/shop/moments.php", { cache: "no-store" }).then(function (res) {
+		return res.ok ? res.json() : null;
+	}).then(function (data) {
+		if (!data || !data.photos || !data.photos.length) return;
+		var speed = Number(data.speed);
+		if (speed >= 8 && speed <= 180) track.style.animationDuration = speed + "s";
+		var html = "";
+		data.photos.forEach(function (photo) {
+			var src = String(photo.src || "");
+			if (src.indexOf("/assets/") !== 0 || src.indexOf("..") !== -1) return;
+			var alt = String(photo.alt || "").replace(/[&<>"]/g, function (ch) {
+				return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch];
+			});
+			html += '<a href="galary.html" class="galary-thumb"><img loading="lazy" decoding="async" src="' + src + '" alt="' + alt + '"></a>';
+		});
+		if (html) track.innerHTML = html + html;
+	}).catch(function () {});
+})();
+</script>
 <script>window.kePixelEvents=[];</script>
 <script src="/assets/js/kuyaely-pixel.js?v=3" defer></script>
 </body>

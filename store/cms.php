@@ -537,6 +537,7 @@ function ke_island_meta(string $island): array
 			'promo_blurb' => 'Islands, waterfalls, heritage sites, and unforgettable encounters — Cebu has it all. Let Kuya Ely take you there.',
 			'promo_cta' => 'Explore Cebu',
 			'hero' => '/assets/downloaded/dest-cebu.jpg',
+			'seo' => 'Kuya Ely Tours runs private Cebu tour packages with hotel pickup and a van for your group. Spend the day in Cebu City, at the waterfalls and sardine run in Moalboal, or with the whale sharks in Oslob, without joining a crowded tour. Choose an area below, then open a package to see the route, the price per person, and what is included.',
 		],
 		'bohol' => [
 			'label' => 'Bohol',
@@ -548,6 +549,7 @@ function ke_island_meta(string $island): array
 			'promo_blurb' => 'Chocolate Hills, river cruises, tarsiers, and island hopping. Let Kuya Ely take you there.',
 			'promo_cta' => 'Explore Bohol',
 			'hero' => '/assets/downloaded/dest-bohol.jpg',
+			'seo' => 'Kuya Ely Tours offers private Bohol tour packages with hotel pickup and a van for your group. See the Chocolate Hills, cruise the Loboc River, visit the tarsiers, or spend the day on Panglao without joining a crowded tour. Choose a route below, then open a package to see the plan, the price per person, and what is included.',
 		],
 		'siquijor' => [
 			'label' => 'Siquijor',
@@ -559,6 +561,7 @@ function ke_island_meta(string $island): array
 			'promo_blurb' => 'Waterfalls, mystic stops, and quiet beaches — Siquijor has it all with Kuya Ely.',
 			'promo_cta' => 'Explore Siquijor',
 			'hero' => '/assets/downloaded/dest-siquijor.jpg',
+			'seo' => 'Kuya Ely Tours offers private Siquijor tour packages with hotel pickup and a van for your group. Visit the waterfalls, the old churches in Lazi, and quiet coastal stops without joining a crowded tour. Choose a package below to see the route, the price per person, and what is included.',
 		],
 		'dumaguete' => [
 			'label' => 'Dumaguete',
@@ -570,6 +573,7 @@ function ke_island_meta(string $island): array
 			'promo_blurb' => 'City charm, Apo Island, and highland waterfalls — book your Negros day with Kuya Ely.',
 			'promo_cta' => 'Explore Dumaguete',
 			'hero' => '/assets/downloaded/dest-dumaguete.jpg',
+			'seo' => 'Kuya Ely Tours offers private Dumaguete tour packages on Negros, with hotel pickup and a van for your group. Spend the day in the city, snorkeling at Apo Island, or in the highlands of Valencia without joining a crowded tour. Choose a package below to see the route, the price per person, and what is included.',
 		],
 	];
 	return $map[$island] ?? $map['cebu'];

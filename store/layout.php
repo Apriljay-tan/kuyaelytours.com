@@ -140,7 +140,7 @@ function store_pixel_page_script(array $events = []): string
 		$json = '[]';
 	}
 	return '<script>window.kePixelEvents=' . $json . ';</script>'
-		. '<script src="/assets/js/kuyaely-pixel.js?v=3" defer></script>';
+		. '<script src="/assets/js/kuyaely-pixel.js?v=4" defer></script>';
 }
 
 function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tours', bool $bare = false, string $mods = ''): void
@@ -163,11 +163,11 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
-	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
+	echo '<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192.png">';
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui35">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui38">';
 	echo '</head><body class="' . $class . '">';
 	echo store_gtm_body();
 	if ($useSite) {
@@ -192,8 +192,8 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	} else {
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms and Conditions</a></footer>';
 	}
-	echo '<script src="/assets/js/kuyaely-nav.js?v=36" defer></script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=6" defer></script>';
+	echo '<script src="/assets/js/kuyaely-nav.js?v=39" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=10" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }
@@ -328,11 +328,11 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">';
 	echo '<meta name="robots" content="noindex, nofollow">';
 	echo '<title>' . store_h($title) . ' | Kuya Ely Tours</title>';
-	echo '<link rel="icon" type="image/png" sizes="56x56" href="/assets/images/fav-icon.png">';
+	echo '<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192.png">';
 	echo '<link rel="preconnect" href="https://fonts.googleapis.com">';
 	echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>';
 	echo '<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,400;0,500;0,600;0,700;1,400&family=Satisfy&display=swap" rel="stylesheet">';
-	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui35">';
+	echo '<link rel="stylesheet" href="/assets/css/kuyaely-shop.css?v=ui38">';
 	echo '</head><body class="ke-auth">';
 	echo store_gtm_body();
 	echo '<div class="ke-auth-slides" aria-hidden="true">';
@@ -356,7 +356,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo $alt;
 	echo '</section></article></div>';
 	echo '<script>(function(){document.querySelectorAll(".ke-pass-toggle").forEach(function(btn){btn.addEventListener("click",function(){var box=btn.closest(".ke-field-box");var input=box?box.querySelector("input"):null;if(!input)return;var show=input.type==="password";input.type=show?"text":"password";btn.setAttribute("aria-label",show?"Hide password":"Show password");btn.setAttribute("aria-pressed",show?"true":"false");btn.classList.toggle("is-on",show);});});})();</script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=6" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=10" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }

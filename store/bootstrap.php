@@ -37,6 +37,8 @@ require STORE_ROOT . '/auth.php';
 require STORE_ROOT . '/oauth.php';
 require STORE_ROOT . '/bookings.php';
 require STORE_ROOT . '/pay.php';
+require STORE_ROOT . '/paypal.php';
+require STORE_ROOT . '/banks.php';
 require STORE_ROOT . '/meta.php';
 require STORE_ROOT . '/layout.php';
 
@@ -48,6 +50,39 @@ function store_h(string $value): string
 function store_redirect(string $path): void
 {
 	header('Location: ' . $path, true, 303);
+	exit;
+}
+
+function store_replace(string $path): void
+{
+	if ($path === '' || $path[0] !== '/' || str_starts_with($path, '//') || str_contains($path, '://')) {
+		store_redirect('/shop/cart.php');
+	}
+	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+	header('Pragma: no-cache');
+	header('Content-Type: text/html; charset=UTF-8');
+	$js = json_encode($path, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+	echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Continuing</title></head><body>';
+	echo '<p><a href="' . store_h($path) . '">Continue</a></p>';
+	echo '<script>location.replace(' . $js . ');</script></body></html>';
+	exit;
+}
+
+function store_pay_away(string $url, string $bookingId): void
+{
+	$host = strtolower((string) parse_url($url, PHP_URL_HOST));
+	$allowed = ['checkout.paymongo.com', 'www.paypal.com', 'www.sandbox.paypal.com', 'paypal.com', 'sandbox.paypal.com'];
+	if (!str_starts_with($url, 'https://') || !in_array($host, $allowed, true)) {
+		$_SESSION['pay_error'] = 'Payment page did not open.';
+		store_redirect('/shop/checkout.php?booking=' . rawurlencode($bookingId));
+	}
+	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+	header('Pragma: no-cache');
+	header('Content-Type: text/html; charset=UTF-8');
+	$js = json_encode($url, JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+	echo '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="referrer" content="strict-origin"><title>Opening payment</title></head><body>';
+	echo '<p>Opening the payment page. <a href="' . store_h($url) . '">Continue</a></p>';
+	echo '<script>location.replace(' . $js . ');</script></body></html>';
 	exit;
 }
 

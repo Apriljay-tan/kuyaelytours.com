@@ -565,6 +565,32 @@ function store_chat_update(array $chat): bool
 	return store_chat_write_json_row($chat);
 }
 
+function store_chat_delete(string $id): bool
+{
+	$id = trim($id);
+	if ($id === '') {
+		return false;
+	}
+	$db = store_db();
+	if ($db) {
+		try {
+			$stmt = $db->prepare('DELETE FROM ke_chat_messages WHERE chat_id=?');
+			$stmt->execute([$id]);
+			$stmt = $db->prepare('DELETE FROM ke_chats WHERE id=?');
+			$stmt->execute([$id]);
+		} catch (Throwable $e) {
+		}
+	}
+	$next = [];
+	foreach (store_read_json('chats') as $row) {
+		if (!is_array($row) || (string) ($row['id'] ?? '') === $id) {
+			continue;
+		}
+		$next[] = $row;
+	}
+	return store_write_json('chats', array_values($next));
+}
+
 function store_chat_open(string $token, array $guest): array
 {
 	$user = function_exists('store_user') ? store_user() : null;
