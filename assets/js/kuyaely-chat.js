@@ -8,7 +8,17 @@
 	}
 
 	var WA = "https://wa.me/639209851802";
-	var CSS = "/assets/css/kuyaely-chat.css?v=10";
+	var VIBER = "https://viber.me/639608605034";
+
+	function viberLink(value) {
+		var raw = String(value || "");
+		var match = raw.match(/https:\/\/viber\.me\/(\d+)/i);
+		if (match) {
+			return "https://viber.me/" + match[1];
+		}
+		return VIBER;
+	}
+	var CSS = "/assets/css/kuyaely-chat.css?v=11";
 	var KEY = "keChatBox";
 	var WELCOME = "Hi! Tell us your name and how we can help with a tour or van.";
 
@@ -101,8 +111,16 @@
 		if (name === "vb") {
 			return '<img src="/assets/downloaded/viber-logo.png" alt="" width="64" height="64">';
 		}
+		if (name === "kk") {
+			return '<img src="/assets/downloaded/KakaoTalk_logo.svg" alt="" width="64" height="64">';
+		}
+		if (name === "tg") {
+			return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.2 4.3 2.9 11.2c-.8.3-.8.8-.1 1l4.7 1.5 1.8 5.5c.2.6.1.8.7.8.4 0 .6-.2.8-.4l2.2-2.1 4.6 3.4c.7.4 1.2.2 1.4-.7l3-14.2c.3-1.1-.4-1.6-1.4-1.2zM9.2 13.6l7.6-4.8c.4-.2.7-.1.4.2l-6.2 5.6-.2 2.8-1.6-3.8z"/></svg>';
+		}
 		return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.2 5.4A2.4 2.4 0 0 1 6.6 3h10.8A2.4 2.4 0 0 1 19.8 5.4v8.2a2.4 2.4 0 0 1-2.4 2.4h-5.1L8 18.8c-.5.38-1.2.02-1.2-.6v-2.2H6.6a2.4 2.4 0 0 1-2.4-2.4V5.4z"/></svg>';
 	}
+
+	var ICO = { whatsapp: "wa", wechat: "wc", viber: "vb", kakaotalk: "kk", telegram: "tg", messenger: "ms", line: "ln" };
 
 	function channelRow(key, ico, label, sub) {
 		return (
@@ -113,18 +131,33 @@
 		);
 	}
 
-	function channelPane(key, title, soon) {
+	function channelPane(key, title, copy, row) {
+		var qr = row.qr
+			? '<div class="ke-chat-qr has-img" data-qr><img src="' + esc(row.qr) + '" alt="' + title + ' QR"></div>'
+			: '<div class="ke-chat-qr" data-qr>QR soon</div>';
+		var href = row.href ? (key === "viber" ? viberLink(row.href) : row.href) : "";
+		var open = href
+			? '<a class="ke-chat-open" data-open-app href="' + esc(href) + '" target="_blank" rel="noopener">Open ' + title + "</a>"
+			: '<a class="ke-chat-open" data-open-app hidden>Open ' + title + "</a>";
 		return (
 			'<div class="ke-chat-pane" data-pane="' + key + '">' +
 				'<button class="ke-chat-back" type="button" data-pane="home">&larr; All options</button>' +
 				'<div class="ke-chat-card" data-channel-card="' + key + '">' +
-					'<div class="ke-chat-qr" data-qr>QR soon</div>' +
+					qr +
 					"<p><strong>" + title + "</strong></p>" +
-					'<p data-detail-copy>' + soon + "</p>" +
-					'<a class="ke-chat-open" data-open-app hidden target="_blank" rel="noopener">Open ' + title + "</a>" +
+					"<p data-detail-copy>" + copy + "</p>" +
+					open +
 				"</div>" +
 			"</div>"
 		);
+	}
+
+	function dockButton(key, ico, row) {
+		var href = row.href ? (key === "viber" ? viberLink(row.href) : row.href) : "";
+		if (href) {
+			return '<a class="ke-chat-app ke-chat-app-' + ico + '" data-open-app href="' + esc(href) + '" target="_blank" rel="noopener" aria-label="' + esc(row.title || key) + '">' + icon(ico) + "</a>";
+		}
+		return '<button type="button" class="ke-chat-app ke-chat-app-' + ico + '" data-channel="' + key + '" aria-label="' + esc(row.title || key) + '">' + icon(ico) + "</button>";
 	}
 
 	function markup() {
@@ -139,19 +172,9 @@
 					'<div class="ke-chat-body">' +
 						'<div class="ke-chat-pane is-on" data-pane="home">' +
 							'<p class="ke-chat-lead">Message us on an app you already use, or start a chat on this site.</p>' +
-							'<div class="ke-chat-channels">' +
-								channelRow("whatsapp", "wa", "WhatsApp", "+63 920 985 1802") +
-								channelRow("wechat", "wc", "WeChat", "QR code coming soon") +
-								channelRow("viber", "vb", "Viber", "Number and QR coming soon") +
-								'<button class="ke-chat-channel" type="button" data-pane="inbox">' +
-									'<span class="ke-chat-ico ke-chat-ico-in">' + icon("in") + '</span>' +
-									'<span><b>Message us</b><span>Chat on this website</span></span>' +
-								'</button>' +
-							'</div>' +
+							'<div class="ke-chat-channels" data-channels></div>' +
 						'</div>' +
-						channelPane("whatsapp", "WhatsApp", "We will add our WhatsApp number and QR code here.") +
-						channelPane("wechat", "WeChat", "We will add our WeChat ID and QR code here.") +
-						channelPane("viber", "Viber", "We will add the Viber number and QR code here.") +
+						'<div data-app-panes></div>' +
 						'<div class="ke-chat-pane ke-chat-inbox" data-pane="inbox">' +
 							'<button class="ke-chat-back" type="button" data-pane="home">&larr; All options</button>' +
 							'<div class="ke-chat-id" data-id-form>' +
@@ -168,8 +191,7 @@
 					'</div>' +
 				'</div>' +
 				'<div class="ke-chat-dock">' +
-					'<a class="ke-chat-app ke-chat-app-wa" href="' + WA + '" target="_blank" rel="noopener" aria-label="WhatsApp">' + icon("wa") + '</a>' +
-					'<a class="ke-chat-app ke-chat-app-vb" href="viber://chat?number=%2B639209851802" aria-label="Viber">' + icon("vb") + '</a>' +
+					'<div data-dock-apps></div>' +
 					'<button class="ke-chat-launch" type="button" aria-label="Open chat" aria-expanded="false">' +
 						'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6.2A2.2 2.2 0 0 1 7.2 4h9.6A2.2 2.2 0 0 1 19 6.2v7.1A2.2 2.2 0 0 1 16.8 15.5H12L8.2 18.4c-.5.4-1.2 0-1.2-.6v-2.3H7.2A2.2 2.2 0 0 1 5 13.3V6.2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>' +
 					'</button>' +
@@ -224,20 +246,36 @@
 		var textInput = root.querySelector('[name="ke-chat-text"]');
 		var channelKey = "";
 		var channelState = {
-			whatsapp: { phone: "+63 920 985 1802", handle: "", qr: "", href: WA, show: true, ready: true },
-			wechat: { phone: "", handle: "", qr: "", href: "", show: true, ready: false },
-			viber: { phone: "", handle: "", qr: "", href: "", show: true, ready: false }
+			whatsapp: { title: "WhatsApp", phone: "+63 920 985 1802", handle: "", qr: "", href: WA, show: true, ready: true, dock: true },
+			wechat: { title: "WeChat", phone: "", handle: "", qr: "", href: "", show: true, ready: false, dock: false },
+			viber: { title: "Viber", phone: "+63 960 860 5034", handle: "", qr: "", href: VIBER, show: true, ready: true, dock: true }
 		};
 
 		function openApp(href) {
 			if (!href) {
 				return;
 			}
-			if (/^viber:/i.test(href)) {
-				window.location.href = href;
-				return;
+			if (/viber/i.test(href)) {
+				href = viberLink(href);
 			}
 			window.open(href, "_blank", "noopener");
+		}
+
+		function channelBlurb(row) {
+			var bits = [];
+			if (row.handle) {
+				bits.push(row.handle);
+			}
+			if (row.phone) {
+				bits.push(row.phone);
+			}
+			if (bits.length) {
+				return bits.join(" · ");
+			}
+			if (row.qr) {
+				return "Scan QR to add us";
+			}
+			return "Details coming soon";
 		}
 
 		function paintChannels(channels) {
@@ -249,93 +287,64 @@
 				return;
 			}
 			channelKey = next;
-			["whatsapp", "wechat", "viber"].forEach(function (key) {
+			var list = root.querySelector("[data-channels]");
+			var panes = root.querySelector("[data-app-panes]");
+			var dock = root.querySelector("[data-dock-apps]");
+			if (!list || !panes || !dock) {
+				return;
+			}
+			channelState = {};
+			var rows = "";
+			var paneHtml = "";
+			var dockHtml = "";
+			Object.keys(channels).forEach(function (key) {
+				if (!/^[a-z]+$/.test(key)) {
+					return;
+				}
 				var row = channels[key] || {};
-				channelState[key] = {
+				var state = {
+					title: String(row.title || key),
 					phone: String(row.phone || ""),
 					handle: String(row.handle || ""),
 					qr: String(row.qr || ""),
-					href: String(row.href || (key === "whatsapp" ? WA : "")),
+					href: String(row.href || ""),
 					show: row.show !== false,
-					ready: !!row.ready
+					ready: false,
+					dock: row.dock !== false
 				};
-				var btn = root.querySelector('[data-channel="' + key + '"]');
-				if (btn) {
-					btn.hidden = !channelState[key].show;
-					var sub = btn.querySelector("[data-channel-sub]");
-					if (sub) {
-						if (key === "whatsapp") {
-							sub.textContent = channelState[key].phone || "WhatsApp";
-						} else if (key === "wechat") {
-							sub.textContent = channelState[key].handle || (channelState[key].qr ? "Scan QR to add us" : "QR code coming soon");
-						} else {
-							sub.textContent = channelState[key].phone || (channelState[key].qr ? "Scan QR to add us" : "Number and QR coming soon");
-						}
-					}
+				if (!state.href && key === "whatsapp") {
+					state.href = WA;
 				}
-				var card = root.querySelector('[data-channel-card="' + key + '"]');
-				if (!card) {
+				if (!state.href && key === "viber") {
+					state.href = VIBER;
+				}
+				state.ready = row.ready === undefined
+					? !!(state.phone || state.handle || state.qr || state.href)
+					: !!row.ready;
+				channelState[key] = state;
+				var extra = key !== "whatsapp" && key !== "wechat" && key !== "viber";
+				if (!state.show || (extra && !state.ready)) {
 					return;
 				}
-				var qrEl = card.querySelector("[data-qr]");
-				if (qrEl) {
-					if (channelState[key].qr) {
-						qrEl.classList.add("has-img");
-						qrEl.innerHTML = '<img src="' + esc(channelState[key].qr) + '" alt="' + esc(key) + ' QR">';
-					} else {
-						qrEl.classList.remove("has-img");
-						qrEl.textContent = "QR soon";
-					}
+				var ico = ICO[key] || "in";
+				var title = esc(state.title);
+				var blurb = esc(channelBlurb(state));
+				rows += channelRow(key, ico, title, blurb);
+				paneHtml += channelPane(key, title, blurb, state);
+				if (state.dock && state.ready) {
+					dockHtml += dockButton(key, ico, state);
 				}
-				var copy = card.querySelector("[data-detail-copy]");
-				if (copy) {
-					var bits = [];
-					if (channelState[key].handle) {
-						bits.push(key === "wechat" ? "ID: " + channelState[key].handle : channelState[key].handle);
-					}
-					if (channelState[key].phone) {
-						bits.push(channelState[key].phone);
-					}
-					if (bits.length) {
-						copy.textContent = bits.join(" · ");
-					} else if (channelState[key].qr) {
-						copy.textContent = "Scan the QR code in " + (key === "whatsapp" ? "WhatsApp" : key === "wechat" ? "WeChat" : "Viber") + " to message us.";
-					} else if (key === "whatsapp") {
-						copy.textContent = "We will add our WhatsApp number and QR code here.";
-					} else if (key === "wechat") {
-						copy.textContent = "We will add our WeChat ID and QR code here.";
-					} else {
-						copy.textContent = "We will add the Viber number and QR code here.";
-					}
-				}
-				var openBtn = card.querySelector("[data-open-app]");
-				if (openBtn) {
-					if (channelState[key].href) {
-						openBtn.hidden = false;
-						openBtn.setAttribute("href", channelState[key].href);
-						if (/^viber:/i.test(channelState[key].href)) {
-							openBtn.removeAttribute("target");
-						} else {
-							openBtn.setAttribute("target", "_blank");
-						}
-					} else {
-						openBtn.hidden = true;
-						openBtn.removeAttribute("href");
-					}
-				}
-				var dockName = key === "whatsapp" ? "wa" : (key === "viber" ? "vb" : "");
-				var dock = dockName ? root.querySelector(".ke-chat-app-" + dockName) : null;
-				if (dock) {
-					dock.hidden = !channelState[key].show;
-					if (channelState[key].href) {
-						dock.setAttribute("href", channelState[key].href);
-						if (/^viber:/i.test(channelState[key].href)) {
-							dock.removeAttribute("target");
-						} else {
-							dock.setAttribute("target", "_blank");
-						}
-					}
-				}
+			});
+			rows += '<button class="ke-chat-channel" type="button" data-pane="inbox">' +
+				'<span class="ke-chat-ico ke-chat-ico-in">' + icon("in") + "</span>" +
+				"<span><b>Message us</b><span>Chat on this website</span></span>" +
+				"</button>";
+			list.innerHTML = rows;
+			panes.innerHTML = paneHtml;
+			dock.innerHTML = dockHtml;
+			var active = lastPane || "home";
+			root.querySelectorAll(".ke-chat-pane").forEach(function (pane) {
+				pane.classList.toggle("is-on", pane.getAttribute("data-pane") === active);
 			});
 		}
 
@@ -602,41 +611,39 @@
 		root.querySelector(".ke-chat-close").addEventListener("click", function () {
 			setOpen(false);
 		});
-		root.querySelectorAll("[data-pane]").forEach(function (btn) {
-			if (btn.tagName !== "BUTTON") {
-				return;
-			}
-			btn.addEventListener("click", function () {
-				if (formEl) {
-					formEl.classList.remove("is-editing");
-				}
-				showPane(btn.getAttribute("data-pane") || "home");
-			});
-		});
-		root.querySelectorAll("[data-channel]").forEach(function (btn) {
-			btn.addEventListener("click", function () {
-				var key = btn.getAttribute("data-channel") || "";
-				var row = channelState[key] || {};
-				if (!row.show) {
-					return;
-				}
-				if (row.href && !row.qr) {
-					openApp(row.href);
-					return;
-				}
-				showPane(key);
-			});
-		});
-		root.querySelectorAll("[data-open-app]").forEach(function (btn) {
-			btn.addEventListener("click", function (e) {
-				var href = btn.getAttribute("href") || "";
+		root.addEventListener("click", function (e) {
+			var openLink = e.target.closest("[data-open-app]");
+			if (openLink && root.contains(openLink)) {
+				var href = openLink.getAttribute("href") || "";
 				if (/^viber:/i.test(href)) {
 					e.preventDefault();
 					openApp(href);
 				}
-			});
-		});
-		root.addEventListener("click", function (e) {
+				return;
+			}
+			var channelBtn = e.target.closest("[data-channel]");
+			if (channelBtn && root.contains(channelBtn)) {
+				var key = channelBtn.getAttribute("data-channel") || "";
+				var row = channelState[key] || {};
+				if (!row.show) {
+					return;
+				}
+				if (row.href && (key === "whatsapp" || key === "viber" || !row.qr)) {
+					openApp(row.href);
+					return;
+				}
+				setOpen(true);
+				showPane(key);
+				return;
+			}
+			var paneBtn = e.target.closest("[data-pane]");
+			if (paneBtn && paneBtn.tagName === "BUTTON" && root.contains(paneBtn)) {
+				if (formEl) {
+					formEl.classList.remove("is-editing");
+				}
+				showPane(paneBtn.getAttribute("data-pane") || "home");
+				return;
+			}
 			if (e.target.closest("[data-edit-id]")) {
 				if (formEl) {
 					formEl.classList.add("is-editing");
@@ -673,6 +680,7 @@
 
 		renderThread();
 		renderIdentity();
+		paintChannels(channelState);
 
 		fetch("/shop/chat.php", { credentials: "same-origin" })
 			.then(function (r) { return r.json(); })

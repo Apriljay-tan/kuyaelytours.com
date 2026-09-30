@@ -35,7 +35,7 @@ $banks = '';
 foreach ($bundle['banks'] as $bank) {
 	$logo = (string) ($bank['logo'] ?? '');
 	$logoHtml = $logo !== ''
-		? '<img class="ke-thanks-logo" src="' . store_h($logo) . '" alt="">'
+		? '<img class="ke-thanks-logo" src="' . store_h($logo) . '" alt="' . store_h((string) $bank['name']) . '">'
 		: '<strong class="ke-thanks-bankname">' . store_h((string) $bank['name']) . '</strong>';
 	$who = trim((string) ($bank['account_name'] ?? ''));
 	$whoHtml = ($sharedName === '' && $who !== '')
@@ -52,9 +52,14 @@ if ($banks === '') {
 }
 
 $lines = '';
+$packageNames = [];
 foreach ((array) ($booking['items'] ?? []) as $item) {
 	if (!is_array($item)) {
 		continue;
+	}
+	$label = trim((string) ($item['label'] ?? ''));
+	if ($label !== '') {
+		$packageNames[$label] = true;
 	}
 	$guests = max(1, (int) ($item['guests'] ?? $item['qty'] ?? 1));
 	$lines .= '<div class="ke-thanks-item"><div><strong>' . store_h((string) ($item['label'] ?? 'Tour')) . '</strong>'
@@ -86,5 +91,16 @@ $body = '<div class="ke-thanks-wrap">'
 	. '</section></div>'
 	. '<a class="ke-thanks-back" href="/tours-and-packages.php">Back to tours</a>'
 	. '</div>';
+
+$tourPackage = $packageNames !== [] ? implode(', ', array_keys($packageNames)) : 'Tour';
+$lead = json_encode([
+	'event' => 'generate_lead',
+	'form_name' => 'checkout_booking',
+	'tour_package' => $tourPackage,
+], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
+$leadKey = json_encode('generate_lead:' . (string) $booking['id'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
+if ($lead !== false && $leadKey !== false) {
+	$body .= '<script>window.dataLayer=window.dataLayer||[];(function(){var key=' . $leadKey . ';try{if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1");}catch(e){}window.dataLayer.push(' . $lead . ');})();</script>';
+}
 
 store_page('Thank you', $body, '', true, 'ke-site ke-dash ke-secure ke-thanks');

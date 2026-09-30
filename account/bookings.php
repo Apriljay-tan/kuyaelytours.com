@@ -84,7 +84,7 @@ $filters = [
 
 ob_start();
 ?>
-<p class="ke-bk-crumb"><a href="/index.html">Home</a> <span>/</span> My Account</p>
+<p class="ke-bk-crumb"><a href="/">Home</a> <span>/</span> My Account</p>
 
 <section class="ke-bk-hello">
 	<div class="ke-bk-hello-id">
@@ -208,7 +208,7 @@ ob_start();
 			<h2>Quick Actions</h2>
 			<a href="/tours-and-packages.php"><span>Browse tours<small>Find your next adventure</small></span></a>
 			<a href="/account/bookings.php?voucher=1"><span>Download voucher<small>Sent by email after confirmation</small></span></a>
-			<a href="/contact.html"><span>Contact support<small>Get help from our team</small></span></a>
+			<a href="/contact"><span>Contact support<small>Get help from our team</small></span></a>
 		</section>
 		<a class="ke-bk-promo" href="/tours-and-packages.php">
 			<img src="/assets/downloaded/dest-siquijor.jpg" alt="">

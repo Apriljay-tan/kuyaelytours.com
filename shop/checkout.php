@@ -66,8 +66,15 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' && store_csrf_ok() && !$bookin
 	if ($user && $phone === '') {
 		$phone = (string) ($user['phone'] ?? '');
 	}
+	$phoneDigits = preg_replace('/\D+/', '', $phone) ?? '';
+	$phoneOk = $phone !== ''
+		&& (bool) preg_match('/^\+?[0-9][0-9\s().-]{6,22}$/', $phone)
+		&& strlen($phoneDigits) >= 8
+		&& strlen($phoneDigits) <= 15;
 	if ($first === '' || !filter_var($email, FILTER_VALIDATE_EMAIL) || $phone === '') {
 		$error = 'Enter your name, email, and mobile number.';
+	} elseif (!$phoneOk) {
+		$error = 'Enter a mobile number with its country code, such as +63 or +1.';
 	} else {
 		$guest = [
 			'id' => (string) ($user['id'] ?? ''),
@@ -173,7 +180,6 @@ $firstVal = (string) ($_POST['first_name'] ?? ($nameParts[0] ?? ''));
 $lastVal = (string) ($_POST['last_name'] ?? ($nameParts[1] ?? ''));
 $emailVal = (string) ($_POST['email'] ?? ($user['email'] ?? ($booking['email'] ?? '')));
 $phoneVal = (string) ($_POST['phone'] ?? ($user['phone'] ?? ($booking['phone'] ?? '')));
-$phoneVal = preg_replace('/^\+?63/', '', $phoneVal) ?? $phoneVal;
 $hotelVal = (string) ($_POST['hotel'] ?? '');
 $notesVal = (string) ($_POST['notes'] ?? '');
 
@@ -287,8 +293,8 @@ if ($paid && $booking) {
 		. '<label>Email address<input type="email" name="email" required value="' . store_h($emailVal) . '" placeholder="you@example.com"></label>'
 		. '<div class="ke-secure-split"><label>First name<input type="text" name="first_name" required value="' . store_h($firstVal) . '"></label>'
 		. '<label>Last name<input type="text" name="last_name" value="' . store_h($lastVal) . '"></label></div>'
-		. '<label>Contact number<span class="ke-secure-phone"><em>+63</em><input type="tel" name="phone" required value="' . store_h($phoneVal) . '" placeholder="912 345 6789"></span></label>'
-		. '<p class="ke-secure-hint">We use this number to send booking updates.</p></section>'
+		. '<label>Contact number<input type="tel" name="phone" required value="' . store_h($phoneVal) . '" placeholder="+63 912 345 6789" autocomplete="tel" inputmode="tel"></label>'
+		. '<p class="ke-secure-hint">Include the country code. We use this number to send booking updates.</p></section>'
 		. '<section class="ke-secure-card"><h2>Booking information</h2>'
 		. '<label>Hotel name and address<input type="text" name="hotel" value="' . store_h($hotelVal) . '" placeholder="Hotel, Lahug, Cebu City"></label>'
 		. '<label>Additional requests<textarea name="notes" rows="4" maxlength="500" placeholder="Pickup time, child seat, or food request">' . store_h($notesVal) . '</textarea></label>'
@@ -305,7 +311,7 @@ if ($paid && $booking) {
 		. '<div class="ke-pay-cards">'
 		. '<label class="ke-pay-card"><input type="radio" name="pay_via" value="paypal"><span class="ke-pay-brand"><img src="/assets/img/pay/paypal.svg" alt="PayPal"><img src="/assets/img/pay/cards.svg" alt="Visa, Mastercard, Discover, American Express"></span></label>'
 		. '<label class="ke-pay-card is-on"><input type="radio" name="pay_via" value="qrph" checked><span class="ke-pay-brand"><img src="/assets/img/pay/qrph.svg" alt="QR Ph"></span></label>'
-		. '<label class="ke-pay-card"><input type="radio" name="pay_via" value="bank"><span class="ke-pay-brand"><img src="/assets/img/pay/bank.svg" alt=""><strong>Bank transfer or GCash</strong></span></label>'
+		. '<label class="ke-pay-card"><input type="radio" name="pay_via" value="bank"><span class="ke-pay-brand"><img src="/assets/img/pay/bank.svg" alt="Bank transfer or GCash"><strong>Bank transfer or GCash</strong></span></label>'
 		. '</div>'
 		. '<p class="ke-pay-panel" data-pay-panel="paypal">Pay with your debit or credit card using the PayPal button below. No PayPal account needed.</p>'
 		. '<p class="ke-pay-panel" data-pay-panel="qrph" hidden>Pay with QR Ph. GCash, Maya, and bank apps can scan it.</p>'
@@ -353,6 +359,15 @@ $pixelParams = [
 ];
 if ($paid && $booking) {
 	store_pixel_once('purchase-' . (string) $booking['id'], 'Purchase', $pixelParams);
+	$lead = json_encode([
+		'event' => 'generate_lead',
+		'form_name' => 'checkout_booking',
+		'tour_package' => $pixelName,
+	], JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
+	$leadKey = json_encode('generate_lead:' . (string) $booking['id'], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
+	if ($lead !== false && $leadKey !== false) {
+		$body .= '<script>window.dataLayer=window.dataLayer||[];(function(){var key=' . $leadKey . ';try{if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1");}catch(e){}window.dataLayer.push(' . $lead . ');})();</script>';
+	}
 } elseif (!$paid) {
 	store_pixel_once('checkout-' . md5(implode('|', $pixelIds) . ':' . $payable), 'InitiateCheckout', $pixelParams);
 }

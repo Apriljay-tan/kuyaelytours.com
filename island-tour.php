@@ -44,7 +44,7 @@ ob_start();
 				<h1><?= $h((string) $meta['h1']) ?> <span>Tours</span></h1>
 				<p class="ke-cat-sub">Islands • Adventure • Culture • Unforgettable Experiences</p>
 				<ul class="breadcumb-item">
-					<li><a href="/index.html"><i class="fa-solid fa-house"></i> Home </a></li>
+					<li><a href="/"><i class="fa-solid fa-house"></i> Home </a></li>
 					<li><i class="fa-solid fa-arrow-right-long"></i><?= $h((string) $meta['crumb']) ?></li>
 				</ul>
 				<p class="ke-island-seo"><?= $h((string) $meta['seo']) ?></p>
@@ -119,7 +119,7 @@ ob_start();
 				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="news-img">
-						<img src="/assets/downloaded/boking-img.png" alt="">
+						<img src="/assets/downloaded/boking-img.png" alt="Book a private island tour with a driver">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6">

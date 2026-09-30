@@ -62,7 +62,7 @@ function ke_cart_badge(array $product): string
 
 $hero = '<section class="ke-dash-hero ke-bag-hero">'
 	. '<div class="ke-dash-hero-copy">'
-	. '<p class="ke-dash-kicker ke-bag-crumb"><a href="/index.html">Home</a> <span>&rarr;</span> Cart</p>'
+	. '<p class="ke-dash-kicker ke-bag-crumb"><a href="/">Home</a> <span>&rarr;</span> Cart</p>'
 	. '<h1>Your <em>Cart</em></h1>'
 	. '<p class="ke-dash-lede">Almost there! Review your selections and proceed to create more unforgettable memories with Kuya Ely.</p>'
 	. '</div>'

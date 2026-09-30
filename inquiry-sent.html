@@ -1,6 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T8GFHP8Z');</script>
+<!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<title>Request sent | Kuya Ely Tours and Transport Services</title>
@@ -23,7 +30,7 @@
 </head>
 <body class="ke-sent">
 <div class="ke-sent-wrap">
-		<a class="brand" href="index.html">
+		<a class="brand" href="/">
 			<img src="assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours and Transport Services">
 			<span>KUYA ELY</span>
 		</a>
@@ -33,7 +40,7 @@
 		<div class="ke-sent-actions">
 			<a class="primary" href="https://wa.me/639209851802" target="_blank" rel="noopener">WhatsApp</a>
 			<a class="ghost" href="tel:+639209851802">Call +63 920 985 1802</a>
-			<a class="ghost" href="index.html">Back to home</a>
+			<a class="ghost" href="/">Back to home</a>
 		</div>
 	</div>
 <script>
@@ -43,9 +50,15 @@ window.kePixelEvents = [];
 	if (q.get("ok") !== "1") return;
 	if (q.get("kind") === "subscribe") {
 		window.kePixelEvents.push({event:"Subscribe", params:{content_name:"Email"}});
-	} else {
-		window.kePixelEvents.push({event:"Lead", params:{content_name:"Booking request"}});
+		return;
 	}
+	window.kePixelEvents.push({event:"Lead", params:{content_name:"Booking request"}});
+	window.dataLayer = window.dataLayer || [];
+	window.dataLayer.push({
+		'event': 'generate_lead',
+		'form_name': 'tour_booking_form',
+		'tour_package': q.get('tour') || ''
+	});
 })();
 </script>
 <script src="/assets/js/kuyaely-pixel.js?v=3" defer></script>

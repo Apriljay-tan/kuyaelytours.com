@@ -48,7 +48,7 @@ ob_start();
 				<h1>Tours and <span>Packages</span></h1>
 				<p class="ke-cat-sub">Cebu · Bohol · Siquijor · Dumaguete — pick an island, then choose a package.</p>
 				<ul class="breadcumb-item">
-					<li><a href="/index.html"><i class="fa-solid fa-house"></i> Home </a></li>
+					<li><a href="/"><i class="fa-solid fa-house"></i> Home </a></li>
 					<li><i class="fa-solid fa-arrow-right-long"></i>Tours and Packages</li>
 				</ul>
 				<p class="ke-hub-seo">Kuya Ely Tours offers private tour packages in Cebu, Bohol, Siquijor, and Dumaguete, with hotel pickup and a private van for your group. Spend the day at waterfalls, islands, heritage sites, or countryside stops without joining a crowded tour. Choose an island below, then open a package to see the route, the price per person, and what is included.</p>

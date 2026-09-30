@@ -137,11 +137,11 @@ ob_start();
 							<?php endif; ?>
 						</div>
 						<div class="ke-td-thumbs">
-							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[1]) ?>"><img src="<?= store_h($images[1]) ?>" alt=""></button>
-							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[2]) ?>"><img src="<?= store_h($images[2]) ?>" alt=""></button>
-							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[3]) ?>"><img src="<?= store_h($images[3]) ?>" alt=""></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[1]) ?>"><img src="<?= store_h($images[1]) ?>" alt="<?= store_h((string) $tour['name']) ?>"></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[2]) ?>"><img src="<?= store_h($images[2]) ?>" alt="<?= store_h((string) $tour['name']) ?>"></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[3]) ?>"><img src="<?= store_h($images[3]) ?>" alt="<?= store_h((string) $tour['name']) ?>"></button>
 							<button class="ke-td-open-photos" type="button" data-ke-photos>
-								<img src="<?= store_h($images[0]) ?>" alt="">
+								<img src="<?= store_h($images[0]) ?>" alt="<?= store_h((string) $tour['name']) ?>">
 								<span class="ke-td-more">+ Photos</span>
 							</button>
 						</div>
@@ -234,7 +234,7 @@ ob_start();
 									<li><i class="fa-solid fa-circle-info ok"></i><span><?= store_h($item) ?></span></li>
 								<?php endforeach; ?>
 							</ul>
-							<p style="margin:8px 0 12px"><a href="/terms.html">Read our full Terms and Conditions</a></p>
+							<p style="margin:8px 0 12px"><a href="/terms">Read our full Terms and Conditions</a></p>
 						</div>
 					</div>
 					<div class="ke-td-block">
@@ -537,11 +537,11 @@ ob_start();
 					})();
 					</script>
 					<div class="ke-td-promo">
-						<img src="<?= store_h($images[0]) ?>" alt="">
+						<img src="<?= store_h($images[0]) ?>" alt="<?= store_h((string) $tour['name']) ?>">
 						<div>
 							<h3><?= store_h((string) $tour['promo_title']) ?></h3>
 							<p><?= store_h((string) $tour['promo_text']) ?></p>
-							<p><a class="is-cart" href="/about.html" style="display:inline-flex;margin-top:10px;padding:10px 16px;border:1px solid #F5C518;border-radius:10px;color:#F5C518;text-decoration:none;font-family:var(--title-font);letter-spacing:1px;text-transform:uppercase;">Travel Responsibly</a></p>
+							<p><a class="is-cart" href="/about" style="display:inline-flex;margin-top:10px;padding:10px 16px;border:1px solid #F5C518;border-radius:10px;color:#F5C518;text-decoration:none;font-family:var(--title-font);letter-spacing:1px;text-transform:uppercase;">Travel Responsibly</a></p>
 						</div>
 					</div>
 					<?php if ($guestPhotos): ?>
@@ -581,7 +581,7 @@ ob_start();
 		<div class="ke-pack-view" hidden>
 			<button type="button" class="ke-pack-view-back" data-ke-shot-back>Back</button>
 			<button type="button" class="ke-pack-view-nav is-prev" data-ke-shot-prev aria-label="Previous photo">‹</button>
-			<img alt="">
+			<img alt="<?= store_h((string) $tour['name']) ?>">
 			<button type="button" class="ke-pack-view-nav is-next" data-ke-shot-next aria-label="Next photo">›</button>
 		</div>
 	</dialog>

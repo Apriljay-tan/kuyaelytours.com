@@ -715,60 +715,162 @@ function store_chat_channel_digits(string $phone): string
 	return $digits;
 }
 
-function store_chat_channels(): array
+function store_chat_app_catalog(): array
 {
-	$defaults = [
+	return [
 		'whatsapp' => [
-			'phone' => '+63 920 985 1802',
-			'handle' => '',
-			'qr' => '',
-			'show' => true,
+			'core' => true,
+			'dock' => true,
+			'title' => 'WhatsApp',
+			'hint' => 'Guests tap this to open a WhatsApp chat. Upload a QR if you also want them to scan.',
+			'phone' => 'WhatsApp number',
+			'handle' => 'Display name (optional)',
+			'link' => '',
+			'ico' => 'bx-phone',
 		],
 		'wechat' => [
-			'phone' => '',
-			'handle' => '',
-			'qr' => '',
-			'show' => true,
+			'core' => true,
+			'dock' => false,
+			'title' => 'WeChat',
+			'hint' => 'Add your WeChat ID and upload the QR guests should scan.',
+			'phone' => 'Phone (optional)',
+			'handle' => 'WeChat ID',
+			'link' => '',
+			'ico' => 'bx-scan',
 		],
 		'viber' => [
+			'core' => true,
+			'dock' => true,
+			'title' => 'Viber',
+			'hint' => 'Add the Viber number and a QR. Guests with Viber can tap to open a chat.',
+			'phone' => 'Viber number',
+			'handle' => 'Display name (optional)',
+			'link' => '',
+			'ico' => 'bx-message-rounded-dots',
+		],
+		'kakaotalk' => [
+			'core' => false,
+			'dock' => true,
+			'title' => 'KakaoTalk',
+			'hint' => 'Add a KakaoTalk ID, an open-chat link, a phone number, or a QR. The button shows on the website and on phones.',
+			'phone' => 'Phone (optional)',
+			'handle' => 'KakaoTalk ID',
+			'link' => 'Open chat link (optional)',
+			'ico' => 'bx-message-rounded',
+		],
+		'telegram' => [
+			'core' => false,
+			'dock' => true,
+			'title' => 'Telegram',
+			'hint' => 'Add a username or phone. Guests tap the button to open Telegram.',
+			'phone' => 'Phone (optional)',
+			'handle' => 'Username',
+			'link' => '',
+			'ico' => 'bx-paper-plane',
+		],
+		'messenger' => [
+			'core' => false,
+			'dock' => true,
+			'title' => 'Messenger',
+			'hint' => 'Add the Facebook page username. Guests open Messenger from the button.',
 			'phone' => '',
-			'handle' => '',
-			'qr' => '',
-			'show' => true,
+			'handle' => 'Page username',
+			'link' => '',
+			'ico' => 'bx-message-dots',
+		],
+		'line' => [
+			'core' => false,
+			'dock' => true,
+			'title' => 'LINE',
+			'hint' => 'Add a LINE ID, an add-friend link, or a QR. Guests can tap or scan.',
+			'phone' => '',
+			'handle' => 'LINE ID',
+			'link' => 'Add-friend link (optional)',
+			'ico' => 'bx-message',
 		],
 	];
-	$saved = store_read_json('chat_channels');
-	foreach ($defaults as $key => $row) {
-		$in = is_array($saved[$key] ?? null) ? $saved[$key] : [];
-		$defaults[$key]['phone'] = trim((string) ($in['phone'] ?? $row['phone']));
-		$defaults[$key]['handle'] = trim((string) ($in['handle'] ?? $row['handle']));
-		$defaults[$key]['qr'] = trim((string) ($in['qr'] ?? $row['qr']));
-		$defaults[$key]['show'] = array_key_exists('show', $in) ? !empty($in['show']) : $row['show'];
+}
+
+function store_chat_channel_href(string $key, array $row): string
+{
+	$digits = store_chat_channel_digits((string) ($row['phone'] ?? ''));
+	$handle = ltrim(trim((string) ($row['handle'] ?? '')), '@');
+	$handle = preg_replace('/[^A-Za-z0-9._\-]/', '', $handle) ?? '';
+	$link = trim((string) ($row['link'] ?? ''));
+	if ($link !== '' && preg_match('#^https://#i', $link) && !in_array($key, ['whatsapp', 'viber'], true)) {
+		return $link;
 	}
-	return $defaults;
+	if ($key === 'whatsapp' && $digits !== '') {
+		return 'https://wa.me/' . $digits;
+	}
+	if ($key === 'viber' && $digits !== '') {
+		return 'https://viber.me/' . $digits;
+	}
+	if ($key === 'telegram') {
+		if ($handle !== '') {
+			return 'https://t.me/' . rawurlencode($handle);
+		}
+		if ($digits !== '') {
+			return 'https://t.me/+' . $digits;
+		}
+	}
+	if ($key === 'messenger' && $handle !== '') {
+		return 'https://m.me/' . rawurlencode($handle);
+	}
+	if ($key === 'line' && $handle !== '') {
+		return 'https://line.me/R/ti/p/@' . rawurlencode($handle);
+	}
+	return '';
+}
+
+function store_chat_channels(): array
+{
+	$catalog = store_chat_app_catalog();
+	$defaults = [
+		'whatsapp' => ['phone' => '+63 920 985 1802', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
+		'wechat' => ['phone' => '', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
+		'viber' => ['phone' => '+63 960 860 5034', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
+	];
+	$saved = store_read_json('chat_channels');
+	$out = [];
+	foreach ($catalog as $key => $meta) {
+		$in = is_array($saved[$key] ?? null) ? $saved[$key] : null;
+		if ($in === null && empty($meta['core'])) {
+			continue;
+		}
+		$base = $defaults[$key] ?? ['phone' => '', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true];
+		$row = $in ?? [];
+		$out[$key] = [
+			'phone' => trim((string) ($row['phone'] ?? $base['phone'])),
+			'handle' => trim((string) ($row['handle'] ?? $base['handle'])),
+			'link' => trim((string) ($row['link'] ?? $base['link'])),
+			'qr' => trim((string) ($row['qr'] ?? $base['qr'])),
+			'show' => array_key_exists('show', $row) ? !empty($row['show']) : $base['show'],
+		];
+	}
+	return $out;
 }
 
 function store_chat_channels_public(): array
 {
+	$catalog = store_chat_app_catalog();
 	$out = [];
 	foreach (store_chat_channels() as $key => $row) {
+		$meta = $catalog[$key] ?? ['title' => $key, 'dock' => false];
 		$phone = store_chat_pretty_phone((string) $row['phone']);
-		$digits = store_chat_channel_digits((string) $row['phone']);
 		$handle = trim((string) $row['handle']);
 		$qr = trim((string) $row['qr']);
-		$href = '';
-		if ($key === 'whatsapp' && $digits !== '') {
-			$href = 'https://wa.me/' . $digits;
-		} elseif ($key === 'viber' && $digits !== '') {
-			$href = 'viber://chat?number=%2B' . $digits;
-		}
+		$href = store_chat_channel_href($key, $row);
+		$show = !empty($row['show']);
 		$out[$key] = [
+			'title' => (string) ($meta['title'] ?? $key),
 			'phone' => $phone,
 			'handle' => $handle,
 			'qr' => $qr,
 			'href' => $href,
-			'show' => !empty($row['show']),
-			'ready' => $phone !== '' || $handle !== '' || $qr !== '',
+			'show' => $show,
+			'ready' => $phone !== '' || $handle !== '' || $qr !== '' || $href !== '',
+			'dock' => !empty($meta['dock']),
 		];
 	}
 	return $out;
@@ -776,24 +878,39 @@ function store_chat_channels_public(): array
 
 function store_chat_channels_save(array $channels): bool
 {
+	$catalog = store_chat_app_catalog();
+	$existing = store_chat_channels();
 	$clean = [];
-	foreach (store_chat_channels() as $key => $row) {
-		$in = is_array($channels[$key] ?? null) ? $channels[$key] : [];
-		$phone = trim(strip_tags((string) ($in['phone'] ?? $row['phone'])));
+	foreach ($catalog as $key => $meta) {
+		$core = !empty($meta['core']);
+		if (!$core && !array_key_exists($key, $channels)) {
+			continue;
+		}
+		$fallback = $existing[$key] ?? ['phone' => '', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true];
+		$in = is_array($channels[$key] ?? null) ? $channels[$key] : $fallback;
+		$phone = trim(strip_tags((string) ($in['phone'] ?? $fallback['phone'])));
+		$handle = trim(strip_tags((string) ($in['handle'] ?? $fallback['handle'])));
+		$link = trim(strip_tags((string) ($in['link'] ?? ($fallback['link'] ?? ''))));
 		if (function_exists('mb_substr')) {
 			$phone = mb_substr($phone, 0, 40);
-			$handle = mb_substr(trim(strip_tags((string) ($in['handle'] ?? $row['handle']))), 0, 80);
+			$handle = mb_substr($handle, 0, 80);
+			$link = mb_substr($link, 0, 300);
 		} else {
 			$phone = substr($phone, 0, 40);
-			$handle = substr(trim(strip_tags((string) ($in['handle'] ?? $row['handle']))), 0, 80);
+			$handle = substr($handle, 0, 80);
+			$link = substr($link, 0, 300);
 		}
-		$qr = trim((string) ($in['qr'] ?? $row['qr']));
+		if ($link !== '' && !preg_match('#^https://#i', $link)) {
+			$link = '';
+		}
+		$qr = trim((string) ($in['qr'] ?? $fallback['qr']));
 		if ($qr !== '' && !preg_match('#^/assets/uploads/[A-Za-z0-9._/\-]+\.(jpe?g|png|webp|gif)$#i', $qr)) {
-			$qr = $row['qr'];
+			$qr = (string) $fallback['qr'];
 		}
 		$clean[$key] = [
 			'phone' => $phone,
 			'handle' => $handle,
+			'link' => $link,
 			'qr' => $qr,
 			'show' => !empty($in['show']),
 		];

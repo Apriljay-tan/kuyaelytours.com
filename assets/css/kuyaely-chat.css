@@ -20,6 +20,10 @@ body:has(.prgoress_indicator) .ke-chat {
 	gap: 10px;
 }
 
+.ke-chat-dock [data-dock-apps] {
+	display: contents;
+}
+
 .ke-chat-app {
 	width: 58px;
 	height: 58px;
@@ -51,6 +55,28 @@ body:has(.prgoress_indicator) .ke-chat {
 	transform: scale(1.58);
 	display: block;
 }
+
+.ke-chat-app-kk,
+.ke-chat-ico-kk {
+	background: #FEE500;
+	padding: 0;
+	overflow: hidden;
+}
+
+.ke-chat-app-kk img,
+.ke-chat-ico-kk img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.ke-chat-app-tg,
+.ke-chat-ico-tg { background: #2AABEE; }
+.ke-chat-app-ms,
+.ke-chat-ico-ms { background: #0084FF; }
+.ke-chat-app-ln,
+.ke-chat-ico-ln { background: #06C755; }
 
 .ke-chat-app:hover,
 .ke-chat-app:focus-visible {

@@ -74,7 +74,7 @@ $html = '<section class="ke-missing-wrap">'
 	. '<div class="ke-missing-actions">'
 	. '<a class="primary" href="/">Back to home</a>'
 	. '<a class="ghost" href="/tours-and-packages.php">Tours and packages</a>'
-	. '<a class="ghost" href="/contact.html">Contact</a>'
+	. '<a class="ghost" href="/contact">Contact</a>'
 	. '</div>'
 	. '</section>';
 

@@ -174,7 +174,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 		echo store_scene_html();
 		echo store_site_header($user, $count);
 	} else {
-		echo '<header class="ke-shop-top"><a class="ke-shop-brand" href="/index.html">';
+		echo '<header class="ke-shop-top"><a class="ke-shop-brand" href="/">';
 		echo '<img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span>KUYA ELY</span></a>';
 		echo '<nav class="ke-shop-icons">';
 		echo '<a class="ke-text-link" href="/tours-and-packages.php">Tours and Packages</a>';
@@ -190,10 +190,10 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	if ($useSite) {
 		echo store_site_footer();
 	} else {
-		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms and Conditions</a></footer>';
+		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a></footer>';
 	}
-	echo '<script src="/assets/js/kuyaely-nav.js?v=39" defer></script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=10" defer></script>';
+	echo '<script src="/assets/js/kuyaely-nav.js?v=44" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=15" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }
@@ -223,13 +223,13 @@ function store_site_header(?array $user, int $cartCount): string
 		: '<a href="/account/login.php">Sign in</a><a href="/account/register.php">Create account</a>';
 	return '<header class="ke-gnav">'
 		. '<div class="ke-gnav-inner">'
-		. '<a class="ke-gnav-brand" href="/index.html"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span><strong>KUYA ELY</strong><small>Tours and Transport Services</small></span></a>'
+		. '<a class="ke-gnav-brand" href="/"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span><strong>KUYA ELY</strong><small>Tours and Transport Services</small></span></a>'
 		. '<nav class="ke-gnav-links" aria-label="Primary">'
-		. '<a href="/index.html">Home</a>'
+		. '<a href="/">Home</a>'
 		. '<a href="/tours-and-packages.php">Tours and Packages</a>'
-		. '<a href="/about.html">About Us</a>'
-		. '<a href="/galary.html">Travel Guide</a>'
-		. '<a href="/contact.html">Contact</a>'
+		. '<a href="/about">About Us</a>'
+		. '<a href="/galary">Travel Guide</a>'
+		. '<a href="/contact">Contact</a>'
 		. '</nav>'
 		. '<div class="ke-gnav-actions">'
 		. '<a class="ke-gnav-ico" href="/tours-and-packages.php" aria-label="Search tours">' . store_svg_search() . '</a>'
@@ -246,17 +246,17 @@ function store_site_footer(): string
 {
 	return '<footer class="ke-gfoot">'
 		. '<div class="ke-gfoot-inner">'
-		. '<a class="ke-gnav-brand" href="/index.html"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span><strong>KUYA ELY</strong><small>Tours and Transport Services</small></span></a>'
+		. '<a class="ke-gnav-brand" href="/"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span><strong>KUYA ELY</strong><small>Tours and Transport Services</small></span></a>'
 		. '<p class="ke-gfoot-tag">Safe Travels. Brighter Stories.</p>'
 		. '<nav aria-label="Footer">'
-		. '<a href="/index.html">Home</a>'
+		. '<a href="/">Home</a>'
 		. '<a href="/tours-and-packages.php">Tours and Packages</a>'
-		. '<a href="/about.html">About Us</a>'
-		. '<a href="/galary.html">Travel Guide</a>'
-		. '<a href="/contact.html">Contact</a>'
+		. '<a href="/about">About Us</a>'
+		. '<a href="/galary">Travel Guide</a>'
+		. '<a href="/contact">Contact</a>'
 		. '</nav>'
 		. '<p class="ke-gfoot-meta">Cebu &middot; Bohol &middot; Siquijor &middot; Dumaguete &middot; And Beyond<br>'
-		. '<a href="/privacy-policy.html">Privacy Policy</a> · <a href="/terms.html">Terms and Conditions</a><br>'
+		. '<a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a><br>'
 		. '© ' . date('Y') . ' Kuya Ely Tours and Transport Services. All rights reserved.</p>'
 		. '<p class="ke-gfoot-script">Explore More Together</p>'
 		. '</div></footer>';
@@ -341,7 +341,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo '<div class="ke-auth-shell">';
 	echo '<article class="ke-auth-card">';
 	echo '<section class="ke-auth-visual">';
-	echo '<a class="ke-auth-brand" href="/index.html"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span>KUYA ELY TOURS</span></a>';
+	echo '<a class="ke-auth-brand" href="/"><img src="/assets/downloaded/kuyaely_logo_web.png" alt="Kuya Ely Tours"><span>KUYA ELY TOURS</span></a>';
 	echo '<div class="ke-auth-copy"><h2>' . store_h($visualTitle) . '</h2><p>' . store_h($visualLede) . '</p></div>';
 	echo '</section>';
 	echo '<section class="ke-auth-panel">';
@@ -356,7 +356,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo $alt;
 	echo '</section></article></div>';
 	echo '<script>(function(){document.querySelectorAll(".ke-pass-toggle").forEach(function(btn){btn.addEventListener("click",function(){var box=btn.closest(".ke-field-box");var input=box?box.querySelector("input"):null;if(!input)return;var show=input.type==="password";input.type=show?"text":"password";btn.setAttribute("aria-label",show?"Hide password":"Show password");btn.setAttribute("aria-pressed",show?"true":"false");btn.classList.toggle("is-on",show);});});})();</script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=10" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=15" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }
