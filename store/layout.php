@@ -192,8 +192,8 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	} else {
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a></footer>';
 	}
-	echo '<script src="/assets/js/kuyaely-nav.js?v=44" defer></script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=15" defer></script>';
+	echo '<script src="/assets/js/kuyaely-nav.js?v=45" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=16" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }
@@ -356,7 +356,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo $alt;
 	echo '</section></article></div>';
 	echo '<script>(function(){document.querySelectorAll(".ke-pass-toggle").forEach(function(btn){btn.addEventListener("click",function(){var box=btn.closest(".ke-field-box");var input=box?box.querySelector("input"):null;if(!input)return;var show=input.type==="password";input.type=show?"text":"password";btn.setAttribute("aria-label",show?"Hide password":"Show password");btn.setAttribute("aria-pressed",show?"true":"false");btn.classList.toggle("is-on",show);});});})();</script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=15" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=16" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }

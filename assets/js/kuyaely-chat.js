@@ -18,7 +18,7 @@
 		}
 		return VIBER;
 	}
-	var CSS = "/assets/css/kuyaely-chat.css?v=11";
+	var CSS = "/assets/css/kuyaely-chat.css?v=12";
 	var KEY = "keChatBox";
 	var WELCOME = "Hi! Tell us your name and how we can help with a tour or van.";
 
@@ -175,6 +175,11 @@
 							'<div class="ke-chat-channels" data-channels></div>' +
 						'</div>' +
 						'<div data-app-panes></div>' +
+						'<div class="ke-chat-pane" data-pane="faq">' +
+							'<button class="ke-chat-back" type="button" data-pane="home">&larr; All options</button>' +
+							'<p class="ke-chat-lead">Tap a question for a short answer. If you need something else, message us and a staff member will contact you.</p>' +
+							'<div class="ke-chat-faqs" data-faqs></div>' +
+						'</div>' +
 						'<div class="ke-chat-pane ke-chat-inbox" data-pane="inbox">' +
 							'<button class="ke-chat-back" type="button" data-pane="home">&larr; All options</button>' +
 							'<div class="ke-chat-id" data-id-form>' +
@@ -193,7 +198,7 @@
 				'<div class="ke-chat-dock">' +
 					'<div data-dock-apps></div>' +
 					'<button class="ke-chat-launch" type="button" aria-label="Open chat" aria-expanded="false">' +
-						'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 6.2A2.2 2.2 0 0 1 7.2 4h9.6A2.2 2.2 0 0 1 19 6.2v7.1A2.2 2.2 0 0 1 16.8 15.5H12L8.2 18.4c-.5.4-1.2 0-1.2-.6v-2.3H7.2A2.2 2.2 0 0 1 5 13.3V6.2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>' +
+						'<img src="/assets/downloaded/chat-launch.png" alt="" width="192" height="192">' +
 					'</button>' +
 				'</div>' +
 			'</div>'
@@ -335,6 +340,10 @@
 					dockHtml += dockButton(key, ico, state);
 				}
 			});
+			rows += '<button class="ke-chat-channel" type="button" data-pane="faq">' +
+				'<span class="ke-chat-ico ke-chat-ico-faq">?</span>' +
+				"<span><b>FAQs</b><span>Quick answers</span></span>" +
+				"</button>";
 			rows += '<button class="ke-chat-channel" type="button" data-pane="inbox">' +
 				'<span class="ke-chat-ico ke-chat-ico-in">' + icon("in") + "</span>" +
 				"<span><b>Message us</b><span>Chat on this website</span></span>" +
@@ -346,6 +355,31 @@
 			root.querySelectorAll(".ke-chat-pane").forEach(function (pane) {
 				pane.classList.toggle("is-on", pane.getAttribute("data-pane") === active);
 			});
+		}
+
+		var faqKey = "";
+
+		function paintFaqs(faqs) {
+			var box = root.querySelector("[data-faqs]");
+			if (!box || !Array.isArray(faqs)) {
+				return;
+			}
+			var next = JSON.stringify(faqs);
+			if (next === faqKey) {
+				return;
+			}
+			faqKey = next;
+			var html = "";
+			faqs.forEach(function (item) {
+				var q = String(item && item.q || "");
+				var a = String(item && item.a || "");
+				if (!q || !a) {
+					return;
+				}
+				html += '<button type="button" class="ke-chat-faq" data-faq><b>' + esc(q) + "</b></button>" +
+					'<p class="ke-chat-faq-a" hidden>' + esc(a) + "</p>";
+			});
+			box.innerHTML = html;
 		}
 
 		function showPane(name) {
@@ -480,6 +514,9 @@
 			}
 			if (data.channels) {
 				paintChannels(data.channels);
+			}
+			if (Array.isArray(data.faqs)) {
+				paintFaqs(data.faqs);
 			}
 			if (data.name) {
 				state.name = String(data.name);
@@ -634,6 +671,15 @@
 				}
 				setOpen(true);
 				showPane(key);
+				return;
+			}
+			var faqBtn = e.target.closest("[data-faq]");
+			if (faqBtn && root.contains(faqBtn)) {
+				var answer = faqBtn.nextElementSibling;
+				if (answer) {
+					answer.hidden = !answer.hidden;
+					faqBtn.classList.toggle("is-on", !answer.hidden);
+				}
 				return;
 			}
 			var paneBtn = e.target.closest("[data-pane]");

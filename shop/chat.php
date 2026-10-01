@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require dirname(__DIR__) . '/store/bootstrap.php';
+require dirname(__DIR__) . '/store/chat-knowledge.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 header('Cache-Control: no-store');
@@ -32,6 +33,7 @@ function ke_chat_payload(?array $chat): array
 		'phone' => $phone,
 		'messages' => $messages,
 		'channels' => function_exists('store_chat_channels_public') ? store_chat_channels_public() : new stdClass(),
+		'faqs' => function_exists('store_chat_faqs_public') ? store_chat_faqs_public() : [],
 	];
 }
 
@@ -136,21 +138,22 @@ $chat = store_chat_open($token, [
 	'phone' => $phone,
 ]);
 $existing = store_chat_messages((string) $chat['id']);
-$hasDesk = false;
-$guestCount = 0;
-foreach ($existing as $row) {
-	$who = strtolower(trim((string) ($row['sender'] ?? $row['from'] ?? '')));
+$reply = store_chat_reply($text);
+$fallback = 'A staff member will contact you on the contact info you provided.';
+$lastDesk = '';
+for ($i = count($existing) - 1; $i >= 0; $i--) {
+	$who = strtolower(trim((string) ($existing[$i]['sender'] ?? $existing[$i]['from'] ?? '')));
 	if ($who === 'desk') {
-		$hasDesk = true;
-	}
-	if ($who === 'guest') {
-		$guestCount++;
+		$lastDesk = trim((string) ($existing[$i]['body'] ?? ''));
+		break;
 	}
 }
+$unread = (int) ($chat['unread_staff'] ?? 0);
 store_chat_add_message($chat, 'guest', $text);
-if ($guestCount < 1 && !$hasDesk) {
-	$first = explode(' ', $name)[0];
-	store_chat_add_message($chat, 'desk', 'Thanks, ' . $first . '. We have your message. A teammate will reply in this chat.');
+if (!($reply === $fallback && $lastDesk === $fallback)) {
+	store_chat_add_message($chat, 'desk', $reply);
 }
+$chat['unread_staff'] = $unread + 1;
+store_chat_update($chat);
 
 echo json_encode(ke_chat_payload(store_find_chat_id((string) $chat['id']) ?: $chat));

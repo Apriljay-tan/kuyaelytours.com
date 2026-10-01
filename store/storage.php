@@ -483,6 +483,32 @@ function store_chat_unread_count(): int
 	return $n;
 }
 
+function store_chat_stamp(): string
+{
+	return (new DateTimeImmutable('now', new DateTimeZone('Asia/Manila')))->format('Y-m-d H:i:s.u');
+}
+
+function store_chat_order_messages(array $rows): array
+{
+	usort($rows, static function ($a, $b): int {
+		$ta = (string) ($a['created'] ?? $a['at'] ?? '');
+		$tb = (string) ($b['created'] ?? $b['at'] ?? '');
+		if ($ta !== $tb) {
+			return $ta <=> $tb;
+		}
+		$desk = static function ($row): int {
+			$who = strtolower(trim((string) ($row['sender'] ?? $row['from'] ?? '')));
+			return in_array($who, ['desk', 'staff', 'admin'], true) ? 1 : 0;
+		};
+		$rank = $desk($a) <=> $desk($b);
+		if ($rank !== 0) {
+			return $rank;
+		}
+		return strcmp((string) ($a['id'] ?? ''), (string) ($b['id'] ?? ''));
+	});
+	return array_values($rows);
+}
+
 function store_chat_messages(string $chatId): array
 {
 	if ($chatId === '') {
@@ -495,7 +521,7 @@ function store_chat_messages(string $chatId): array
 			$stmt->execute([$chatId]);
 			$rows = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
 			if ($rows) {
-				return $rows;
+				return store_chat_order_messages($rows);
 			}
 		} catch (Throwable $e) {
 		}
@@ -508,7 +534,7 @@ function store_chat_messages(string $chatId): array
 		}
 	}
 	$msgs = is_array($chat['messages'] ?? null) ? $chat['messages'] : [];
-	return array_values($msgs);
+	return store_chat_order_messages(array_values($msgs));
 }
 
 function store_chat_public_messages(array $rows): array
@@ -665,7 +691,7 @@ function store_chat_add_message(array &$chat, string $sender, string $body): ?ar
 		'chat_id' => (string) $chat['id'],
 		'sender' => $sender === 'desk' ? 'desk' : 'guest',
 		'body' => $body,
-		'created' => store_now(),
+		'created' => store_chat_stamp(),
 	];
 	$db = store_db();
 	if ($db) {

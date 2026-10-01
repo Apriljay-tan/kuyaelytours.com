@@ -91,23 +91,31 @@ body:has(.prgoress_indicator) .ke-chat {
 }
 
 .ke-chat-launch {
-	width: 58px;
-	height: 58px;
+	width: 66px;
+	height: 66px;
+	padding: 0;
 	border: 0;
 	border-radius: 50%;
-	background: #122033;
+	background: transparent;
 	color: #F5C518;
 	box-shadow: 0 10px 28px rgba(10, 18, 32, 0.35);
 	cursor: pointer;
-	display: grid;
-	place-items: center;
+	display: block;
 	position: relative;
-	transition: transform 0.18s ease, background 0.18s ease;
+	overflow: hidden;
+	transition: transform 0.18s ease;
+}
+
+.ke-chat-launch img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	border-radius: 50%;
 }
 
 .ke-chat-launch:hover,
 .ke-chat-launch:focus-visible {
-	background: #1b2e48;
 	transform: translateY(-2px);
 	outline: 2px solid #F5C518;
 	outline-offset: 3px;
@@ -126,13 +134,49 @@ body:has(.prgoress_indicator) .ke-chat {
 }
 
 .ke-chat.is-open .ke-chat-launch {
+	background: transparent;
+}
+
+.ke-chat-ico-faq {
 	background: #F5C518;
+	color: #122033 !important;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.ke-chat-faqs {
+	display: grid;
+	gap: 8px;
+}
+
+.ke-chat-faq {
+	width: 100%;
+	text-align: left;
+	border: 1px solid #e4e7ec;
+	background: #fff;
+	border-radius: 12px;
+	padding: 10px 12px;
+	cursor: pointer;
+	font: inherit;
 	color: #122033;
 }
 
-.ke-chat-launch svg {
-	width: 26px;
-	height: 26px;
+.ke-chat-faq b {
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.ke-chat-faq.is-on {
+	border-color: #F5C518;
+	background: #fffaf0;
+}
+
+.ke-chat-faq-a {
+	margin: -4px 0 4px;
+	padding: 0 12px 10px;
+	font-size: 13px;
+	line-height: 1.45;
+	color: #3d4a5c;
 }
 
 .ke-chat-panel {
@@ -530,13 +574,15 @@ body:has(.prgoress_indicator) .ke-chat {
 }
 
 @media (max-width: 480px) {
-	.ke-chat-app,
-	.ke-chat-launch {
+	.ke-chat-app {
 		width: 48px;
 		height: 48px;
 	}
-	.ke-chat-app svg,
-	.ke-chat-launch svg {
+	.ke-chat-launch {
+		width: 58px;
+		height: 58px;
+	}
+	.ke-chat-app svg {
 		width: 24px;
 		height: 24px;
 	}
