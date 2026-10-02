@@ -46,7 +46,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<link rel="stylesheet" href="assets/css/responsive.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="assets/css/scroll-up.css" type="text/css" media="all">
-	<link rel="stylesheet" href="assets/css/kuyaely.css?v=ui65" type="text/css" media="all">
+	<link rel="stylesheet" href="assets/css/kuyaely.css?v=ui67" type="text/css" media="all">
 	<style>
 		.preloader { animation: ke-preloader-hide 0.35s ease 0.35s forwards !important; }
 		@keyframes ke-preloader-hide { to { opacity: 0; visibility: hidden; pointer-events: none; } }
@@ -714,10 +714,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			<div class="row">
 				<div class="col-xl-6">
 					<div class="about-thumb wow fadeInUp">
-						<figure class="reveal image-anime"><img src="assets/downloaded/about-siquijor-1.webp?v=about3"
-								alt="Kuya Ely guests in Siquijor"></figure>
-						<figure class="reveal image-anime about-img2"><img src="assets/downloaded/about-siquijor-2.webp?v=about3"
-								alt="Kuya Ely cave tour in Siquijor"></figure>
+						<div class="ke-about-video">
+							<button type="button" class="ke-about-video-play" data-yt="4jzph6P38l8" aria-label="Play the Kuya Ely Tours video">
+								<img src="assets/downloaded/about-video-thumb.jpg" alt="Play the Kuya Ely Tours video">
+								<span class="ke-about-video-icon" aria-hidden="true"></span>
+							</button>
+						</div>
 					</div>
 				</div>
 				<div class="col-xl-6 wow fade-up">
@@ -1949,6 +1951,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 <script>window.kePixelEvents=[];</script>
 <script src="/assets/js/kuyaely-pixel.js?v=3" defer></script>
+<script>
+(function () {
+	var play = document.querySelector(".ke-about-video-play[data-yt]");
+	if (!play) return;
+	play.addEventListener("click", function () {
+		var id = play.getAttribute("data-yt");
+		if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+		var frame = document.createElement("iframe");
+		frame.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+		frame.title = "Kuya Ely Tours video";
+		frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+		frame.allowFullscreen = true;
+		play.replaceWith(frame);
+	});
+})();
+</script>
 </body>
 
 </html>

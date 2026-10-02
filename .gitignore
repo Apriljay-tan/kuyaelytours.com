@@ -25,6 +25,7 @@ store/data/packages.json
 assets/uploads/
 
 store/data/chats.json
+store/data/banks.json
 store/data/chat_channels.json*.key
 *.pem
 *.p12

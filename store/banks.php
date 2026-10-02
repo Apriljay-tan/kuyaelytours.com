@@ -3,12 +3,25 @@ declare(strict_types=1);
 
 function store_banks_file(): string
 {
+	return STORE_DATA . '/banks.json';
+}
+
+function store_banks_legacy_file(): string
+{
 	return dirname(STORE_ROOT) . '/assets/data/banks.json';
 }
 
 function store_banks_bundle(): array
 {
 	$file = store_banks_file();
+	$fromLegacy = false;
+	if (!is_readable($file)) {
+		$legacy = store_banks_legacy_file();
+		if (is_readable($legacy)) {
+			$file = $legacy;
+			$fromLegacy = true;
+		}
+	}
 	$empty = [
 		'note' => 'Transfer the amount on this page, then send a photo of the receipt to info@kuyaelytours.com or +63 920 985 1802. The booking is confirmed after the payment shows in the account.',
 		'banks' => [],
@@ -45,7 +58,11 @@ function store_banks_bundle(): array
 	if ($note === '') {
 		$note = $empty['note'];
 	}
-	return ['note' => $note, 'banks' => $banks];
+	$bundle = ['note' => $note, 'banks' => $banks];
+	if ($fromLegacy && $banks !== []) {
+		store_banks_save($bundle);
+	}
+	return $bundle;
 }
 
 function store_banks_save(array $bundle): bool
