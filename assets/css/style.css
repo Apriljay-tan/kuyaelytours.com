@@ -1,66 +1,10 @@
-/*===============================================
-Template Name: travelik – Hotel Booking & Travel Resort HTML5 Template
-Author:  https://themeforest.net/user/dreamit-solution
-Description: Description
-Version: 1.0.0
-Text Domain: travelik
-Tags: consulting, finance, corporate, business, consultant, multipurpose, technology, it-solution, software, agency, company, portfolio, bangking, insurance, digital-agency, digital-marketing.
-================================================*/
-
-/*TABLE OF CONTENTS*/
-/*=====================
-01. travelik Header-top Area Css
-02. travelik sign up form Css
-03. travelik Header Area Css
-04. header cart sidebar css
-05. Cart Item Css
-06. travelik Search Popup Css
-07. travelik Sidbar Css
-08. travelik hero Area css
-09. travelik feature Area Css
-10. travelik section title Css
-11. travelik about Area Css
-12. travelik marquee Area css
-13. travelik case study Area css
-14. travelik why choose Area css
-15. travelik offer Area css
-16. travelik team Area css
-17. travelik testimonial Area css
-18. travelik call to action Area css
-19. travelik blog Area css 
-20. travelik brand Area css
-21. travelik footer Area css
-22. travelik course category css
-23. travelik Service  css
-24. travelik Destination Area Css
-25. travelik choose area css
-26. travelik Galary  Area css
-27. travelik joint area css
-28. travelik breadcub area css
-29. travelik Blog list  section css
-30. travelik Blog 2Clounm Areacss
-31. travelik Blog Details Area css
-32. travelik Donation area css
-33. travelik Donation Details area css
-34. travelik Service Details area css
-35. travelik Tour Grid Section css
-36. Product Tour List css
-37. travelik Tour Details css
-38. travelik Conatct Area css
-39. Loader Css
-=======================*/
-
-/* =========================================================
-  <--- StartTopber Area CSS --->
-============================================================ */
-
+/* Developed by Syntrix PH — https://www.syntrixph.com */
 .topber_area {
     background: var(--primary-color);
     position: relative;
     z-index: 1;
     padding: 15px 58px 115px 55px;
 }
-
 
 .topber_area .header-address-info p {
     color: var(--color-white);
@@ -130,10 +74,6 @@ Tags: consulting, finance, corporate, business, consultant, multipurpose, techno
     transform: scale(1);
 }
 
-
-/*---=====================================================
-   <!--travelik Header Area Css-->
-=========================================================---*/
 .travelik-header-area {
     position: relative;
     z-index: 2;
@@ -208,8 +148,6 @@ a.logo_two {
     color: var(--primary-color);
 }
 
-/* sticky header */
-
 .header-menu ul li span {
     font-size: 15px;
     color: #131414;
@@ -224,8 +162,6 @@ a.logo_two {
     margin-right: 23px;
     border-radius: 0;
 }
-
-/* Mega Menu */
 
 .header-menu ul .mega-menu {
     position: absolute;
@@ -303,8 +239,6 @@ a.logo_two {
     padding: 12px 20px !important;
 }
 
-/* submenu tওয় */
-
 .header-menu ul .sub_menu_two {
     position: absolute;
     left: 100%;
@@ -329,8 +263,6 @@ a.logo_two {
     opacity: 1;
 }
 
-
-/*** Sub Menu Style ***/
 .header-menu ul .sub_menu {
     position: absolute;
     left: 0;
@@ -405,8 +337,6 @@ a.logo_two {
     padding: 12px 20px !important;
 }
 
-/* header right */
-
 .header_right .nav-btn.navSidebar-button {
     margin-top: -8px;
 }
@@ -425,10 +355,6 @@ a.logo_two {
     transition: 0.5s;
 }
 
-/* header button */
-
-
-/* sticky */
 .sticky {
     left: 0;
     margin: auto;
@@ -445,7 +371,6 @@ a.logo_two {
     animation-name: slideInDown;
 }
 
-
 .sticky .header-menu ul li a i {
     color: #fff;
 }
@@ -458,7 +383,6 @@ a.logo_two {
     background: #EFA122;
 }
 
-/* header menu right */
 .row.header-wrap {
     padding: 0px 65px 0px 58px;
 }
@@ -566,11 +490,6 @@ a.logo_two {
     margin-left: 25px;
 }
 
-
-/*===========================
-<-- travelik-header-area Two Css -->
-=============================*/
-
 .travelik-header-area.two {
     margin-top: -99px;
 }
@@ -578,10 +497,6 @@ a.logo_two {
 .sticky.travelik-header-area.two {
     margin-top: 0;
 }
-
-/*===========================
-<-- travelik Sidbar Css -->
-=============================*/
 
 .xs-sidebar-group .xs-overlay {
     left: 100%;
@@ -688,7 +603,6 @@ a.logo_two {
     background-color: var(--primary-color);
 }
 
-/*html css*/
 .nav-logo {
     margin: 0 0 50px;
 }
@@ -766,10 +680,6 @@ ul.social-box li a:hover {
     color: #fff;
 }
 
-/*===========================================
-<-- travelik hero section one css -->
-==============================================*/
-
 .hero-section-1 {
     background: url(../images/main-home/hero-bg.png);
     background-position: center center;
@@ -830,8 +740,6 @@ ul.social-box li a:hover {
     font-size: 100px;
     line-height: 110px;
 }
-
-/* hero journey box */
 
 .hero-section-1 .hero-journey-box {
     backdrop-filter: blur(50px);
@@ -925,11 +833,6 @@ ul.social-box li a:hover {
     font-size: 22px;
     color: var(--color-white);
 }
-
-
-/*===========================================
-<-- travelik hero section one classic css  -->
-==============================================*/
 
 .hero-section-1-classic {
     background: url(../images/main-home-classic/hero-bg.jpg);
@@ -1086,10 +989,6 @@ ul.social-box li a:hover {
     display: inline-block;
 }
 
-/* ===========================
-    Start Main Banner  02
-============================== */
-
 .main-banner {
     background: url(../images/home2/banner-bg.jpg);
     background-repeat: no-repeat;
@@ -1186,11 +1085,6 @@ ul.social-box li a:hover {
     background: rgb(255 255 255 / 5%);
     backdrop-filter: blur(10px);
 }
-
-
-/* ================================
-    Start Travel Mian Slider 
-==================================== */
 
 .main-slider-wrpper {
     margin-top: -100px;
@@ -1360,7 +1254,6 @@ ul.social-box li a:hover {
     color: var(--color-white);
 }
 
-
 @keyframes rotateText {
     from {
         transform: rotate(0deg);
@@ -1444,12 +1337,6 @@ ul.social-box li a:hover {
     border: 1px solid var(--primary-color)
 }
 
-
-/* ===========================
-    Start Hero Section Four
-============================== */
-
-
 .hero-section-4 {
     background: url(../images/home4/banner-bg.png);
     background-repeat: no-repeat;
@@ -1483,11 +1370,6 @@ ul.social-box li a:hover {
     margin: 15px 0 0;
 }
 
-
-/* ===========================
-    Start Travel Bokking
-============================== */
-
 .travel-boking {
     background: url(../images/main-home/boking-bg.png);
     background-repeat: no-repeat;
@@ -1498,8 +1380,6 @@ ul.social-box li a:hover {
     position: relative;
     border-radius: 20px;
 }
-
-/*bokking tab */
 
 .bokking-tabs .tab-buttons {
     display: flex;
@@ -1680,8 +1560,6 @@ input#arrive {
     color: var(--theme-bg-color2);
 }
 
-
-
 .travel-boking .booking-button button:before {
     position: absolute;
     content: "";
@@ -1699,10 +1577,6 @@ input#arrive {
     width: 100%;
     left: 0;
 }
-
-/* =====================================
-    Travel bokking Style Two
-======================================== */
 
 .travel-boking.style-two {
     background: url(../images/main-home-classic/bokking-bg.png);
@@ -1749,9 +1623,6 @@ input#arrive {
     color: var(--color-white);
 }
 
-/*===========================================
-<-- travelik section title Css  -->
-==============================================*/
 .section-main-title {
     margin-bottom: 38px;
 }
@@ -1821,10 +1692,6 @@ p.section-desc {
     line-height: 60px;
 }
 
-/*===========================================
-<-- Destination Section -->
-==============================================*/
-
 .destination-section {
     background: url(../images/main-home/destination-bg.png);
     background-position: center bottom;
@@ -1881,9 +1748,6 @@ p.section-desc {
     color: var(--primary-color);
 }
 
-
-
-/* Slider Prev And Next Button */
 .custom-swiper-slider {
     position: relative;
     z-index: 1;
@@ -1945,8 +1809,6 @@ p.section-desc {
     font-size: 20px;
 }
 
-/* Start Destination Section Main Home Classic */
-
 .destination-section.classic {
     margin-top: 0;
     background: url(../images/main-home-classic/destionatin-bg.jpg);
@@ -1965,8 +1827,6 @@ p.section-desc {
     margin-bottom: 46px;
 }
 
-/* Start Destination Section Two*/
-
 .destination-section.style__two {
     margin-top: 0;
     padding: 100px 0 120px;
@@ -1982,7 +1842,6 @@ p.section-desc {
     line-height: 0;
     overflow: hidden;
 }
-
 
 .destination-single-box.style__two .destination-content {
     position: absolute;
@@ -2036,10 +1895,6 @@ p.section-desc {
     transform: scale(1);
 }
 
-/*===========================================
-<-- destination section Style Three-->
-==============================================*/
-
 .destination-section.style__three {
     background: url(../images/home4/destination-bg.jpg);
     background-repeat: no-repeat;
@@ -2089,9 +1944,6 @@ p.section-desc {
     background: var(--color-white);
 }
 
-/*===========================================
-<-- about-section-one-->
-==============================================*/
 .about-section-one {
     background: url(../images/main-home/about-bg.png);
     background-repeat: no-repeat;
@@ -2219,10 +2071,6 @@ p.section-desc {
     left: 0;
 }
 
-/*===========================================
-<-- about-section-one classic-->
-==============================================*/
-
 .about-section-one.classic {
     background: url(../images/main-home-classic/about-bg.jpg);
     background-repeat: no-repeat;
@@ -2304,10 +2152,6 @@ p.section-desc {
     z-index: -1;
 }
 
-/* ============================================= */
-/* start About section Two css*/
-/* ============================================= */
-
 .about-section-one.style_two {
     margin-top: 0;
     background: url(../images/home2/about-bg.png);
@@ -2388,13 +2232,6 @@ p.section-desc {
     line-height: 26px;
 }
 
-
-
-
-/* ============================================= */
-/* start About section Three css*/
-/* ============================================= */
-
 .about-section-one.style_three {
     background: var(--color-white);
     padding: 140px 0 120px;
@@ -2442,11 +2279,6 @@ p.section-desc {
 .about-section-one.style_three .about-btn a::before {
     background: var(--primary-color);
 }
-
-
-/* ============================================= */
-/* start About section Four css*/
-/* ============================================= */
 
 .about-section-one.style__four {
     top: 0;
@@ -2509,10 +2341,6 @@ p.section-desc {
     right: 56px;
     top: 38px;
 }
-
-/* ============================================= */
-/* start Populer section css*/
-/* ============================================= */
 
 .populer-section {
     background: url(../images/main-home/populer-bg.jpg);
@@ -2609,7 +2437,6 @@ p.section-desc {
     margin-top: -27px;
 }
 
-
 .populer-single-box .populer-contnet .populer-btn a {
     display: inline-block;
     color: var(--primary-color);
@@ -2626,7 +2453,6 @@ p.section-desc {
     display: inline-block;
 }
 
-/* All Hover */
 .populer-single-box:hover .populer-contnet .populer-days span {
     opacity: 0;
 }
@@ -2636,20 +2462,12 @@ p.section-desc {
     letter-spacing: 2px;
 }
 
-
-/* paginaton button */
-
 .pagination-btn a {
     font-size: 18px;
     letter-spacing: 0.3px;
     padding: 12px 40px;
     margin-top: 30px;
 }
-
-
-/* ============================================= 
-    Start Popuar Section Classic
- ============================================= */
 
 .populer-section.classic {
     padding: 120px 0 90px;
@@ -2728,7 +2546,6 @@ p.section-desc {
     margin-top: -3px;
 }
 
-
 .populer-single-box.style-classic .popular-ratting ul li {
     display: inline-block;
     color: #FF974D;
@@ -2768,8 +2585,6 @@ p.section-desc {
 .populer-single-box.style-classic .populer-contnet .populer-btn a::before {
     background: var(--primary-color);
 }
-
-/* Start Populer Section Style Two */
 
 .populer-section.style__two {
     background: url(../images/home2/populer-bg.jpg);
@@ -2811,11 +2626,6 @@ p.section-desc {
     font-family: var(--title-font);
     color: var(--color-white);
 }
-
-
-/* ============================================= 
-    Start Populer Section Style Three
- ============================================= */
 
 .populer-section.classic.style__three {
     background-image: url(../images/home3/popular-bg.png);
@@ -2868,11 +2678,6 @@ p.section-desc {
     background: #FFFFFF1A;
     margin-top: 25px;
 }
-
-/* ============================================= 
-    Start Populer Section Style Four
- ============================================= */
-
 
 .populer-section.classic.style__three.style__four {
     background-image: url(../images/home4/destination-bg.jpg);
@@ -2975,10 +2780,6 @@ p.section-desc {
     opacity: 1;
 }
 
-/* ============================================= 
-    Start Galary Section
- ============================================= */
-
 .photography-sectoin {
     background: var(--theme-bg-color2);
     padding: 100px 0 94px;
@@ -3035,7 +2836,6 @@ p.section-desc {
     border-radius: 6px;
 }
 
-/* Infinite marquee effect */
 @keyframes marquee {
     from {
         transform: translateX(0);
@@ -3053,8 +2853,6 @@ p.section-desc {
 .galary-thumb img {
     width: 100%;
 }
-
-/* counter box */
 
 .counter-single-box {
     display: flex;
@@ -3080,10 +2878,6 @@ p.section-desc {
 .photography-sectoin.style__two {
     padding: 0 0 94px;
 }
-
-/* ============================================= 
-    Start Team Section
- ============================================= */
 
 .team-sectoin {
     background: var(--theme-bg-color2);
@@ -3179,7 +2973,6 @@ p.section-desc {
     transition: 0.5s;
 }
 
-/* all hover */
 .team-single-box:hover .team-content .team-bio {
     background: var(--primary-color);
     border: 1px solid var(--primary-color);
@@ -3190,9 +2983,6 @@ p.section-desc {
     background: var(--primary-color);
 }
 
-/* ============================================= 
-    Start Team Section Style Two
-============================================= */
 .team-sectoin.style__two {
     padding: 120px 0 90px;
     margin-top: -20px;
@@ -3241,10 +3031,6 @@ p.section-desc {
     padding: 12px 25px;
 }
 
-/* ============================================= 
-    Start Testimonial Section
- ============================================= */
-
 .testimonial-sectoin {
     background: url(../images/main-home/testi-bg.jpg);
     background-repeat: no-repeat;
@@ -3252,8 +3038,6 @@ p.section-desc {
     background-position: center center;
     padding: 120px 0 90px;
 }
-
-/* testi counter */
 
 .testi-counter {
     display: flex;
@@ -3270,7 +3054,6 @@ p.section-desc {
     color: var(--color-white);
 }
 
-/* client card */
 .client-card {
     display: flex;
     align-items: center;
@@ -3309,8 +3092,6 @@ p.section-desc {
     line-height: 1.3;
     margin-left: 20px;
 }
-
-/* single testi box */
 
 .single-testi-box {
     display: flex;
@@ -3359,10 +3140,6 @@ h2.testi-title {
     font-weight: 400;
     letter-spacing: 2px;
 }
-
-/* ============================================= 
-  Testimonial Classic Section 
- ============================================= */
 
 .testimonial-sectoin.classic {
     background: var(--theme-bg-color);
@@ -3432,10 +3209,6 @@ h2.testi-title {
     font-size: 18px;
 }
 
-/* ============================================= 
-  Start Testimonial Section Two 
- ============================================= */
-
 .testimonial-sectoin.style__two {
     background: var(--theme-bg-color2);
     position: relative;
@@ -3482,8 +3255,6 @@ h2.testi-title {
     color: var(--color-white);
 }
 
-/* testimonial single box */
-
 .single-testi-box.style__two {
     background: transparent;
     padding: 0;
@@ -3519,10 +3290,6 @@ h2.testi-title {
     top: inherit;
     bottom: -92px;
 }
-
-/* ============================================= 
-  Testimonial Section Style Three
- ============================================= */
 
 .testimonial-sectoin.style__three {
     background: var(--theme-bg-color4);
@@ -3578,10 +3345,6 @@ h2.testi-title {
     color: var(--theme-bg-color2);
     font-size: 28px;
 }
-
-/* ============================================= 
-  Travelling Section 
- ============================================= */
 
 .travelling-offer-section {
     background: url(../images/main-home/travelling-bg.png);
@@ -3651,10 +3414,6 @@ h2.testi-title {
 .bokking-btn a::before {
     background: var(--theme-bg-color);
 }
-
-/* ============================================= 
-  Start Blog Section 
-============================================= */
 
 .latest-blog-section {
     padding: 100px 0 215px;
@@ -3761,8 +3520,6 @@ h2.testi-title {
     filter: brightness(0);
 }
 
-/* --- BLOG SINGLE BOX --- */
-
 .blog-single-box {
     display: flex;
     gap: 30px;
@@ -3855,8 +3612,6 @@ h2.testi-title {
     padding: 0 0 100px;
 }
 
-/* Blog Section Style Three */
-
 .latest-blog-section.style__three {
     background: var(--theme-bg-color4);
     padding: 130px 0 95px;
@@ -3875,10 +3630,6 @@ h2.testi-title {
 .latest-blog-section.style__three .blog-single-box .blog-content .blog-title a {
     color: var(--theme-bg-color);
 }
-
-/* ============================================= 
-  Start Blog Section  Classic
-============================================= */
 
 .latest-blog-section.classic {
     padding: 85px 0 110px;
@@ -3905,7 +3656,6 @@ h2.testi-title {
     filter: brightness(0) invert(0);
 }
 
-/* single blog box style classic */
 .single-blog-box.style__classic .blog-thumb {
     margin-bottom: 25px;
 }
@@ -3993,10 +3743,6 @@ h2.testi-title {
     margin-bottom: 25px;
 }
 
-
-/* ============================================= 
-  Start Brand Section 
-============================================= */
 .brand-warrper {
     margin: 0;
     padding-top: 95px;
@@ -4011,10 +3757,6 @@ h2.testi-title {
     background: var(--theme-bg-color);
 }
 
-
-/*===========================================
-<-- travelik footer Area css-->
-==============================================*/
 .main-footer-one {
     padding: 200px 0px 12px;
     background: url(../images/main-home/footer-bg.jpg);
@@ -4086,8 +3828,6 @@ h2.testi-title {
     transform: scale(1);
 }
 
-/* footer sing up */
-
 h1.footer-sing-up-title {
     font-size: 44px;
     font-weight: 400;
@@ -4134,8 +3874,6 @@ h1.footer-sing-up-title {
     height: 60px;
     padding: 0 35px;
 }
-
-/* footer sidget content menu */
 
 .footer-widget-content .footer-title {
     color: var(--color-white);
@@ -4210,10 +3948,6 @@ h1.footer-sing-up-title {
     letter-spacing: 64px;
     text-align: center;
 }
-
-/* ==============================================
-    Start Footer Section Classic
-================================================ */
 
 .main-footer-one.classic {
     padding: 120px 0 22px;
@@ -4344,10 +4078,6 @@ h1.footer-sing-up-title {
     color: var(--primary-color);
 }
 
-/* ==============================================
-    Start Home Classic Cetagoris Section
-================================================ */
-
 .categori-section {
     background: var(--theme-bg-color2);
     padding: 82px 0 120px;
@@ -4359,8 +4089,6 @@ h1.footer-sing-up-title {
     gap: 30px;
     margin-bottom: 30px;
 }
-
-/* Cetagoris left Warpper */
 
 .cetagoris-left-warpper .categoris-thumb {
     position: relative;
@@ -4425,8 +4153,6 @@ h1.footer-sing-up-title {
     transform: rotate(-45deg);
 }
 
-/* Cetagoris Right Warpper */
-
 .cetagoris-right-warpper .categoris-signle-box {
     background: url(../images/main-home-classic/categri-bg-box.png);
     background-repeat: no-repeat;
@@ -4473,10 +4199,6 @@ h1.footer-sing-up-title {
     padding: 12px 30px;
 }
 
-/* ==============================================
-    Start Counter Section
-================================================ */
-
 .counter-section {
     background: var(--theme-bg-color2);
     padding: 120px 0 120px;
@@ -4518,8 +4240,6 @@ h1.footer-sing-up-title {
     font-size: 30px;
     color: var(--color-white);
 }
-
-/* circle */
 
 .marque-circle {
     position: relative;
@@ -4626,10 +4346,6 @@ h1.footer-sing-up-title {
     background: var(--primary-color);
 }
 
-/* ==============================================
-    Start Gallery Section
-================================================ */
-
 .gallery-area {
     background: var(--theme-bg-color);
     padding: 120px 0 0;
@@ -4652,10 +4368,6 @@ h1.footer-sing-up-title {
 .gallery__thumb a img {
     border-radius: 20px;
 }
-
-/* ==============================================
-    Start Gallery Section Style Two
-================================================ */
 
 .gallery-area.style__two {
     background: var(--theme-bg-color4);
@@ -4752,11 +4464,6 @@ h1.footer-sing-up-title {
     }
 }
 
-
-/* ==============================================
-    Start Subscribe  Section
-================================================ */
-
 .subscribe-section {
     background: url(../images/main-home-classic/subscribe-bg.png);
     background-repeat: no-repeat;
@@ -4808,8 +4515,6 @@ h1.footer-sing-up-title {
     bottom: 0;
     z-index: -1;
 }
-
-/* right box */
 
 .subscribe-signle-box.right-warpper {
     backdrop-filter: blur(50px);
@@ -4863,8 +4568,6 @@ p.subscribe-list i {
     right: 31%;
 }
 
-/* travelling style two */
-
 .travelling-offer-section.style__two {
     padding: 10px 0 0;
 }
@@ -4899,11 +4602,6 @@ p.subscribe-list i {
 .news-img {
     text-align: center;
 }
-
-
-/* ==============================================
-    Start Feature  Section
-================================================ */
 
 .feature-section {
     background: url(../images/home2/feature-bg.jpg);
@@ -4975,9 +4673,6 @@ p.subscribe-list i {
     transform: scaleX(-1);
 }
 
-/* ==============================================
-    Start Work Process Section
-================================================ */
 .work-process-section {
     background: var(--theme-bg-color2);
     padding: 100px 0 110px;
@@ -4986,7 +4681,6 @@ p.subscribe-list i {
     overflow: hidden;
 }
 
-/* all shape */
 .shape1.bounce-animate2 {
     position: absolute;
     top: 17%;
@@ -5010,8 +4704,6 @@ p.subscribe-list i {
     top: 14%;
     z-index: -1;
 }
-
-/* process single box */
 
 .work-process-section .section-main-title {
     margin-bottom: 105px;
@@ -5137,12 +4829,6 @@ p.subscribe-list i {
     margin: 0 41px 0;
 }
 
-
-/* ========================================
-    Start Video Section 
-========================================== */
-
-
 .video-section {
     position: relative;
     background: url('../images/home2/video-bg.jpg');
@@ -5225,10 +4911,6 @@ p.subscribe-list i {
     font-family: var(--text-font);
 }
 
-/*<!-- =====================================-->
-<!-- Start travelik  Yacht Facilities section-->
-<!-- =====================================-->*/
-
 .yacht-facilities-section {
     background: url(../images/home3/facilities-bg.jpg);
     background-position: center center;
@@ -5268,10 +4950,6 @@ p.subscribe-list i {
     line-height: 26px;
     margin-top: 10px;
 }
-
-/*<!-- ==================================================-->
-<!-- Start travelik  Facilities section Style Two -->
-<!-- ====================================================-->*/
 
 .yacht-facilities-section.style__two {
     background: url(../images/home4/facilities-bg.png);
@@ -5321,8 +4999,6 @@ p.subscribe-list i {
     margin-top: 10px;
 }
 
-/* facilities thumb */
-
 .yacht-facilities-section.style__two .facilities-thumb {
     text-align: right;
     margin-bottom: -262px;
@@ -5351,8 +5027,6 @@ p.subscribe-list i {
     z-index: -1;
 }
 
-/* slider prev box */
-
 .yacht-facilities-section.style__two .destination__arrow__bx {
     position: absolute;
     right: inherit;
@@ -5367,10 +5041,6 @@ p.subscribe-list i {
     line-height: 45px;
     width: 50px;
 }
-
-/*<!-- =====================================-->
-<!-- Start travelik  Marquee section-->
-<!-- =====================================-->*/
 
 .marquee-section {
     position: relative;
@@ -5394,7 +5064,6 @@ p.subscribe-list i {
     -ms-user-select: none;
     user-select: none;
     gap: 0px;
-
 
 }
 
@@ -5459,11 +5128,6 @@ p.subscribe-list i {
     margin-top: 0;
     border-radius: 0;
 }
-
-
-/*<!-- =====================================-->
-<!-- Start travelik  Contact Section-->
-<!-- =====================================-->*/
 
 .contact-section {
     background: url(../images/home3/contact-bg.jpg);
@@ -5570,7 +5234,6 @@ p.subscribe-list i {
     font-size: 16px;
 }
 
-
 .contact-form button {
     font-family: var(--title-font);
     font-weight: 400;
@@ -5608,11 +5271,6 @@ p.subscribe-list i {
     width: 100%;
 }
 
-
-
-/* ============================================= */
-/* travelik galary section one css */
-/* ============================================= */
 .galary-section-one {
     padding: 100px 0px 100px;
 }
@@ -5641,7 +5299,6 @@ p.subscribe-list i {
     transform: scale(1);
 }
 
-/* ===== Arrows ===== */
 .galary-arrow-box {
     position: absolute;
     top: 50%;
@@ -5663,11 +5320,6 @@ p.subscribe-list i {
     cursor: pointer;
 }
 
-
-/*
-<!-- ============================== -->
-<!-- Start breadcumb Secttion -->
-<!-- ==============================-->*/
 .breadcumb-section {
     background-size: cover;
     background-position: center;
@@ -5743,12 +5395,6 @@ ul.breadcumb-item li a i {
     top: -1px;
 }
 
-
-
-/*==============================
-/* Team details Section 
-==============================*/
-
 .team-details-area {
     padding: 120px 0 68px;
     background: var(--color-white);
@@ -5765,8 +5411,6 @@ ul.breadcumb-item li a i {
     width: 100%;
 
 }
-
-/* Team details content */
 
 .team-details-content {
     padding: 0 0 0 35px;
@@ -5838,11 +5482,6 @@ ul.breadcumb-item li a i {
     margin-top: 40px;
 }
 
-
-/*==============================
-/* Blog List Section 
-==============================*/
-
 .blog-list {
     padding: 120px 0 90px;
 }
@@ -5863,8 +5502,6 @@ ul.breadcumb-item li a i {
 .blog-list .single-blog-box.style__classic .blog-content .blog-meta span {
     color: var(--primary-color);
 }
-
-/* catefory box */
 
 .hotelio-category-box {
     padding: 40px 40px 30px;
@@ -5934,8 +5571,6 @@ h3.category-title:hover:before {
     width: 50px;
 }
 
-/* recent box */
-
 .hotelio-category-items {
     margin-bottom: 20px;
 }
@@ -5970,7 +5605,6 @@ h3.category-title:hover:before {
     line-height: 1.2;
     margin: 8px 0 0;
 }
-
 
 .hotelio-category-box.two .category-title {
     margin-bottom: 12px;
@@ -6039,8 +5673,6 @@ ul.hotelio-service li:hover span i {
     opacity: 1;
 }
 
-/* list category  */
-
 ul.list_category li {
     display: inline-block;
     margin-bottom: 10px;
@@ -6081,16 +5713,9 @@ ul.list_category li a:hover {
     color: var(--color-white);
 }
 
-
-/*==============================
-/* Blog Details Section 
-==============================*/
-
 .details .blog-thumb img {
     width: 100%;
 }
-
-/* hotelio blog details section */
 
 .blog-meta {
     padding: 8px 0 16px;
@@ -6352,7 +5977,6 @@ input.comment-box::placeholder {
     width: 100%;
 }
 
-
 .donation-details {
     padding: 120px 0 120px;
 }
@@ -6377,11 +6001,6 @@ input.comment-box::placeholder {
     background: var(--primary-color);
     border: 1px solid var(--primary-color);
 }
-
-
-/*===================================
-    Service Details 
-=================================== */
 
 .hotelio-thumb img {
     width: 100%;
@@ -6420,7 +6039,6 @@ input.comment-box::placeholder {
     padding: 13px 12px;
 }
 
-
 .team-single-box.style__two.inner__team__bx {
     padding: 15px 15px 30px;
     background: var(--theme-bg-color);
@@ -6429,10 +6047,6 @@ input.comment-box::placeholder {
 .inner__team__bx .team-thumb img {
     width: 100%;
 }
-
-/*===================================
-    Login Page 
-=================================== */
 
 .login-page {
     padding: 120px 0 120px;
@@ -6560,10 +6174,6 @@ input.comment-box::placeholder {
     display: none;
 }
 
-/* ========================================
-    Start Tour Section 
-=========================================== */
-
 .tour__section {
     padding: 120px 0 120px;
 }
@@ -6636,7 +6246,6 @@ input.comment-box::placeholder {
     height: 24px;
 }
 
-/* full track */
 .track {
     position: absolute;
     top: 50%;
@@ -6647,7 +6256,6 @@ input.comment-box::placeholder {
     border-radius: 10px;
 }
 
-/* active range */
 .range {
     position: absolute;
     top: 50%;
@@ -6657,7 +6265,6 @@ input.comment-box::placeholder {
     border-radius: 10px;
 }
 
-/* sliders */
 .range-slider input {
     position: absolute;
     width: 100%;
@@ -6668,7 +6275,6 @@ input.comment-box::placeholder {
     -webkit-appearance: none;
 }
 
-/* thumb */
 .range-slider input::-webkit-slider-thumb {
     pointer-events: auto;
     -webkit-appearance: none;
@@ -6735,7 +6341,7 @@ input.comment-box::placeholder {
 
 .right-item h6 {
     color: #6b6b6b;
-    /* $text-color */
+    
     font-weight: 400;
 }
 
@@ -6749,14 +6355,14 @@ input.comment-box::placeholder {
     background: #F9F9F9;
     width: 204px;
     color: #151515;
-    /* $header-color */
+    
     height: auto !important;
     line-height: normal !important;
 }
 
 .right-item .form-clt .nice-select span {
     color: #151515;
-    /* $header-color */
+    
 }
 
 .right-item .form-clt .nice-select::after {
@@ -6771,14 +6377,14 @@ input.comment-box::placeholder {
 .right-item .form-clt .nice-select .list {
     width: 100%;
     background-color: #ffffff;
-    /* $bg-color */
+    
 }
 
 .right-item .form-clt .nice-select .focus {
     background-color: transparent;
     font-weight: 400;
     color: #6b6b6b;
-    /* $text-color */
+    
 }
 
 .right-item .form-clt .nice-select .option {
@@ -6788,8 +6394,6 @@ input.comment-box::placeholder {
 .right-item .form-clt .nice-select .option:hover {
     background-color: transparent;
 }
-
-
 
 .sort-wrap {
     display: flex;
@@ -6825,7 +6429,6 @@ input.comment-box::placeholder {
     outline: none;
     border-color: #ccc;
 }
-
 
 .tour-main-sideber {
     background: var(--theme-bg-color4);
@@ -6899,15 +6502,6 @@ input.comment-box::placeholder {
     justify-content: space-between;
 }
 
-
-
-
-
-
-
-
-
-
 .tour-details-side .tour-sidebar-items {
     border-radius: 10px;
     background: var(--theme-bg-color4);
@@ -6920,8 +6514,6 @@ input.comment-box::placeholder {
     font-weight: 400;
     color: var(--theme-bg-color2);
 }
-
-/* ================= Form List ================= */
 
 .tour-details-side .form-list {
     position: relative;
@@ -6937,7 +6529,6 @@ input.comment-box::placeholder {
     border-bottom: 1px solid rgba(21, 20, 21, 0.09);
     padding: 15px 0 20px;
 }
-
 
 .tour-details-side .form-list li .form-clt input {
     width: 100%;
@@ -6968,19 +6559,14 @@ input.comment-box::placeholder {
     outline: none;
 }
 
-/* focus effect */
 .number-select:focus {
     border-color: var(--primary-color);
 }
 
-/* option style */
 .number-select option {
     font-size: 14px;
     font-weight: 500;
 }
-
-
-/* ================= Checkbox ================= */
 
 .checkbox-single {
     position: relative;
@@ -7000,8 +6586,6 @@ input.comment-box::placeholder {
 .checkbox-single.two input {
     left: 15px;
 }
-
-/* ================= Tickets List ================= */
 
 .tour-details-side .tickets-list {
     margin: 20px 0;
@@ -7026,8 +6610,6 @@ input.comment-box::placeholder {
     margin-bottom: 20px;
 }
 
-/* ================= Extra Items ================= */
-
 .tour-details-side .extra-items {
     border-bottom: 1px solid rgba(21, 20, 21, 0.09);
     padding-bottom: 24px;
@@ -7044,8 +6626,6 @@ input.comment-box::placeholder {
     margin-bottom: 10px;
 }
 
-/* ================= Total ================= */
-
 .tour-details-side .total-list {
     display: flex;
     justify-content: space-between;
@@ -7058,8 +6638,6 @@ input.comment-box::placeholder {
     font-weight: 400;
     color: var(--theme-bg-color2);
 }
-
-/* ================= Button & Text ================= */
 
 .tour-details-side .theme-btn {
     width: 100%;
@@ -7074,15 +6652,6 @@ input.comment-box::placeholder {
     color: #696969;
 }
 
-
-
-
-
-
-/****************************** 
-Start hotel appoinment css   
-*******************************/
-
 .travel-appoinment {
     padding: 120px 0 120px;
     background: #fff;
@@ -7091,8 +6660,6 @@ Start hotel appoinment css
 .hotelio-appoinment .hotelio-section-title {
     margin-bottom: 39px;
 }
-
-/* contact info item */
 
 .row.contact-info_item {
     border-radius: 20px;
@@ -7257,8 +6824,6 @@ button:focus {
     overflow: hidden;
 }
 
-
-/* Map Section */
 .contact-section__inner {
     background: var(--theme-bg-color5);
     padding: 120px 0 110px;
@@ -7267,8 +6832,6 @@ button:focus {
 .contact-section__inner .contact-form-box {
     margin-bottom: 0;
 }
-
-/* ================ All Animation CSS ===================*/
 
 .rotate {
     -webkit-animation-name: rotateme;
@@ -7563,9 +7126,6 @@ button:focus {
     }
 }
 
-/*--==============================================->
-<!-- Consen Animation Dance -->
-==================================================-*/
 .dance3 {
     -webkit-animation: dance3 8s alternate infinite;
     animation: dance3 8s alternate infinite;
@@ -7633,9 +7193,6 @@ button:focus {
     }
 }
 
-/*==========================
-	Prelaoder
-===========================*/
 .preloader {
     position: fixed;
     left: 0px;
@@ -7737,6 +7294,3 @@ button:focus {
     }
 }
 
-/* .about-section-one.classic .about-icon-box .about-icon-box-content h1 {
-    color: var(--title-color2) !important;
-} */

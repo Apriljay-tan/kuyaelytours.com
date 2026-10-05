@@ -3,7 +3,6 @@ declare(strict_types=1);
 require dirname(__DIR__) . '/store/bootstrap.php';
 require_once dirname(__DIR__) . '/store/facebook.php';
 
-// TEMPORARY: retain the same safe Facebook diagnostics during profile completion.
 define('STORE_FB_DEBUG', true);
 header('Cache-Control: no-store');
 $pending = store_facebook_pending();

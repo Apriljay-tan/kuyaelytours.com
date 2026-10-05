@@ -35,7 +35,6 @@ function store_db(): ?PDO
 		store_db_seed_from_json($pdo);
 		return $pdo;
 	} catch (Throwable $e) {
-		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
 		if (function_exists('store_fb_debug_exception')) {
 			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
 		}
@@ -98,11 +97,9 @@ function store_db_migrate(PDO $pdo): void
 			created VARCHAR(32) NOT NULL
 		)');
 	} catch (Throwable $e) {
-		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
 		if (function_exists('store_fb_debug_exception')) {
 			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
 		}
-		// Keep bookings/users online if chat tables cannot be created.
 	}
 }
 
@@ -111,7 +108,6 @@ function store_db_seed_from_json(PDO $pdo): void
 	try {
 		$n = (int) $pdo->query('SELECT COUNT(*) FROM ke_users')->fetchColumn();
 	} catch (Throwable $e) {
-		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
 		if (function_exists('store_fb_debug_exception')) {
 			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
 		}
@@ -208,7 +204,6 @@ function store_db_seed_from_json(PDO $pdo): void
 		}
 		$pdo->commit();
 	} catch (Throwable $e) {
-		// TEMPORARY FB DEBUG: expose exceptions previously swallowed here.
 		if (function_exists('store_fb_debug_exception')) {
 			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
 		}
@@ -741,6 +736,59 @@ function store_chat_channel_digits(string $phone): string
 	return $digits;
 }
 
+function store_chat_clean_lines(array $lines): array
+{
+	$clean = [];
+	foreach ($lines as $line) {
+		if (!is_array($line)) {
+			continue;
+		}
+		$phone = trim(strip_tags((string) ($line['phone'] ?? '')));
+		$label = trim(strip_tags((string) ($line['label'] ?? '')));
+		if (function_exists('mb_substr')) {
+			$phone = mb_substr($phone, 0, 40);
+			$label = mb_substr($label, 0, 80);
+		} else {
+			$phone = substr($phone, 0, 40);
+			$label = substr($label, 0, 80);
+		}
+		if (store_chat_channel_digits($phone) === '') {
+			continue;
+		}
+		$clean[] = ['phone' => $phone, 'label' => $label];
+		if (count($clean) >= 4) {
+			break;
+		}
+	}
+	return $clean;
+}
+
+function store_chat_whatsapp_public_lines(array $row): array
+{
+	$out = [];
+	$seen = [];
+	$push = static function (string $phone, string $label) use (&$out, &$seen): void {
+		$digits = store_chat_channel_digits($phone);
+		if ($digits === '' || isset($seen[$digits])) {
+			return;
+		}
+		$seen[$digits] = true;
+		$out[] = [
+			'label' => trim($label),
+			'phone' => store_chat_pretty_phone($phone),
+			'href' => 'https://wa.me/' . $digits,
+		];
+	};
+	$push((string) ($row['phone'] ?? ''), (string) ($row['handle'] ?? ''));
+	foreach (is_array($row['lines'] ?? null) ? $row['lines'] : [] as $line) {
+		if (!is_array($line)) {
+			continue;
+		}
+		$push((string) ($line['phone'] ?? ''), (string) ($line['label'] ?? ''));
+	}
+	return $out;
+}
+
 function store_chat_app_catalog(): array
 {
 	return [
@@ -866,13 +914,17 @@ function store_chat_channels(): array
 		}
 		$base = $defaults[$key] ?? ['phone' => '', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true];
 		$row = $in ?? [];
-		$out[$key] = [
+		$item = [
 			'phone' => trim((string) ($row['phone'] ?? $base['phone'])),
 			'handle' => trim((string) ($row['handle'] ?? $base['handle'])),
 			'link' => trim((string) ($row['link'] ?? $base['link'])),
 			'qr' => trim((string) ($row['qr'] ?? $base['qr'])),
 			'show' => array_key_exists('show', $row) ? !empty($row['show']) : $base['show'],
 		];
+		if ($key === 'whatsapp') {
+			$item['lines'] = store_chat_clean_lines(is_array($row['lines'] ?? null) ? $row['lines'] : []);
+		}
+		$out[$key] = $item;
 	}
 	return $out;
 }
@@ -888,7 +940,7 @@ function store_chat_channels_public(): array
 		$qr = trim((string) $row['qr']);
 		$href = store_chat_channel_href($key, $row);
 		$show = !empty($row['show']);
-		$out[$key] = [
+		$public = [
 			'title' => (string) ($meta['title'] ?? $key),
 			'phone' => $phone,
 			'handle' => $handle,
@@ -898,6 +950,15 @@ function store_chat_channels_public(): array
 			'ready' => $phone !== '' || $handle !== '' || $qr !== '' || $href !== '',
 			'dock' => !empty($meta['dock']),
 		];
+		if ($key === 'whatsapp') {
+			$lines = store_chat_whatsapp_public_lines($row);
+			$public['lines'] = $lines;
+			if ($href === '' && $lines) {
+				$public['href'] = (string) $lines[0]['href'];
+			}
+			$public['ready'] = $public['ready'] || $lines !== [];
+		}
+		$out[$key] = $public;
 	}
 	return $out;
 }
@@ -933,13 +994,18 @@ function store_chat_channels_save(array $channels): bool
 		if ($qr !== '' && !preg_match('#^/assets/uploads/[A-Za-z0-9._/\-]+\.(jpe?g|png|webp|gif)$#i', $qr)) {
 			$qr = (string) $fallback['qr'];
 		}
-		$clean[$key] = [
+		$item = [
 			'phone' => $phone,
 			'handle' => $handle,
 			'link' => $link,
 			'qr' => $qr,
 			'show' => !empty($in['show']),
 		];
+		if ($key === 'whatsapp') {
+			$rawLines = is_array($in['lines'] ?? null) ? $in['lines'] : ($fallback['lines'] ?? []);
+			$item['lines'] = store_chat_clean_lines(is_array($rawLines) ? $rawLines : []);
+		}
+		$clean[$key] = $item;
 	}
 	return store_write_json('chat_channels', $clean);
 }

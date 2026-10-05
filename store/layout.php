@@ -9,23 +9,23 @@ function store_tracking_allowed(): bool
 function store_gtm_head(): string
 {
 	return <<<'HTML'
-<!-- Google Tag Manager -->
+
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-T8GFHP8Z');</script>
-<!-- End Google Tag Manager -->
+
 HTML;
 }
 
 function store_gtm_body(): string
 {
 	return <<<'HTML'
-<!-- Google Tag Manager (noscript) -->
+
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8GFHP8Z"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 HTML;
 }
 
@@ -35,7 +35,7 @@ function store_pixel_head(): string
 		return '';
 	}
 	return <<<'HTML'
-<!-- Meta Pixel Code -->
+
 <script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -51,7 +51,7 @@ fbq('track', 'PageView');
 <noscript><img height="1" width="1" style="display:none"
 src="https://www.facebook.com/tr?id=1757833078759116&ev=PageView&noscript=1"
 /></noscript>
-<!-- End Meta Pixel Code -->
+
 HTML;
 }
 
@@ -156,7 +156,8 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 		$class .= ' ' . trim($mods);
 	}
 	$useSite = (bool) preg_match('/\b(ke-site|ke-dash|ke-bag)\b/', $mods);
-	echo '<!DOCTYPE html><html lang="en"><head>';
+	echo '<!DOCTYPE html><html lang="en"><head>
+<!-- Developed by Syntrix PH — https://www.syntrixph.com -->';
 	echo store_gtm_head();
 	echo store_pixel_head();
 	echo '<meta charset="UTF-8">';
@@ -192,8 +193,8 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	} else {
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a></footer>';
 	}
-	echo '<script src="/assets/js/kuyaely-nav.js?v=45" defer></script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=16" defer></script>';
+	echo '<script src="/assets/js/kuyaely-nav.js?v=46" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=17" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }
@@ -356,7 +357,7 @@ function store_auth_page(string $title, string $heading, string $lede, string $f
 	echo $alt;
 	echo '</section></article></div>';
 	echo '<script>(function(){document.querySelectorAll(".ke-pass-toggle").forEach(function(btn){btn.addEventListener("click",function(){var box=btn.closest(".ke-field-box");var input=box?box.querySelector("input"):null;if(!input)return;var show=input.type==="password";input.type=show?"text":"password";btn.setAttribute("aria-label",show?"Hide password":"Show password");btn.setAttribute("aria-pressed",show?"true":"false");btn.classList.toggle("is-on",show);});});})();</script>';
-	echo '<script src="/assets/js/kuyaely-chat.js?v=16" defer></script>';
+	echo '<script src="/assets/js/kuyaely-chat.js?v=17" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
 }

@@ -87,7 +87,6 @@ function store_login_oauth(string $provider, array $profile): string
 		require_once __DIR__ . '/facebook.php';
 		return store_login_facebook($profile);
 	}
-	// TEMPORARY FB DEBUG: observe failures without changing login decisions.
 	store_fb_debug_stage('ACCOUNT_LINKING');
 	$id = (string) ($profile['id'] ?? '');
 	$email = strtolower(trim((string) ($profile['email'] ?? '')));
@@ -102,8 +101,6 @@ function store_login_oauth(string $provider, array $profile): string
 	$user = $oauthUser ?? store_find_user_email($email);
 	store_fb_debug('OAUTH_USER_FOUND=' . ($oauthUser ? 'YES' : 'NO'));
 	if (defined('STORE_FB_DEBUG') && STORE_FB_DEBUG) {
-		// The original lookup skips email when an OAuth link already exists.
-		// This extra read is diagnostic only and must not change account choice.
 		try {
 			$emailUser = $oauthUser !== null ? store_find_user_email($email) : $user;
 			store_fb_debug('EXISTING_USER=' . ($emailUser ? 'YES' : 'NO'));
@@ -127,7 +124,6 @@ function store_login_oauth(string $provider, array $profile): string
 			store_fb_debug('[FAIL] DATABASE UPDATE');
 			store_fb_debug('[FAIL] ACCOUNT_LINKING');
 		}
-		// Existing behavior deliberately preserved: update failure does not abort.
 		store_fb_debug_stage('LOGIN_SESSION');
 		$_SESSION['store_user'] = $user['id'];
 		$regenerated = session_regenerate_id(true);

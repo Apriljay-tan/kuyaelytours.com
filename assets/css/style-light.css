@@ -1,17 +1,12 @@
-
-/*----------  Body CSS  ----------*/
+/* Developed by Syntrix PH — https://www.syntrixph.com */
 :root {
-    /* background color */
+    
     --dark-bg-color: #122327;
     --dark-bg-color2: #172A2F;
     --dark-bg-color3: #20353B;
     --dark-color-white: #fff;
 
 }
-
-
-
-/* Travelik Travel  Light */
 
 .destination-section {
     background: url(../images/main-home/destination-bg-light.png);
@@ -60,7 +55,6 @@
     color: var(--text-color);
 }
 
-/* button */
 .travel-boking .booking-button button:before,
 .about-section-one .about-btn a:before {
     background: var(--theme-bg-color);
@@ -76,7 +70,6 @@
 .about-section-one .about-btn a:hover svg {
     filter: brightness(0) invert(1);
 }
-
 
 .destination-single-box {
     background: var(--color-white)
@@ -130,10 +123,6 @@
 .single-blog-box .blog-content .blog-title a:hover {
     color: var(--primary-color);
 }
-
-/* ==========================
-    Strat Home 1 Classic
-============================== */
 
 .travel-boking.style-two .bokking-title,
 .travel-boking.style-two .booking-input-box select,
@@ -193,11 +182,6 @@
     filter: brightness(0) invert(0);
 }
 
-
-/* ========================================
-    Start Home Two
-============================================ */
-
 .about-section-one.style_two {
     background: url(../images/home2/about-light-bg.jpg);
     background-repeat: no-repeat;
@@ -248,10 +232,6 @@
 .latest-blog-section.style__two .blog-single-box {
     border: 1px solid #12232730;
 }
-
-/* ===================================
-    Start Home 03
-====================================== */
 
 .about-section-one.style_three,
 .travel-slider-dots,

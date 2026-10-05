@@ -1,5 +1,4 @@
-/* Kuya Ely Tours — brand layer (load after template CSS) */
-
+/* Developed by Syntrix PH — https://www.syntrixph.com */
 .brand-lockup {
     display: inline-flex;
     align-items: center;
@@ -858,7 +857,6 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     display: block;
 }
 
-/* Mobile / tablet header */
 .mobile-menu-area {
     background: #122327;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -1284,7 +1282,6 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     }
 }
 
-/* Homepage booking: match Travelik card — photo left, tabs on top, 4 fields */
 .hero-section-1 .wow,
 .bokking-tabs.wow,
 .destination-section .travel-boking.wow {
@@ -1484,7 +1481,6 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
     }
 }
 
-/* ========== Mobile / phone only — desktop rules above stay unchanged ========== */
 @media (max-width: 991px) {
     .hero-section-1 {
         height: auto !important;
@@ -1799,8 +1795,6 @@ html:not(.show-story-nav) .mean-nav .nav-about-dropdown > .sub_menu {
 	color: #ffd0d0;
 }
 
-
-/* Homepage / tour booking: readable dropdowns and a usable date picker */
 .travel-boking .booking-input-box select,
 .travel-boking .booking-input-box option,
 .ke-form select,
@@ -2147,7 +2141,6 @@ html {
 	}
 }
 
-/* ========== Site header (dark topbar + dark mainbar) ========== */
 .travelik-header-area.ke-site-head,
 .travelik-header-area.ke-site-head.sticky {
 	background: #122327;
@@ -2620,7 +2613,6 @@ html {
 	}
 }
 
-/* DOT Accredited banners (homepage hero) */
 .ke-dot-banner--desk {
 	display: flex;
 	align-items: center;
@@ -2658,7 +2650,6 @@ html {
 	text-decoration: underline;
 }
 
-/* ========== Homepage mobile layout (phones / small tablets). Desktop unchanged. ========== */
 .ke-m-only {
 	display: none !important;
 }
@@ -2673,7 +2664,7 @@ html {
 		display: grid !important;
 	}
 
-	/* Phase 1 — header */
+	
 	body.ke-home .mobile-menu-area {
 		background: #122327;
 		border-bottom: 0;
@@ -2756,7 +2747,7 @@ html {
 		color: #fff;
 	}
 
-	/* Phase 2 — hero */
+	
 	body.ke-home .hero-section-1 {
 		position: relative;
 		height: auto !important;
@@ -2894,7 +2885,7 @@ html {
 		color: #F5C518;
 	}
 
-	/* Phase 3 — find card overlaps the subject */
+	
 	body.ke-home .bokking-tabs,
 	body.ke-home .travel-boking {
 		display: none !important;
@@ -3035,7 +3026,7 @@ html {
 		box-shadow: 0 8px 18px rgba(245, 197, 24, 0.28);
 	}
 
-	/* Phase 4 — quick tiles */
+	
 	body.ke-home .ke-mtiles {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 8px;
@@ -3070,7 +3061,7 @@ html {
 		font-size: 20px;
 	}
 
-	/* Phase 5 — why travel */
+	
 	body.ke-home .ke-mwhy {
 		text-align: center;
 		padding: 28px 10px 8px;

@@ -152,6 +152,23 @@
 		);
 	}
 
+	function waPicker(lines) {
+		var buttons = "";
+		lines.forEach(function (line) {
+			var title = line.label ? esc(line.label) : "WhatsApp";
+			buttons += '<a class="ke-chat-channel" data-open-app href="' + esc(line.href) + '" target="_blank" rel="noopener">' +
+				'<span class="ke-chat-ico ke-chat-ico-wa">' + icon("wa") + "</span>" +
+				"<span><b>" + title + "</b><span>" + esc(line.phone) + "</span></span></a>";
+		});
+		return (
+			'<div class="ke-chat-pane" data-pane="whatsapp-pick">' +
+				'<button class="ke-chat-back" type="button" data-pane="home">&larr; All options</button>' +
+				'<p class="ke-chat-lead">Choose a WhatsApp number.</p>' +
+				'<div class="ke-chat-channels">' + buttons + "</div>" +
+			"</div>"
+		);
+	}
+
 	function dockButton(key, ico, row) {
 		var href = row.href ? (key === "viber" ? viberLink(row.href) : row.href) : "";
 		if (href) {
@@ -326,6 +343,21 @@
 				state.ready = row.ready === undefined
 					? !!(state.phone || state.handle || state.qr || state.href)
 					: !!row.ready;
+				state.lines = [];
+				if (key === "whatsapp" && Array.isArray(row.lines)) {
+					row.lines.forEach(function (line) {
+						var href = String((line && line.href) || "");
+						var phone = String((line && line.phone) || "");
+						if (!/^https:\/\/wa\.me\/\d{8,15}$/.test(href) || !phone) {
+							return;
+						}
+						state.lines.push({
+							label: String((line && line.label) || ""),
+							phone: phone,
+							href: href
+						});
+					});
+				}
 				channelState[key] = state;
 				var extra = key !== "whatsapp" && key !== "wechat" && key !== "viber";
 				if (!state.show || (extra && !state.ready)) {
@@ -333,11 +365,20 @@
 				}
 				var ico = ICO[key] || "in";
 				var title = esc(state.title);
-				var blurb = esc(channelBlurb(state));
+				var blurb = state.lines.length > 1
+					? esc(state.lines.length + " numbers")
+					: esc(channelBlurb(state));
 				rows += channelRow(key, ico, title, blurb);
 				paneHtml += channelPane(key, title, blurb, state);
+				if (key === "whatsapp" && state.lines.length > 1) {
+					paneHtml += waPicker(state.lines);
+				}
 				if (state.dock && state.ready) {
-					dockHtml += dockButton(key, ico, state);
+					if (key === "whatsapp" && state.lines.length > 1) {
+						dockHtml += '<button type="button" class="ke-chat-app ke-chat-app-wa" data-wa-pick aria-label="Choose a WhatsApp number">' + icon("wa") + "</button>";
+					} else {
+						dockHtml += dockButton(key, ico, state);
+					}
 				}
 			});
 			rows += '<button class="ke-chat-channel" type="button" data-pane="faq">' +
@@ -658,11 +699,21 @@
 				}
 				return;
 			}
+			if (e.target.closest("[data-wa-pick]")) {
+				lastPane = "whatsapp-pick";
+				setOpen(true);
+				return;
+			}
 			var channelBtn = e.target.closest("[data-channel]");
 			if (channelBtn && root.contains(channelBtn)) {
 				var key = channelBtn.getAttribute("data-channel") || "";
 				var row = channelState[key] || {};
 				if (!row.show) {
+					return;
+				}
+				if (key === "whatsapp" && row.lines && row.lines.length > 1) {
+					lastPane = "whatsapp-pick";
+					setOpen(true);
 					return;
 				}
 				if (row.href && (key === "whatsapp" || key === "viber" || !row.qr)) {

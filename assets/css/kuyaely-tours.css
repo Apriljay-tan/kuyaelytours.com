@@ -1,5 +1,4 @@
-/* Kuya Ely Tours — destination tour-grid pages */
-
+/* Developed by Syntrix PH — https://www.syntrixph.com */
 .tour-page .breadcumb-content h1,
 .tour-page ul.breadcumb-item li,
 .tour-page ul.breadcumb-item li a {
@@ -965,8 +964,6 @@
 .tour-bohol .ke-cat-hero { background-image: url("../downloaded/dest-bohol.jpg"); }
 .tour-siquijor .ke-cat-hero { background-image: url("../downloaded/dest-siquijor.jpg"); }
 .tour-dumaguete .ke-cat-hero { background-image: url("../downloaded/dest-dumaguete.jpg"); }
-
-/* Kuya Ely — package detail page */
 
 .tour-detail {
     background: #0c1f24;

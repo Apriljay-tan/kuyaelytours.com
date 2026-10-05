@@ -13,7 +13,6 @@ if ($provider === 'facebook') {
 }
 $login = '/account/login.php?next=' . rawurlencode($next);
 
-// TEMPORARY FB DEBUG: also diagnose callbacks whose provider is missing/invalid.
 define('STORE_FB_DEBUG', $provider !== 'google');
 store_fb_debug_secrets([$code, $state, $known, session_id()]);
 if (STORE_FB_DEBUG) {

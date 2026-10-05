@@ -727,7 +727,6 @@ function ke_tours_builtin(): array
 	}
 
 	$raw = [
-		// Cebu
 		['cebu-city-heritage-tour', 'cebu', 'tour-cebu', 'Cebu City Heritage Tour', 'Cebu City, Philippines', 'Culture & Heritage',
 			'Walk Magellan’s Cross, Basilica del Santo Niño, Fort San Pedro, and Cebu’s old streets with a private van.',
 			['/assets/downloaded/moments/moment-6431.jpg', '/assets/downloaded/moments/moment-6420.jpg', '/assets/downloaded/moments/moment-6435.jpg', '/assets/downloaded/dest-cebu.jpg'],
@@ -840,7 +839,6 @@ function ke_tours_builtin(): array
 			[['08:00 AM', 'Hotel pickup in Mactan / nearby'], ['09:00 AM', 'Boat briefing and first stop'], ['11:00 AM', 'Snorkel or sandbar'], ['12:30 PM', 'Lunch on the boat or shore (own account)'], ['02:30 PM', 'Last swim'], ['04:00 PM', 'Back to hotel']],
 		],
 
-		// Bohol
 		['bohol-countryside-tour', 'bohol', 'tour-bohol', 'Bohol Countryside Tour', 'Bohol, Philippines', 'Nature & Heritage',
 			'Tarsiers, heritage churches, and countryside views with a private van and hotel pickup.',
 			['/assets/downloaded/dest-bohol.jpg', '/assets/downloaded/moments/moment-6420.jpg', '/assets/downloaded/moments/moment-6431.jpg', '/assets/downloaded/moments/moment-6611.jpg'],
@@ -914,7 +912,6 @@ function ke_tours_builtin(): array
 			[['06:30 AM', 'Early pickup'], ['08:00 AM', 'Tarsiers'], ['10:00 AM', 'Chocolate Hills'], ['12:00 PM', 'Loboc or lunch stop'], ['03:00 PM', 'Panglao beach'], ['05:30 PM', 'Hotel drop-off']],
 		],
 
-		// Siquijor
 		['siquijor-island-tour', 'siquijor', 'tour-siquijor', 'Siquijor Island Tour', 'Siquijor, Philippines', 'Island Loop',
 			'The classic island loop — waterfalls, churches, and hidden corners with hotel pickup.',
 			['/assets/downloaded/dest-siquijor.jpg', '/assets/downloaded/about-siquijor-1.webp', '/assets/downloaded/moments/moment-6420.jpg', '/assets/downloaded/moments/moment-6375.jpg'],
@@ -988,7 +985,6 @@ function ke_tours_builtin(): array
 			[['08:30 AM', 'Pickup'], ['10:00 AM', 'Salagdoong Beach'], ['12:30 PM', 'Lunch on site or nearby'], ['03:00 PM', 'Optional Cambugahay'], ['05:00 PM', 'Return']],
 		],
 
-		// Dumaguete
 		['dumaguete-city-tour', 'dumaguete', 'tour-dumaguete', 'Dumaguete City Tour', 'Dumaguete, Negros Oriental', 'City Tour',
 			'Rizal Boulevard, heritage streets, and the university town with a private van.',
 			['/assets/downloaded/dest-dumaguete.jpg', '/assets/downloaded/moments/moment-6431.jpg', '/assets/downloaded/moments/moment-6420.jpg', '/assets/downloaded/moments/moment-6375.jpg'],

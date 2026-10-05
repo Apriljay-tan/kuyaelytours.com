@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// TEMPORARY FB DEBUG: remove these helpers and their call sites after diagnosis.
 function store_fb_debug(string $message): void
 {
 	if (defined('STORE_FB_DEBUG') && STORE_FB_DEBUG) {
@@ -40,7 +39,6 @@ function store_fb_debug_exception(Throwable $e, string $stage = ''): void
 	}
 	$secrets = store_fb_debug_secrets([session_id()]);
 	$message = str_replace($secrets, '[REDACTED]', $e->getMessage());
-	// Never emit request URLs, query strings, or credential-labelled values.
 	$message = preg_replace('~https?://[^\s<>]+~i', '[URL REDACTED]', $message) ?? '[REDACTED]';
 	$message = preg_replace('~\b(client_secret|app_secret|access_token|code|state|PHPSESSID)\b["\x27]?\s*[:=]\s*[^\s,;]+~i', '$1=[REDACTED]', $message) ?? '[REDACTED]';
 	store_fb_debug('[FAIL] ' . ($stage !== '' ? $stage : store_fb_debug_stage()) . ' EXCEPTION=' . json_encode([
@@ -372,7 +370,6 @@ function store_http_bearer(string $url, string $token): array
 
 function store_http_request(string $url, array $opts, string $debugStage = ''): array
 {
-	// TEMPORARY: only Facebook callers supply a diagnostic stage.
 	$debug = defined('STORE_FB_DEBUG') && STORE_FB_DEBUG && in_array($debugStage, ['TOKEN', 'GRAPH'], true);
 	$failure = $debugStage === 'TOKEN' ? 'TOKEN_EXCHANGE' : 'GRAPH_API';
 	if (!function_exists('curl_init')) {
@@ -412,7 +409,6 @@ function store_http_request(string $url, array $opts, string $debugStage = ''): 
 		if (!is_array($data)) {
 			store_fb_debug('[FAIL] ' . $failure . ' INVALID_JSON');
 		} elseif (isset($data['error'])) {
-			// Numeric API error codes only; never log response bodies or tokens.
 			$apiError = is_array($data['error']) ? $data['error'] : [];
 			store_fb_debug('[FAIL] ' . $failure . ' API_ERROR_CODE=' . (int) ($apiError['code'] ?? 0)
 				. ' API_ERROR_SUBCODE=' . (int) ($apiError['error_subcode'] ?? 0));

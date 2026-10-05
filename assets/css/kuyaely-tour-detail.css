@@ -1,5 +1,4 @@
-/* Kuya Ely — package detail page */
-
+/* Developed by Syntrix PH — https://www.syntrixph.com */
 .tour-detail {
     background: #0c1f24;
     color: #e8eef0;
@@ -502,7 +501,6 @@
 .ke-td-review p { margin: 0 0 10px; font-size: 14px; line-height: 1.55; }
 .ke-td-review strong { color: #fff; }
 
-/* Mobile sticky book bar + full-screen sheet (desktop: chrome hidden, bookbox inline) */
 .ke-mbook-bar,
 .ke-mbook-backdrop,
 .ke-mbook-close { display: none; }
@@ -707,7 +705,6 @@
     .ke-mbook-panel { animation: none; }
 }
 
-/* Booking sheet: regular formal type, not the condensed display face */
 .ke-mbook-panel,
 .ke-mbook-panel .ke-bookbox,
 .ke-mbook-panel .ke-bookbox * {

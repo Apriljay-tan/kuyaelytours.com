@@ -1,13 +1,6 @@
-/*
-
-  font-family: "Red Hat Display", sans-serif;
-  font-family: "Inter", sans-serif;
-*/
-
+/* Developed by Syntrix PH — https://www.syntrixph.com */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Satisfy&display=swap');
 
-
-/*----------  Body CSS  ----------*/
 :root {
     --color-white: #fff;
     --color-btn: #F5C518;
@@ -34,9 +27,7 @@
     --font-weight-semibold: 600;
     --font-weight-medium: 500;
 
-
-
-    /* background color */
+    
     --bg-color1: #122327;
     --theme-bg-color: #1C2D31;
     --theme-bg-color2: #122327;
@@ -47,21 +38,19 @@
     --color-gradient-1: linear-gradient(180deg, #212121 0%, #171717 100%);
     --border-grdient-1: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.08) 100%);
 
-
-    /* Font Family */
+    
     --text-font: "Inter", sans-serif;
     --title-font: "Bebas Neue", sans-serif;
     --style-font: "Satisfy", sans-serif;
 
-    /* Font Family */
+    
     --container-width: 1470px;
 
-    /* light color */
+    
     --color-white2: #EDF5F6;
     --title-color2: #122327;
 
 }
-
 
 html,
 body {
@@ -383,7 +372,6 @@ img {
     clip-path: polygon(25% -70%, 75% -70%, 120% 50%, 75% 170%, 25% 170%, -20% 50%);
 }
 
-
 .defult-btn a:hover {
     color: var(--theme-bg-color2);
 }
@@ -404,8 +392,6 @@ img {
     margin: 0 auto;
     width: 100%;
 }
-
-/* Default Background */
 
 *::-moz-selection {
     background: var(--primary-color);
@@ -431,23 +417,23 @@ img {
 }
 
 ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
+    
     color: var(--color-white);
 }
 
 ::-moz-placeholder {
-    /* Firefox 19+ */
+    
     color: var(--color-white);
 }
 
 :-ms-input-placeholder {
-    /* IE 10+ */
+    
 
     color: var(--color-white);
 }
 
 :-moz-placeholder {
-    /* Firefox 18- */
+    
 
     color: var(--color-white);
 }
@@ -482,7 +468,6 @@ img {
     margin-left: 50px;
 }
 
-/* Padding Top Css */
 .pt-10 {
     padding-top: 10px;
 }
@@ -499,8 +484,6 @@ img {
     padding-top: 22px;
 }
 
-
-/* padding bottom css */
 .pb-10 {
     padding-bottom: 10px;
 }

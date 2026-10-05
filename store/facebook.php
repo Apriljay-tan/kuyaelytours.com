@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-// Facebook identities are independent of the legacy single-provider user columns.
-// Google continues to use its existing login path and stored identity unchanged.
 function store_facebook_db(): PDO
 {
 	$db = store_db();
@@ -27,7 +25,6 @@ function store_facebook_identity_user(PDO $db, string $id): ?array
 	if ($user) {
 		return $user;
 	}
-	// Recognize existing Facebook users before their first identity-table migration.
 	$stmt = $db->prepare('SELECT * FROM ke_users WHERE oauth_provider=? AND oauth_id=? LIMIT 2');
 	$stmt->execute(['facebook', $id]);
 	$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -118,15 +115,11 @@ function store_facebook_authenticate(array $profile, bool $completing, string $p
                 && strlen($email) <= 190
                 && filter_var($email, FILTER_VALIDATE_EMAIL);
 
-        // If the user is manually completing/linking an account,
-        // an email is still required.
         if ($completing && !$emailValid) {
                 $db->rollBack();
                 return 'Enter a valid email address.';
         }
 
-        // Facebook may legitimately return no email.
-        // A non-empty but invalid email should still be rejected.
         if ($email !== '' && !$emailValid) {
                 $db->rollBack();
                 return 'Could not read that Facebook account.';
@@ -142,8 +135,6 @@ function store_facebook_authenticate(array $profile, bool $completing, string $p
                 store_fb_debug('EXISTING_USER=' . ($user ? 'YES' : 'NO'));
 
                 if ($user) {
-                        // Never silently attach Facebook to an existing
-                        // account merely because its email matches.
                         if (!$completing) {
                                 $db->rollBack();
                                 return 'complete_profile';
@@ -175,7 +166,6 @@ function store_facebook_authenticate(array $profile, bool $completing, string $p
                 store_fb_debug('EXISTING_USER=NO');
         }
 
-        // No linked/local user exists, so create the Facebook user.
         if (!$user) {
                 $displayName = $name !== '' ? $name : 'Facebook User';
 
