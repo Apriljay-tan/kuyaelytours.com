@@ -422,15 +422,25 @@ function ke_quote_booking(array $tour, array $qty, array $addonIds = []): array
 	$addons = [];
 	$addonTotal = 0;
 	$want = [];
-	foreach ($addonIds as $id) {
-		$want[strtolower(trim((string) $id))] = true;
+	foreach ($addonIds as $k => $v) {
+		if (is_string($k) && !ctype_digit($k)) {
+			// id => quantity map
+			$n = max(0, min(30, (int) $v));
+			if ($n > 0) {
+				$want[strtolower(trim($k))] = $n;
+			}
+		} else {
+			$want[strtolower(trim((string) $v))] = 1;
+		}
 	}
 	foreach (ke_tour_addons($tour) as $addon) {
 		$key = strtolower((string) $addon['id']);
 		$name = strtolower((string) $addon['name']);
-		if (isset($want[$key]) || isset($want[$name])) {
+		$n = $want[$key] ?? ($want[$name] ?? 0);
+		if ($n > 0) {
+			$addon['qty'] = $n;
 			$addons[] = $addon;
-			$addonTotal += (int) $addon['price'];
+			$addonTotal += (int) $addon['price'] * $n;
 		}
 	}
 	return [

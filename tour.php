@@ -334,10 +334,14 @@ ob_start();
 										<div class="ke-bookbox-addons">
 											<p>Add-ons</p>
 											<?php foreach ($addons as $addon): ?>
-												<label>
-													<input class="ke-addon" type="checkbox" name="addons[]" value="<?= store_h((string) $addon['id']) ?>" data-price="<?= (int) $addon['price'] ?>">
-													<span><?= store_h((string) $addon['name']) ?> (+<?= store_h('₱' . number_format((int) $addon['price'])) ?>)</span>
-												</label>
+												<div class="ke-bookbox-addon">
+													<span class="ke-addon-name"><?= store_h((string) $addon['name']) ?> (+<?= store_h('₱' . number_format((int) $addon['price'])) ?>)</span>
+													<div class="ke-step">
+														<button type="button" data-addon-step="<?= store_h((string) $addon['id']) ?>" data-dir="-" aria-label="Remove one">−</button>
+														<input class="ke-addon" type="text" name="addon_qty[<?= store_h((string) $addon['id']) ?>]" value="0" readonly inputmode="numeric" data-price="<?= (int) $addon['price'] ?>" data-name="<?= store_h((string) $addon['name']) ?>">
+														<button type="button" data-addon-step="<?= store_h((string) $addon['id']) ?>" data-dir="+" aria-label="Add one">+</button>
+													</div>
+												</div>
 											<?php endforeach; ?>
 										</div>
 										<?php endif; ?>
@@ -432,13 +436,14 @@ ob_start();
 									lines.push(labels[type] + " (" + q + ") × " + money(rate) + " = " + money(sub));
 								}
 							});
-							box.querySelectorAll(".ke-addon:checked").forEach(function (el) {
+							box.querySelectorAll(".ke-addon").forEach(function (el) {
+								var aq = parseInt(el.value, 10) || 0;
+								if (aq < 1) return;
 								var addonPrice = parseInt(el.getAttribute("data-price"), 10) || 0;
-								total += addonPrice;
-								var label = (el.parentElement && el.parentElement.querySelector("span"))
-									? el.parentElement.querySelector("span").textContent.replace(/\s*\(\+₱[\d,]+\)$/, "").trim()
-									: "Add-on";
-								lines.push(label + " = " + money(addonPrice));
+								var sub = addonPrice * aq;
+								total += sub;
+								var label = el.getAttribute("data-name") || "Add-on";
+								lines.push(label + " (" + aq + ") × " + money(addonPrice) + " = " + money(sub));
 							});
 							var breakdown = box.querySelector(".ke-bookbox-breakdown");
 							var linesEl = box.querySelector(".ke-bookbox-lines");
@@ -492,6 +497,17 @@ ob_start();
 							if (arrive && date) date.value = arrive.value || "";
 						}
 						box.addEventListener("click", function (e) {
+							var abtn = e.target.closest("[data-addon-step]");
+							if (abtn) {
+								e.preventDefault();
+								var row = abtn.closest(".ke-bookbox-addon");
+								var ain = row ? row.querySelector(".ke-addon") : null;
+								if (!ain) return;
+								var av = (parseInt(ain.value, 10) || 0) + (abtn.getAttribute("data-dir") === "-" ? -1 : 1);
+								ain.value = String(Math.max(0, Math.min(30, av)));
+								refresh();
+								return;
+							}
 							var btn = e.target.closest("[data-step]");
 							if (!btn) return;
 							e.preventDefault();

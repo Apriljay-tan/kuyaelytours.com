@@ -55,6 +55,13 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 		if (!is_array($addonIds)) {
 			$addonIds = $addonIds !== '' ? [$addonIds] : [];
 		}
+		$addonIds = array_values($addonIds);
+		$addonQty = $_POST['addon_qty'] ?? [];
+		if (is_array($addonQty)) {
+			foreach ($addonQty as $aid => $aq) {
+				$addonIds[(string) $aid] = (int) $aq;
+			}
+		}
 		$quote = ke_quote_booking($tour, $qty, $addonIds);
 		$pickup = trim((string) ($_POST['pickup'] ?? ''));
 		$bits = [$tour['name']];
@@ -82,7 +89,8 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 			$bits[] = implode(', ', $guestBits);
 		}
 		foreach ($quote['addons'] as $addon) {
-			$bits[] = $addon['name'] . ' (+₱' . number_format((int) $addon['price']) . ')';
+			$aq = max(1, (int) ($addon['qty'] ?? 1));
+			$bits[] = $addon['name'] . ($aq > 1 ? ' ×' . $aq : '') . ' (+₱' . number_format((int) $addon['price'] * $aq) . ')';
 		}
 		$item['package_slug'] = $slug;
 		$item['label'] = (string) $tour['name'];
@@ -90,7 +98,8 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 		$item['pickup'] = $pickup;
 		$item['pax'] = $qty;
 		$item['addons'] = array_map(static function ($a) {
-			return $a['name'];
+			$aq = max(1, (int) ($a['qty'] ?? 1));
+			return $a['name'] . ($aq > 1 ? ' ×' . $aq : '');
 		}, $quote['addons']);
 		$item['guests'] = max(1, (int) $quote['pax']);
 		$item['line_total'] = (int) $quote['total'];

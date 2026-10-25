@@ -1565,6 +1565,18 @@
     font-family: var(--text-font);
 }
 .ke-bookbox-addons input { width: auto; margin-top: 3px; accent-color: #F5C518; }
+.ke-bookbox-addon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 0 8px;
+    color: rgba(255,255,255,0.88);
+    font-size: 14px;
+    font-family: var(--text-font);
+}
+.ke-bookbox-addon .ke-step { flex: 0 0 auto; }
+.ke-bookbox-addons .ke-bookbox-addon input.ke-addon { width: 28px; margin: 0; }
 .ke-bookbox-book,
 .ke-bookbox-cart {
     width: 100%;
