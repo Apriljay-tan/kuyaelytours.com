@@ -23,6 +23,7 @@ function ke_marketing_page(array $opt, string $main): void
 	$aboutCur = ($nav === 'about.html' || $nav === 'our-story.html') ? ' aria-current="page"' : '';
 	$rentCur = $nav === 'service.html' ? ' aria-current="page"' : '';
 	$contactCur = $nav === 'contact.html' ? ' aria-current="page"' : '';
+	$partnerCur = $nav === 'partners.php' ? ' aria-current="page"' : '';
 	$moreCur = ($nav === 'galary.html' || $nav === 'permits.html') ? ' aria-current="page"' : '';
 ?>
 <!DOCTYPE HTML>
@@ -128,6 +129,7 @@ function ke_marketing_page(array $opt, string $main): void
 							<li><a href="/permits">Permits</a></li>
 						</ul>
 					</li>
+					<li><a href="/partners"<?= $partnerCur ?>>Partner with us</a></li>
 					<li><a href="/contact"<?= $contactCur ?>>Contact</a></li>
 				</ul>
 			</nav>
@@ -186,6 +188,7 @@ function ke_marketing_page(array $opt, string $main): void
 							<li><a href="/permits">Permits</a></li>
 						</ul>
 					</li>
+					<li><a href="/partners"<?= $partnerCur ?>>Partner with us</a></li>
 					<li><a href="/contact">Contact</a></li>
 					<li class="mobile-cta"><a href="/contact">Book Tour</a></li>
 					<li class="mobile-socials"><a href="https://www.facebook.com/sumayaelyboy" target="_blank" rel="noopener" class="fab fa-facebook-f" aria-label="Facebook"></a></li>
@@ -274,6 +277,7 @@ function ke_marketing_page(array $opt, string $main): void
 								<li><a href="/tours-and-packages.php">our tours <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/service">car rental <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/permits">permits <i class="fa-solid fa-arrow-right"></i></a></li>
+								<li><a href="/partners">partner with us <i class="fa-solid fa-arrow-right"></i></a></li>
 																<li><a href="/contact">contact us <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/privacy-policy">privacy policy <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/terms">terms and conditions <i class="fa-solid fa-arrow-right"></i></a></li>

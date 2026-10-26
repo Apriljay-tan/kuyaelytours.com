@@ -52,6 +52,12 @@ ErrorDocument 404 /404.php
 
 	RewriteRule ^sitemap\.xml$ /sitemap.php [L]
 
+	# Partner with us
+	RewriteRule ^partners/?$ /partners.php [L,QSA]
+	RewriteRule ^partner/?$ /partner/index.php [L,QSA]
+	RewriteRule ^partner/login/?$ /partner/login.php [L,QSA]
+	RewriteRule ^partner/apply/?$ /partner/apply.php [L,QSA]
+
 	# Island catalog pages use CMS packages, not the old static HTML
 	RewriteRule ^(cebu|bohol|siquijor|dumaguete)-tour/?$ /island-tour.php?island=$1 [L,QSA]
 

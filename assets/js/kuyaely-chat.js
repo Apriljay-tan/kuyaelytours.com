@@ -7,8 +7,31 @@
 		return;
 	}
 
-	var WA = "https://wa.me/639209851802";
+	var WA = "https://api.whatsapp.com/send?phone=639209851802";
 	var VIBER = "https://viber.me/639608605034";
+
+	function whatsappLink(value) {
+		var raw = String(value || "");
+		var phone = "";
+		var text = "";
+		var query = "";
+		var short = raw.match(/^https:\/\/wa\.me\/(\d{8,15})(?:\?(.*))?$/i);
+		var direct = raw.match(/^https:\/\/api\.whatsapp\.com\/send\/?\?(.*)$/i);
+		if (short) {
+			phone = short[1];
+			query = short[2] || "";
+		} else if (direct) {
+			query = direct[1] || "";
+			phone = (query.match(/(?:^|&)phone=(\d{8,15})(?=&|$)/) || [])[1] || "";
+		}
+		if (query) {
+			text = (query.match(/(?:^|&)text=([^&]*)/) || [])[1] || "";
+		}
+		if (!phone) {
+			return WA;
+		}
+		return "https://api.whatsapp.com/send?phone=" + phone + (text ? "&text=" + text : "");
+	}
 
 	function viberLink(value) {
 		var raw = String(value || "");
@@ -135,7 +158,7 @@
 		var qr = row.qr
 			? '<div class="ke-chat-qr has-img" data-qr><img src="' + esc(row.qr) + '" alt="' + title + ' QR"></div>'
 			: '<div class="ke-chat-qr" data-qr>QR soon</div>';
-		var href = row.href ? (key === "viber" ? viberLink(row.href) : row.href) : "";
+		var href = row.href ? (key === "viber" ? viberLink(row.href) : (key === "whatsapp" ? whatsappLink(row.href) : row.href)) : "";
 		var open = href
 			? '<a class="ke-chat-open" data-open-app href="' + esc(href) + '" target="_blank" rel="noopener">Open ' + title + "</a>"
 			: '<a class="ke-chat-open" data-open-app hidden>Open ' + title + "</a>";
@@ -170,7 +193,7 @@
 	}
 
 	function dockButton(key, ico, row) {
-		var href = row.href ? (key === "viber" ? viberLink(row.href) : row.href) : "";
+		var href = row.href ? (key === "viber" ? viberLink(row.href) : (key === "whatsapp" ? whatsappLink(row.href) : row.href)) : "";
 		if (href) {
 			return '<a class="ke-chat-app ke-chat-app-' + ico + '" data-open-app href="' + esc(href) + '" target="_blank" rel="noopener" aria-label="' + esc(row.title || key) + '">' + icon(ico) + "</a>";
 		}
@@ -280,6 +303,9 @@
 			if (/viber/i.test(href)) {
 				href = viberLink(href);
 			}
+			if (/wa\.me|api\.whatsapp\.com/i.test(href)) {
+				href = whatsappLink(href);
+			}
 			window.open(href, "_blank", "noopener");
 		}
 
@@ -334,8 +360,8 @@
 					ready: false,
 					dock: row.dock !== false
 				};
-				if (!state.href && key === "whatsapp") {
-					state.href = WA;
+				if (key === "whatsapp") {
+					state.href = state.href ? whatsappLink(state.href) : WA;
 				}
 				if (!state.href && key === "viber") {
 					state.href = VIBER;
@@ -348,13 +374,13 @@
 					row.lines.forEach(function (line) {
 						var href = String((line && line.href) || "");
 						var phone = String((line && line.phone) || "");
-						if (!/^https:\/\/wa\.me\/\d{8,15}$/.test(href) || !phone) {
+						if (!/^https:\/\/(?:wa\.me\/\d{8,15}|api\.whatsapp\.com\/send\/?\?phone=\d{8,15})(?:[?&].*)?$/.test(href) || !phone) {
 							return;
 						}
 						state.lines.push({
 							label: String((line && line.label) || ""),
 							phone: phone,
-							href: href
+							href: whatsappLink(href)
 						});
 					});
 				}
@@ -693,7 +719,7 @@
 			var openLink = e.target.closest("[data-open-app]");
 			if (openLink && root.contains(openLink)) {
 				var href = openLink.getAttribute("href") || "";
-				if (/^viber:/i.test(href)) {
+				if (/^viber:/i.test(href) || /wa\.me|api\.whatsapp\.com/i.test(href)) {
 					e.preventDefault();
 					openApp(href);
 				}
@@ -773,6 +799,18 @@
 			if (e.key === "Escape") {
 				setOpen(false);
 			}
+		});
+		document.addEventListener("click", function (e) {
+			var link = e.target.closest && e.target.closest("a[href]");
+			if (!link) {
+				return;
+			}
+			var href = link.getAttribute("href") || "";
+			if (!/^https:\/\/wa\.me\//i.test(href)) {
+				return;
+			}
+			e.preventDefault();
+			window.open(whatsappLink(href), "_blank", "noopener");
 		});
 
 		renderThread();

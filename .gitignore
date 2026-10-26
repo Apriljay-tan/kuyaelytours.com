@@ -35,3 +35,6 @@ store/data/chat_channels.json*.key
 .logs/
 store/data/chat_channels.json
 *.key
+store/data/client-files/
+store/data/login-guard.json
+store/data/partner_desk.json

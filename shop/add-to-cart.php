@@ -92,6 +92,18 @@ if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug)) {
 			$aq = max(1, (int) ($addon['qty'] ?? 1));
 			$bits[] = $addon['name'] . ($aq > 1 ? ' ×' . $aq : '') . ' (+₱' . number_format((int) $addon['price'] * $aq) . ')';
 		}
+		$priceLines = [];
+		foreach ($labels as $key => $label) {
+			if ($qty[$key] > 0) {
+				$unit = (int) ($quote['rates'][$key] ?? 0);
+				$priceLines[] = ['type' => 'guest', 'label' => $label, 'qty' => (int) $qty[$key], 'unit' => $unit, 'sub' => $unit * (int) $qty[$key]];
+			}
+		}
+		foreach ($quote['addons'] as $addon) {
+			$aq = max(1, (int) ($addon['qty'] ?? 1));
+			$priceLines[] = ['type' => 'addon', 'label' => (string) $addon['name'], 'qty' => $aq, 'unit' => (int) $addon['price'], 'sub' => (int) $addon['price'] * $aq];
+		}
+		$item['price_lines'] = $priceLines;
 		$item['package_slug'] = $slug;
 		$item['label'] = (string) $tour['name'];
 		$item['cover'] = ke_package_cover($tour);

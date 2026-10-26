@@ -1,0 +1,7 @@
+<?php
+declare(strict_types=1);
+
+require dirname(__DIR__) . '/store/bootstrap.php';
+
+store_logout();
+store_redirect('/partner/login.php');

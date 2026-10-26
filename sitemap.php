@@ -19,6 +19,7 @@ $pages = [
 	['https://kuyaelytours.com/galary', 'monthly', '0.5'],
 	['https://kuyaelytours.com/permits', 'monthly', '0.5'],
 	['https://kuyaelytours.com/contact', 'monthly', '0.7'],
+	['https://kuyaelytours.com/partners', 'monthly', '0.6'],
 	['https://kuyaelytours.com/privacy-policy', 'yearly', '0.3'],
 	['https://kuyaelytours.com/terms', 'yearly', '0.3'],
 ];

@@ -36,11 +36,13 @@ require STORE_ROOT . '/cart.php';
 require STORE_ROOT . '/auth.php';
 require STORE_ROOT . '/oauth.php';
 require STORE_ROOT . '/bookings.php';
+require STORE_ROOT . '/desk.php';
 require STORE_ROOT . '/pay.php';
 require STORE_ROOT . '/paypal.php';
 require STORE_ROOT . '/banks.php';
 require STORE_ROOT . '/meta.php';
 require STORE_ROOT . '/layout.php';
+require STORE_ROOT . '/partners.php';
 
 function store_h(string $value): string
 {
@@ -118,6 +120,111 @@ function store_login_fail(): void
 function store_login_clear(): void
 {
 	unset($_SESSION['ke_login_fails'], $_SESSION['ke_login_lock']);
+}
+
+function store_request_ip(): string
+{
+	$ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+	return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : 'unknown';
+}
+
+function store_login_guard_edit(callable $change): void
+{
+	$file = STORE_DATA . '/login-guard.json';
+	if (!is_dir(STORE_DATA) && !mkdir(STORE_DATA, 0750, true) && !is_dir(STORE_DATA)) {
+		return;
+	}
+	$handle = fopen($file, 'c+');
+	if ($handle === false) {
+		return;
+	}
+	flock($handle, LOCK_EX);
+	$raw = stream_get_contents($handle);
+	$rows = json_decode((string) $raw, true);
+	if (!is_array($rows)) {
+		$rows = [];
+	}
+	$now = time();
+	$kept = [];
+	foreach ($rows as $key => $row) {
+		if (!is_array($row)) {
+			continue;
+		}
+		$seen = (int) ($row['seen'] ?? 0);
+		$until = (int) ($row['until'] ?? 0);
+		if ($until > $now || $seen > $now - 3600) {
+			$kept[$key] = $row;
+		}
+	}
+	$rows = $change($kept);
+	if (!is_array($rows)) {
+		$rows = $kept;
+	}
+	ftruncate($handle, 0);
+	rewind($handle);
+	fwrite($handle, json_encode($rows));
+	fflush($handle);
+	flock($handle, LOCK_UN);
+	fclose($handle);
+}
+
+function store_login_guard_blocked(string $email): bool
+{
+	$blocked = false;
+	$email = strtolower(trim($email));
+	$keys = ['e:' . $email, 'i:' . store_request_ip()];
+	store_login_guard_edit(static function (array $rows) use ($keys, &$blocked): array {
+		$now = time();
+		foreach ($keys as $key) {
+			if ((int) (($rows[$key]['until'] ?? 0)) > $now) {
+				$blocked = true;
+			}
+		}
+		return $rows;
+	});
+	return $blocked;
+}
+
+function store_login_guard_fail(string $email): void
+{
+	$email = strtolower(trim($email));
+	$limits = [
+		'e:' . $email => 8,
+		'i:' . store_request_ip() => 30,
+	];
+	store_login_guard_edit(static function (array $rows) use ($limits): array {
+		$now = time();
+		foreach ($limits as $key => $limit) {
+			$row = is_array($rows[$key] ?? null) ? $rows[$key] : ['n' => 0, 'until' => 0, 'seen' => $now];
+			if ((int) ($row['until'] ?? 0) > $now) {
+				$rows[$key] = $row;
+				continue;
+			}
+			if ((int) ($row['seen'] ?? 0) < $now - 900) {
+				$row['n'] = 0;
+			}
+			$row['n'] = (int) ($row['n'] ?? 0) + 1;
+			$row['seen'] = $now;
+			if ($row['n'] >= $limit) {
+				$row['until'] = $now + 900;
+				$row['n'] = 0;
+			}
+			$rows[$key] = $row;
+		}
+		return $rows;
+	});
+}
+
+function store_login_guard_ok(string $email): void
+{
+	$email = strtolower(trim($email));
+	$drop = ['e:' . $email, 'i:' . store_request_ip()];
+	store_login_guard_edit(static function (array $rows) use ($drop): array {
+		foreach ($drop as $key) {
+			unset($rows[$key]);
+		}
+		return $rows;
+	});
 }
 
 function store_csrf_token(): string

@@ -1,0 +1,210 @@
+/* Partner with us */
+.partner-page .breadcumb-section.style__two {
+	padding: 220px 0 90px;
+	height: auto;
+}
+
+.ke-partner {
+	background: #122327;
+	padding: 72px 0 96px;
+	color: #fff;
+}
+
+.ke-partner-intro {
+	max-width: 760px;
+	margin: 0 auto 42px;
+	text-align: center;
+}
+
+.ke-partner .ke-kicker {
+	margin: 0 0 10px;
+	color: #F5C518;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.ke-partner h2 {
+	margin: 0 0 14px;
+	color: #fff;
+	font-size: 42px;
+	font-weight: 400;
+	line-height: 1.15;
+}
+
+.ke-partner-intro p,
+.ke-partner-apply-copy p,
+.ke-partner-note p {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.78);
+	font-size: 17px;
+	line-height: 1.7;
+}
+
+.ke-partner-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 26px;
+}
+
+.ke-partner-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 48px;
+	padding: 0 22px;
+	border: 2px solid #F5C518;
+	border-radius: 999px;
+	background: #F5C518;
+	color: #122327 !important;
+	font-size: 15px;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	text-decoration: none !important;
+}
+
+.ke-partner-btn:hover {
+	background: #ffd84a;
+	border-color: #ffd84a;
+	color: #122327 !important;
+}
+
+.ke-partner-btn--ghost {
+	background: transparent;
+	color: #F5C518 !important;
+}
+
+.ke-partner-btn--ghost:hover {
+	background: rgba(245, 197, 24, 0.12);
+	color: #ffd84a !important;
+}
+
+.ke-partner-steps {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+	margin: 0 0 28px;
+	padding: 0;
+	list-style: none;
+}
+
+.ke-partner-steps li,
+.ke-partner-grid article {
+	padding: 22px 20px 20px;
+	background: #1C2D31;
+	border: 1px solid rgba(245, 197, 24, 0.16);
+	border-radius: 18px;
+}
+
+.ke-partner-steps span {
+	display: block;
+	margin-bottom: 10px;
+	color: #F5C518;
+	font-size: 13px;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+}
+
+.ke-partner-steps h3,
+.ke-partner-grid h3 {
+	margin: 0 0 8px;
+	color: #fff;
+	font-size: 22px;
+	font-weight: 400;
+}
+
+.ke-partner-steps p,
+.ke-partner-grid p {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.74);
+	font-size: 15px;
+	line-height: 1.55;
+}
+
+.ke-partner-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.ke-partner-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	margin-bottom: 16px;
+	border-radius: 14px;
+	background: rgba(245, 197, 24, 0.12);
+	color: #F5C518;
+	font-size: 18px;
+}
+
+.ke-partner-note {
+	max-width: 720px;
+	margin: 36px auto 0;
+	text-align: center;
+}
+
+.ke-partner-apply {
+	display: grid;
+	grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+	gap: 36px;
+	align-items: start;
+}
+
+.ke-partner-apply-copy h2 {
+	text-align: left;
+}
+
+.ke-partner-apply-copy a {
+	color: #F5C518;
+}
+
+.ke-partner-error {
+	margin: 0 0 16px;
+	padding: 12px 14px;
+	border-radius: 12px;
+	background: rgba(180, 40, 40, 0.18);
+	color: #ffd0d0;
+}
+
+.ke-partner-trap {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.ke-partner .ke-field label span {
+	color: rgba(255, 255, 255, 0.55);
+	font-weight: 400;
+}
+
+@media (max-width: 991px) {
+	.ke-partner-steps,
+	.ke-partner-grid,
+	.ke-partner-apply {
+		grid-template-columns: 1fr;
+	}
+	.ke-partner h2 {
+		font-size: 34px;
+	}
+}
+
+@media (max-width: 720px) {
+	.partner-page .breadcumb-section.style__two {
+		padding: 150px 0 64px;
+	}
+	.ke-partner {
+		padding: 48px 0 72px;
+	}
+	.ke-partner-actions {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}

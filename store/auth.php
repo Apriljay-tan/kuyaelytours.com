@@ -10,12 +10,24 @@ function store_user(): ?array
 	return store_find_user_id($id);
 }
 
+function store_password_change_required(): bool
+{
+	$user = store_user();
+	if (!$user) {
+		return false;
+	}
+	return (int) ($user['must_change_password'] ?? 0) === 1;
+}
+
 function store_require_login(string $next = '/shop/checkout.php'): void
 {
-	if (store_user()) {
-		return;
+	if (!store_user()) {
+		store_redirect('/account/login.php?next=' . rawurlencode($next));
 	}
-	store_redirect('/account/login.php?next=' . rawurlencode($next));
+	$script = basename((string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+	if (store_password_change_required() && !in_array($script, ['password.php', 'logout.php'], true)) {
+		store_redirect('/account/password.php');
+	}
 }
 
 function store_after_login(): void
@@ -178,9 +190,12 @@ function store_login_oauth(string $provider, array $profile): string
 
 function store_logout(): void
 {
-	unset($_SESSION['store_user']);
+	unset($_SESSION['store_user'], $_SESSION['ke_partner_started'], $_SESSION['ke_partner_seen'], $_SESSION['ke_partner_ua'], $_SESSION['ke_partner_rotated']);
 	$_SESSION['cart'] = [];
 	unset($_SESSION['promo']);
+	if (session_status() === PHP_SESSION_ACTIVE) {
+		session_regenerate_id(true);
+	}
 }
 
 function store_password_reset_request(string $email): void

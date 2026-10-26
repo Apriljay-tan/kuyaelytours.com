@@ -31,6 +31,10 @@ function store_db(): ?PDO
 				PDO::ATTR_TIMEOUT => 3,
 			]
 		);
+		try {
+			$pdo->exec('SET SESSION lock_wait_timeout = 2');
+		} catch (Throwable $e) {
+		}
 		store_db_migrate($pdo);
 		store_db_seed_from_json($pdo);
 		return $pdo;
@@ -76,6 +80,23 @@ function store_db_migrate(PDO $pdo): void
 	)');
 	store_db_add_column($pdo, 'ke_users', 'oauth_provider', 'VARCHAR(40) NOT NULL DEFAULT ""');
 	store_db_add_column($pdo, 'ke_users', 'oauth_id', 'VARCHAR(190) NOT NULL DEFAULT ""');
+	store_db_add_column($pdo, 'ke_users', 'must_change_password', 'TINYINT NOT NULL DEFAULT 0');
+	store_db_add_column($pdo, 'ke_bookings', 'driver_name', 'VARCHAR(140) NOT NULL DEFAULT ""');
+	store_db_add_column($pdo, 'ke_bookings', 'driver_phone', 'VARCHAR(40) NOT NULL DEFAULT ""');
+	store_db_add_column($pdo, 'ke_bookings', 'driver_vehicle', 'VARCHAR(140) NOT NULL DEFAULT ""');
+	store_db_add_column($pdo, 'ke_bookings', 'pickup_time', 'VARCHAR(120) NOT NULL DEFAULT ""');
+	$pdo->exec('CREATE TABLE IF NOT EXISTS ke_booking_files (
+		id VARCHAR(32) PRIMARY KEY,
+		booking_id VARCHAR(32) NOT NULL,
+		user_id VARCHAR(32) NOT NULL,
+		kind VARCHAR(24) NOT NULL,
+		original_name VARCHAR(180) NOT NULL,
+		stored_name VARCHAR(80) NOT NULL,
+		mime VARCHAR(80) NOT NULL,
+		uploaded_by VARCHAR(32) NOT NULL DEFAULT "",
+		created VARCHAR(32) NOT NULL,
+		KEY booking_id (booking_id)
+	)');
 	try {
 		$pdo->exec('CREATE TABLE IF NOT EXISTS ke_chats (
 			id VARCHAR(32) PRIMARY KEY,
@@ -100,6 +121,24 @@ function store_db_migrate(PDO $pdo): void
 		if (function_exists('store_fb_debug_exception')) {
 			store_fb_debug_exception($e, 'DATABASE INITIALIZATION');
 		}
+	}
+	try {
+		$pdo->exec('CREATE TABLE IF NOT EXISTS ke_partner_applications (
+			id VARCHAR(32) PRIMARY KEY,
+			business_name VARCHAR(160) NOT NULL,
+			contact_name VARCHAR(140) NOT NULL,
+			email VARCHAR(190) NOT NULL,
+			phone VARCHAR(40) NOT NULL DEFAULT "",
+			partner_type VARCHAR(40) NOT NULL DEFAULT "",
+			area VARCHAR(80) NOT NULL DEFAULT "",
+			website VARCHAR(190) NOT NULL DEFAULT "",
+			message TEXT,
+			status VARCHAR(24) NOT NULL DEFAULT "pending",
+			user_id VARCHAR(32) NOT NULL DEFAULT "",
+			created VARCHAR(32) NOT NULL
+		)');
+		store_db_add_column($pdo, 'ke_users', 'role', "VARCHAR(20) NOT NULL DEFAULT 'guest'");
+	} catch (Throwable $e) {
 	}
 }
 
@@ -215,11 +254,14 @@ function store_db_seed_from_json(PDO $pdo): void
 
 function store_db_add_column(PDO $pdo, string $table, string $column, string $ddl): void
 {
-	$cols = $pdo->query('SHOW COLUMNS FROM ' . $table)->fetchAll(PDO::FETCH_COLUMN);
-	if (in_array($column, $cols, true)) {
-		return;
+	try {
+		$cols = $pdo->query('SHOW COLUMNS FROM ' . $table)->fetchAll(PDO::FETCH_COLUMN);
+		if (in_array($column, $cols, true)) {
+			return;
+		}
+		$pdo->exec('ALTER TABLE ' . $table . ' ADD COLUMN ' . $column . ' ' . $ddl);
+	} catch (Throwable $e) {
 	}
-	$pdo->exec('ALTER TABLE ' . $table . ' ADD COLUMN ' . $column . ' ' . $ddl);
 }
 
 function store_read_json(string $name, array $default = []): array
@@ -317,13 +359,34 @@ function store_set_user_password(string $userId, string $password): bool
 	$hash = password_hash($password, PASSWORD_DEFAULT);
 	$db = store_db();
 	if ($db) {
-		$stmt = $db->prepare('UPDATE ke_users SET password_hash=? WHERE id=?');
+		$stmt = $db->prepare('UPDATE ke_users SET password_hash=?, must_change_password=0 WHERE id=?');
 		return $stmt->execute([$hash, $userId]);
 	}
 	$users = store_users();
 	foreach ($users as $i => $row) {
 		if (($row['id'] ?? '') === $userId) {
 			$users[$i]['password_hash'] = $hash;
+			$users[$i]['must_change_password'] = 0;
+			return store_write_json('users', $users);
+		}
+	}
+	return false;
+}
+
+function store_user_must_change(string $userId, bool $must): bool
+{
+	if ($userId === '') {
+		return false;
+	}
+	$db = store_db();
+	if ($db) {
+		$stmt = $db->prepare('UPDATE ke_users SET must_change_password=? WHERE id=?');
+		return $stmt->execute([$must ? 1 : 0, $userId]);
+	}
+	$users = store_users();
+	foreach ($users as $i => $row) {
+		if (($row['id'] ?? '') === $userId) {
+			$users[$i]['must_change_password'] = $must ? 1 : 0;
 			return store_write_json('users', $users);
 		}
 	}
