@@ -191,9 +191,9 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	if ($useSite) {
 		echo store_site_footer();
 	} else {
-		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639209851802">WhatsApp +63 920 985 1802</a> · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a></footer>';
+		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639608605034">WhatsApp +63 960 860 5034</a> · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a> · <a href="/return-policy">Return Policy</a></footer>';
 	}
-	echo '<script src="/assets/js/kuyaely-nav.js?v=46" defer></script>';
+	echo '<script src="/assets/js/kuyaely-nav.js?v=47" defer></script>';
 	echo '<script src="/assets/js/kuyaely-chat.js?v=17" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';
@@ -259,7 +259,7 @@ function store_site_footer(): string
 		. '<a href="/contact">Contact</a>'
 		. '</nav>'
 		. '<p class="ke-gfoot-meta">Cebu &middot; Bohol &middot; Siquijor &middot; Dumaguete &middot; And Beyond<br>'
-		. '<a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a><br>'
+		. '<a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a> · <a href="/return-policy">Return Policy</a><br>'
 		. '© ' . date('Y') . ' Kuya Ely Tours and Transport Services. All rights reserved.</p>'
 		. '<p class="ke-gfoot-script">Explore More Together</p>'
 		. '</div></footer>';
@@ -318,7 +318,7 @@ function store_hello_band(array $user, string $active): string
 		. '<dl class="ke-hello-stats">'
 		. '<div><dt>Bookings</dt><dd>' . $bookings . '</dd></div>'
 		. '<div><dt>In cart</dt><dd>' . $cart . '</dd></div>'
-		. '<div><dt>WhatsApp</dt><dd><a href="https://wa.me/639209851802">Message us</a></dd></div>'
+		. '<div><dt>WhatsApp</dt><dd><a href="https://wa.me/639608605034">Message us</a></dd></div>'
 		. '</dl></section><nav class="ke-tabs" aria-label="Account">' . $nav . '</nav>';
 }
 

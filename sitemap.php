@@ -22,6 +22,7 @@ $pages = [
 	['https://kuyaelytours.com/partners', 'monthly', '0.6'],
 	['https://kuyaelytours.com/privacy-policy', 'yearly', '0.3'],
 	['https://kuyaelytours.com/terms', 'yearly', '0.3'],
+	['https://kuyaelytours.com/return-policy', 'yearly', '0.3'],
 ];
 
 echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";

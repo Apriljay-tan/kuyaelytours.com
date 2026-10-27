@@ -28,6 +28,35 @@ $product = store_product((string) $meta['product']) ?: ['price_from' => 0];
 $canonical = 'https://kuyaelytours.com/' . $island . '-tour';
 $title = $meta['label'] . ' Tour Packages | Kuya Ely Tours & Transport Services';
 $desc = 'Private ' . $meta['label'] . ' tour packages with Kuya Ely Tours — hotel pickup, a private van, and local pacing.';
+$keSeo = [
+	'cebu' => ['Cebu Private Tours: Oslob, Kawasan, Moalboal | Kuya Ely', 'Private Cebu day tours: Oslob whale sharks, Kawasan Falls canyoneering, Moalboal sardines and Cebu City. Hotel pickup from Mactan or Cebu City.'],
+	'bohol' => ['Bohol Private Tours from Cebu: Chocolate Hills | Kuya Ely', 'Private Bohol day trip or 3-day package from Cebu: Chocolate Hills, tarsiers, Loboc river lunch. Ferry, van and driver arranged for you.'],
+	'siquijor' => ['Siquijor Private Island Tour | Kuya Ely Tours', 'Explore Siquijor at your own pace: Cambugahay Falls, old balete tree, beaches. Private transport and local guide, arranged from Cebu.'],
+	'dumaguete' => ['Dumaguete Private Day Tours | Kuya Ely Tours', 'Private Dumaguete tours: Apo Island, Twin Lakes, Manjuyod sandbar. Comfortable private van and a friendly local driver.'],
+];
+[$title, $desc] = $keSeo[$island];
+$keTrip = [
+	'@context' => 'https://schema.org',
+	'@type' => 'TouristTrip',
+	'name' => $meta['label'] . ' Private Tours',
+	'description' => $desc,
+	'url' => $canonical,
+	'image' => 'https://kuyaelytours.com' . (string) $meta['hero'],
+	'provider' => ['@type' => 'TravelAgency', '@id' => 'https://kuyaelytours.com/#business', 'name' => 'Kuya Ely Tours', 'legalName' => 'E.S. Happy Tours and Transport Services', 'telephone' => '+639608605034'],
+];
+$keFrom = 0;
+foreach ($packages as $kp) {
+	if (isset($kp['active']) && !$kp['active']) {
+		continue;
+	}
+	$kpPrice = (int) ke_package_price($kp);
+	if ($kpPrice > 0 && ($keFrom === 0 || $kpPrice < $keFrom)) {
+		$keFrom = $kpPrice;
+	}
+}
+if ($keFrom > 0) {
+	$keTrip['offers'] = ['@type' => 'AggregateOffer', 'lowPrice' => (string) $keFrom, 'priceCurrency' => 'PHP', 'offerCount' => count($packages), 'url' => $canonical];
+}
 $bodyClass = 'tour-page tour-catalog tour-' . $island;
 $navCurrent = $island . '-tour.html';
 $h = static function (string $v): string {
@@ -41,7 +70,7 @@ ob_start();
 		<div class="container">
 			<div class="ke-cat-hero-copy">
 				<p class="ke-cat-kicker">Explore the Beauty of</p>
-				<h1><?= $h((string) $meta['h1']) ?> <span>Tours</span></h1>
+				<h1><?= $h((string) $meta['h1']) ?> <span>Private Tours</span></h1>
 				<p class="ke-cat-sub">Islands • Adventure • Culture • Unforgettable Experiences</p>
 				<ul class="breadcumb-item">
 					<li><a href="/"><i class="fa-solid fa-house"></i> Home </a></li>
@@ -143,6 +172,7 @@ ob_start();
 <?php
 $html = ob_get_clean();
 $opt = [
+	'jsonld' => str_replace('</', '<\\/', (string) json_encode($keTrip, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
 	'title' => $title,
 	'desc' => $desc,
 	'canonical' => $canonical,

@@ -429,7 +429,7 @@ function store_partner_notify(array $row): array
 		'Type: ' . $type,
 		'Area: ' . $area,
 		'',
-		'Questions? Reply to this email or WhatsApp +63 920 985 1802.',
+		'Questions? Reply to this email or WhatsApp +63 960 860 5034.',
 	]);
 	$applicantRows = '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f7f4ea;border:1px solid #f5c518;"><tr><td style="padding:12px 16px;"><table role="presentation" width="100%" cellspacing="0" cellpadding="0">'
 		. store_partner_email_row('Business', $business)
@@ -440,7 +440,7 @@ function store_partner_notify(array $row): array
 		. store_partner_email_row('Area', $area)
 		. '</table></td></tr></table>'
 		. '<p style="margin:22px 0 8px;color:#3d4f53;font-size:16px;">Need a faster answer?</p>'
-		. '<p style="margin:0;"><a href="https://api.whatsapp.com/send?phone=639209851802" style="color:#122327;font-weight:bold;">WhatsApp +63 920 985 1802</a></p>';
+		. '<p style="margin:0;"><a href="https://api.whatsapp.com/send?phone=639608605034" style="color:#122327;font-weight:bold;">WhatsApp +63 960 860 5034</a></p>';
 	$sent['applicant'] = store_partner_send(
 		$email,
 		'We received your partnership application',

@@ -73,6 +73,14 @@ $catalog = (string) $tour['catalog'];
 $canonical = 'https://kuyaelytours.com/tours/' . $slug;
 $title = $tour['name'] . ' | Kuya Ely Tours';
 $desc = (string) $tour['lead'];
+$keSeo = [
+	'oslob-whaleshark' => ['Oslob Whale Shark & Tumalog Falls Private Tour | Kuya Ely', 'Swim with whale sharks in Oslob, then cool off at Tumalog Falls. Private van, hotel pickup in Cebu or Mactan, early start to beat the crowds.'],
+	'bohol-fullday' => ['Bohol Day Tour from Cebu + Loboc River Lunch | Kuya Ely', 'Full-day private Bohol tour from Cebu: Chocolate Hills, tarsiers, Loboc floating restaurant lunch. Ferry tickets and private van included.'],
+	'south-cebu-island-tour' => ['Kawasan Falls Canyoneering Private Day Tour | Kuya Ely', 'Guided Badian canyoneering ending at the turquoise Kawasan Falls. Private van from Cebu or Mactan, gear and guide arranged.'],
+];
+if (isset($keSeo[$slug])) {
+	[$title, $desc] = $keSeo[$slug];
+}
 $bodyClass = 'tour-page tour-detail tour-' . $island;
 $navCurrent = $island . '-tour.html';
 
@@ -679,7 +687,24 @@ ob_start();
 <?php
 $detailHtml = ob_get_clean();
 
+$keTrip = [
+	'@context' => 'https://schema.org',
+	'@type' => 'TouristTrip',
+	'name' => (string) $tour['name'],
+	'url' => $canonical,
+	'provider' => ['@type' => 'TravelAgency', '@id' => 'https://kuyaelytours.com/#business', 'name' => 'Kuya Ely Tours', 'legalName' => 'E.S. Happy Tours and Transport Services', 'telephone' => '+639608605034'],
+];
+if ($desc !== '') {
+	$keTrip['description'] = $desc;
+}
+if (!empty($images[0])) {
+	$keTrip['image'] = str_starts_with((string) $images[0], 'http') ? (string) $images[0] : 'https://kuyaelytours.com' . (str_starts_with((string) $images[0], '/') ? '' : '/') . $images[0];
+}
+if ((int) $fromPrice > 0) {
+	$keTrip['offers'] = ['@type' => 'Offer', 'price' => (string) (int) $fromPrice, 'priceCurrency' => 'PHP', 'url' => $canonical, 'availability' => 'https://schema.org/InStock'];
+}
 $opt = [
+	'jsonld' => str_replace('</', '<\\/', (string) json_encode($keTrip, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)),
 	'title' => $title,
 	'desc' => $desc,
 	'canonical' => $canonical,

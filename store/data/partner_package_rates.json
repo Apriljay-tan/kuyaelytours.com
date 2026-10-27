@@ -1,0 +1,1886 @@
+{
+    "3-day-bohol-tour-countryside-island-hopping": {
+        "name": "Discover Bohol in 3 Days: Chocolate Hills, Countryside & Island Hopping",
+        "island": "bohol",
+        "cover": "\/assets\/uploads\/2026\/20260924112420-074b9d45.jpg",
+        "duration": "3 Day",
+        "split": true,
+        "child_price_mode": "fixed",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 12899,
+                "local_adult": 12799,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 6380,
+                "local_adult": 6280,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 5500,
+                "local_adult": 5400,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 4920,
+                "local_adult": 4820,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 4630,
+                "local_adult": 4530,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 4400,
+                "local_adult": 4300,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 4270,
+                "local_adult": 4170,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 4100,
+                "local_adult": 4000,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 4050,
+                "local_adult": 3950,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 100,
+                "foreign_adult": 3950,
+                "local_adult": 3850,
+                "foreign_child": 200,
+                "local_child": 200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "countryside-island-hopping-tour-around-panglao": {
+        "name": "4-Day Bohol Tour Package (Countryside Tour + Island Hopping + Tour Around Panglao)",
+        "island": "bohol",
+        "cover": "\/assets\/uploads\/2026\/20260924082538-3624eb03.jpg",
+        "duration": "4 Days",
+        "split": true,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 13999,
+                "local_adult": 13899,
+                "foreign_child": 13799,
+                "local_child": 13699,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 8230,
+                "local_adult": 8130,
+                "foreign_child": 8030,
+                "local_child": 7930,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 6900,
+                "local_adult": 6800,
+                "foreign_child": 6700,
+                "local_child": 6600,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 6000,
+                "local_adult": 5900,
+                "foreign_child": 5800,
+                "local_child": 5700,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 5630,
+                "local_adult": 5530,
+                "foreign_child": 5430,
+                "local_child": 5330,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 5430,
+                "local_adult": 5330,
+                "foreign_child": 5230,
+                "local_child": 5130,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 5359,
+                "local_adult": 5259,
+                "foreign_child": 5159,
+                "local_child": 5059,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 5100,
+                "local_adult": 5000,
+                "foreign_child": 4900,
+                "local_child": 4800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 4980,
+                "local_adult": 4880,
+                "foreign_child": 4780,
+                "local_child": 4680,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 100,
+                "foreign_adult": 4850,
+                "local_adult": 4750,
+                "foreign_child": 4647,
+                "local_child": 4550,
+                "foreign_child_off": 203,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "cebu-city-mountain-tour": {
+        "name": "Cebu City & Mountain Tour",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260923121451-0e5bd385.webp",
+        "duration": "1 Day",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 6288,
+                "local_adult": 6288,
+                "foreign_child": 6088,
+                "local_child": 6088,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 3788,
+                "local_adult": 3788,
+                "foreign_child": 3588,
+                "local_child": 3588,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 2988,
+                "local_adult": 2988,
+                "foreign_child": 2788,
+                "local_child": 2788,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 2488,
+                "local_adult": 2488,
+                "foreign_child": 2288,
+                "local_child": 2288,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 2200,
+                "local_adult": 2200,
+                "foreign_child": 2000,
+                "local_child": 2000,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 1988,
+                "local_adult": 1988,
+                "foreign_child": 1788,
+                "local_child": 1788,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 1788,
+                "local_adult": 1788,
+                "foreign_child": 1588,
+                "local_child": 1588,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 1688,
+                "local_adult": 1688,
+                "foreign_child": 1488,
+                "local_child": 1488,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 1588,
+                "local_adult": 1588,
+                "foreign_child": 1388,
+                "local_child": 1388,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 1588,
+                "local_adult": 1588,
+                "foreign_child": 1388,
+                "local_child": 1388,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 1488,
+                "local_adult": 1488,
+                "foreign_child": 1288,
+                "local_child": 1288,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 1288,
+                "local_adult": 1288,
+                "foreign_child": 1088,
+                "local_child": 1088,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 13,
+                "max": 13,
+                "foreign_adult": 1288,
+                "local_adult": 1288,
+                "foreign_child": 1088,
+                "local_child": 1088,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 14,
+                "max": 100,
+                "foreign_adult": 1288,
+                "local_adult": 1288,
+                "foreign_child": 1088,
+                "local_child": 1088,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "oslob-whaleshark": {
+        "name": "Oslob Whaleshark Interaction + Tumalog Falls",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924023659-55b39732.png",
+        "duration": "1 Day",
+        "split": true,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 8200,
+                "local_adult": 7700,
+                "foreign_child": 8000,
+                "local_child": 7500,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 4350,
+                "local_adult": 3850,
+                "foreign_child": 4150,
+                "local_child": 3650,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 3500,
+                "local_adult": 3000,
+                "foreign_child": 3300,
+                "local_child": 2800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 3100,
+                "local_adult": 2600,
+                "foreign_child": 2900,
+                "local_child": 2400,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 3000,
+                "local_adult": 2500,
+                "foreign_child": 2800,
+                "local_child": 2300,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 2850,
+                "local_adult": 2350,
+                "foreign_child": 2650,
+                "local_child": 2150,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 2700,
+                "local_adult": 2200,
+                "foreign_child": 2500,
+                "local_child": 2000,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 2550,
+                "local_adult": 2050,
+                "foreign_child": 2350,
+                "local_child": 1850,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 2450,
+                "local_adult": 1950,
+                "foreign_child": 2250,
+                "local_child": 1750,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 2400,
+                "local_adult": 1900,
+                "foreign_child": 2200,
+                "local_child": 1700,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 2300,
+                "local_adult": 1800,
+                "foreign_child": 2100,
+                "local_child": 1600,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 2250,
+                "local_adult": 1750,
+                "foreign_child": 2050,
+                "local_child": 1550,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 13,
+                "max": 13,
+                "foreign_adult": 2200,
+                "local_adult": 1700,
+                "foreign_child": 2000,
+                "local_child": 1500,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 14,
+                "max": 100,
+                "foreign_adult": 2100,
+                "local_adult": 1650,
+                "foreign_child": 1900,
+                "local_child": 1450,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "south-cebu-island-tour": {
+        "name": "Kawasan Falls With Canyoneering Day Tour",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924064954-d2afe6f6.webp",
+        "duration": "1 Day",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 9988,
+                "local_adult": 9988,
+                "foreign_child": 9788,
+                "local_child": 9788,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 6488,
+                "local_adult": 6488,
+                "foreign_child": 6288,
+                "local_child": 6288,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 5488,
+                "local_adult": 5488,
+                "foreign_child": 5288,
+                "local_child": 5288,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 4488,
+                "local_adult": 4488,
+                "foreign_child": 4288,
+                "local_child": 4288,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 4200,
+                "local_adult": 4200,
+                "foreign_child": 4000,
+                "local_child": 4000,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 3450,
+                "local_adult": 3450,
+                "foreign_child": 3250,
+                "local_child": 3250,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 3300,
+                "local_adult": 3300,
+                "foreign_child": 3100,
+                "local_child": 3100,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 3150,
+                "local_adult": 3150,
+                "foreign_child": 2950,
+                "local_child": 2950,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 3100,
+                "local_adult": 3100,
+                "foreign_child": 2900,
+                "local_child": 2900,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 2930,
+                "local_adult": 2930,
+                "foreign_child": 2730,
+                "local_child": 2730,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 2875,
+                "local_adult": 2875,
+                "foreign_child": 2675,
+                "local_child": 2675,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 2800,
+                "local_adult": 2800,
+                "foreign_child": 2600,
+                "local_child": 2600,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 13,
+                "max": 13,
+                "foreign_adult": 2750,
+                "local_adult": 2750,
+                "foreign_child": 2550,
+                "local_child": 2550,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 14,
+                "max": 14,
+                "foreign_adult": 2700,
+                "local_adult": 2700,
+                "foreign_child": 2500,
+                "local_child": 2500,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 15,
+                "max": 100,
+                "foreign_adult": 2500,
+                "local_adult": 2500,
+                "foreign_child": 2300,
+                "local_child": 2300,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 20:54:58"
+    },
+    "cebu-city-south-3-day-package": {
+        "name": "3Days 2nights City, Moalboal + Oslob",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924111052-e7f5e546.png",
+        "duration": "3 Days",
+        "split": true,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 22090,
+                "local_adult": 22090,
+                "foreign_child": 21890,
+                "local_child": 21890,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 11090,
+                "local_adult": 10590,
+                "foreign_child": 10890,
+                "local_child": 10390,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 8790,
+                "local_adult": 8290,
+                "foreign_child": 8590,
+                "local_child": 8090,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 7220,
+                "local_adult": 6720,
+                "foreign_child": 7020,
+                "local_child": 6520,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 7130,
+                "local_adult": 6630,
+                "foreign_child": 6930,
+                "local_child": 6430,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 6840,
+                "local_adult": 6340,
+                "foreign_child": 6640,
+                "local_child": 6140,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 6540,
+                "local_adult": 6040,
+                "foreign_child": 6340,
+                "local_child": 5840,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 6200,
+                "local_adult": 5700,
+                "foreign_child": 6000,
+                "local_child": 5500,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 5950,
+                "local_adult": 5450,
+                "foreign_child": 5750,
+                "local_child": 5250,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 5810,
+                "local_adult": 5310,
+                "foreign_child": 5610,
+                "local_child": 5110,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 5580,
+                "local_adult": 5080,
+                "foreign_child": 5380,
+                "local_child": 4880,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 100,
+                "foreign_adult": 5490,
+                "local_adult": 4990,
+                "foreign_child": 5290,
+                "local_child": 4790,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "cebu-city-sirao-temple-tour": {
+        "name": "Sirao, Temple of Leah, and Cebu City",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924104352-cde84132.webp",
+        "duration": "1 Day",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 6000,
+                "local_adult": 6000,
+                "foreign_child": 5800,
+                "local_child": 5800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 2600,
+                "local_adult": 2600,
+                "foreign_child": 2400,
+                "local_child": 2400,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 1950,
+                "local_adult": 1950,
+                "foreign_child": 1750,
+                "local_child": 1750,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 1700,
+                "local_adult": 1700,
+                "foreign_child": 1500,
+                "local_child": 1500,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 1560,
+                "local_adult": 1560,
+                "foreign_child": 1360,
+                "local_child": 1360,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 1400,
+                "local_adult": 1400,
+                "foreign_child": 1200,
+                "local_child": 1200,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 1300,
+                "local_adult": 1300,
+                "foreign_child": 1100,
+                "local_child": 1100,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 1200,
+                "local_adult": 1200,
+                "foreign_child": 1000,
+                "local_child": 1000,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 1100,
+                "local_adult": 1100,
+                "foreign_child": 900,
+                "local_child": 900,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 11,
+                "foreign_adult": 1050,
+                "local_adult": 1050,
+                "foreign_child": 850,
+                "local_child": 850,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 100,
+                "foreign_adult": 1000,
+                "local_adult": 1000,
+                "foreign_child": 800,
+                "local_child": 800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "moalboal-turtles-sardines-mantayupan": {
+        "name": "Moalboal Turtles, Sardines, and Mantayupan Falls",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924100908-f92613a1.jpg",
+        "duration": "1 Day",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 7800,
+                "local_adult": 7800,
+                "foreign_child": 7600,
+                "local_child": 7600,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 3900,
+                "local_adult": 3900,
+                "foreign_child": 3700,
+                "local_child": 3700,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 3000,
+                "local_adult": 3000,
+                "foreign_child": 2800,
+                "local_child": 2800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 6,
+                "foreign_adult": 2200,
+                "local_adult": 2200,
+                "foreign_child": 2000,
+                "local_child": 2000,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 2150,
+                "local_adult": 2150,
+                "foreign_child": 1950,
+                "local_child": 1950,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 2050,
+                "local_adult": 2050,
+                "foreign_child": 1850,
+                "local_child": 1850,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 1950,
+                "local_adult": 1950,
+                "foreign_child": 1750,
+                "local_child": 1750,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 1850,
+                "local_adult": 1850,
+                "foreign_child": 1650,
+                "local_child": 1650,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 1800,
+                "local_adult": 1800,
+                "foreign_child": 1601,
+                "local_child": 1601,
+                "foreign_child_off": 199,
+                "local_child_off": 199
+            },
+            {
+                "min": 12,
+                "max": 100,
+                "foreign_adult": 1780,
+                "local_adult": 1780,
+                "foreign_child": 1580,
+                "local_child": 1580,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "moalboal-pescador-turtles-sardines": {
+        "name": "Moalboal with Pescador Island",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924102311-1bcfc341.webp",
+        "duration": "1 Day",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 10000,
+                "local_adult": 10000,
+                "foreign_child": 9800,
+                "local_child": 9800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 5000,
+                "local_adult": 5000,
+                "foreign_child": 4800,
+                "local_child": 4800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 3650,
+                "local_adult": 3650,
+                "foreign_child": 3450,
+                "local_child": 3450,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 3075,
+                "local_adult": 3075,
+                "foreign_child": 2875,
+                "local_child": 2875,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 2610,
+                "local_adult": 2610,
+                "foreign_child": 2410,
+                "local_child": 2410,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 2420,
+                "local_adult": 2420,
+                "foreign_child": 2220,
+                "local_child": 2220,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 2230,
+                "local_adult": 2230,
+                "foreign_child": 2030,
+                "local_child": 2030,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 2200,
+                "local_adult": 2200,
+                "foreign_child": 2000,
+                "local_child": 2000,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 2100,
+                "local_adult": 2100,
+                "foreign_child": 1900,
+                "local_child": 1900,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 1950,
+                "local_adult": 1950,
+                "foreign_child": 1750,
+                "local_child": 1750,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 1900,
+                "local_adult": 1900,
+                "foreign_child": 1700,
+                "local_child": 1700,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 100,
+                "foreign_adult": 1880,
+                "local_adult": 1880,
+                "foreign_child": 1680,
+                "local_child": 1680,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "cebu-safari-adventure-park": {
+        "name": "Cebu Safari Day Tour",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924103544-4268847f.webp",
+        "duration": "1 Day",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 6900,
+                "local_adult": 6900,
+                "foreign_child": 6700,
+                "local_child": 6700,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 3450,
+                "local_adult": 3450,
+                "foreign_child": 3250,
+                "local_child": 3250,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 2850,
+                "local_adult": 2850,
+                "foreign_child": 2650,
+                "local_child": 2650,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 2650,
+                "local_adult": 2650,
+                "foreign_child": 2450,
+                "local_child": 2450,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 2550,
+                "local_adult": 2550,
+                "foreign_child": 2350,
+                "local_child": 2350,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 2470,
+                "local_adult": 2470,
+                "foreign_child": 2270,
+                "local_child": 2270,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 2380,
+                "local_adult": 2380,
+                "foreign_child": 2180,
+                "local_child": 2180,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 2300,
+                "local_adult": 2300,
+                "foreign_child": 2100,
+                "local_child": 2100,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 2150,
+                "local_adult": 2150,
+                "foreign_child": 1950,
+                "local_child": 1950,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 2100,
+                "local_adult": 2100,
+                "foreign_child": 1900,
+                "local_child": 1900,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 2070,
+                "local_adult": 2070,
+                "foreign_child": 1870,
+                "local_child": 1870,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 2040,
+                "local_adult": 2040,
+                "foreign_child": 1840,
+                "local_child": 1840,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 13,
+                "max": 13,
+                "foreign_adult": 2020,
+                "local_adult": 2020,
+                "foreign_child": 1820,
+                "local_child": 1820,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 14,
+                "max": 100,
+                "foreign_adult": 1990,
+                "local_adult": 1990,
+                "foreign_child": 1790,
+                "local_child": 1790,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "south-cebu-2-day-package": {
+        "name": "2-Day South Cebu Tour (Free 1night Accomodation)",
+        "island": "cebu",
+        "cover": "\/assets\/uploads\/2026\/20260924104706-404d4366.jpg",
+        "duration": "2 Days",
+        "split": true,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 16500,
+                "local_adult": 16000,
+                "foreign_child": 16300,
+                "local_child": 15800,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 9200,
+                "local_adult": 8700,
+                "foreign_child": 9000,
+                "local_child": 8500,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 7950,
+                "local_adult": 6950,
+                "foreign_child": 7750,
+                "local_child": 6750,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 6800,
+                "local_adult": 5800,
+                "foreign_child": 6600,
+                "local_child": 5600,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 6840,
+                "local_adult": 5840,
+                "foreign_child": 6640,
+                "local_child": 5640,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 6550,
+                "local_adult": 5550,
+                "foreign_child": 6350,
+                "local_child": 5350,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 6350,
+                "local_adult": 5350,
+                "foreign_child": 6150,
+                "local_child": 5150,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 6150,
+                "local_adult": 5150,
+                "foreign_child": 5950,
+                "local_child": 4950,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 5950,
+                "local_adult": 4950,
+                "foreign_child": 5750,
+                "local_child": 4750,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 5770,
+                "local_adult": 4770,
+                "foreign_child": 5570,
+                "local_child": 4570,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 5670,
+                "local_adult": 4670,
+                "foreign_child": 5470,
+                "local_child": 4470,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 100,
+                "foreign_adult": 5600,
+                "local_adult": 4600,
+                "foreign_child": 5400,
+                "local_child": 4400,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "oslob-kawasan-canyoneering": {
+        "name": "Oslob Whale Sharks and Kawasan Canyoneering",
+        "island": "cebu",
+        "cover": "\/assets\/downloaded\/dest-cebu.jpg",
+        "duration": "1 Day",
+        "split": true,
+        "child_price_mode": "fixed",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 10300,
+                "local_adult": 9800,
+                "foreign_child": 10300,
+                "local_child": 9800,
+                "foreign_child_off": 10300,
+                "local_child_off": 9800
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 6450,
+                "local_adult": 5950,
+                "foreign_child": 6450,
+                "local_child": 5950,
+                "foreign_child_off": 6450,
+                "local_child_off": 5950
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 5420,
+                "local_adult": 4920,
+                "foreign_child": 5420,
+                "local_child": 4920,
+                "foreign_child_off": 5420,
+                "local_child_off": 4920
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 5000,
+                "local_adult": 4500,
+                "foreign_child": 5000,
+                "local_child": 4500,
+                "foreign_child_off": 5000,
+                "local_child_off": 4500
+            },
+            {
+                "min": 5,
+                "max": 6,
+                "foreign_adult": 4700,
+                "local_adult": 4200,
+                "foreign_child": 4700,
+                "local_child": 4200,
+                "foreign_child_off": 4700,
+                "local_child_off": 4200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 4500,
+                "local_adult": 4000,
+                "foreign_child": 4500,
+                "local_child": 4000,
+                "foreign_child_off": 4500,
+                "local_child_off": 4000
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 4375,
+                "local_adult": 3875,
+                "foreign_child": 4375,
+                "local_child": 3875,
+                "foreign_child_off": 4375,
+                "local_child_off": 3875
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 4280,
+                "local_adult": 3780,
+                "foreign_child": 4280,
+                "local_child": 3780,
+                "foreign_child_off": 4280,
+                "local_child_off": 3780
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 4200,
+                "local_adult": 3700,
+                "foreign_child": 4200,
+                "local_child": 3700,
+                "foreign_child_off": 4200,
+                "local_child_off": 3700
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 4140,
+                "local_adult": 3640,
+                "foreign_child": 4140,
+                "local_child": 3640,
+                "foreign_child_off": 4140,
+                "local_child_off": 3640
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 4090,
+                "local_adult": 3590,
+                "foreign_child": 4090,
+                "local_child": 3590,
+                "foreign_child_off": 4090,
+                "local_child_off": 3590
+            },
+            {
+                "min": 13,
+                "max": 13,
+                "foreign_adult": 4040,
+                "local_adult": 3540,
+                "foreign_child": 4040,
+                "local_child": 3540,
+                "foreign_child_off": 4040,
+                "local_child_off": 3540
+            },
+            {
+                "min": 14,
+                "max": 100,
+                "foreign_adult": 4000,
+                "local_adult": 3500,
+                "foreign_child": 4000,
+                "local_child": 3500,
+                "foreign_child_off": 4000,
+                "local_child_off": 3500
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "oslob-sumilon-tumalog-simala": {
+        "name": "Oslob, Sumilon, Tumalog, and Simala",
+        "island": "cebu",
+        "cover": "\/assets\/downloaded\/dest-cebu.jpg",
+        "duration": "1 Day",
+        "split": true,
+        "child_price_mode": "fixed",
+        "tiers": [
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 5500,
+                "local_adult": 5000,
+                "foreign_child": 5500,
+                "local_child": 5000,
+                "foreign_child_off": 5500,
+                "local_child_off": 5000
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 4320,
+                "local_adult": 3820,
+                "foreign_child": 4320,
+                "local_child": 3820,
+                "foreign_child_off": 4320,
+                "local_child_off": 3820
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 3700,
+                "local_adult": 3200,
+                "foreign_child": 3700,
+                "local_child": 3200,
+                "foreign_child_off": 3700,
+                "local_child_off": 3200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 3640,
+                "local_adult": 3140,
+                "foreign_child": 3640,
+                "local_child": 3140,
+                "foreign_child_off": 3640,
+                "local_child_off": 3140
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 3370,
+                "local_adult": 2870,
+                "foreign_child": 3370,
+                "local_child": 2870,
+                "foreign_child_off": 3370,
+                "local_child_off": 2870
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 3160,
+                "local_adult": 2660,
+                "foreign_child": 3160,
+                "local_child": 2660,
+                "foreign_child_off": 3160,
+                "local_child_off": 2660
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 2995,
+                "local_adult": 2495,
+                "foreign_child": 2995,
+                "local_child": 2495,
+                "foreign_child_off": 2995,
+                "local_child_off": 2495
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 2880,
+                "local_adult": 2380,
+                "foreign_child": 2880,
+                "local_child": 2380,
+                "foreign_child_off": 2880,
+                "local_child_off": 2380
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 2870,
+                "local_adult": 2370,
+                "foreign_child": 2870,
+                "local_child": 2370,
+                "foreign_child_off": 2870,
+                "local_child_off": 2370
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 2790,
+                "local_adult": 2290,
+                "foreign_child": 2790,
+                "local_child": 2290,
+                "foreign_child_off": 2790,
+                "local_child_off": 2290
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 2720,
+                "local_adult": 2220,
+                "foreign_child": 2720,
+                "local_child": 2220,
+                "foreign_child_off": 2720,
+                "local_child_off": 2220
+            },
+            {
+                "min": 13,
+                "max": 13,
+                "foreign_adult": 2670,
+                "local_adult": 2170,
+                "foreign_child": 2670,
+                "local_child": 2170,
+                "foreign_child_off": 2670,
+                "local_child_off": 2170
+            },
+            {
+                "min": 14,
+                "max": 100,
+                "foreign_adult": 2600,
+                "local_adult": 2100,
+                "foreign_child": 2600,
+                "local_child": 2100,
+                "foreign_child_off": 2600,
+                "local_child_off": 2100
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    },
+    "bohol-fullday": {
+        "name": "Bohol Full Day Tour Package from Cebu with Loboc River Cruise Lunch",
+        "island": "bohol",
+        "cover": "\/assets\/uploads\/2026\/20260928032908-423d7819.jpg",
+        "duration": "14 Hours",
+        "split": false,
+        "child_price_mode": "amount",
+        "tiers": [
+            {
+                "min": 1,
+                "max": 1,
+                "foreign_adult": 11099,
+                "local_adult": 11099,
+                "foreign_child": 10899,
+                "local_child": 10899,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 2,
+                "max": 2,
+                "foreign_adult": 7499,
+                "local_adult": 7499,
+                "foreign_child": 7299,
+                "local_child": 7299,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 3,
+                "max": 3,
+                "foreign_adult": 6499,
+                "local_adult": 6499,
+                "foreign_child": 6299,
+                "local_child": 6299,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 4,
+                "max": 4,
+                "foreign_adult": 5799,
+                "local_adult": 5799,
+                "foreign_child": 5599,
+                "local_child": 5599,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 5,
+                "max": 5,
+                "foreign_adult": 5799,
+                "local_adult": 5799,
+                "foreign_child": 5599,
+                "local_child": 5599,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 6,
+                "max": 6,
+                "foreign_adult": 5599,
+                "local_adult": 5599,
+                "foreign_child": 5399,
+                "local_child": 5399,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 7,
+                "max": 7,
+                "foreign_adult": 5399,
+                "local_adult": 5399,
+                "foreign_child": 5199,
+                "local_child": 5199,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 8,
+                "max": 8,
+                "foreign_adult": 5299,
+                "local_adult": 5299,
+                "foreign_child": 5099,
+                "local_child": 5099,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 9,
+                "max": 9,
+                "foreign_adult": 5099,
+                "local_adult": 5099,
+                "foreign_child": 4899,
+                "local_child": 4899,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 10,
+                "max": 10,
+                "foreign_adult": 4899,
+                "local_adult": 4899,
+                "foreign_child": 4699,
+                "local_child": 4699,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 11,
+                "max": 11,
+                "foreign_adult": 4799,
+                "local_adult": 4799,
+                "foreign_child": 4599,
+                "local_child": 4599,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 12,
+                "max": 12,
+                "foreign_adult": 4699,
+                "local_adult": 4699,
+                "foreign_child": 4499,
+                "local_child": 4499,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            },
+            {
+                "min": 13,
+                "max": 100,
+                "foreign_adult": 4500,
+                "local_adult": 4500,
+                "foreign_child": 4300,
+                "local_child": 4300,
+                "foreign_child_off": 200,
+                "local_child_off": 200
+            }
+        ],
+        "updated": "2026-10-19 18:57:46"
+    }
+}

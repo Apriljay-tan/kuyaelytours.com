@@ -10,7 +10,9 @@ function ke_marketing_page(array $opt, string $main): void
 	if ($image !== '' && !str_starts_with($image, 'http') && $image[0] !== '/') {
 		$image = '/' . $image;
 	}
-	$image = store_h($image);
+	$imageAbs = str_starts_with($image, 'http') ? $image : 'https://kuyaelytours.com' . $image;
+	$image = store_h($imageAbs);
+	$jsonld = (string) ($opt['jsonld'] ?? '');
 	$body = store_h((string) ($opt['body'] ?? 'tour-page tour-detail'));
 	$nav = (string) ($opt['nav'] ?? '');
 	$extra = (string) ($opt['extra_css'] ?? '');
@@ -27,7 +29,7 @@ function ke_marketing_page(array $opt, string $main): void
 	$moreCur = ($nav === 'galary.html' || $nav === 'permits.html') ? ' aria-current="page"' : '';
 ?>
 <!DOCTYPE HTML>
-<html lang="en-US">
+<html lang="en">
 
 <head>
 	<?= store_gtm_head() ?>
@@ -43,6 +45,15 @@ function ke_marketing_page(array $opt, string $main): void
 	<meta property="og:description" content="<?= $desc ?>">
 	<meta property="og:type" content="website">
 	<meta property="og:image" content="<?= $image ?>">
+	<meta property="og:site_name" content="Kuya Ely Tours">
+	<meta property="og:locale" content="en_US">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="<?= $title ?>">
+	<meta name="twitter:description" content="<?= $desc ?>">
+	<meta name="twitter:image" content="<?= $image ?>">
+<?php if ($jsonld !== ''): ?>
+	<script type="application/ld+json"><?= $jsonld ?></script>
+<?php endif; ?>
 
 	<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192.png">
 	<link rel="stylesheet" href="/assets/css/bootstrap.min.css" type="text/css" media="all">
@@ -60,7 +71,7 @@ function ke_marketing_page(array $opt, string $main): void
 	<link rel="stylesheet" href="/assets/css/coustom-animation.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/scroll-up.css" type="text/css" media="all">
 	<link rel="stylesheet" href="/assets/css/kuyaely.css?v=ui65" type="text/css" media="all">
-	<script src="/assets/js/kuyaely-nav.js?v=46"></script>
+	<script src="/assets/js/kuyaely-nav.js?v=47"></script>
 	<?= $extra ?>
 </head>
 
@@ -76,7 +87,7 @@ function ke_marketing_page(array $opt, string $main): void
 				<div class="ke-topbar-left">
 					<span><i class="fa-solid fa-location-dot"></i> Cebu, Bohol, Siquijor &amp; Dumaguete</span>
 					<a href="mailto:info@kuyaelytours.com"><i class="fa-solid fa-envelope"></i> info@kuyaelytours.com</a>
-					<a href="tel:+639209851802"><i class="fa-solid fa-phone"></i> +63 920 985 1802</a>
+					<a href="tel:+639608605034"><i class="fa-solid fa-phone"></i> +63 960 860 5034</a>
 					<span><i class="fa-regular fa-clock"></i> Open Daily: 6:00 AM – 10:00 PM</span>
 				</div>
 				<div class="ke-topbar-right">
@@ -233,8 +244,7 @@ function ke_marketing_page(array $opt, string $main): void
 								<h2>Contact Info</h2>
 								<ul class="list-style-one">
 									<li><span class="icon flaticon-email"></span>Pony Ville, Suba-Basbas, Lapu-Lapu City, Cebu</li>
-									<li><span> <i class="bi bi-telephone-inbound"></i> </span><a href="tel:+639209851802">+63 920 985 1802</a></li>
-									<li><span> <i class="bi bi-telephone-inbound"></i> </span><a href="tel:+639175550793">+63 917 555 0793</a></li>
+									<li><span> <i class="bi bi-telephone-inbound"></i> </span><a href="tel:+639608605034">+63 960 860 5034</a></li>
 									<li><span><i class="bi bi-geo-alt"></i></span><a href="mailto:info@kuyaelytours.com">info@kuyaelytours.com</a></li>
 									<li><span><i class="bi bi-clock"></i></span>Daily tours by appointment</li>
 								</ul>
@@ -281,6 +291,7 @@ function ke_marketing_page(array $opt, string $main): void
 																<li><a href="/contact">contact us <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/privacy-policy">privacy policy <i class="fa-solid fa-arrow-right"></i></a></li>
 								<li><a href="/terms">terms and conditions <i class="fa-solid fa-arrow-right"></i></a></li>
+							<li><a href="/return-policy">return policy <i class="fa-solid fa-arrow-right"></i></a></li>
 							</ul>
 						</div>
 					</div>
@@ -292,7 +303,7 @@ function ke_marketing_page(array $opt, string $main): void
 								<ul class="contact-info">
 									<li class="email-text"><a href="mailto:info@kuyaelytours.com">Send E-Mail</a></li>
 									<li class="email-address"><a href="mailto:info@kuyaelytours.com">info@kuyaelytours.com</a></li>
-									<li class="email-address"><a href="tel:+639209851802">+63 920 985 1802</a></li>
+									<li class="email-address"><a href="tel:+639608605034">+63 960 860 5034</a></li>
 								</ul>
 							</div>
 						</div>

@@ -7,7 +7,7 @@
 		return;
 	}
 
-	var WA = "https://api.whatsapp.com/send?phone=639209851802";
+	var WA = "https://api.whatsapp.com/send?phone=639608605034";
 	var VIBER = "https://viber.me/639608605034";
 
 	function whatsappLink(value) {
@@ -291,7 +291,7 @@
 		var textInput = root.querySelector('[name="ke-chat-text"]');
 		var channelKey = "";
 		var channelState = {
-			whatsapp: { title: "WhatsApp", phone: "+63 920 985 1802", handle: "", qr: "", href: WA, show: true, ready: true, dock: true },
+			whatsapp: { title: "WhatsApp", phone: "+63 960 860 5034", handle: "", qr: "", href: WA, show: true, ready: true, dock: true },
 			wechat: { title: "WeChat", phone: "", handle: "", qr: "", href: "", show: true, ready: false, dock: false },
 			viber: { title: "Viber", phone: "+63 960 860 5034", handle: "", qr: "", href: VIBER, show: true, ready: true, dock: true }
 		};

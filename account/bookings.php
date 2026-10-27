@@ -201,7 +201,7 @@ ob_start();
 		<section class="ke-bk-help">
 			<h2>Need Help?</h2>
 			<p>We're here for you! Get in touch with our support team via WhatsApp.</p>
-			<a class="ke-bk-wa" href="https://wa.me/639209851802">Message us on WhatsApp</a>
+			<a class="ke-bk-wa" href="https://wa.me/639608605034">Message us on WhatsApp</a>
 			<p class="ke-bk-hours">Available daily · 8:00 AM – 8:00 PM<br>Fast response. Real people. Better travels.</p>
 		</section>
 		<section class="ke-bk-quick">

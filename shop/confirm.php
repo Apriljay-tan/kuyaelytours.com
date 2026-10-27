@@ -59,7 +59,7 @@ if ((string) ($booking['status'] ?? '') !== 'paid' && (string) ($booking['status
 		. '<button class="ke-btn" name="action" value="pay">Pay with QR Ph</button>'
 		. '</form>'
 		. '<p class="lede">This opens PayMongo for the total above. Scan the QR Ph code to pay. GCash and Maya turn on after PayMongo finishes your account upgrade.</p>'
-		. '<p><a class="ke-btn ghost" href="https://wa.me/639209851802?text=' . rawurlencode('Booking ' . $id) . '">WhatsApp this booking</a></p>';
+		. '<p><a class="ke-btn ghost" href="https://wa.me/639608605034?text=' . rawurlencode('Booking ' . $id) . '">WhatsApp this booking</a></p>';
 }
 
 $account = $owner ? '<p><a class="ke-btn ghost" href="/account/bookings.php">My bookings</a></p>' : '';

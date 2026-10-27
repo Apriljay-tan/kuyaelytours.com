@@ -158,7 +158,18 @@
 	});
 
 	document.addEventListener("DOMContentLoaded", function () {
-		document.querySelectorAll('form[action="send-inquiry.php"]').forEach(function (form) {
+		var keLoadedAt = Date.now();
+		document.querySelectorAll('form[action="send-inquiry.php"], form[action="/send-inquiry.php"]').forEach(function (form) {
+			form.addEventListener("submit", function () {
+				var el = form.querySelector('[name="ke_el"]');
+				if (!el) {
+					el = document.createElement("input");
+					el.type = "hidden";
+					el.name = "ke_el";
+					form.appendChild(el);
+				}
+				el.value = String(Math.max(0, Math.floor((Date.now() - keLoadedAt) / 1000)));
+			});
 			if (!form.querySelector('[name="page"]')) {
 				var page = document.createElement("input");
 				page.type = "hidden";
@@ -209,7 +220,7 @@
 		if (sent === "0" && formBox && !formBox.querySelector(".ke-form-banner")) {
 			var banner = document.createElement("p");
 			banner.className = "ke-form-banner is-err";
-			banner.textContent = "The request could not be sent. Please call or WhatsApp +63 920 985 1802, or email info@kuyaelytours.com.";
+			banner.textContent = "The request could not be sent. Please call or WhatsApp +63 960 860 5034, or email info@kuyaelytours.com.";
 			formBox.insertBefore(banner, formBox.firstChild);
 		}
 	});

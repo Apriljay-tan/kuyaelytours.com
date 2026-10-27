@@ -23,7 +23,7 @@ function store_banks_bundle(): array
 		}
 	}
 	$empty = [
-		'note' => 'Transfer the amount on this page, then send a photo of the receipt to info@kuyaelytours.com or +63 920 985 1802. The booking is confirmed after the payment shows in the account.',
+		'note' => 'Transfer the amount on this page, then send a photo of the receipt to info@kuyaelytours.com or +63 960 860 5034. The booking is confirmed after the payment shows in the account.',
 		'banks' => [],
 	];
 	if (!is_readable($file)) {

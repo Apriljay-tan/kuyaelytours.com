@@ -45,7 +45,7 @@ ob_start();
 		<div class="container">
 			<div class="ke-cat-hero-copy">
 				<p class="ke-cat-kicker">Private days · Four islands</p>
-				<h1>Tours and <span>Packages</span></h1>
+				<h1>Private Tour <span>Packages</span></h1>
 				<p class="ke-cat-sub">Cebu · Bohol · Siquijor · Dumaguete — pick an island, then choose a package.</p>
 				<ul class="breadcumb-item">
 					<li><a href="/"><i class="fa-solid fa-house"></i> Home </a></li>
@@ -112,8 +112,8 @@ ob_start();
 <?php
 $html = ob_get_clean();
 $opt = [
-	'title' => 'Tours and Packages | Kuya Ely Tours',
-	'desc' => 'Private Cebu, Bohol, Siquijor, and Dumaguete tour packages with hotel pickup and a private van. Browse featured trips or open an island.',
+	'title' => 'Cebu & Bohol Private Tour Packages | Kuya Ely Tours',
+	'desc' => 'Compare private day tours and multi-day packages in Cebu, Bohol, Siquijor and Dumaguete. Hotel pickup, private van, flexible pace. Get a quote today.',
 	'canonical' => 'https://kuyaelytours.com/tours-and-packages.php',
 	'image' => '/assets/downloaded/dest-cebu.jpg',
 	'body' => 'tour-page tour-catalog tour-hub',

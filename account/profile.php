@@ -187,7 +187,7 @@ ob_start();
 		</span>
 		<?= ke_profile_icon('chev') ?>
 	</a>
-	<a href="https://wa.me/639209851802">
+	<a href="https://wa.me/639608605034">
 		<span class="ke-dash-stat-ico ke-dash-stat-wa"><?= ke_profile_icon('wa') ?></span>
 		<span>
 			<strong class="ke-dash-stat-label">Chat with Us</strong>

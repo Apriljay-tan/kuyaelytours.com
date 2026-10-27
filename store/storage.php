@@ -964,7 +964,7 @@ function store_chat_channels(): array
 {
 	$catalog = store_chat_app_catalog();
 	$defaults = [
-		'whatsapp' => ['phone' => '+63 920 985 1802', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
+		'whatsapp' => ['phone' => '+63 960 860 5034', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
 		'wechat' => ['phone' => '', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
 		'viber' => ['phone' => '+63 960 860 5034', 'handle' => '', 'link' => '', 'qr' => '', 'show' => true],
 	];

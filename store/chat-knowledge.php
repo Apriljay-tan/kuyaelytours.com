@@ -49,7 +49,7 @@ function store_chat_faqs(): array
 		[
 			'id' => 'cancel',
 			'q' => 'How do I change or cancel?',
-			'a' => 'Message info@kuyaelytours.com or WhatsApp +63 920 985 1802. A refund, if any, depends on how much notice you give and whether a vehicle was already reserved.',
+			'a' => 'Message info@kuyaelytours.com or WhatsApp +63 960 860 5034. A refund, if any, depends on how much notice you give and whether a vehicle was already reserved.',
 			'pattern' => '/cancel|refund|reschedul/i',
 		],
 		[
@@ -61,7 +61,7 @@ function store_chat_faqs(): array
 		[
 			'id' => 'contact',
 			'q' => 'How can I reach you?',
-			'a' => 'Call or WhatsApp +63 920 985 1802, or email info@kuyaelytours.com. You can also use the chat apps on this button.',
+			'a' => 'Call or WhatsApp +63 960 860 5034, or email info@kuyaelytours.com. You can also use the chat apps on this button.',
 			'pattern' => '/\b(phone|whatsapp|viber|email|contact|call|reach)\b/i',
 		],
 	];

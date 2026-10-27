@@ -1,0 +1,9 @@
+[
+    {
+        "code": "BERCEBU",
+        "type": "amount",
+        "value": 100,
+        "active": true,
+        "label": "Ber Months Promo"
+    }
+]

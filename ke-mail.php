@@ -284,8 +284,8 @@ function ke_confirm_html(array $d): string
 </td></tr>
 </table>
 <p style="margin:22px 0 8px;color:#3d4f53;font-size:16px;">Need a faster answer?</p>
-<p style="margin:0 0 6px;"><a href="https://wa.me/639209851802" style="color:#122327;font-weight:bold;">WhatsApp +63 920 985 1802</a></p>
-<p style="margin:0;"><a href="tel:+639209851802" style="color:#122327;">Call +63 920 985 1802</a></p>
+<p style="margin:0 0 6px;"><a href="https://wa.me/639608605034" style="color:#122327;font-weight:bold;">WhatsApp +63 960 860 5034</a></p>
+<p style="margin:0;"><a href="tel:+639608605034" style="color:#122327;">Call +63 960 860 5034</a></p>
 </td>
 </tr>
 <tr>
@@ -319,8 +319,8 @@ function ke_confirm_text(array $d): string
 		'Email: ' . (($d['email'] ?? '') !== '' ? $d['email'] : 'Not provided'),
 		'Notes: ' . (($d['message'] ?? '') !== '' ? $d['message'] : 'Not provided'),
 		'',
-		'WhatsApp: +63 920 985 1802',
-		'Call: +63 920 985 1802',
+		'WhatsApp: +63 960 860 5034',
+		'Call: +63 960 860 5034',
 		'Email: info@kuyaelytours.com',
 		'Sitio Capilis, Suba-Basbas, Lapu-Lapu City, Cebu 6015',
 	];

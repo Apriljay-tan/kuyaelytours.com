@@ -184,7 +184,7 @@ $sum = '<aside class="ke-bag-sum">'
 	. '<aside class="ke-bag-help">'
 	. '<h2>Need Help?</h2>'
 	. '<p>Chat with our team on WhatsApp for quick assistance.</p>'
-	. '<a class="ke-dash-gold" href="https://wa.me/639209851802">Chat on WhatsApp</a>'
+	. '<a class="ke-dash-gold" href="https://wa.me/639608605034">Chat on WhatsApp</a>'
 	. '<ul><li>Real People</li><li>Fast Response</li><li>Travel Experts</li></ul>'
 	. '</aside>';
 

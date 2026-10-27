@@ -14,6 +14,33 @@ ErrorDocument 404 /404.php
 	<FilesMatch "\.(local\.php|json|log|sql|bak|env)$">
 		Require all denied
 	</FilesMatch>
+	# SEO fix 2026-10-28: also block backup/editor copies (e.g. packages.json.bak-cebu, file.old, file~)
+	<FilesMatch "(\.bak-[A-Za-z0-9_-]+|\.old|\.orig|\.swp|\.save|~)$">
+		Require all denied
+	</FilesMatch>
+</IfModule>
+
+# SEO fix 2026-10-28: browser caching for static files (CSS/JS kept short because some are not versioned)
+<IfModule mod_expires.c>
+	ExpiresActive On
+	ExpiresByType image/jpeg "access plus 30 days"
+	ExpiresByType image/png "access plus 30 days"
+	ExpiresByType image/webp "access plus 30 days"
+	ExpiresByType image/gif "access plus 30 days"
+	ExpiresByType image/svg+xml "access plus 30 days"
+	ExpiresByType image/x-icon "access plus 30 days"
+	ExpiresByType font/woff2 "access plus 1 year"
+	ExpiresByType font/woff "access plus 1 year"
+	ExpiresByType font/ttf "access plus 1 year"
+	ExpiresByType application/font-woff2 "access plus 1 year"
+	ExpiresByType text/css "access plus 7 days"
+	ExpiresByType application/javascript "access plus 7 days"
+	ExpiresByType text/javascript "access plus 7 days"
+</IfModule>
+
+# SEO fix 2026-10-28: compression
+<IfModule mod_deflate.c>
+	AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/ld+json image/svg+xml
 </IfModule>
 
 <IfModule mod_php.c>
@@ -31,6 +58,13 @@ ErrorDocument 404 /404.php
 	Options -MultiViews
 	RewriteEngine On
 	RewriteBase /
+
+	# NOTE 2026-10-28: the HTTP->HTTPS redirect below already checks X-Forwarded-Proto so it does not loop
+	# behind Cloudflare. Do not add a second HTTPS redirect here. If http:// still errors, turn on
+	# "Always Use HTTPS" and SSL mode "Full (strict)" in the Cloudflare dashboard instead.
+
+	# SEO fix 2026-10-28: old theme demo pages are gone for good (410). Files kept on disk.
+	RewriteRule ^(index-2|index-2dark|index-3|index-3dark|index-3classic|index-3classic-dark|index-classic|index-classic-light|index-light|donation|donation-details|team|team-details|blog|blog-2colum|blog-list|blog-details|login|tour-grid|tour-list|tour-details|destination|service-details)(\.html)?/?$ - [G,L,NC]
 
 	RewriteCond %{HTTPS} !=on
 	RewriteCond %{HTTP:X-Forwarded-Proto} !=https
@@ -53,6 +87,7 @@ ErrorDocument 404 /404.php
 	RewriteRule ^sitemap\.xml$ /sitemap.php [L]
 
 	# Partner with us
+	RewriteRule ^return-policy/?$ /return-policy.php [L,QSA]
 	RewriteRule ^partners/?$ /partners.php [L,QSA]
 	RewriteRule ^partner/?$ /partner/index.php [L,QSA]
 	RewriteRule ^partner/login/?$ /partner/login.php [L,QSA]

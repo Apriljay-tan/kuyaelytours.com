@@ -77,8 +77,60 @@ if (!empty($_FILES)) {
 	ke_back('0');
 }
 
-if (ke_post('company') !== '') {
+if (ke_post('company') !== '' || ke_post('company_site') !== '') {
 	ke_redirect('inquiry-sent.html');
+}
+
+// Anti-spam: too-fast submit (seconds between page load and submit, set by kuyaely-nav.js).
+$keElapsed = ke_post('ke_el');
+if ($keElapsed !== '' && ctype_digit($keElapsed) && (int) $keElapsed < 3) {
+	ke_redirect('inquiry-sent.html');
+}
+
+// Anti-spam: max 5 requests per IP per hour (IP stored only as a hash).
+function ke_rate_ok(int $max = 5, int $window = 3600): bool
+{
+	$ip = (string) ($_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? '0');
+	$key = substr(hash('sha256', 'ke-rl|' . $ip), 0, 24);
+	$dir = __DIR__ . '/admin/data';
+	$file = $dir . '/inquiry-rate.json';
+	if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) {
+		return true;
+	}
+	$fp = @fopen($file, 'c+');
+	if ($fp === false) {
+		return true;
+	}
+	$ok = true;
+	if (flock($fp, LOCK_EX)) {
+		$raw = stream_get_contents($fp);
+		$data = json_decode((string) $raw, true);
+		if (!is_array($data)) {
+			$data = [];
+		}
+		$now = time();
+		foreach ($data as $k => $times) {
+			$data[$k] = array_values(array_filter((array) $times, static fn($t) => (int) $t > $now - $window));
+			if (!$data[$k]) {
+				unset($data[$k]);
+			}
+		}
+		if (count($data[$key] ?? []) >= $max) {
+			$ok = false;
+		} else {
+			$data[$key][] = $now;
+		}
+		ftruncate($fp, 0);
+		rewind($fp);
+		fwrite($fp, (string) json_encode($data));
+		fflush($fp);
+		flock($fp, LOCK_UN);
+	}
+	fclose($fp);
+	return $ok;
+}
+if (!ke_rate_ok()) {
+	ke_back('0');
 }
 
 session_start();
