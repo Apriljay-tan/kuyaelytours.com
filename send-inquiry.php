@@ -115,7 +115,10 @@ if (ke_post('company') !== '' || ke_post('company_site') !== '') {
 //    Bots that post directly have no valid token. Elapsed time is measured on the server.
 $keAge = ke_as_token_age(ke_post('ke_tk'));
 if ($keAge === null) {
-	$keSpam('no-token');
+	// Shown as a visible error (not fake success) so a real guest whose page was open too long,
+	// or whose browser blocked the token request, knows to try again or use WhatsApp.
+	ke_as_log('no-token', $keIpSource);
+	ke_back('0');
 }
 if ($keAge < KE_AS_MIN_SECONDS) {
 	$keSpam('too-fast');

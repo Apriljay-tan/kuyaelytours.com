@@ -21,7 +21,12 @@ function ke_as_secret(): string
 		@mkdir(KE_AS_DIR, 0750, true);
 	}
 	$s = bin2hex(random_bytes(32));
-	@file_put_contents($file, "<?php\nreturn '" . $s . "';\n", LOCK_EX);
+	if (@file_put_contents($file, "<?php\nreturn '" . $s . "';\n", LOCK_EX) === false) {
+		// Folder not writable: use a stable key instead of a random one, otherwise every
+		// token would fail to verify and every real enquiry would be silently dropped.
+		$mail = __DIR__ . '/admin/mail.local.php';
+		return hash('sha256', 'ke-form-secret|' . __DIR__ . '|' . (is_file($mail) ? (string) @file_get_contents($mail) : ''));
+	}
 	@chmod($file, 0640);
 	return $s;
 }

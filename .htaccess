@@ -38,6 +38,14 @@ ErrorDocument 404 /404.php
 	ExpiresByType text/javascript "access plus 7 days"
 </IfModule>
 
+# The form script adds the anti-spam token. Always revalidate it so visitors never keep an old copy
+# (an old copy has no token, and the enquiry would be rejected).
+<IfModule mod_headers.c>
+	<FilesMatch "^(kuyaely-nav\.js|ke-form-token\.php)$">
+		Header set Cache-Control "no-cache, must-revalidate"
+	</FilesMatch>
+</IfModule>
+
 # SEO fix 2026-10-28: compression
 <IfModule mod_deflate.c>
 	AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/xml application/javascript text/javascript application/json application/ld+json image/svg+xml

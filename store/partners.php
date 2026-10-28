@@ -274,7 +274,7 @@ function store_partner_send(string $to, string $subject, string $textBody, strin
 	}
 	$subject = str_replace(["\r", "\n"], ' ', $subject);
 	try {
-		return ke_send_mail($to, $subject, $textBody, $replyTo, 'Kuya Ely Tours', $html) === 'smtp';
+		return ke_send_mail($to, $subject, $textBody, $replyTo, 'Kuya Ely Tours', $html) !== '';
 	} catch (Throwable $e) {
 		return false;
 	}

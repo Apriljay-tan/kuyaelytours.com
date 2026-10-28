@@ -61,9 +61,35 @@ function ke_smtp_cmd($fp, string $command, array $ok): string
 	$reply = ke_smtp_read($fp);
 	$code = (int) substr($reply, 0, 3);
 	if (!in_array($code, $ok, true)) {
-		throw new RuntimeException('SMTP ' . $code);
+		$why = trim(preg_replace('/\s+/', ' ', $reply) ?? '');
+		throw new RuntimeException('SMTP ' . $code . ($why !== '' ? ' ' . substr($why, 0, 220) : ' (no reply / timeout)'));
 	}
 	return $reply;
+}
+
+/** Remembers why send attempts failed (never contains passwords). Pass '-reset' to clear. */
+function ke_mail_note(string $note = ''): string
+{
+	static $last = '';
+	if ($note === '') {
+		return $last;
+	}
+	if ($note === '-reset') {
+		$last = '';
+		return '';
+	}
+	$last = ($last === '' ? '' : $last . ' | ') . $note;
+	return $last;
+}
+
+function ke_mail_log(string $to, string $subject, string $result): void
+{
+	$file = __DIR__ . '/admin/mail-send.log';
+	if (is_file($file) && (int) @filesize($file) > 400000) {
+		@rename($file, $file . '.old');
+	}
+	$line = gmdate('Y-m-d H:i:s') . "\t" . ke_header_safe($to) . "\t" . ke_header_safe($subject) . "\t" . ke_header_safe($result) . "\n";
+	@file_put_contents($file, $line, FILE_APPEND | LOCK_EX);
 }
 
 function ke_qp(string $value): string
@@ -161,6 +187,7 @@ function ke_smtp_try(string $remote, bool $starttls, array $cfg, string $to, str
 	$user = (string) ($cfg['username'] ?? KE_MAIL_FROM);
 	$pass = (string) ($cfg['password'] ?? '');
 	if ($user === '' || $pass === '') {
+		ke_mail_note('no SMTP username/password in admin/mail.local.php');
 		return false;
 	}
 
@@ -175,6 +202,7 @@ function ke_smtp_try(string $remote, bool $starttls, array $cfg, string $to, str
 
 	$fp = @stream_socket_client($remote, $errno, $errstr, 20, STREAM_CLIENT_CONNECT, $context);
 	if (!is_resource($fp)) {
+		ke_mail_note('connect ' . $remote . ' failed: ' . ke_header_safe((string) $errstr) . ' (' . (int) $errno . ')');
 		return false;
 	}
 	stream_set_timeout($fp, 25);
@@ -203,6 +231,7 @@ function ke_smtp_try(string $remote, bool $starttls, array $cfg, string $to, str
 		return true;
 	} catch (Throwable $e) {
 		fclose($fp);
+		ke_mail_note($remote . ' ' . ke_header_safe($e->getMessage()));
 		return false;
 	}
 }
@@ -232,11 +261,42 @@ function ke_smtp_send(array $cfg, string $to, string $subject, string $text, str
 
 function ke_send_mail(string $to, string $subject, string $body, string $replyTo, string $fromName = KE_MAIL_FROM_NAME, string $html = '', bool $auto = false): string
 {
+	ke_mail_note('-reset');
 	$cfg = ke_mail_config();
 	if (ke_smtp_send($cfg, $to, $subject, $body, $html, $replyTo, $fromName, $auto)) {
 		return 'smtp';
 	}
+	$smtpWhy = ke_mail_note();
+
+	// Last resort: the web server's own mail(), sent from the site's own domain.
+	if (ke_php_mail($to, $subject, $body, $html, $replyTo, $fromName, $auto)) {
+		ke_mail_log($to, $subject, 'SMTP failed, sent with mail() instead: ' . $smtpWhy);
+		return 'mail';
+	}
+	ke_mail_log($to, $subject, 'NOT SENT. ' . $smtpWhy . ' | mail() failed or is disabled');
 	return '';
+}
+
+function ke_php_mail(string $to, string $subject, string $text, string $html, string $replyTo, string $fromName, bool $auto): bool
+{
+	if (!function_exists('mail')) {
+		return false;
+	}
+	$payload = ke_mime_payload($to, $subject, $text, $html, $replyTo, $fromName, $auto);
+	$split = explode("\r\n\r\n", $payload, 2);
+	if (count($split) !== 2) {
+		return false;
+	}
+	// mail() adds To/Subject itself; drop ours so they are not duplicated.
+	$headers = array_filter(
+		explode("\r\n", $split[0]),
+		static fn(string $h): bool => stripos($h, 'To:') !== 0 && stripos($h, 'Subject:') !== 0
+	);
+	// Undo the SMTP-only end marker and dot-stuffing.
+	$body = preg_replace('/\r\n\.$/', '', $split[1]) ?? $split[1];
+	$body = str_replace("\r\n..", "\r\n.", $body);
+	$encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+	return (bool) @mail($to, $encodedSubject, $body, implode("\r\n", $headers), '-f' . KE_MAIL_FROM);
 }
 
 function ke_row(string $label, string $value): string
