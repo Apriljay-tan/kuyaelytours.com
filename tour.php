@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/store/bootstrap.php';
 require __DIR__ . '/store/tours-data.php';
+require_once __DIR__ . '/store/ke-img.php';
 
 $slug = strtolower(trim((string) ($_GET['p'] ?? '')));
 if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
@@ -138,18 +139,18 @@ ob_start();
 					<div class="ke-td-gallery">
 						<div class="ke-td-gallery-main">
 							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[0]) ?>">
-								<img src="<?= store_h($images[0]) ?>" alt="<?= store_h($tour['name']) ?>">
+								<img src="<?= store_h($images[0]) ?>"<?= ke_img_srcset((string) $images[0], '(max-width: 767px) 100vw, 700px') ?> alt="<?= store_h($tour['name']) ?>" fetchpriority="high">
 							</button>
 							<?php if ($videoUrl !== ''): ?>
 								<button class="ke-td-watch" type="button" data-ke-photos><i class="fa-solid fa-play"></i> Watch Video</button>
 							<?php endif; ?>
 						</div>
 						<div class="ke-td-thumbs">
-							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[1]) ?>"><img src="<?= store_h($images[1]) ?>" alt="<?= store_h((string) $tour['name']) ?>"></button>
-							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[2]) ?>"><img src="<?= store_h($images[2]) ?>" alt="<?= store_h((string) $tour['name']) ?>"></button>
-							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[3]) ?>"><img src="<?= store_h($images[3]) ?>" alt="<?= store_h((string) $tour['name']) ?>"></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[1]) ?>"><img src="<?= store_h($images[1]) ?>"<?= ke_img_srcset((string) $images[1], '(max-width: 767px) 100vw, 420px') ?> alt="<?= store_h((string) $tour['name']) ?>"></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[2]) ?>"><img src="<?= store_h($images[2]) ?>"<?= ke_img_srcset((string) $images[2], '(max-width: 767px) 100vw, 420px') ?> alt="<?= store_h((string) $tour['name']) ?>"></button>
+							<button type="button" class="ke-td-shot" data-ke-open-shot="<?= $keShot($images[3]) ?>"><img src="<?= store_h($images[3]) ?>"<?= ke_img_srcset((string) $images[3], '(max-width: 767px) 100vw, 420px') ?> alt="<?= store_h((string) $tour['name']) ?>"></button>
 							<button class="ke-td-open-photos" type="button" data-ke-photos>
-								<img src="<?= store_h($images[0]) ?>" alt="<?= store_h((string) $tour['name']) ?>">
+								<img src="<?= store_h($images[0]) ?>"<?= ke_img_srcset((string) $images[0], '(max-width: 767px) 100vw, 420px') ?> alt="<?= store_h((string) $tour['name']) ?>">
 								<span class="ke-td-more">+ Photos</span>
 							</button>
 						</div>
@@ -172,7 +173,7 @@ ob_start();
 						<div class="ke-td-expect">
 							<?php foreach ($tour['expect'] as $ex): ?>
 								<article>
-									<img src="<?= store_h((string) $ex['img']) ?>" alt="<?= store_h((string) $ex['title']) ?>">
+									<img loading="lazy" decoding="async" src="<?= store_h((string) $ex['img']) ?>" alt="<?= store_h((string) $ex['title']) ?>">
 									<div>
 										<h3><?= store_h((string) $ex['title']) ?></h3>
 										<p><?= store_h((string) $ex['text']) ?></p>
@@ -262,7 +263,7 @@ ob_start();
 							<?php foreach ($related as $rel): ?>
 								<article>
 									<a href="/tours/<?= store_h((string) $rel['slug']) ?>">
-										<img src="<?= store_h((string) ($rel['images'][0] ?? $images[0])) ?>" alt="<?= store_h((string) $rel['name']) ?>">
+										<img loading="lazy" decoding="async" src="<?= store_h((string) ($rel['images'][0] ?? $images[0])) ?>"<?= ke_img_srcset((string) ($rel['images'][0] ?? $images[0]), '(max-width: 767px) 100vw, 420px') ?> alt="<?= store_h((string) $rel['name']) ?>">
 										<div>
 											<h3><?= store_h((string) $rel['name']) ?></h3>
 											<p><?= store_h((string) $rel['place']) ?></p>
@@ -572,7 +573,7 @@ ob_start();
 					<h2 style="font-size:22px;margin:0 0 10px">Customer Photos</h2>
 					<div class="ke-td-photos">
 						<?php foreach ($guestPhotos as $guestPhoto): ?>
-							<button type="button" data-ke-photos><img src="<?= store_h($guestPhoto) ?>" alt="Guest photo"></button>
+							<button type="button" data-ke-photos><img loading="lazy" decoding="async" src="<?= store_h($guestPhoto) ?>" alt="Guest photo"></button>
 						<?php endforeach; ?>
 					</div>
 					<?php endif; ?>
@@ -597,7 +598,7 @@ ob_start();
 			<div class="ke-pack-modal-grid">
 				<?php foreach ($packPhotos as $photo): ?>
 					<button type="button" class="ke-pack-shot">
-						<img src="<?= store_h($photo) ?>" alt="<?= store_h((string) $tour['name']) ?>">
+						<img loading="lazy" decoding="async" src="<?= store_h($photo) ?>" alt="<?= store_h((string) $tour['name']) ?>">
 					</button>
 				<?php endforeach; ?>
 			</div>

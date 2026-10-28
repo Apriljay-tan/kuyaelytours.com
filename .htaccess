@@ -62,6 +62,13 @@ ErrorDocument 404 /404.php
 	</FilesMatch>
 </IfModule>
 
+# Speed fix 2026-10-28: images may be served as WebP based on Accept
+<IfModule mod_headers.c>
+	<FilesMatch "\.(jpe?g|png|webp)$">
+		Header append Vary Accept
+	</FilesMatch>
+</IfModule>
+
 <IfModule mod_rewrite.c>
 	Options -MultiViews
 	RewriteEngine On
@@ -88,6 +95,11 @@ ErrorDocument 404 /404.php
 	# /about.html -> /about
 	RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
 	RewriteRule ^ %1 [R=301,L,NE]
+
+	# Speed fix 2026-10-28: serve WebP copy (same pixels) when the browser supports it and file.ext.webp exists
+	RewriteCond %{HTTP_ACCEPT} image/webp
+	RewriteCond %{REQUEST_FILENAME}.webp -f
+	RewriteRule ^(.+\.(?:jpe?g|png))$ $1.webp [T=image/webp,E=KEWEBP:1,L]
 
 	# /tours/package-slug -> tour.php
 	RewriteRule ^tours/([a-z0-9-]+)/?$ /tour.php?p=$1 [L,QSA]

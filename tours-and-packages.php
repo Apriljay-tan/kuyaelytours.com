@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/store/bootstrap.php';
+require_once __DIR__ . '/store/ke-img.php';
 require __DIR__ . '/store/tours-data.php';
 require __DIR__ . '/store/cms.php';
 
@@ -85,7 +86,7 @@ ob_start();
 				?>
 				<article class="ke-cat-card" data-area="<?= $h($island) ?>" data-ke-book="<?= $h(ke_package_book_attr($pkg)) ?>">
 					<a class="ke-cat-photo" href="<?= $h($href) ?>">
-						<img src="<?= $h($img) ?>" alt="<?= $h((string) $pkg['name']) ?>">
+						<img loading="lazy" decoding="async" src="<?= $h($img) ?>"<?= ke_img_srcset((string) $img, '(max-width: 767px) 100vw, 420px') ?> alt="<?= $h((string) $pkg['name']) ?>">
 						<span class="ke-cat-badge"><?= $h(ucfirst($island)) ?></span>
 						<?php if ($teaser !== ''): ?>
 						<span class="ke-cat-price"><?= $h($teaser) ?></span>
@@ -125,7 +126,7 @@ $opt = [
 			'content_type' => 'product_group',
 		],
 	]],
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><style>
+	'extra_css' => '<link rel="preload" as="image" href="/assets/downloaded/dest-cebu.jpg" fetchpriority="high"><link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=31" type="text/css" media="all"><style>
 .ke-hub-head{margin:4px 0 22px}
 .ke-hub-head h2{margin:0 0 8px;font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-0.03em}
 .ke-hub-head p{margin:0;color:#4a5568}

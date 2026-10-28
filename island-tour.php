@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 require __DIR__ . '/store/bootstrap.php';
+require_once __DIR__ . '/store/ke-img.php';
 require __DIR__ . '/store/tours-data.php';
 require __DIR__ . '/store/cms.php';
 
@@ -102,7 +103,7 @@ ob_start();
 					?>
 				<article class="ke-cat-card" data-area="<?= $h((string) ($pkg['area'] ?? 'all')) ?>" data-ke-href="<?= $h($href) ?>" data-ke-book="<?= $h(ke_package_book_attr($pkg)) ?>">
 					<a class="ke-cat-photo" href="<?= $h($href) ?>">
-						<img src="<?= $h($img) ?>" alt="<?= $h((string) $pkg['name']) ?>">
+						<img loading="lazy" decoding="async" src="<?= $h($img) ?>"<?= ke_img_srcset((string) $img, '(max-width: 767px) 100vw, 420px') ?> alt="<?= $h((string) $pkg['name']) ?>">
 						<span class="ke-cat-badge"><?= $h((string) ($pkg['badge'] ?? '')) ?></span>
 						<?php if ($teaser !== ''): ?>
 						<span class="ke-cat-price"><?= $h($teaser) ?></span>
@@ -125,7 +126,7 @@ ob_start();
 				</article>
 				<?php endforeach; ?>
 				<article class="ke-cat-card ke-cat-promo" data-area="promo">
-					<img src="<?= $h((string) $meta['hero']) ?>" alt="<?= $h((string) $meta['label']) ?>">
+					<img loading="lazy" decoding="async" src="<?= $h((string) $meta['hero']) ?>" alt="<?= $h((string) $meta['label']) ?>">
 					<div class="ke-cat-promo-copy">
 						<span class="ke-pin"><i class="fa-solid fa-location-dot"></i></span>
 						<p class="ke-script"><?= $h((string) $meta['promo_script']) ?></p>
@@ -148,7 +149,7 @@ ob_start();
 				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="news-img">
-						<img src="/assets/downloaded/boking-img.png" alt="Book a private island tour with a driver">
+						<img loading="lazy" decoding="async" src="/assets/downloaded/boking-img.png" alt="Book a private island tour with a driver">
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6">
@@ -179,7 +180,7 @@ $opt = [
 	'image' => (string) $meta['hero'],
 	'body' => $bodyClass,
 	'nav' => $navCurrent,
-	'extra_css' => '<link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=33" type="text/css" media="all"><style>
+	'extra_css' => '<link rel="preload" as="image" href="/assets/downloaded/dest-' . $island . '.jpg" fetchpriority="high"><link rel="stylesheet" href="/assets/css/kuyaely-tours.css?v=33" type="text/css" media="all"><style>
 .tour-catalog .ke-island-seo{display:none}
 @media (min-width:768px){
 .tour-cebu .ke-cat-hero .breadcumb-item,
