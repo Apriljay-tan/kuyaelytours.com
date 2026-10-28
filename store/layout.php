@@ -193,7 +193,7 @@ function store_page(string $title, string $body, string $kicker = 'Kuya Ely Tour
 	} else {
 		echo '<footer class="ke-shop-foot">Kuya Ely Tours and Transport Services · Sitio Capilis, Suba-Basbas, Lapu-Lapu City · <a href="https://wa.me/639608605034">WhatsApp +63 960 860 5034</a> · <a href="/privacy-policy">Privacy Policy</a> · <a href="/terms">Terms and Conditions</a> · <a href="/return-policy">Return Policy</a></footer>';
 	}
-	echo '<script src="/assets/js/kuyaely-nav.js?v=47" defer></script>';
+	echo '<script src="/assets/js/kuyaely-nav.js?v=48" defer></script>';
 	echo '<script src="/assets/js/kuyaely-chat.js?v=17" defer></script>';
 	echo store_pixel_page_script();
 	echo '</body></html>';

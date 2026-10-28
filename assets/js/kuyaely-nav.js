@@ -159,8 +159,32 @@
 
 	document.addEventListener("DOMContentLoaded", function () {
 		var keLoadedAt = Date.now();
-		document.querySelectorAll('form[action="send-inquiry.php"], form[action="/send-inquiry.php"]').forEach(function (form) {
-			form.addEventListener("submit", function () {
+		var keForms = document.querySelectorAll('form[action="send-inquiry.php"], form[action="/send-inquiry.php"]');
+		var keToken = "";
+		var keTokenWait = [];
+		function keLoadToken(cb) {
+			if (keToken) { if (cb) cb(); return; }
+			if (cb) keTokenWait.push(cb);
+			if (keTokenWait.length > 1) return;
+			var done = function () { var w = keTokenWait; keTokenWait = []; w.forEach(function (f) { f(); }); };
+			try {
+				fetch("/ke-form-token.php?_=" + Date.now(), { credentials: "same-origin", cache: "no-store" })
+					.then(function (r) { return r.json(); })
+					.then(function (j) { keToken = (j && j.t) || ""; keForms.forEach(function (f) { var t = f.querySelector('[name="ke_tk"]'); if (t) t.value = keToken; }); done(); })
+					.catch(done);
+			} catch (err) { done(); }
+		}
+		if (keForms.length) keLoadToken(null);
+		keForms.forEach(function (form) {
+			var tk = form.querySelector('[name="ke_tk"]');
+			if (!tk) {
+				tk = document.createElement("input");
+				tk.type = "hidden";
+				tk.name = "ke_tk";
+				form.appendChild(tk);
+			}
+			tk.value = keToken;
+			form.addEventListener("submit", function (ev) {
 				var el = form.querySelector('[name="ke_el"]');
 				if (!el) {
 					el = document.createElement("input");
@@ -169,6 +193,14 @@
 					form.appendChild(el);
 				}
 				el.value = String(Math.max(0, Math.floor((Date.now() - keLoadedAt) / 1000)));
+				if (!tk.value && !form.__keRetry) {
+					ev.preventDefault();
+					form.__keRetry = true;
+					keLoadToken(function () {
+						tk.value = keToken;
+						setTimeout(function () { el.value = String(Math.max(0, Math.floor((Date.now() - keLoadedAt) / 1000))); form.submit(); }, 3500);
+					});
+				}
 			});
 			if (!form.querySelector('[name="page"]')) {
 				var page = document.createElement("input");
